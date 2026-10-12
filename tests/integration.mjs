@@ -4,14 +4,16 @@
 //   2. wykonuje każdą kwerendę i porównuje wynik z oczekiwanym wynikiem z klucza,
 //   3. (wariant PHP) uruchamia rozwiązanie wzorcowe przez `php -S`, wysyła GET oraz POST z formularzy
 //      i sprawdza, że nie ma błędów PHP, a strona zawiera dane z bazy.
-// Uruchomienie: node tests/integration.mjs [liczba_arkuszy]
+// Uruchomienie: node tests/integration.mjs [liczba_arkuszy] [--all-themes]
 import { execFileSync, spawn } from 'node:child_process';
 import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { generateExam } from '../js/core/exam.js';
+import { THEMES } from '../js/core/themes.js';
 
 const COUNT = Number(process.argv[2] || 40);
+const ALL_THEMES = process.argv.includes('--all-themes'); // kolejno każdy temat
 const MYSQL = ['-uroot', '-h127.0.0.1', '--batch', '--skip-column-names', '--default-character-set=utf8mb4'];
 
 const sh = (cmd, args, input) => execFileSync(cmd, args, { input, encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
@@ -113,7 +115,7 @@ let failed = 0;
 let queriesChecked = 0;
 for (let i = 0; i < COUNT; i++) {
   const mode = ['server', 'mixed', 'client'][i % 3];
-  const exam = generateExam({ seed: `INT${i}`, mode, difficulty: ['easy', 'normal', 'hard'][i % 3] });
+  const exam = generateExam({ seed: `INT${i}`, mode, difficulty: ['easy', 'normal', 'hard'][i % 3], ...(ALL_THEMES ? { theme: THEMES[i % THEMES.length].id } : {}) });
   const problems = [];
   const db = exam.theme.dbName;
   const importDb = () => {

@@ -29,7 +29,7 @@ Aplikacja działa też na dowolnym serwerze plików, np. `python3 -m http.server
 | **Arkusz** (`arkusz.html`) | Strona tytułowa, treść zadania, schemat bazy, podgląd witryny, układ bloków, wymagania CSS, opis skryptów, tabele pomocy i lista plików. Format A4, numeracja „Strona X z Y”; drukuje się do PDF przez Ctrl+P. |
 | **Baza danych** | Od 2 do 3 tabel z relacjami i realistycznymi polskimi danymi; zrzut SQL w stylu phpMyAdmin (`CREATE TABLE`, `INSERT`, klucze obce). |
 | **Kwerendy** | 4–6 zapytań z 37 wzorców, dobieranych z wagami według częstości w korpusie: selekcja z warunkami (`=`, `<`, `AND`, `OR`, `BETWEEN`, `LIKE`), sortowanie, `LIMIT`, `DISTINCT`, `RAND()`, funkcje agregujące z aliasami i `ROUND`, `GROUP BY`, `JOIN`, `LEFT JOIN`, `NOT IN`, `INSERT`, `UPDATE`, `DELETE`, `ALTER TABLE` (`ADD`, `ADD … AFTER`, `MODIFY`, `DROP COLUMN`), `CREATE TABLE`, `DROP TABLE`, `CREATE USER`, `GRANT`. |
-| **Tematy** | 18 dziedzin (np. kwiaciarnia, hotel, schronisko, wędkarstwo, prognoza pogody, piekarnia, koło szachowe), każda z 2–3 tabelami i relacjami. |
+| **Tematy** | 30 dziedzin, każda z 2–3 tabelami i relacjami: kwiaciarnia, biblioteka, schronisko, hotel, pizzeria, klub fitness, koncerty, wypożyczalnia samochodów, szkoła jazdy, sklep komputerowy, biuro podróży, weterynarz, wędkarstwo, prognoza pogody, salon fryzjerski, piekarnia, sklep z oponami, koło szachowe, kawiarnia, zoo, muzeum, teatr, szkoła językowa, apteka, stacja paliw, firma kurierska, kemping, sklep sportowy, galeria sztuki, stadnina koni. |
 | **Witryna** | 10 układów bloków, w tym z dwoma banerami i dwiema stopkami, jak w arkuszach CKE; technika układu float, flexbox albo grid; opcjonalna responsywność (`@media` dla ekranów do 800 px); szerokość strony 100%, 1000 px lub 1200 px. Treść składa się z widżetów: listy, tabele (także ze scalonymi komórkami), formularze, obrazy, kontakt, listy definicji. |
 | **Skrypty PHP** | Data z polskim dniem tygodnia, lista definicji, tabela z wynikami zapytania (opcjonalnie z kolumną wyliczaną), lista, lista według wzoru zdania, galeria, statystyki, karty z losowymi rekordami, bloki z warunkiem, filtr przez przyciski opcji, wyszukiwanie po początku nazwy, lista rozwijana ze szczegółami i obliczeniem wartości, formularze `INSERT` i `UPDATE`, dwie strony połączone parametrem `GET`. |
 | **Skrypty JS** | Losowa ciekawostka (`Math.random`), podmiana obrazu po najechaniu, walidacja przy utracie fokusu, kalkulator kosztu (radio/select, checkbox, rabat), suwak, bieżąca data, galeria miniatur, pokaz zdjęć, zakładki, pokaż/ukryj, zmiana rozmiaru i koloru tekstu, walidacja i podsumowanie formularza, lista zadań, licznik odwiedzin (localStorage), wyszukiwarka w tablicy obiektów. |
@@ -105,7 +105,7 @@ server.mjs                   serwer lokalny (pliki + pośrednik Pixabay)
 js/ui/app.js                 obsługa formularza, podglądy, eksport (canvas -> PNG/JPEG)
 js/core/                     rdzeń - czyste moduły ES, działają w przeglądarce i w Node.js
   rng.js                     deterministyczny PRNG (mulberry32) z niezależnymi strumieniami
-  themes.js, data.js         bank 18 tematów: tabele, role kolumn, słowniki danych
+  themes.js, data.js         bank 30 tematów: tabele, role kolumn, słowniki danych
   db.js                      generowanie rekordów, zrzut SQL, diagram relacji (SVG)
   sql.js                     model zapytań: SQL, opis po polsku, wykonanie na danych
   queries.js                 wzorce zapytań dobierane do schematu tematu
@@ -135,7 +135,7 @@ Każde zapytanie jest opisane strukturą (`spec`). Z tej samej struktury powstaj
 
 ```bash
 npm test                                   # testy jednostkowe (Node >= 18)
-node tests/integration.mjs 100             # MariaDB/MySQL + PHP: import bazy, każda kwerenda, strony PHP (GET/POST)
+node tests/integration.mjs 100 [--all-themes]  # MariaDB/MySQL + PHP: import bazy, każda kwerenda, strony PHP (GET/POST)
 NODE_PATH=$(npm root -g) node tests/browser.mjs 30   # Playwright: działanie skryptów JS
 NODE_PATH=$(npm root -g) node tests/pixabay.mjs      # Playwright: zdjęcia z Pixabay na atrapie API (pośrednik, brak CORS, CORS, zły klucz)
 ```

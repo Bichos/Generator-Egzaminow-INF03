@@ -93,14 +93,14 @@ export function renderSheet(exam, { embedPreview = true } = {}) {
   <p class="meta">Nazwa kwalifikacji: <b>Tworzenie i administrowanie stronami i aplikacjami internetowymi oraz bazami danych</b><br>
   Symbol kwalifikacji: <b>INF.03</b><br>Numer zadania: <b>${exam.taskNo}</b><br>Wersja arkusza: <b>SG</b></p>
   <div class="fill"><div class="fill-title">Wypełnia zdający</div>
-    <div class="pesel"><span>Numer PESEL zdającego*</span><span class="boxes">${'<i></i>'.repeat(11)}</span></div>
-    <div class="pesel"><span>Numer stanowiska</span><span class="boxes">${'<i></i>'.repeat(2)}</span></div>
+    <div class="pesel"><span>Imię i nazwisko</span><span class="line"></span></div>
+    <div class="pesel"><span>Numer z dziennika</span><span class="boxes">${'<i></i>'.repeat(2)}</span></div>
   </div>
   <div class="row-between"><span>Czas trwania egzaminu: <b>150 minut</b></span><span class="code">${h(exam.code)}</span></div>
   <div class="big">EGZAMIN ZAWODOWY – ARKUSZ ĆWICZENIOWY<br><small>Rok ${exam.options.year} · CZĘŚĆ PRAKTYCZNA · PODSTAWA PROGRAMOWA 2019</small></div>
   <h3>Instrukcja dla zdającego</h3>
   <ol class="instr">
-    <li>Na pierwszej stronie arkusza egzaminacyjnego wpisz w oznaczonym miejscu swój numer PESEL* i numer stanowiska.</li>
+    <li>Na pierwszej stronie arkusza wpisz w oznaczonym miejscu swoje imię i nazwisko oraz numer z dziennika.</li>
     <li>Sprawdź, czy arkusz egzaminacyjny zawiera wszystkie strony i nie zawiera błędów. Ewentualny brak stron lub inne usterki zgłoś przez podniesienie ręki przewodniczącemu zespołu nadzorującego.</li>
     <li>Zapoznaj się z treścią zadania oraz stanowiskiem egzaminacyjnym. Masz na to 10 minut. Czas ten nie jest wliczany do czasu trwania egzaminu.</li>
     <li>Czas rozpoczęcia i zakończenia pracy zapisze w widocznym miejscu przewodniczący zespołu nadzorującego.</li>
@@ -108,14 +108,13 @@ export function renderSheet(exam, { embedPreview = true } = {}) {
     <li>Po zakończeniu wykonania zadania pozostaw arkusz egzaminacyjny z rezultatami wykonania zadania na swoim stanowisku.</li>
   </ol>
   <p class="right"><b>Powodzenia!</b></p>
-  <p class="small">* w przypadku braku numeru PESEL – seria i numer paszportu lub innego dokumentu potwierdzającego tożsamość</p>
   <p class="small seed">Kod arkusza (seed): <b>${h(exam.seed)}</b> · temat: ${h(theme.id)} · wariant: ${h(mode)} · poziom: ${h(exam.difficulty)}</p>
 </section>`);
 
   // ---------- zadanie ----------
   const task = [];
   task.push(`<h2 class="task-title">Zadanie egzaminacyjne</h2>
-  <p>UWAGA: numer, którym został podpisany arkusz egzaminacyjny (PESEL lub w przypadku jego braku numer paszportu) jest w zadaniu nazywany numerem zdającego.</p>
+  <p>UWAGA: numer z dziennika, którym został podpisany arkusz, jest w zadaniu nazywany numerem zdającego.</p>
   <p>Wykonaj aplikację internetową ${h(theme.app)}, wykorzystując ${tools}.</p>
   <p>Aby wykonać zadanie, należy zalogować się na konto <b>Egzamin</b> bez hasła. Na pulpicie znajduje się archiwum 7z o nazwie <b>${h(exam.archive.name)}</b> zabezpieczone hasłem: <b class="mono">${h(exam.archive.password)}</b>. Archiwum należy rozpakować.</p>
   <p>Na pulpicie konta Egzamin należy utworzyć folder. Jako nazwy folderu należy użyć numeru zdającego. Po skończonej pracy wszystkie wyniki należy zapisać w tym folderze.</p>`);
@@ -295,6 +294,7 @@ ul.dash > li::before { content: '−'; position: absolute; left: -15px; }
 .fill { border: 1px solid var(--line); padding: 10px; margin: 14px 0; }
 .fill-title { text-align: center; font-weight: bold; margin-bottom: 8px; }
 .pesel { display: flex; align-items: center; justify-content: space-between; margin: 6px 0; gap: 10px; flex-wrap: wrap; }
+.pesel .line { flex: 1; min-width: 200px; max-width: 60%; border-bottom: 1px solid var(--line); height: 22px; }
 .boxes { display: inline-flex; }
 .boxes i { width: 22px; height: 26px; border: 1px solid var(--line); margin-left: -1px; display: inline-block; }
 .row-between { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin: 12px 0; }

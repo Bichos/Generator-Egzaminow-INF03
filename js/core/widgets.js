@@ -166,7 +166,7 @@ export const footerAuthor = {
   render: (ctx, st) => ({
     lines: [`paragraf o treści ${q(st.text)}, dalej wstawiony numer zdającego`,
       ...(st.extraLink ? [`paragraf z odnośnikiem o treści ${q('Regulamin')}, prowadzącym do pliku regulamin.html i otwierającym się w nowej karcie przeglądarki`] : [])],
-    html: `<p>${h(st.text)}00000000000</p>${st.extraLink ? '\n<p><a href="regulamin.html" target="_blank">Regulamin</a></p>' : ''}`,
+    html: `<p>${h(st.text)}00</p>${st.extraLink ? '\n<p><a href="regulamin.html" target="_blank">Regulamin</a></p>' : ''}`,
     tags: ['p', ...(st.extraLink ? ['a'] : [])],
   }),
 };
