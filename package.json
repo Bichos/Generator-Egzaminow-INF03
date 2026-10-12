@@ -1,0 +1,17 @@
+{
+  "name": "inf03-generator",
+  "version": "1.0.0",
+  "description": "Generator arkuszy egzaminacyjnych INF.03 (część praktyczna) z kluczem oceniania i rozwiązaniem wzorcowym",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "npx --yes http-server . -p 8080 -c-1",
+    "test": "node --test tests/*.test.mjs",
+    "test:integration": "node tests/integration.mjs 60",
+    "test:browser": "node tests/browser.mjs 30"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Generator arkuszy INF.03</title>
+  <meta name="description" content="Generator nowych arkuszy egzaminacyjnych INF.03 (część praktyczna) z kluczem oceniania i rozwiązaniem wzorcowym.">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231f4e8c'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='14' font-weight='bold' fill='white' text-anchor='middle'%3EI3%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">I3</span>
+      <div>
+        <h1>Generator arkuszy INF.03</h1>
+        <p>Tworzenie i administrowanie stronami i aplikacjami internetowymi oraz bazami danych – część praktyczna</p>
+      </div>
+    </div>
+    <span class="code-chip" id="examCode">—</span>
+  </header>
+
+  <div class="layout">
+    <aside class="panel">
+      <form id="settings" autocomplete="off">
+        <fieldset>
+          <legend>Kod arkusza (seed)</legend>
+          <div class="seed-row">
+            <input id="seed" name="seed" maxlength="24" spellcheck="false" aria-label="Kod arkusza">
+            <button type="button" id="newSeed" class="icon-btn" title="Losuj nowy kod">⟳</button>
+          </div>
+          <p class="hint">Ten sam kod i ustawienia zawsze dają ten sam arkusz.</p>
+        </fieldset>
+
+        <fieldset>
+          <legend>Zadanie</legend>
+          <label>Temat aplikacji
+            <select id="theme" name="theme"></select>
+          </label>
+          <label>Wariant
+            <select id="mode" name="mode">
+              <option value="random">losowy</option>
+            </select>
+          </label>
+          <label>Poziom trudności
+            <select id="difficulty" name="difficulty">
+              <option value="easy">łatwy (2 skrypty)</option>
+              <option value="normal" selected>standardowy (3 skrypty)</option>
+              <option value="hard">trudny (4 skrypty)</option>
+            </select>
+          </label>
+          <label>Liczba zapytań SQL
+            <select id="queryCount" name="queryCount">
+              <option value="auto">automatycznie</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+            </select>
+          </label>
+          <label>Zadanie z grafiki
+            <select id="graphics" name="graphics">
+              <option value="random">losowo</option>
+              <option value="yes">tak</option>
+              <option value="no">nie</option>
+            </select>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Sesja</legend>
+          <div class="two">
+            <label>Miesiąc
+              <select id="month" name="month">
+                <option value="01">styczeń</option>
+                <option value="06" selected>czerwiec</option>
+              </select>
+            </label>
+            <label>Rok
+              <input id="year" name="year" type="number" min="2020" max="2099" value="2026">
+            </label>
+          </div>
+        </fieldset>
+
+        <button type="submit" class="primary">Generuj arkusz</button>
+        <button type="button" id="randomize" class="secondary">Nowy losowy arkusz</button>
+      </form>
+
+      <section class="batch">
+        <h2>Zestaw dla klasy</h2>
+        <p class="hint">Każdy uczeń dostaje inny arkusz (kolejne kody), z kluczem i materiałami.</p>
+        <div class="seed-row">
+          <input id="batchCount" type="number" min="2" max="40" value="10" aria-label="Liczba arkuszy">
+          <button type="button" id="batchBtn" class="secondary">Pobierz ZIP</button>
+        </div>
+      </section>
+    </aside>
+
+    <main class="content">
+      <div class="toolbar">
+        <nav class="tabs" role="tablist">
+          <button role="tab" data-tab="sheet" aria-selected="true">Arkusz</button>
+          <button role="tab" data-tab="site">Podgląd witryny</button>
+          <button role="tab" data-tab="db">Baza i zapytania</button>
+          <button role="tab" data-tab="solution">Rozwiązanie</button>
+          <button role="tab" data-tab="key">Klucz oceniania</button>
+        </nav>
+        <div class="actions">
+          <button id="printBtn" type="button">Drukuj / PDF</button>
+          <button id="downloadSheet" type="button">Arkusz .html</button>
+          <button id="downloadZip" type="button" class="primary">Paczka .zip</button>
+          <button id="copyLink" type="button" title="Kopiuj link do tego arkusza">Link</button>
+        </div>
+      </div>
+      <div class="summary" id="summary"></div>
+
+      <section class="tab-panel" data-panel="sheet">
+        <iframe id="sheetFrame" title="Arkusz egzaminacyjny"></iframe>
+      </section>
+      <section class="tab-panel" data-panel="site" hidden>
+        <div class="page-switch" id="pageSwitch"></div>
+        <iframe id="siteFrame" title="Podgląd witryny"></iframe>
+      </section>
+      <section class="tab-panel scroll" data-panel="db" hidden>
+        <div id="dbView"></div>
+      </section>
+      <section class="tab-panel" data-panel="solution" hidden>
+        <div class="code-view">
+          <ul id="fileList" class="file-list"></ul>
+          <pre id="codeBox" class="code"></pre>
+        </div>
+      </section>
+      <section class="tab-panel" data-panel="key" hidden>
+        <iframe id="keyFrame" title="Klucz oceniania"></iframe>
+      </section>
+    </main>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="js/ui/app.js"></script>
+</body>
+</html>
