@@ -79,9 +79,16 @@ async function checkPhp(exam, problems) {
           body.set(r.state.ref.result.param.col, r.state.values[1] || r.state.values[0]);
         } else if (r.widget.id === 'phpInsertForm') {
           for (const [c, v] of Object.entries(r.state.ref.result.spec.values)) if (!(v && v.raw)) body.set(c, String(v));
+        } else if (r.widget.id === 'phpSearchLike') {
+          body.set('fraza', r.state.ref.result.param.value);
+        } else if (r.widget.id === 'phpUpdateForm') {
+          body.set('rekord', String(r.state.ref.result.param.id));
+          body.set('wartosc', '7');
         } else continue;
         const html = await (await fetch(`${base}/${exam.site.pages[0].file}`, { method: 'POST', body })).text();
         if (PHP_ERROR.test(html)) problems.push(`${r.widget.id} (POST): ${html.match(/.*(Warning|Fatal error|Parse error|Notice|Deprecated|Uncaught).*/)[0].slice(0, 200)}`);
+        if (r.widget.id === 'phpUpdateForm' && !html.includes('Zaktualizowano rekord')) problems.push('phpUpdateForm: brak potwierdzenia');
+        if (r.widget.id === 'phpSearchLike' && (html.match(/<tr>/g) || []).length < 2) problems.push('phpSearchLike: brak wyników wyszukiwania');
         if (r.widget.id === 'phpInsertForm' && !html.includes('Dodano rekord')) problems.push('phpInsertForm: brak potwierdzenia dodania rekordu');
         if (r.widget.id === 'phpSelectDetail') {
           const det = r.out.preview.match(/<p>([^<]+)<\/p>/);

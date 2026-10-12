@@ -95,11 +95,34 @@ test('opis i SQL dla modyfikacji danych', () => {
   assert.match(alias, /AS `Średnia cena`/, 'aliasy ze spacją w backtickach (bezpieczne w napisach PHP)');
 });
 
-test('klucz zawiera wszystkie zapytania i 5 rezultatów oceny', () => {
-  const e = generateExam({ seed: 'KLUCZ', mode: 'server' });
-  const key = renderKey(e);
-  for (const q of e.queries) assert.ok(key.includes(`Zapytanie ${q.number}`));
-  assert.equal(e.criteria.length, 5);
+test('zasady oceniania w formacie R.x.y (5 rezultatów, liczba kryteriów jak w arkuszach CKE)', () => {
+  for (let i = 0; i < 40; i++) {
+    const e = generateExam({ seed: `KLUCZ${i}`, mode: MODES[i % 3] });
+    const key = renderKey(e);
+    for (const q of e.queries) assert.ok(key.includes(`Zapytanie ${q.number}`));
+    assert.equal(e.criteria.length, 5);
+    e.criteria.forEach((r, ri) => {
+      assert.equal(r.id, `R.${ri + 1}`);
+      r.items.forEach((it, ii) => assert.equal(it.id, `R.${ri + 1}.${ii + 1}`));
+    });
+    const total = e.criteria.reduce((n, r) => n + r.items.length, 0);
+    assert.ok(total >= 25 && total <= 60, `liczba kryteriów ${total}`);
+    if (e.hasDb) {
+      const r1 = e.criteria[0].items.map((x) => x.text).join('\n');
+      for (const q of e.queries) assert.ok(r1.includes(`Wykonane zapytanie ${q.number}`));
+    }
+  }
+});
+
+test('modyfikacje danych nie dotyczą dwukrotnie tej samej tabeli i nie usuwają tabel używanych przez witrynę', () => {
+  for (let i = 0; i < 150; i++) {
+    const e = generateExam({ seed: `MOD${i}`, mode: 'server', difficulty: 'hard', queryCount: '6' });
+    const mods = e.queries.filter((q) => !['select'].includes(q.spec.kind) && !['createUser', 'grant'].includes(q.spec.kind));
+    const targets = mods.map((q) => q.spec.t);
+    assert.equal(new Set(targets).size, targets.length, `${e.seed}: ${targets}`);
+    const siteTables = new Set(e.queries.filter((q) => q.usedBy).flatMap((q) => [q.spec.from, q.spec.t, ...(q.spec.joins || []).map((j) => j.t)]));
+    for (const q of e.queries.filter((x) => ['dropTable', 'alterDrop'].includes(x.spec.kind))) assert.ok(!siteTables.has(q.spec.t), `${e.seed}: ${q.sql}`);
+  }
 });
 
 test('ZIP: poprawne nagłówki i suma CRC', () => {

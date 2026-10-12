@@ -113,7 +113,9 @@ export function buildCss(site, rng) {
   if (topNav) rules.push(rule('Dla bloku nawigacyjnego', 'nav', [['background-color', P.mid], ['padding', rng.pick(['5px', '10px'])], ...(rng.chance(0.4) ? [['text-align', 'center']] : [])]));
   const mains = site.mainBlocks;
   const height = `${site.height}px`;
-  rules.push(rule(`Wspólne dla ${joinPl(mains.map(gen))}`, mains.map(sel).join(', '), [['height', height], ...(rng.chance(0.6) ? [['overflow', 'auto']] : [])]));
+  // blok z kilkoma widżetami nie zmieści się w stałej wysokości - paski przewijania są wtedy konieczne
+  const crowded = mains.some((b) => site.rendered.filter((r) => r.block === b).length >= 2);
+  rules.push(rule(`Wspólne dla ${joinPl(mains.map(gen))}`, mains.map(sel).join(', '), [['height', height], ...(crowded || rng.chance(0.5) ? [['overflow', 'auto']] : [])]));
   const pair = rng.shuffle([P.light, P.lighter]);
   const bgs = [pair[0], pair[1], pair[0]]; // sąsiednie bloki zawsze różnią się kolorem tła
   mains.forEach((b, i) => {
@@ -148,6 +150,14 @@ export function buildCss(site, rng) {
   for (const r of tagRules) r.tags.forEach((t) => tagOnly.add(t));
   rules.push(...tagRules);
 
+  // 4b. Odnośniki jedynie w bloku nawigacyjnym (selektor potomka) - częsty element zasad oceniania
+  const navLinksWidget = site.rendered.find((r) => r.block === 'nav' && r.widget.id === 'navLinks' && !r.state.asHeadings);
+  let navLinkRule = null;
+  if (navLinksWidget && rng.chance(0.55)) {
+    navLinkRule = rule('Dla odnośników jedynie w bloku nawigacyjnym', 'nav a', [['display', 'inline-block'], ['background-color', P.lighter], ['color', P.dark], ['padding', rng.pick(['5px', '10px'])], ['margin', rng.pick(['5px', '10px'])], ['border-radius', rng.pick(['10px', '20px'])], ['text-decoration', 'none']]);
+    rules.push(navLinkRule);
+  }
+
   // 5. Klasy przypisane przez widżety
   for (const c of site.classes) {
     const decls = c.tag === 'img'
@@ -162,7 +172,9 @@ export function buildCss(site, rng) {
   if (tags.has('a')) hovers.push(rule('Gdy kursor znajdzie się na odnośniku', 'a:hover', [['color', P.accent]], { hover: 'kolor jego czcionki zmienia się na' }));
   if (tags.has('button')) hovers.push(rule('Gdy kursor znajdzie się na przycisku', 'button:hover', [['background-color', 'white'], ['color', P.dark]], { hover: 'jego kolor tła zmienia się na biały, a kolor czcionki na' }));
   if (tags.has('img')) hovers.push(rule('Gdy kursor znajdzie się na obrazie', 'img:hover', [['opacity', '0.7']], { hover: 'jego przezroczystość zmienia się na' }));
-  if (hovers.length) rules.push(rng.pick(hovers));
+  if (navLinkRule) {
+    rules.push(rule('Gdy kursor znajdzie się na odnośniku w bloku nawigacyjnym', 'nav a:hover', [['background-color', P.dark], ['color', 'white'], ['border', `1px solid ${P.lighter}`]], { hover: 'jego kolor tła zmienia się na ' + P.dark + ', kolor czcionki na biały oraz pojawia się obramowanie 1 px linią ciągłą w kolorze', hoverLast: P.lighter }));
+  } else if (hovers.length) rules.push(rng.pick(hovers));
 
   // Reguły układu - nieopisywane w arkuszu, wynikają z ilustracji układu bloków.
   const layoutCss = `${mains.map(sel).join(', ')} {\n    float: left;\n}\n\nfooter {\n    clear: both;\n}`;
@@ -177,7 +189,7 @@ export function buildCss(site, rng) {
 
 export function ruleText(r) {
   if (r.hover) {
-    const last = r.decls[r.decls.length - 1][1];
+    const last = r.hoverLast || r.decls[r.decls.length - 1][1];
     return `${r.target} ${r.hover} ${colorPl(last)}`;
   }
   return `${r.target}: ${r.decls.map(([p, v]) => declPl(p, v)).join(', ')}`;

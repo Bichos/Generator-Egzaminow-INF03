@@ -1,6 +1,63 @@
-# Analiza arkuszy INF.03 (sesje styczeń i czerwiec 2026)
+# Analiza arkuszy INF.03 i kwalifikacji poprzedzających
 
-Przeanalizowano 21 plików PDF. Trzy z nich to duplikaty zadania 01‑10, więc unikalnych arkuszy jest 18: zadania 01–12 z sesji styczniowej i 07–12 z sesji czerwcowej. Wszystkie mają wersję SG, czas 150 minut i podstawę programową 2019.
+Generator opiera się na dwóch źródłach:
+
+1. **18 arkuszy INF.03 z 2026 roku** (archiwum przesłane przez użytkownika); szczegóły w sekcji „Sesja 2026”.
+2. **152 egzaminy z lat 2018–2026** z repozytorium [Chr1skyy/Egzamin-Zawodowy-E14-EE09-INF03](https://github.com/Chr1skyy/Egzamin-Zawodowy-E14-EE09-INF03): E.14 (32), EE.09 (40) i INF.03 (80). Każdy egzamin ma arkusz i **zasady oceniania**; szczegóły w sekcji „Korpus 2018–2026”.
+
+E.14 i EE.09 to poprzednie wersje tej samej kwalifikacji, więc mają te same rezultaty i ten sam typ zadań.
+
+## Korpus 2018–2026 (152 egzaminy)
+
+### Rodzaj skryptów
+
+| Kwalifikacja / rok | PHP | JS | PHP + JS | z bazą danych |
+|---|---|---|---|---|
+| E.14 2018–2020 | 19 | 12 | 1 | 15 z 32 |
+| EE.09 2019–2023 | 26 | 12 | 2 | 40 z 40 |
+| INF.03 2021–2023 | 12 | 2 | – | 14 z 14 |
+| INF.03 2024–2026 | 39 | 26 | 1 | 63 z 66 |
+
+W INF.03 baza danych jest prawie zawsze. Zadanie bez bazy (np. z animacją) to rzadkość.
+
+### Kwerendy (550 przykładowych instrukcji SQL z zasad oceniania)
+
+| Instrukcja | Liczba | | Element SELECT | Liczba |
+|---|---|---|---|---|
+| SELECT | 405 | | WHERE | 308 |
+| ALTER TABLE (ADD, DROP COLUMN, ADD … AFTER, PRIMARY/FOREIGN KEY) | 32 | | JOIN (w tym przez WHERE i USING) | 133 |
+| UPDATE (SET stała, SET kolumna ± wartość) | 30 | | ORDER BY | 50 |
+| INSERT INTO | 29 | | AND / OR | 46 / 13 |
+| CREATE USER | 23 | | COUNT / GROUP BY | 39 / 35 |
+| GRANT (tabela lub baza.*) | 11 | | LIKE | 29 |
+| CREATE TABLE | 9 | | alias AS | 26 |
+| DELETE FROM | 8 | | AVG / MAX / MIN / SUM | 22 / 10 / 8 / 7 |
+| DROP TABLE | 3 | | LIMIT | 21 |
+| | | | DISTINCT, RAND(), ROUND, BETWEEN, podzapytanie, LEFT JOIN, HAVING | 9, 6, 5, 3, 3, 3, 1 |
+
+Na tej podstawie ustalono wagi wzorców kwerend (`WEIGHTS` w `js/core/queries.js`). Dodano też brakujące wzorce: warunki OR i AND, `UPDATE … SET kolumna = stała`, `ALTER TABLE … ADD … AFTER`, `ALTER TABLE … DROP COLUMN`, `CREATE TABLE`, `DROP TABLE` oraz osobne `CREATE USER` i `GRANT`.
+
+### Zasady oceniania (80 egzaminów INF.03)
+
+- Każde kryterium oznacza się R.x.y i ocenia zero-jedynkowo.
+- Średnio jest 38,8 kryterium (od 33 do 45). Na rezultaty przypada średnio: R.1 6,2, R.2 9,2, R.3 5,0, R.4 10,2, R.5 8,2.
+- Kryterium kwerendy brzmi: „Wykonane zapytanie N … W pliku z kwerendami lub na zrzucie istnieje zapis np. `SQL` oraz wynik działania udokumentowany zrzutem, na którym widoczne są dokładnie K wierszy …”.
+- Rezultaty zaczynają się od stałych uwag: o kompletnych zrzutach ekranu, o tolerancji drobnych literówek, o sprawdzaniu CSS w inspektorze i o selektorach znaczników.
+
+Generator tworzy klucz w tym samym formacie (`js/core/grading.js`).
+
+### Elementy witryny i skrypty
+
+- **HTML** (liczba arkuszy): tabela 148, obraz z tekstem alternatywnym 143, formularz 111, pole liczbowe 92, lista numerowana 83, lista punktowana 54, checkbox 51, radio 51, textarea 48, etykiety 25, suwak 24, odnośnik w nowej karcie 20, lista rozwijana 17, audio/wideo 9, scalone komórki 8.
+- **CSS**: szerokość 150, kolor tła 148, wysokość 143, kolor czcionki, krój i wyrównanie po 137, padding 125, margin 101, obramowanie 93, rozmiar czcionki 70, `:hover` 55, paski przewijania 38, zaokrąglenie 31, cień 26.
+- **Grafika**: kadrowanie 137, skalowanie 101, przezroczystość 57, obrót lub odbicie 17, animacja GIF 11, skala szarości 8.
+- **Typowe skrypty JS, dodane do generatora**: zakładki (pokaż jedną, ukryj resztę), pokaz zdjęć z przyciskami poprzednie/następne i zawijaniem, lista zadań (dodawanie i przekreślanie), licznik odwiedzin w localStorage, podsumowanie formularza (wielkie i małe litery, wartość z listy), zmiana koloru i rozmiaru tekstu przyciskami.
+- **Typowe skrypty PHP, dodane do generatora**: wyszukiwanie po początku nazwy (`LIKE 'x%'` z formularza), aktualizacja rekordu z formularza (`UPDATE`), lista według wzoru zdania, blok `section` dla każdego rekordu z warunkiem (np. wyróżnienie, gdy wartość przekracza próg).
+- **Tematy**: od restauracji, hurtowni, biur podróży i wędkarzy (E.14/EE.09) po sklepy, salony usługowe, kalendarze, galerie i portale tematyczne (INF.03). Do generatora dodano 6 tematów z tej puli: wędkarstwo, prognoza pogody, salon fryzjerski, piekarnia, sklep z oponami, koło szachowe.
+
+## Sesja 2026 (18 arkuszy z archiwum)
+
+Archiwum zawierało 21 plików PDF. Trzy z nich to duplikaty zadania 01‑10, więc unikalnych arkuszy jest 18: zadania 01–12 z sesji styczniowej i 07–12 z sesji czerwcowej. Wszystkie mają wersję SG, czas 150 minut i podstawę programową 2019.
 
 ## Wspólna struktura arkusza
 

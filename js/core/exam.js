@@ -8,6 +8,7 @@ import { toSql, describe, execute } from './sql.js';
 import { buildSite, pageHtml, layoutSvg } from './site.js';
 import { buildCss, tagOnlyNote } from './css.js';
 import { buildGraphics, buildAnimation } from './graphics.js';
+import { buildGrading } from './grading.js';
 
 export const MODES = {
   server: 'Baza danych + skrypty PHP (styczeń)',
@@ -102,7 +103,7 @@ export function generateExam(input = {}) {
     imageFiles, resultFiles: resultFilesSorted, results,
   };
   exam.solution = buildSolution(exam);
-  exam.criteria = buildCriteria(exam);
+  exam.criteria = buildGrading(exam);
   return exam;
 }
 
@@ -124,48 +125,4 @@ function buildSolution(exam) {
   if (exam.hasDb) files['kwerendy.txt'] = exam.queries.map((x) => `-- Zapytanie ${x.number}\n${x.sql}`).join('\n\n') + '\n';
   files['przeglądarka.txt'] = 'Google Chrome\n';
   return files;
-}
-
-const flatten = (lines, prefix = '') => lines.flatMap((l) => (typeof l === 'string' ? [prefix + l] : [prefix + l.text, ...flatten(l.children || [], '   – ')]));
-
-function buildCriteria(exam) {
-  const { site, theme } = exam;
-  const crit = [];
-  if (exam.hasDb) {
-    crit.push({
-      result: 'operacje na bazie danych',
-      items: [
-        `Utworzona baza danych ${theme.dbName} z kodowaniem polskich znaków, zaimportowane wszystkie tabele z pliku ${theme.sqlFile} (zrzut import.${exam.importFmt[1]})`,
-        ...exam.queries.map((x) => `Zapytanie ${x.number} poprawne i zapisane w kwerendy.txt, zrzut kw${x.number}.${exam.screenshotFmt[1]} zgodny z oczekiwanym wynikiem: ${x.sql.replace(/\n/g, ' ')}`),
-      ],
-    });
-  } else {
-    crit.push({ result: 'animacja', items: exam.animation.checks });
-  }
-  const content = [
-    `Witryna składa się z plików: ${site.pages.map((p) => p.file).join(', ')}; zapisana w HTML5 z deklaracją języka polskiego i kodowania UTF-8`,
-    `Tytuł strony ${theme.siteTitle}, poprawnie dołączony arkusz styl.css`,
-    'Bloki zrealizowane semantycznymi znacznikami HTML5 zgodnie z ilustracją układu',
-  ];
-  for (const b of site.blocks) {
-    const lines = site.rendered.filter((r) => r.block === b).flatMap((r) => flatten(r.out.lines));
-    if (lines.length) content.push(`Blok ${site.defs[b].nom}: ${lines.join('; ')}`);
-  }
-  if (exam.graphics) exam.graphics.tasks.forEach((t) => content.push(`Grafika: ${t.check}`));
-  crit.push({ result: 'zawartość witryny internetowej', items: content });
-  crit.push({
-    result: 'działanie witryny internetowej',
-    items: [
-      'Witryna wyświetla się w przeglądarce bez błędów, układ bloków zgodny z ilustracją',
-      ...site.scripts.map((s) => `Skrypt ${s.number} działa: ${flatten(s.lines).join('; ')}`),
-    ],
-  });
-  crit.push({ result: 'styl CSS witryny internetowej', items: [...exam.css.text, ...(exam.cssNote ? ['Reguły dla znaczników zdefiniowane wyłącznie selektorem znacznika'] : [])] });
-  crit.push({
-    result: exam.results[4],
-    items: exam.mode === 'server'
-      ? ['Połączenie z serwerem localhost, użytkownik root bez hasła, baza ' + theme.dbName, 'Zapytania wysyłane funkcją mysqli_query, wyniki pobierane w pętli (np. mysqli_fetch_row / mysqli_fetch_array)', 'Dane z formularzy/parametrów pobierane z $_POST / $_GET i sprawdzane funkcją isset', 'Połączenie zamykane funkcją mysqli_close', 'Znaczące nazwy zmiennych']
-      : ['Skrypty po stronie klienta w języku JavaScript', 'Elementy pobierane metodami DOM (np. getElementById, querySelector)', 'Obsługa zdarzeń zgodna z treścią (onclick / oninput / load)', 'Znaczące nazwy zmiennych i funkcji'],
-  });
-  return crit;
 }

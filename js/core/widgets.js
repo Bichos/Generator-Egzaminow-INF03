@@ -436,7 +436,7 @@ export const phpSelectDetail = {
     const optionsPhp = phpBlock(phpQueryLoop(listSpec, ['echo "<option value=\'$wiersz[0]\'>$wiersz[1]</option>";']));
     const outText = textIdx.map((i) => `$wiersz[${i}]`).join(', ');
     const detailCode = phpBlock([
-      "if (isset($_POST['id'])) {",
+      qty ? "if (isset($_POST['id'], $_POST['ilosc'])) {" : "if (isset($_POST['id'])) {",
       "    $id = intval($_POST['id']);",
       ...(qty ? ["    $ilosc = intval($_POST['ilosc']);"] : []),
       `    $zapytanie = ${phpSql(detSpec)};`,
@@ -504,7 +504,7 @@ export const phpInsertForm = {
     const fieldsHtml = inputs.map((i) => `<label for="${i.c}">${h(i.label)}</label>\n<input type="${i.type}" name="${i.c}" id="${i.c}"${i.type === 'number' && i.c.includes('cena') ? ' step="0.01"' : ''}><br>`).join('\n');
     const form = `<form action="" method="post">\n${fieldsHtml}\n<button type="submit">${st.button}</button>\n</form>`;
     const code = phpBlock([
-      `if (isset($_POST['${inputs[0].c}'])) {`,
+      `if (isset(${inputs.map((i) => `$_POST['${i.c}']`).join(', ')})) {`,
       ...inputs.map((i) => (i.quoted ? `    $${i.c} = mysqli_real_escape_string($polaczenie, $_POST['${i.c}']);` : `    $${i.c} = ${i.type === 'number' && i.c.includes('cena') ? 'floatval' : 'intval'}($_POST['${i.c}']);`)),
       `    $zapytanie = ${phpSql(pSpec)};`,
       '    mysqli_query($polaczenie, $zapytanie);',
@@ -909,3 +909,5 @@ export const WIDGETS = {
 };
 
 export { sampleValue };
+// Pomocnicze funkcje współdzielone z widgets-extra.js
+export { phpBlock, phpQueryLoop, phpSql, cap, colDef, headerLabel, withParam, fmtCell, cellsPhp };

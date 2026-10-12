@@ -11,9 +11,10 @@ function randomDate(rng, [from, to]) {
   return toDate(new Date(a + Math.floor(rng.next() * ((b - a) / 86400000 + 1)) * 86400000));
 }
 
-function randomPrice(rng, [min, max]) {
-  if (max >= 200) return Number((rng.int(min, max) + (rng.chance(0.5) ? 0.99 : 0)).toFixed(2));
-  return rng.float(min, max, 2);
+function randomPrice(rng, [min, max], type) {
+  const scale = Number((/DECIMAL\(\d+,(\d+)\)/.exec(type) || [0, 2])[1]);
+  if (max >= 200 && scale >= 2) return Number((rng.int(min, max) + (rng.chance(0.5) ? 0.99 : 0)).toFixed(2));
+  return rng.float(min, max, scale); // zgodnie ze skalą kolumny DECIMAL
 }
 
 export function buildDatabase(theme, rng) {
@@ -46,7 +47,7 @@ function generateValue(col, i, rng, female, data, catQueues) {
       return q.length ? q.shift() : rng.pick(col.values);
     }
     case 'price':
-      return randomPrice(rng, col.range);
+      return randomPrice(rng, col.range, col.type);
     case 'num':
       return rng.int(col.range[0], col.range[1]);
     case 'date':

@@ -30,6 +30,7 @@ function valueSql(v) {
 }
 
 function condSql(spec, w) {
+  if (w.or) return `(${w.or.map((x) => condSql(spec, x)).join(' OR ')})`;
   const col = colName(spec, w);
   switch (w.op) {
     case 'BETWEEN':
@@ -77,7 +78,17 @@ export function toSql(spec, nested = false) {
       sql = `DELETE FROM ${spec.t}\nWHERE ${spec.where.map((w) => condSql(spec, w)).join(' AND ')}`;
       break;
     case 'alterAdd':
-      sql = `ALTER TABLE ${spec.t}\nADD COLUMN ${spec.c} ${spec.type}${spec.notNull ? ' NOT NULL' : ''}${spec.def !== undefined ? ` DEFAULT ${sqlLiteral(spec.def)}` : ''}`;
+      sql = `ALTER TABLE ${spec.t}\nADD COLUMN ${spec.c} ${spec.type}${spec.notNull ? ' NOT NULL' : ''}${spec.def !== undefined ? ` DEFAULT ${sqlLiteral(spec.def)}` : ''}${spec.after ? ` AFTER ${spec.after}` : ''}`;
+      break;
+    case 'createTable': {
+      const defs = spec.columns.map((c) => `  ${c.name} ${c.type}${c.unsigned ? ' UNSIGNED' : ''}${c.notNull || c.pk ? ' NOT NULL' : ''}${c.ai ? ' AUTO_INCREMENT' : ''}`);
+      const pkCol = spec.columns.find((c) => c.pk);
+      if (pkCol) defs.push(`  PRIMARY KEY (${pkCol.name})`);
+      sql = `CREATE TABLE ${spec.t} (\n${defs.join(',\n')}\n)`;
+      break;
+    }
+    case 'dropTable':
+      sql = `DROP TABLE ${spec.t}`;
       break;
     case 'alterModify':
       sql = `ALTER TABLE ${spec.t}\nMODIFY ${spec.c} ${spec.type}${spec.notNull ? ' NOT NULL' : ''}`;
@@ -88,6 +99,9 @@ export function toSql(spec, nested = false) {
     case 'createUser':
       sql = `CREATE USER '${spec.user}'@'localhost' IDENTIFIED BY '${spec.pass}'`;
       if (spec.privs) sql += `;\nGRANT ${spec.privs.join(', ')} ON ${spec.db}.${spec.t || '*'} TO '${spec.user}'@'localhost'`;
+      break;
+    case 'grant':
+      sql = `GRANT ${spec.privs.join(', ')} ON ${spec.db}.${spec.t || '*'} TO '${spec.user}'@'localhost'`;
       break;
     default:
       throw new Error(`Nieznany rodzaj zapytania: ${spec.kind}`);
@@ -126,6 +140,7 @@ function resolveValue(v, params) {
 }
 
 function matches(row, w, db, params) {
+  if (w.or) return w.or.some((x) => matches(row, x, db, params));
   const val = row[w.t]?.[w.c];
   const v = resolveValue(w.v, params);
   switch (w.op) {
@@ -170,10 +185,18 @@ function aggregate(f, group, db) {
     case 'MAX': return distinct.length ? formatDecimal(db, f, distinct.reduce((m, v) => (compare(v, m) > 0 ? v : m))) : null;
     case 'AVG': {
       if (!distinct.length) return null;
-      const avg = distinct.reduce((s, v) => s + Number(v), 0) / distinct.length;
-      // MySQL zwraca średnią z dokładnością skali kolumny + 4 miejsca po przecinku
-      const scale = f.round !== undefined ? f.round : decimalScale(db, f) + 4;
-      return Number(avg.toFixed(scale)).toFixed(scale);
+      // Dokładnie jak MySQL: suma w liczbach całkowitych (skala kolumny), zaokrąglenie połówki w górę.
+      const colScale = decimalScale(db, f);
+      const scale = f.round !== undefined ? f.round : colScale + 4;
+      const sum = distinct.reduce((acc, v) => acc + BigInt(Math.round(Number(v) * 10 ** colScale)), 0n);
+      const num = sum * 10n ** BigInt(scale);
+      const den = BigInt(distinct.length) * 10n ** BigInt(colScale);
+      const neg = num < 0n;
+      const abs = neg ? -num : num;
+      const q = (2n * abs + den) / (2n * den);
+      const digits = q.toString().padStart(scale + 1, '0');
+      const text = scale ? `${digits.slice(0, -scale)}.${digits.slice(-scale)}` : digits;
+      return `${neg ? '-' : ''}${text}`;
     }
     default: throw new Error(f.agg);
   }
@@ -267,6 +290,9 @@ function executeModification(spec, db, params) {
     case 'alterModify': return { info: `Kolumna ${spec.t}.${spec.c} ma typ ${spec.type}.` };
     case 'alterDrop': return { info: `Z tabeli ${spec.t} usunięto kolumnę ${spec.c}.` };
     case 'createUser': return { info: `Utworzono użytkownika ${spec.user}@localhost.` };
+    case 'grant': return { info: `Nadano uprawnienia użytkownikowi ${spec.user}@localhost.` };
+    case 'createTable': return { info: `Utworzono tabelę ${spec.t}.` };
+    case 'dropTable': return { info: `Usunięto tabelę ${spec.t}.` };
     default: return { info: '' };
   }
 }
@@ -279,6 +305,11 @@ const isDate = (x) => typeof x === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(x);
 const DATE_OP_PL = { '>': 'jest późniejsze niż', '<': 'jest wcześniejsze niż', '>=': 'jest nie wcześniejsze niż', '<=': 'jest nie późniejsze niż' };
 
 function condPl(w, spec) {
+  if (w.or) {
+    const same = w.or.every((x) => x.c === w.or[0].c && x.op === '=');
+    if (same) return `pole ${w.or[0].c} ma wartość ${w.or.map((x) => (typeof x.v === 'string' ? q(x.v) : x.v)).join(' lub ')}`;
+    return w.or.map((x) => condPl(x, spec)).join(' lub ');
+  }
   const v = (x) => (x && x.desc) || (typeof x === 'string' ? q(x) : x);
   const col = spec && qualified(spec) ? `${w.t}.${w.c}` : w.c;
   w = { ...w, c: col };
@@ -316,7 +347,15 @@ export function describe(spec) {
     case 'delete':
       return `usuwające z tabeli ${spec.t} rekordy, w których ${spec.where.map((w) => condPl(w, spec)).join(' oraz ')}`;
     case 'alterAdd':
-      return `modyfikujące strukturę tabeli ${spec.t} poprzez dodanie kolumny o nazwie ${spec.c} typu ${spec.typePl || spec.type}${spec.notNull ? ', kolumna nie może być pusta' : ''}${spec.def !== undefined ? `, wartość domyślna ${spec.def}` : ''}`;
+      return `modyfikujące strukturę tabeli ${spec.t} poprzez dodanie kolumny o nazwie ${spec.c} typu ${spec.typePl || spec.type}${spec.notNull ? ', kolumna nie może być pusta' : ''}${spec.def !== undefined ? `, wartość domyślna ${spec.def}` : ''}${spec.after ? `. Kolumna ma się znaleźć bezpośrednio za kolumną ${spec.after}` : ''}`;
+    case 'createTable': {
+      const cols = spec.columns.map((c) => `${c.name} (${c.typePl}${c.pk ? ', klucz główny' : ''}${c.ai ? ', z automatyczną numeracją' : ''}${c.unsigned ? ', bez znaku' : ''}${c.notNull && !c.pk ? ', niepusta' : ''})`);
+      return `tworzące tabelę ${spec.t} z kolumnami: ${cols.join(', ')}`;
+    }
+    case 'dropTable':
+      return `usuwające z bazy tabelę ${spec.t}`;
+    case 'grant':
+      return `nadające użytkownikowi ${spec.user} na serwerze localhost prawa ${joinPl(spec.privs)} ${spec.t ? `jedynie do tabeli ${spec.t} w bazie ${spec.db}` : `do wszystkich tabel bazy ${spec.db}`}`;
     case 'alterModify':
       return `zmieniające strukturę tabeli ${spec.t} poprzez zmianę typu kolumny ${spec.c} na ${spec.typePl || spec.type}`;
     case 'alterDrop':

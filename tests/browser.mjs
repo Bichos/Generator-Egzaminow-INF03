@@ -62,6 +62,45 @@ const CHECKS = {
     const ok = await page.textContent('#komunikat');
     return bad === 'Uzupełnij poprawnie formularz' && ok === 'Ola, dziękujemy za wiadomość' ? null : `formularz: "${bad}" / "${ok}"`;
   },
+  async jsTabs(page) {
+    const buttons = await page.$$('button[onclick^="pokazZakladke"]');
+    await buttons[2].click();
+    const vis = await page.$$eval('[id^="zakladka"]', (els) => els.map((e) => getComputedStyle(e).display));
+    return vis[0] === 'none' && vis[2] === 'block' ? null : `zakładki: ${vis}`;
+  },
+  async jsSlideshow(page) {
+    const first = await page.$eval('#zdjecie', (e) => e.src);
+    await page.click('button[onclick="zmienZdjecie(-1)"]');
+    const last = await page.$eval('#zdjecie', (e) => e.src);
+    await page.click('button[onclick="zmienZdjecie(1)"]');
+    const back = await page.$eval('#zdjecie', (e) => e.src);
+    return first !== last && back === first ? null : 'pokaz zdjęć: brak zawijania';
+  },
+  async jsTodo(page) {
+    await page.fill('#zadanie', 'Kupić kwiaty');
+    await page.click('button[onclick="dodajZadanie()"]');
+    await page.click('#zadania li');
+    const deco = await page.$eval('#zadania li', (e) => e.style.textDecoration);
+    const val = await page.$eval('#zadanie', (e) => e.value);
+    return deco === 'line-through' && val === '' ? null : `lista zadań: ${deco}/${val}`;
+  },
+  async jsVisitCounter(page) {
+    const t = await page.textContent('#licznik');
+    return /^Liczba odwiedzin: \d+$/.test(t) ? null : `licznik: "${t}"`;
+  },
+  async jsSummaryForm(page) {
+    await page.fill('#imieNazwisko', 'Ola Nowak');
+    await page.fill('#adres', 'OLA@Example.COM');
+    await page.click('button[onclick="podsumuj()"]');
+    const t = await page.innerHTML('#podsumowanie');
+    return t.startsWith('OLA NOWAK<br>ola@example.com<br>Usługa: ') ? null : `podsumowanie: "${t}"`;
+  },
+  async jsColorButtons(page) {
+    await page.fill('#rozmiar', '150');
+    await page.click('button[onclick^="formatuj"]');
+    const st = await page.$eval('#przyklad', (e) => [e.style.color, e.style.fontSize]);
+    return st[0] && st[1] === '150%' ? null : `formatowanie: ${st}`;
+  },
   async jsSearch(page, widget) {
     const name = widget.state.rows[0][Object.keys(widget.state.rows[0]).find((k) => typeof widget.state.rows[0][k] === 'string')];
     await page.fill('#szukaj', `  ${String(name).toUpperCase()} `);
@@ -83,7 +122,10 @@ for (let i = 0; i < COUNT; i++) {
   const page = await browser.newPage();
   page.on('pageerror', (e) => errors.push(String(e)));
   page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
-  await page.setContent(previewHtml(exam), { waitUntil: 'load' });
+  // prawdziwy adres http (localStorage, względne ścieżki obrazów)
+  const html = previewHtml(exam);
+  await page.route('http://inf03.test/**', (route) => route.fulfill({ contentType: 'text/html; charset=utf-8', body: html }));
+  await page.goto('http://inf03.test/index.html', { waitUntil: 'load' });
   for (const r of exam.site.rendered) {
     const check = CHECKS[r.widget.id];
     if (!check) continue;

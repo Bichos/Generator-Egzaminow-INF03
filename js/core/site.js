@@ -1,8 +1,11 @@
 // Budowa witryny: wybór układu bloków, rozmieszczenie widżetów, numeracja zapytań i skryptów,
 // kod rozwiązania wzorcowego oraz podgląd (ilustracja wyglądu witryny).
-import { WIDGETS } from './widgets.js';
+import { WIDGETS as BASE_WIDGETS } from './widgets.js';
+import { EXTRA_WIDGETS } from './widgets-extra.js';
 import { runPattern, pickStandalone } from './queries.js';
 import { escapeXml } from './util.js';
+
+const WIDGETS = { ...BASE_WIDGETS, ...EXTRA_WIDGETS };
 
 // Bloki: tag HTML, identyfikator (dla sekcji), nazwy w dopełniaczu (do "Zawartość bloku ...") i mianowniku.
 const BLOCKS = {
@@ -60,12 +63,12 @@ const refsOf = (state) => Object.values(state || {}).filter((v) => v && v.__ref)
 // Kolejność prób doboru widżetów dynamicznych: pierwszy jest "główny", pozostałe uzupełniają liczbę skryptów.
 function dynamicCandidates(rng, mode) {
   if (mode === 'server') {
-    const primary = rng.weighted([['phpSelectDetail', 3], ['phpRadioFilter', 3], ['phpLinksDetail', 2], ['phpInsertForm', 2], ['phpTable', 2]]);
-    const rest = ['phpTable', 'phpRadioFilter', 'phpSelectDetail', 'phpInsertForm', 'phpGallery', 'phpList', 'phpStats', 'phpCards'];
+    const primary = rng.weighted([['phpSelectDetail', 3], ['phpRadioFilter', 3], ['phpLinksDetail', 2], ['phpInsertForm', 2], ['phpTable', 3], ['phpSearchLike', 2], ['phpUpdateForm', 1], ['phpRowBlocks', 2]]);
+    const rest = ['phpTable', 'phpRadioFilter', 'phpSelectDetail', 'phpInsertForm', 'phpGallery', 'phpList', 'phpStats', 'phpCards', 'phpSearchLike', 'phpUpdateForm', 'phpTemplateList', 'phpRowBlocks'];
     return [primary, ...rng.shuffle(rest.filter((w) => w !== primary))];
   }
-  const primary = rng.pick(['jsCalculator', 'jsSearch', 'jsContactForm', 'jsThumbs']);
-  const rest = ['jsCalculator', 'jsSlider', 'jsThumbs', 'jsToggle', 'jsFontSize', 'jsContactForm', 'jsSearch', 'jsDate'];
+  const primary = rng.pick(['jsCalculator', 'jsSearch', 'jsContactForm', 'jsThumbs', 'jsTabs', 'jsSlideshow', 'jsTodo', 'jsSummaryForm']);
+  const rest = ['jsCalculator', 'jsSlider', 'jsThumbs', 'jsToggle', 'jsFontSize', 'jsContactForm', 'jsSearch', 'jsDate', 'jsTabs', 'jsSlideshow', 'jsTodo', 'jsVisitCounter', 'jsSummaryForm', 'jsColorButtons'];
   return [primary, ...rng.shuffle(rest.filter((w) => w !== primary))];
 }
 
@@ -193,7 +196,11 @@ export function pageHtml(site, theme, { page = 0, preview = false, css = 'styl.c
   if (usesPhp) {
     html = `<?php\n$polaczenie = mysqli_connect('localhost', 'root', '', '${theme.dbName}');\n?>\n${html}\n<?php\nmysqli_close($polaczenie);\n?>`;
   }
-  if (imageResolver) html = html.replace(/src=(["'])([^"'$]+?\.(?:png|jpe?g|gif|bmp|webp))\1/g, (m, qch, f) => `src=${qch}${imageResolver(f)}${qch}`);
+  if (imageResolver) {
+    // atrybuty src oraz nazwy plików w napisach skryptów (np. tablica zdjęć w pokazie slajdów)
+    html = html.replace(/src=(["'])([^"'$]+?\.(?:png|jpe?g|gif|bmp|webp))\1/g, (m, qch, f) => `src=${qch}${imageResolver(f)}${qch}`);
+    html = html.replace(/'([\w-]+\.(?:png|jpe?g|gif|bmp|webp))'/g, (m, f) => `'${imageResolver(f)}'`);
+  }
   return html;
 }
 
