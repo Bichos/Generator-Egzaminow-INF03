@@ -55,6 +55,25 @@ Generator tworzy klucz w tym samym formacie (`js/core/grading.js`).
 - **Typowe skrypty PHP, dodane do generatora**: wyszukiwanie po początku nazwy (`LIKE 'x%'` z formularza), aktualizacja rekordu z formularza (`UPDATE`), lista według wzoru zdania, blok `section` dla każdego rekordu z warunkiem (np. wyróżnienie, gdy wartość przekracza próg).
 - **Tematy**: od restauracji, hurtowni, biur podróży i wędkarzy (E.14/EE.09) po sklepy, salony usługowe, kalendarze, galerie i portale tematyczne (INF.03). Do generatora dodano 6 tematów z tej puli: wędkarstwo, prognoza pogody, salon fryzjerski, piekarnia, sklep z oponami, koło szachowe.
 
+### „Smaczki” – rzadsze elementy z arkuszy INF.03 i EE.09
+
+Liczba arkuszy, w których występuje dany element. Elementy oznaczone ✓ są w generatorze.
+
+| Element | Liczba | | Element | Liczba |
+|---|---|---|---|---|
+| zaokrąglanie wyników (`toFixed`) ✓ | 38 | | lista definicji `dl/dt/dd` ✓ | 6 |
+| zdarzenia myszy (`onmouseover`) ✓ | 31 | | losowanie (`Math.random`) ✓ | 6 |
+| tworzenie elementów DOM ✓ | 21 | | data i dzień tygodnia w PHP ✓ | 6 |
+| przezroczystość (`opacity`) ✓ | 20 | | filtry CSS (`filter`) ✓ | 5 |
+| podpowiedź `title` / `placeholder` ✓ | 13 | | `::first-letter` / `::first-line` ✓ | 5 |
+| `transform` (skalowanie elementu) ✓ | 10 | | gradient ✓ | 5 |
+| mapa / `iframe` | 9 | | cień tekstu ✓ | 4 |
+| linia pozioma `hr` ✓ | 8 | | `:active`, `:visited`, `:focus` ✓ | 3, 3, 2 |
+| scalone komórki tabeli ✓ | 6 | | `nth-child` (parzyste wiersze) ✓ | 2 |
+| | | | `@media` (ekrany do 800 px) ✓ | 1 |
+
+Flexbox i grid nie występują w treści arkuszy: układ wynika z ilustracji i zwykle realizuje się go przez float. W generatorze są dostępne jako opcja i wtedy pojawiają się w wymaganiach CSS jawnie (`display: flex` / `display: grid` z kolumnami).
+
 ## Sesja 2026 (18 arkuszy z archiwum)
 
 Archiwum zawierało 21 plików PDF. Trzy z nich to duplikaty zadania 01‑10, więc unikalnych arkuszy jest 18: zadania 01–12 z sesji styczniowej i 07–12 z sesji czerwcowej. Wszystkie mają wersję SG, czas 150 minut i podstawę programową 2019.

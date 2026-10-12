@@ -119,7 +119,7 @@ async function scenario(name, base, { key = 'TEST-KEY', cors, block = false, api
 const a = await scenario('A (npm start)', `http://localhost:${appPort}/`, { block: true });
 check(/Zdjęcia z Pixabay: (\d+) z \1\b/.test(a.status), `A: nie wszystkie zdjęcia: ${a.status}`);
 check(a.apiCalls.length === 0, 'A: zapytania poszły bezpośrednio zamiast przez pośrednika');
-check(/JPEG image data.*640x440/.test(a.jpgInfo), `A: w ZIP brak zdjęcia 640x440: ${a.jpgInfo}`);
+check(/JPEG image data.*\d+x\d+/.test(a.jpgInfo), `A: w ZIP brak zdjęcia JPEG: ${a.jpgInfo}`);
 check(a.files.some((f) => f.endsWith('zrodla_zdjec.txt')), 'A: brak zrodla_zdjec.txt');
 check(a.previewSrcs.some((s) => s.startsWith('data:image/jpeg')), 'A: podgląd bez zdjęć');
 
@@ -132,7 +132,7 @@ check(b.previewSrcs.some((s) => s.startsWith(`http://localhost:${upPort}/img`)),
 // C. bez pośrednika, Pixabay z CORS
 const c = await scenario('C (z CORS)', `http://localhost:${plainPort}/`, { cors: true });
 check(/Zdjęcia z Pixabay: (\d+) z \1\b/.test(c.status), `C: ${c.status}`);
-check(/JPEG image data.*640x440/.test(c.jpgInfo), `C: w ZIP brak zdjęcia: ${c.jpgInfo}`);
+check(/JPEG image data.*\d+x\d+/.test(c.jpgInfo), `C: w ZIP brak zdjęcia: ${c.jpgInfo}`);
 
 // D. błędny klucz (przez pośrednika)
 const d = await scenario('D (zły klucz)', `http://localhost:${appPort}/`, { key: 'ZLY', block: true });

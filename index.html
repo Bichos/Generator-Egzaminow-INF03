@@ -67,6 +67,46 @@
         </fieldset>
 
         <fieldset>
+          <legend>Wygląd i układ</legend>
+          <label>Układ bloków
+            <select id="layout" name="layout"></select>
+          </label>
+          <label>Technika układu
+            <select id="technique" name="technique">
+              <option value="random">losowa</option>
+              <option value="float">float (opływanie)</option>
+              <option value="flex">flexbox</option>
+              <option value="grid">grid (siatka)</option>
+            </select>
+          </label>
+          <div class="two">
+            <label>Responsywność
+              <select id="responsive" name="responsive">
+                <option value="random">losowo</option>
+                <option value="yes">włączona</option>
+                <option value="no">wyłączona</option>
+              </select>
+            </label>
+            <label>Pseudoklasy
+              <select id="pseudo" name="pseudo">
+                <option value="random">losowo</option>
+                <option value="standard">podstawowe</option>
+                <option value="extended">rozszerzone</option>
+              </select>
+            </label>
+          </div>
+          <label>Szerokość strony
+            <select id="pageWidth" name="pageWidth">
+              <option value="random">losowa</option>
+              <option value="full">100% okna</option>
+              <option value="1000">1000 px</option>
+              <option value="1200">1200 px</option>
+            </select>
+          </label>
+          <p class="hint">Przy stałej szerokości strony wymiary grafik w zadaniach są dopasowane do bloków. Układy z dwoma banerami lub stopkami używają techniki float.</p>
+        </fieldset>
+
+        <fieldset>
           <legend>Sesja</legend>
           <div class="two">
             <label>Miesiąc

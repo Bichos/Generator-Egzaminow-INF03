@@ -42,8 +42,8 @@ export function declPl(prop, v) {
     case 'padding-top': return `jedynie górny margines wewnętrzny ${px(v)}`;
     case 'margin': return v === '0 auto' || v === 'auto' ? 'marginesy zewnętrzne automatycznie wyliczane przez przeglądarkę' : /auto/.test(v) ? `marginesy zewnętrzne: górny i dolny ${px(v.split(' ')[0])}, lewy i prawy automatycznie wyliczane przez przeglądarkę` : `marginesy zewnętrzne ${px(v)}`;
     case 'margin-left': return `jedynie lewy margines zewnętrzny ${px(v)}`;
-    case 'width': return `szerokość ${px(v)}`;
-    case 'height': return `wysokość ${px(v)}`;
+    case 'width': return v === 'auto' ? 'szerokość automatyczna (z zachowaniem proporcji)' : `szerokość ${px(v)}`;
+    case 'height': return v === 'auto' ? 'wysokość automatyczna' : `wysokość ${px(v)}`;
     case 'min-height': return `minimalna wysokość ${px(v)}`;
     case 'text-align': return { center: 'wyrównanie tekstu do środka', right: 'wyrównanie tekstu do prawej', left: 'wyrównanie tekstu do lewej', justify: 'wyjustowanie tekstu' }[v];
     case 'border-radius': return `zaokrąglenie rogów ${px(v)}`;
@@ -65,12 +65,30 @@ export function declPl(prop, v) {
     case 'text-transform': return 'wszystkie litery zamienione na wielkie (transformacja tekstu)';
     case 'text-decoration': return v === 'none' ? 'tekst bez podkreślenia' : 'tekst podkreślony';
     case 'list-style-type': return { none: 'brak punktora', square: 'punktor w kształcie kwadratu', circle: 'punktor w kształcie okręgu', 'upper-roman': 'numeracja liczbami rzymskimi', 'lower-alpha': 'numeracja małymi literami' }[v];
-    case 'display': return v === 'inline-block' ? 'sposób wyświetlania elementu liniowo-blokowy' : 'sposób wyświetlania elementu blokowy';
+    case 'display': return { 'inline-block': 'sposób wyświetlania elementu liniowo-blokowy', flex: 'sposób wyświetlania elastyczny (flex)', grid: 'sposób wyświetlania w postaci siatki (grid)', none: 'element ukryty' }[v] || 'sposób wyświetlania elementu blokowy';
     case 'cursor': return 'kursor w kształcie wskazującej dłoni (pointer)';
     case 'opacity': return `przezroczystość elementu ${v}`;
     case 'line-height': return `wysokość linii ${px(v)}`;
     case 'font-variant': return 'kapitaliki';
     case 'vertical-align': return 'wyrównanie w pionie do góry';
+    case 'max-width': return `maksymalna szerokość ${px(v)}`;
+    case 'grid-template-columns': return `kolumny siatki o szerokościach ${v.split(' ').map(px).join(', ')}`;
+    case 'flex-direction': return v === 'column' ? 'elementy ułożone jeden pod drugim (kierunek kolumnowy)' : 'elementy ułożone obok siebie';
+    case 'flex-wrap': return 'elementy przenoszone do kolejnego wiersza, gdy brakuje miejsca';
+    case 'gap': return `odstęp między elementami ${px(v)}`;
+    case 'float': return 'brak opływania (float: none)';
+    case 'background': {
+      const m = /linear-gradient\(to (\w+), ([^,]+), ([^)]+)\)/.exec(v);
+      return m ? `gradient ${m[1] === 'bottom' ? 'pionowy' : 'poziomy'} od koloru ${m[2]} do koloru ${m[3]}` : `tło ${v}`;
+    }
+    case 'text-shadow': {
+      const [x, y, blur, c] = v.split(' ');
+      return `cień tekstu przesunięty o ${px(x)} w poziomie i ${px(y)} w pionie, rozmycie ${px(blur)}, kolor ${colorPl(c)}`;
+    }
+    case 'word-spacing': return `odstępy między wyrazami ${px(v)}`;
+    case 'transform': return `powiększenie elementu ${(/scale\(([\d.]+)\)/.exec(v) || [0, v])[1].replace('.', ',')} raza (transformacja skali)`;
+    case 'transition': return `płynne przejście zmiany (transition) trwające ${v.split(' ')[1].replace('s', '').replace('.', ',')} s`;
+    case 'filter': return v.startsWith('grayscale') ? 'filtr odcieni szarości (grayscale 100%)' : v.startsWith('blur') ? `filtr rozmycia ${px(v.slice(5, -1))}` : `filtr ${v}`;
     default: return `${prop}: ${v}`;
   }
 }
@@ -81,7 +99,11 @@ function rule(target, selector, decls, opts = {}) {
   return { target, selector, decls, ...opts };
 }
 
-export function buildCss(site, rng) {
+// opts: technique (float | flex | grid), responsive (bool), pseudo ('standard' | 'extended'), pageWidth ('full' | liczba px)
+export function buildCss(site, rng, opts = {}) {
+  const technique = site.technique || 'float';
+  const responsive = Boolean(opts.responsive);
+  const pageWidth = opts.pageWidth && opts.pageWidth !== 'full' ? Number(opts.pageWidth) : null;
   const P = rng.pick(PALETTES);
   const font = rng.pick(FONTS);
   const fontValue = font[0].includes(' ') ? `"${font[0]}", ${font[1]}` : `${font[0]}, ${font[1]}`;
@@ -98,14 +120,39 @@ export function buildCss(site, rng) {
     tagOnly.add('body');
   }
 
-  // 2. Nagłówek i stopka
+  // 1b. Szerokość strony (grafiki są do niej dopasowywane)
+  if (pageWidth) {
+    const decls = [[responsive ? 'max-width' : 'width', `${pageWidth}px`], ['margin', '0 auto']];
+    const bodyRule = rules.find((r) => r.selector === 'body');
+    if (bodyRule) bodyRule.decls.push(...decls);
+    else rules.push(rule('Dla selektora ciała strony', 'body', decls));
+    tagOnly.add('body');
+  }
+
+  // 2. Nagłówek i stopka (lub banery i stopki dzielone)
+  const heads = site.blocks.filter((b) => site.defs[b].kind === 'head');
+  const foots = site.blocks.filter((b) => site.defs[b].kind === 'foot');
+  const headName = heads.length > 1 ? 'banerów' : 'bloku nagłówkowego';
+  const footName = foots.length > 1 ? 'stopek' : 'stopki';
   const pad = rng.pick(['5px', '10px', '15px', '2px', '3px']);
-  const hf = [['background-color', P.dark], ['color', 'white'], ['padding', pad], ['text-align', 'center']];
-  if (rng.chance(0.6)) {
-    rules.push(rule('Wspólne dla bloku nagłówkowego i stopki', 'header, footer', hf));
+  const gradient = rng.chance(0.2); // smaczek z arkuszy 2025: gradient w nagłówku
+  const headBg = gradient ? ['background', `linear-gradient(to bottom, ${P.dark}, ${P.mid})`] : ['background-color', P.dark];
+  const hf = [headBg, ['color', 'white'], ['padding', pad], ['text-align', 'center']];
+  if (rng.chance(0.6) && !gradient) {
+    rules.push(rule(`Wspólne dla ${headName} i ${footName}`, 'header, footer', hf));
   } else {
-    rules.push(rule('Dla bloku nagłówkowego', 'header', [...hf, ...(rng.chance(0.5) ? [['letter-spacing', rng.pick(['2px', '3px', '5px'])]] : [])]));
-    rules.push(rule('Dla stopki', 'footer', [['background-color', P.mid], ['color', 'white'], ['padding', pad], ['text-align', rng.pick(['center', 'right'])]]));
+    rules.push(rule(`Dla ${headName}`, 'header', [...hf, ...(rng.chance(0.5) ? [['letter-spacing', rng.pick(['2px', '3px', '5px'])]] : [])]));
+    rules.push(rule(`Dla ${footName}`, 'footer', [['background-color', P.mid], ['color', 'white'], ['padding', pad], ['text-align', rng.pick(['center', 'right'])]]));
+  }
+  // wiersze dzielone (banery, stopki obok siebie)
+  for (const row of site.rows.filter((r) => !r.main && r.blocks.length > 1)) {
+    const isHead = site.defs[row.blocks[0]].kind === 'head';
+    const h = isHead ? rng.pick([80, 100, 120]) : rng.pick([40, 50, 60]);
+    row.height = h;
+    rules.push(rule(`Wspólne dla ${isHead ? 'banerów' : 'stopek'}`, row.blocks.map(sel).join(', '), [['height', `${h}px`]]));
+    row.blocks.forEach((b, i) => rules.push(rule(`Dla ${gen(b)}`, sel(b), [...(i ? [['background-color', P.mid]] : []), ['width', `${row.widths[i]}%`]])));
+    // logo w banerze prawym ma wysokość banera (zgodnie z wymiarem w zadaniu graficznym)
+    if (row.blocks.includes('banerR')) rules.push(rule('Dla obrazu w banerze prawym', '#baner-prawy img', [['height', `${Math.max(60, h - 20)}px`], ['width', 'auto']]));
   }
 
   // 3. Bloki
@@ -114,12 +161,15 @@ export function buildCss(site, rng) {
   const mains = site.mainBlocks;
   const height = `${site.height}px`;
   // blok z kilkoma widżetami nie zmieści się w stałej wysokości - paski przewijania są wtedy konieczne
-  const crowded = mains.some((b) => site.rendered.filter((r) => r.block === b).length >= 2);
+  const heavy = (r) => r.out.scripts?.length || (r.out.tags || []).some((t) => ['img', 'table', 'form', 'textarea'].includes(t));
+  const crowded = mains.some((b) => site.rendered.filter((r) => r.block === b).length >= 2 || site.rendered.some((r) => r.block === b && heavy(r)));
   rules.push(rule(`Wspólne dla ${joinPl(mains.map(gen))}`, mains.map(sel).join(', '), [['height', height], ...(crowded || rng.chance(0.5) ? [['overflow', 'auto']] : [])]));
   const pair = rng.shuffle([P.light, P.lighter]);
   const bgs = [pair[0], pair[1], pair[0]]; // sąsiednie bloki zawsze różnią się kolorem tła
+  if (technique === 'flex') rules.push(rule('Dla bloku głównego', 'main', [['display', 'flex']]));
+  if (technique === 'grid') rules.push(rule('Dla bloku głównego', 'main', [['display', 'grid'], ['grid-template-columns', site.widths.map((w) => `${w}%`).join(' ')]]));
   mains.forEach((b, i) => {
-    const decls = [['width', `${site.widths[i]}%`]];
+    const decls = technique === 'grid' ? [] : [['width', `${site.widths[i]}%`]];
     const bg = b === 'nav' && !topNav ? P.mid : bgs[i % bgs.length];
     decls.unshift(['background-color', bg]);
     if (b === 'aside' && rng.chance(0.4)) decls.push(['text-align', 'center']);
@@ -166,6 +216,13 @@ export function buildCss(site, rng) {
     rules.push(rule(`Dla klasy ${c.name} (${c.descPl})`, `.${c.name}`, decls));
   }
 
+  // 5b. Smaczki z arkuszy: cień tekstu, odstępy między wyrazami
+  if (rng.chance(0.25)) {
+    rules.push(rule('Dla selektora nagłówka pierwszego stopnia', 'h1', [['text-shadow', `${rng.pick(['2px', '3px', '4px'])} ${rng.pick(['2px', '3px', '4px'])} ${rng.pick(['4px', '5px', '10px'])} black`]], { tags: ['h1'] }));
+    tagOnly.add('h1');
+  }
+  if (site.blocks.includes('nav') && rng.chance(0.2)) rules.push(rule('Dla bloku nawigacyjnego', 'nav', [['word-spacing', rng.pick(['20px', '30px', '50px'])]]));
+
   // 6. Pseudoklasa :hover
   const hovers = [];
   if (tags.has('tr')) hovers.push(rule('Gdy kursor znajdzie się na wierszu tabeli', 'tr:hover', [['background-color', P.light === bgs[0] ? P.accent : P.mid]], { hover: 'jego kolor tła zmienia się na' }));
@@ -176,18 +233,63 @@ export function buildCss(site, rng) {
     rules.push(rule('Gdy kursor znajdzie się na odnośniku w bloku nawigacyjnym', 'nav a:hover', [['background-color', P.dark], ['color', 'white'], ['border', `1px solid ${P.lighter}`]], { hover: 'jego kolor tła zmienia się na ' + P.dark + ', kolor czcionki na biały oraz pojawia się obramowanie 1 px linią ciągłą w kolorze', hoverLast: P.lighter }));
   } else if (hovers.length) rules.push(rng.pick(hovers));
 
+  // 6b. Rozszerzony zestaw pseudoklas i pseudoelementów
+  if (opts.pseudo === 'extended') {
+    const used = new Set(rules.map((r) => r.selector));
+    const extra = [];
+    if (tags.has('tr')) extra.push(rule('', 'tr:nth-child(even)', [['background-color', P.lighter]], { textOverride: `Dla parzystych wierszy tabeli: kolor tła ${P.lighter}` }));
+    if (tags.has('li')) extra.push(rule('', 'li:nth-child(odd)', [['background-color', P.lighter]], { textOverride: `Dla nieparzystych elementów list: kolor tła ${P.lighter}` }));
+    const hTag = ['h2', 'h3', 'h1'].find((t) => tags.has(t));
+    if (hTag) extra.push(rule('', `${hTag}::first-letter`, [['font-size', '150%'], ['color', P.accent]], { textOverride: `Dla pierwszej litery ${TAG_GEN[hTag]}: rozmiar czcionki 150%, kolor czcionki ${P.accent}` }));
+    if (tags.has('p')) extra.push(rule('', 'p::first-line', [['font-weight', 'bold']], { textOverride: 'Dla pierwszego wiersza tekstu każdego paragrafu: pogrubienie czcionki' }));
+    if (tags.has('input')) extra.push(rule('', 'input:focus', [['background-color', P.lighter], ['border', `2px solid ${P.accent}`]], { textOverride: `Gdy pole input jest aktywne (ma fokus): kolor tła ${P.lighter}, obramowanie 2 px linią ciągłą w kolorze ${P.accent}` }));
+    if (tags.has('button')) extra.push(rule('', 'button:active', [['background-color', P.accent]], { textOverride: `Gdy przycisk jest wciskany (stan aktywny): kolor tła ${P.accent}` }));
+    if (tags.has('a')) extra.push(rule('', 'a:visited', [['color', P.mid]], { textOverride: `Dla odwiedzonych odnośników: kolor czcionki ${P.mid}` }));
+    if (tags.has('img')) {
+      extra.push(rng.chance(0.5)
+        ? rule('', 'img:hover', [['transform', 'scale(1.1)'], ['transition', 'transform 0.5s']], { textOverride: 'Gdy kursor znajdzie się na obrazie: powiększenie obrazu 1,1 raza (transformacja skali) z płynnym przejściem trwającym 0,5 s' })
+        : rule('', 'img:hover', [['filter', 'grayscale(100%)']], { textOverride: 'Gdy kursor znajdzie się na obrazie: nałożony jest filtr odcieni szarości (grayscale 100%)' }));
+    }
+    for (const r of rng.sample(extra.filter((r) => !used.has(r.selector)), rng.int(2, 4))) rules.push(r);
+  }
+
+  // 6c. Responsywność
+  if (responsive) {
+    const flowBlocks = [...mains, ...site.rows.filter((r) => !r.main && r.blocks.length > 1).flatMap((r) => r.blocks)];
+    const names = joinPl(flowBlocks.map((b) => site.defs[b].label));
+    rules.push(rule('', flowBlocks.map(sel).join(', '), [['width', '100%'], ['height', 'auto']], { media: '(max-width: 800px)', textOverride: `W przypadku ekranów o szerokości do 800 px: ${names} mają szerokość 100% i wysokość automatyczną (są wyświetlane jeden pod drugim); dla szerszych ekranów obowiązuje układ z ilustracji` }));
+    if (technique === 'flex') rules.push(rule('', 'main', [['flex-direction', 'column']], { media: '(max-width: 800px)', textOverride: 'W przypadku ekranów o szerokości do 800 px: blok główny układa bloki jeden pod drugim (kierunek kolumnowy flex)' }));
+    if (technique === 'grid') rules.push(rule('', 'main', [['grid-template-columns', '100%']], { media: '(max-width: 800px)', textOverride: 'W przypadku ekranów o szerokości do 800 px: siatka bloku głównego ma jedną kolumnę o szerokości 100%' }));
+  }
+
   // Reguły układu - nieopisywane w arkuszu, wynikają z ilustracji układu bloków.
-  const layoutCss = `${mains.map(sel).join(', ')} {\n    float: left;\n}\n\nfooter {\n    clear: both;\n}`;
+  const splitBlocks = site.rows.filter((r) => !r.main && r.blocks.length > 1).flatMap((r) => r.blocks);
+  const floated = [...(technique === 'float' ? mains : []), ...splitBlocks];
+  const clears = site.rows.slice(1).map((r) => (r.main ? 'main' : sel(r.blocks[0])));
+  const layoutCss = [
+    floated.length ? `${floated.map(sel).join(', ')} {\n    float: left;\n}` : '',
+    `${clears.join(', ')} {\n    clear: both;\n}`,
+    // dopełnienie banerów/stopek obok siebie nie może poszerzać bloków ponad 100%
+    splitBlocks.length ? 'header, footer {\n    box-sizing: border-box;\n}' : '',
+    technique === 'float' ? 'main::after {\n    content: "";\n    display: block;\n    clear: both;\n}' : '',
+  ].filter(Boolean).join('\n\n');
   return {
     palette: P, font,
     rules,
     tagOnly: [...tagOnly],
     text: rules.map(ruleText),
-    css: `${rules.map(ruleCss).join('\n\n')}\n\n/* układ bloków */\n${layoutCss}\n`,
+    css: `${rules.filter((r) => !r.media).map(ruleCss).join('\n\n')}\n\n/* układ bloków */\n${layoutCss}\n${rules.some((r) => r.media) ? `\n${mediaCss(rules.filter((r) => r.media))}\n` : ''}`,
   };
 }
 
+function mediaCss(rules) {
+  const byMedia = new Map();
+  for (const r of rules) byMedia.set(r.media, [...(byMedia.get(r.media) || []), r]);
+  return [...byMedia.entries()].map(([m, rs]) => `@media ${m} {\n${rs.map((r) => ruleCss(r).split('\n').map((l) => `    ${l}`).join('\n')).join('\n\n')}\n}`).join('\n\n');
+}
+
 export function ruleText(r) {
+  if (r.textOverride) return r.textOverride;
   if (r.hover) {
     const last = r.hoverLast || r.decls[r.decls.length - 1][1];
     return `${r.target} ${r.hover} ${colorPl(last)}`;

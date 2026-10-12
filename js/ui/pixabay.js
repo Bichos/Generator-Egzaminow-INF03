@@ -91,7 +91,7 @@ export async function search(apiKey, query, kind) {
       }
     }
   }
-  const hits = (data.hits || []).map((x) => ({ id: x.id, url: x.webformatURL, user: x.user, pageURL: x.pageURL, tags: x.tags }));
+  const hits = (data.hits || []).map((x) => ({ id: x.id, url: x.webformatURL, large: x.largeImageURL || x.webformatURL, user: x.user, pageURL: x.pageURL, tags: x.tags }));
   cacheSet(key, hits);
   return hits;
 }
@@ -138,7 +138,11 @@ export async function fetchPhotos(exam, apiKey, { onProgress, concurrency = 3 } 
           const hit = hits[item.pick % Math.min(hits.length, 10)];
           const credit = { user: hit.user, pageURL: hit.pageURL, query: item.query };
           try {
-            photos[item.file] = { ...(await toImage(await downloadImage(hit.url), item.width, item.height, item.mime)), credit };
+            const big = Math.max(item.width, item.source?.w || 0) > 640;
+            const blob = await downloadImage(big ? hit.large || hit.url : hit.url);
+            const target = await toImage(blob, item.width, item.height, item.mime);
+            const source = item.source ? await toImage(blob, item.source.w, item.source.h, item.mime) : null;
+            photos[item.file] = { ...target, sourceBytes: source ? source.bytes : null, credit };
           } catch {
             // Przeglądarka nie pozwala odczytać obrazu (CORS): zdjęcie widać w podglądzie, ale nie trafi do ZIP.
             photos[item.file] = { src: hit.url, bytes: null, credit };

@@ -112,7 +112,7 @@ async function checkPhp(exam, problems) {
 let failed = 0;
 let queriesChecked = 0;
 for (let i = 0; i < COUNT; i++) {
-  const mode = i % 3 === 2 ? 'client' : 'server';
+  const mode = ['server', 'mixed', 'client'][i % 3];
   const exam = generateExam({ seed: `INT${i}`, mode, difficulty: ['easy', 'normal', 'hard'][i % 3] });
   const problems = [];
   const db = exam.theme.dbName;
@@ -125,7 +125,7 @@ for (let i = 0; i < COUNT; i++) {
     }
   };
   importDb();
-  if (exam.mode === 'server') {
+  if (exam.site.ext === 'php') {
     await checkPhp(exam, problems);
     importDb(); // formularze PHP mogły dodać rekordy - kwerendy sprawdzamy na świeżych danych
   }

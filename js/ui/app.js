@@ -1,5 +1,6 @@
 // Interfejs aplikacji: formularz ustawień, podgląd arkusza i eksport.
-import { generateExam, randomSeed, MODES, DEFAULTS } from '../core/exam.js';
+import { generateExam, randomSeed, MODES, DEFAULTS, TECHNIQUES } from '../core/exam.js';
+import { LAYOUTS } from '../core/site.js';
 import { THEMES } from '../core/themes.js';
 import { renderSheet, previewHtml } from '../core/sheet.js';
 import { renderKey, resultTable } from '../core/key.js';
@@ -10,8 +11,8 @@ import { fetchPhotos } from './pixabay.js';
 
 const $ = (sel) => document.querySelector(sel);
 const form = $('#settings');
-const FIELDS = ['seed', 'theme', 'mode', 'difficulty', 'queryCount', 'graphics', 'month', 'year'];
-const HASH_KEYS = { seed: 's', theme: 't', mode: 'm', difficulty: 'd', queryCount: 'q', graphics: 'g', month: 'mo', year: 'y' };
+const FIELDS = ['seed', 'theme', 'mode', 'difficulty', 'queryCount', 'graphics', 'month', 'year', 'layout', 'technique', 'responsive', 'pseudo', 'pageWidth'];
+const HASH_KEYS = { seed: 's', theme: 't', mode: 'm', difficulty: 'd', queryCount: 'q', graphics: 'g', month: 'mo', year: 'y', layout: 'l', technique: 'tc', responsive: 'r', pseudo: 'ps', pageWidth: 'w' };
 let current = null;
 let generation = 0;
 
@@ -45,6 +46,7 @@ function fillSelects() {
   const theme = $('#theme');
   theme.innerHTML = `<option value="random">losowy</option>${THEMES.map((t) => `<option value="${t.id}">${h(t.app.charAt(0).toUpperCase() + t.app.slice(1))}</option>`).join('')}`;
   $('#mode').innerHTML += Object.entries(MODES).map(([k, v]) => `<option value="${k}">${h(v)}</option>`).join('');
+  $('#layout').innerHTML = `<option value="random">losowy</option>${LAYOUTS.map((l) => `<option value="${l.id}">${h(l.name)}</option>`).join('')}`;
 }
 
 function readForm() {
@@ -150,6 +152,11 @@ function renderSummary() {
     ['Skrypty', e.site.scripts.length],
     ['Strony', e.site.pages.map((p) => p.file).join(', ')],
     ['Grafika', e.graphics ? 'tak' : e.animation ? 'animacja' : 'nie'],
+    ['Układ', LAYOUTS.find((l) => l.id === e.style.layout)?.name || e.style.layout],
+    ['Technika', TECHNIQUES[e.style.technique]],
+    ['Responsywność', e.style.responsive ? 'tak' : 'nie'],
+    ['Pseudoklasy', e.style.pseudo === 'extended' ? 'rozszerzone' : 'podstawowe'],
+    ['Szerokość', e.style.pageWidth === 'full' ? '100%' : `${e.style.pageWidth} px`],
   ];
   $('#summary').innerHTML = items.map(([k, v]) => `<span>${h(k)}: <b>${h(v)}</b></span>`).join('');
 }

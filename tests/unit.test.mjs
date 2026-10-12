@@ -152,3 +152,23 @@ test('plan zdjęć Pixabay: hasło, wymiary i format dla każdego obrazu', async
   e.photos = { 'a.jpg': { credit: { user: 'Jan', pageURL: 'https://pixabay.com/photos/x-1/' } } };
   assert.match(creditsText(e), /a\.jpg: autor Jan, https:\/\/pixabay\.com\/photos\/x-1\//);
 });
+
+test('układy, techniki, wariant PHP + JS: kompletne strony bez powtórzonych identyfikatorów', async () => {
+  const { LAYOUTS } = await import('../js/core/site.js');
+  const { previewHtml } = await import('../js/core/sheet.js');
+  for (let i = 0; i < 160; i++) {
+    const e = generateExam({ seed: `LAY${i}`, mode: ['server', 'client', 'mixed', 'animation'][i % 4], layout: LAYOUTS[i % LAYOUTS.length].id, technique: ['float', 'flex', 'grid'][i % 3], responsive: i % 2 ? 'yes' : 'no', pseudo: 'extended', pageWidth: ['full', '1000', '1200'][i % 3] });
+    for (const b of e.site.blocks) assert.ok(e.site.rendered.some((r) => r.block === b), `${e.seed}: pusty blok ${b}`);
+    for (let p = 0; p < e.site.pages.length; p++) {
+      const ids = [...previewHtml(e, p).matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]);
+      const dup = ids.filter((x, k) => ids.indexOf(x) !== k);
+      assert.deepEqual(dup, [], `${e.seed}: powtórzone id ${dup}`);
+    }
+    if (e.mode === 'mixed') assert.ok(e.site.scripts.some((s) => s.lang === 'php') && e.site.scripts.some((s) => s.lang === 'js'), `${e.seed}: PHP + JS`);
+    const css = e.css.css;
+    assert.equal((css.match(/{/g) || []).length, (css.match(/}/g) || []).length, 'nawiasy w CSS');
+    if (e.site.technique === 'grid') assert.match(css, /display: grid/);
+    if (e.site.technique === 'flex') assert.match(css, /display: flex/);
+    if (e.style.responsive) assert.match(css, /@media \(max-width: 800px\)/);
+  }
+});

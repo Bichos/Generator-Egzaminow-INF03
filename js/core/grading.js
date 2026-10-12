@@ -69,11 +69,11 @@ export function buildGrading(exam) {
   const content = [];
   if (exam.graphics) exam.graphics.tasks.forEach((t) => content.push(t.check));
   content.push(`Witryna internetowa zapisana w ${site.pages.length > 1 ? `plikach ${site.pages.map((p) => p.file).join(' i ')}` : `pliku ${site.pages[0].file}`} oraz zapisany jawnie standard kodowania polskich znaków, deklaracja HTML5 <!DOCTYPE html>, zadeklarowany język witryny polski np. <html lang="pl"> oraz nadany tytuł strony ${q(theme.siteTitle)}`);
-  content.push(`Zdefiniowany układ strony dzielący ją na bloki: ${joinPl(site.blocks.map((b) => site.defs[b].nom))} przy pomocy semantycznych znaczników sekcji języka HTML5 zgodnie z ich znaczeniem, w tym do bloku nagłówkowego – header, do stopki – footer. Dopuszcza się dodatkowe użycie bloków div lub section`);
+  content.push(`Zdefiniowany układ strony dzielący ją na bloki: ${joinPl(site.blocks.map((b) => site.defs[b].label))} przy pomocy semantycznych znaczników sekcji języka HTML5 zgodnie z ich znaczeniem, w tym do bloku nagłówkowego (banerów) – header, do stopki – footer. Dopuszcza się dodatkowe użycie bloków div lub section`);
   for (const r of site.rendered) {
     const lines = flat(r.out.lines);
     if (!lines.length) continue;
-    const where = r.block === 'footer' ? 'W stopce' : `W ${site.defs[r.block].gen.replace(/^bloku/, 'bloku')}`;
+    const where = r.block === 'footer' ? 'W stopce' : `W ${site.defs[r.block].gen}`;
     content.push(`${where} umieszczone: ${lines.join('; ')}`);
     if (r.out.page2) content.push(`Na stronie ${site.pages[1].file} w ${site.defs[r.block].gen}: ${flat(r.out.page2.lines).join('; ')}`);
   }
@@ -90,7 +90,9 @@ export function buildGrading(exam) {
   R.push({ title: 'Działanie witryny internetowej', notes: [NOTES.action], items: action });
 
   // R.4
-  const css = exam.css.rules.map((r) => `Ustawione ${r.selector === '*' ? 'dla wszystkich selektorów (*)' : `dla ${r.selector}`}: ${exam.css.text[exam.css.rules.indexOf(r)].replace(/^[^:]*:\s*/, '')}`);
+  const css = exam.css.rules.map((r, i) => (r.textOverride
+    ? `${r.textOverride}${r.media ? ` (reguła @media ${r.media})` : ` (selektor ${r.selector})`}`
+    : `Ustawione ${r.selector === '*' ? 'dla wszystkich selektorów (*)' : `dla ${r.selector}`}: ${exam.css.text[i].replace(/^[^:]*:\s*/, '')}`));
   R.push({
     title: 'Styl CSS witryny internetowej',
     notes: [NOTES.css, ...(exam.css.tagOnly.length ? [`Kryteria dotyczące selektorów ${exam.css.tagOnly.join(', ')} są spełnione jedynie wtedy, gdy styl jest zdefiniowany dla selektora znacznika; nie są spełnione, gdy zdefiniowano styl klasy lub identyfikatora.`] : [])],
@@ -98,9 +100,12 @@ export function buildGrading(exam) {
   });
 
   // R.5
-  const scriptItems = exam.mode === 'server'
-    ? [`Skrypt jest napisany w języku PHP i łączy się z serwerem MySQL na localhost, użytkownik root bez hasła, baza ${theme.dbName} (np. mysqli_connect)`]
-    : ['Skrypt jest napisany w języku JavaScript i zawiera co najmniej jedną poprawną składniowo instrukcję wynikającą z treści zadania'];
+  const hasPhp = site.scripts.some((x) => x.lang === 'php');
+  const hasJs = site.scripts.some((x) => x.lang === 'js');
+  const scriptItems = [
+    ...(hasPhp ? [`Skrypt jest napisany w języku PHP i łączy się z serwerem MySQL na localhost, użytkownik root bez hasła, baza ${theme.dbName} (np. mysqli_connect)`] : []),
+    ...(hasJs ? ['Skrypt po stronie klienta jest napisany w języku JavaScript i zawiera co najmniej jedną poprawną składniowo instrukcję wynikającą z treści zadania'] : []),
+  ];
   for (const s of site.scripts) {
     const lines = flat(s.lines);
     const head = lines.slice(0, 2);
@@ -108,8 +113,9 @@ export function buildGrading(exam) {
     head.forEach((l) => scriptItems.push(`Skrypt ${s.number}: ${l}`));
     if (rest.length) scriptItems.push(`Skrypt ${s.number}: ${rest.join('; ')}`);
   }
-  scriptItems.push(exam.mode === 'server' ? 'Na końcu skryptu zamykane jest połączenie z serwerem (np. mysqli_close)' : 'Zastosowano znaczące nazewnictwo zmiennych i funkcji');
-  R.push({ title: exam.results[4].charAt(0).toUpperCase() + exam.results[4].slice(1), notes: [exam.mode === 'server' ? NOTES.php : NOTES.js], items: scriptItems });
+  if (hasPhp) scriptItems.push('Na końcu skryptu zamykane jest połączenie z serwerem (np. mysqli_close)');
+  if (hasJs) scriptItems.push('Zastosowano znaczące nazewnictwo zmiennych i funkcji');
+  R.push({ title: exam.results[4].charAt(0).toUpperCase() + exam.results[4].slice(1), notes: [...(hasPhp ? [NOTES.php] : []), ...(hasJs ? [NOTES.js] : [])], items: scriptItems });
 
   return R.map((r, i) => ({
     id: `R.${i + 1}`,

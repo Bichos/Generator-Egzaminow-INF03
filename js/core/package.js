@@ -9,11 +9,16 @@ export function examFolderName(exam) {
   return `${exam.code}_${exam.seed}`;
 }
 
+// Obrazy w dwóch wersjach: docelowej (rozwiązanie, podgląd) i oryginale dla zdającego - większym,
+// gdy zadanie graficzne każe go przeskalować lub skadrować.
 export function imageSourcesFor(exam) {
   const list = [];
-  const add = (file, svg) => { if (!list.some((x) => x.file === file)) list.push({ file, svg }); };
+  const add = (file, svg, sourceSvg) => { if (!list.some((x) => x.file === file)) list.push({ file, svg, sourceSvg: sourceSvg || svg }); };
   for (const f of exam.imageFiles) {
-    add(f, f === exam.theme.images.logo ? placeholderSvg(f, { width: 300, height: 300, transparentBg: true }) : placeholderSvg(f, { width: 640, height: 440 }));
+    const logo = f === exam.theme.images.logo;
+    const z = exam.sizing?.sizes[f] || (logo ? { w: 300, h: 300 } : { w: 640, h: 440 });
+    const src = exam.graphics?.sources?.[f];
+    add(f, placeholderSvg(f, { width: z.w, height: z.h, transparentBg: logo }), src ? placeholderSvg(f, { width: src.w, height: src.h, transparentBg: logo }) : null);
   }
   if (exam.animation) add('klatki.png', framesStripSvg(exam.animation.frames, exam.animation.size));
   return list;
@@ -29,8 +34,13 @@ export async function buildPackageEntries(exam, renderImage, prefix = '') {
   const archive = `${root}dla_zdajacego/${exam.archive.name}/`;
   if (exam.hasDb) entries.push({ name: `${archive}${exam.theme.sqlFile}`, data: exam.dump });
   // zdjęcia z Pixabay (jeśli pobrane), w pozostałych przypadkach grafiki zastępcze
-  const images = await Promise.all(imageSourcesFor(exam).map(async (img) => ({ ...img, bytes: exam.photos?.[img.file]?.bytes || await renderImage(img.svg, img.file) })));
-  for (const img of images) entries.push({ name: `${archive}${img.file}`, data: img.bytes });
+  const images = await Promise.all(imageSourcesFor(exam).map(async (img) => {
+    const photo = exam.photos?.[img.file];
+    const bytes = photo?.bytes || await renderImage(img.svg, img.file);
+    const sourceBytes = photo?.sourceBytes || photo?.bytes || (img.sourceSvg === img.svg ? bytes : await renderImage(img.sourceSvg, img.file));
+    return { ...img, bytes, sourceBytes };
+  }));
+  for (const img of images) entries.push({ name: `${archive}${img.file}`, data: img.sourceBytes });
   const sol = `${root}rozwiazanie/`;
   for (const [name, code] of Object.entries(exam.solution)) entries.push({ name: `${sol}${name}`, data: code });
   for (const img of images) if (img.file !== 'klatki.png') entries.push({ name: `${sol}${img.file}`, data: img.bytes });

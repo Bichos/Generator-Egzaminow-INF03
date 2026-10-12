@@ -6,6 +6,7 @@
 import { execute } from './sql.js';
 import { escapeHtml as h, q } from './util.js';
 import { phpBlock, phpQueryLoop, phpSql, cap, colDef, headerLabel, fmtCell } from './widgets.js';
+import { label as labelCol } from './queries.js';
 
 // ---------------------------------------------------------------------------
 // PHP
@@ -391,4 +392,189 @@ export const jsColorButtons = {
   },
 };
 
-export const EXTRA_WIDGETS = { phpSearchLike, phpUpdateForm, phpTemplateList, phpRowBlocks, jsTabs, jsSlideshow, jsTodo, jsVisitCounter, jsSummaryForm, jsColorButtons };
+// ---------------------------------------------------------------------------
+// Smaczki z arkuszy 2024-2026
+// ---------------------------------------------------------------------------
+
+const DNI = ['niedziela', 'poniedziałek', 'wtorek', 'środa', 'czwartek', 'piątek', 'sobota'];
+
+export const phpDateInfo = {
+  id: 'phpDateInfo',
+  server: true,
+  scripts: 1,
+  plan: (ctx) => ({ prefix: ctx.rng.pick(['Dzisiaj jest', 'Witamy! Dziś jest']) }),
+  render: (ctx, st, num) => {
+    const sample = new Date(Date.UTC(2026, 5, 15));
+    const d = `${String(sample.getUTCDate()).padStart(2, '0')}.${String(sample.getUTCMonth() + 1).padStart(2, '0')}.${sample.getUTCFullYear()}`;
+    const code = phpBlock([
+      `$dni = [${DNI.map((x) => `'${x}'`).join(', ')}];`,
+      "$dzien = $dni[date('w')];",
+      "$data = date('d.m.Y');",
+      `echo "<p>${st.prefix} $dzien, $data</p>";`,
+    ].join('\n'));
+    return {
+      lines: [`paragraf z efektem działania skryptu ${num.s[0]}`],
+      html: code,
+      preview: `<p>${h(st.prefix)} ${DNI[sample.getUTCDay()]}, ${d}</p>`,
+      previewNote: 'przykładowa data',
+      tags: ['p'],
+      scripts: [{
+        lines: [`wyświetla w paragrafie tekst ${q(`${st.prefix} <dzień tygodnia>, <data>`)}`,
+          '<dzień tygodnia> to słowny zapis bieżącego dnia tygodnia w języku polskim, małymi literami (np. poniedziałek); można wykorzystać tablicę z nazwami dni i funkcję date',
+          '<data> to bieżąca data serwera w formacie DD.MM.RRRR'],
+      }],
+    };
+  },
+};
+
+export const phpDefList = {
+  id: 'phpDefList',
+  server: true,
+  scripts: 1,
+  plan: (ctx) => {
+    const ref = ctx.registry.request(['topN', 'filterCatSorted', 'joinParent', 'numCompare', 'like']);
+    return ref && ref.result.spec.fields.length >= 2 && { ref };
+  },
+  render: (ctx, st, num) => {
+    const { spec } = st.ref.result;
+    const fields = spec.fields;
+    const labels = fields.map((f) => colDef(ctx.theme, f)?.label || f.c);
+    const res = execute(spec, ctx.db);
+    const ddPhp = fields.slice(1).map((f, i) => `${labels[i + 1]}: $wiersz[${i + 1}]`).join(', ');
+    return {
+      lines: [`lista definicji (dl) wypełniona przez skrypt ${num.s[0]}`],
+      html: `<dl>\n${phpBlock(phpQueryLoop(spec, [`echo "<dt>$wiersz[0]</dt>";`, `echo "<dd>${ddPhp}</dd>";`]))}\n</dl>`,
+      preview: `<dl>\n${res.rows.map((r) => `<dt>${h(String(r[0]))}</dt><dd>${fields.slice(1).map((f, i) => `${h(labels[i + 1])}: ${fmtCell(r[i + 1])}`).join(', ')}</dd>`).join('\n')}\n</dl>`,
+      tags: ['dl', 'dt', 'dd'],
+      scripts: [{
+        lines: [`wysyła do bazy danych zapytanie ${num.q[0]}`,
+          `dla każdego zwróconego wiersza tworzy termin listy definicji (dt) z polem ${fields[0].c} oraz element definicji (dd) według wzoru: ${q(fields.slice(1).map((f, i) => `${labels[i + 1]}: <${f.c}>`).join(', '))}`],
+      }],
+    };
+  },
+};
+
+export const jsRandomFact = {
+  id: 'jsRandomFact',
+  client: true,
+  scripts: 1,
+  plan: (ctx) => {
+    const t = ctx.S.main;
+    const n = labelCol(t);
+    const c = ctx.S.col(t, 'cat') || ctx.S.col(t, 'num');
+    const facts = ctx.rng.sample(ctx.db.data[t.name], 4).map((r) => `${r[n.name]} – ${c.label}: ${r[c.name]}`);
+    return { facts };
+  },
+  render: (ctx, st, num) => {
+    const js = [
+      'const ciekawostki = [',
+      ...st.facts.map((f) => `    '${f}',`),
+      '];',
+      '',
+      'function losujCiekawostke() {',
+      '    const indeks = Math.floor(Math.random() * ciekawostki.length);',
+      "    document.getElementById('ciekawostka').innerHTML = ciekawostki[indeks];",
+      '}',
+    ].join('\n');
+    return {
+      lines: [`nagłówek trzeciego stopnia o treści ${q('Czy wiesz, że...')}`, `przycisk ${q('Losuj ciekawostkę')}, którego kliknięcie uruchamia skrypt ${num.s[0]}`, 'pusty paragraf na ciekawostkę'],
+      html: `<h3>Czy wiesz, że...</h3>\n<button onclick="losujCiekawostke()">Losuj ciekawostkę</button>\n<p id="ciekawostka"></p>`,
+      js,
+      tags: ['h3', 'button', 'p'],
+      scripts: [{
+        lines: [{ text: `zawiera tablicę ${st.facts.length} napisów:`, children: st.facts.map((f) => q(f)) },
+          `po kliknięciu przycisku losuje liczbę całkowitą z przedziału od 0 do ${st.facts.length - 1} (indeks tablicy) i wyświetla w paragrafie wylosowany napis`],
+      }],
+    };
+  },
+};
+
+export const jsHoverSwap = {
+  id: 'jsHoverSwap',
+  client: true,
+  scripts: 1,
+  plan: (ctx) => ({ a: ctx.theme.images.extra[0], b: ctx.theme.images.extra[1] }),
+  render: (ctx, st, num) => {
+    const js = [
+      'function pokazDrugi(obraz) {',
+      `    obraz.src = '${st.b}';`,
+      '}',
+      '',
+      'function pokazPierwszy(obraz) {',
+      `    obraz.src = '${st.a}';`,
+      '}',
+    ].join('\n');
+    return {
+      lines: [`obraz ${st.a} z tekstem alternatywnym ${q('Zdjęcie')} i podpowiedzią ${q('Najedź, aby zobaczyć więcej')}; najechanie i opuszczenie obrazu kursorem uruchamia skrypt ${num.s[0]}`],
+      html: `<img src="${st.a}" alt="Zdjęcie" title="Najedź, aby zobaczyć więcej" id="podmiana" onmouseover="pokazDrugi(this)" onmouseout="pokazPierwszy(this)">`,
+      js,
+      tags: ['img'],
+      files: [st.a, st.b],
+      scripts: [{ lines: [`po najechaniu kursorem na obraz wyświetlany jest obraz ${st.b}`, `po opuszczeniu obrazu przez kursor ponownie wyświetlany jest obraz ${st.a}`] }],
+    };
+  },
+};
+
+export const jsBlurValidate = {
+  id: 'jsBlurValidate',
+  client: true,
+  scripts: 1,
+  plan: () => ({}),
+  render: (ctx, st, num) => {
+    const fields = [['regImie', 'Imię', 'wpisz imię...'], ['regNazwisko', 'Nazwisko', 'wpisz nazwisko...'], ['regTelefon', 'Telefon', 'np. 600 100 200']];
+    const html = `<h3>Rejestracja</h3>\n${fields.map(([id, l, ph]) => `<label for="${id}">${l}:</label>\n<input type="text" id="${id}" name="${l.toLowerCase()}" placeholder="${ph}" onblur="sprawdzPole(this)"><br>`).join('\n')}\n<p id="stanPol"></p>`;
+    const js = [
+      'function sprawdzPole(pole) {',
+      "    if (pole.value.trim() === '') {",
+      "        pole.style.border = '2px solid red';",
+      "        document.getElementById('stanPol').innerHTML = 'Pole ' + pole.name + ' jest wymagane';",
+      '    } else {',
+      "        pole.style.border = '2px solid green';",
+      "        document.getElementById('stanPol').innerHTML = '';",
+      '    }',
+      '}',
+    ].join('\n');
+    return {
+      lines: [`nagłówek trzeciego stopnia o treści ${q('Rejestracja')}`,
+        ...fields.map(([, l, ph]) => `etykieta ${q(`${l}:`)} powiązana z polem edycyjnym z podpowiedzią (placeholder) ${q(ph)}`),
+        `utrata fokusu przez dowolne pole uruchamia skrypt ${num.s[0]}`, 'pusty paragraf na komunikat'],
+      html,
+      js,
+      tags: ['h3', 'label', 'input', 'p', 'br'],
+      scripts: [{
+        lines: ['wywoływany po utracie fokusu przez pole edycyjne (zdarzenie blur)',
+          `gdy pole jest puste, ustawia jego obramowanie na 2 px czerwoną linią ciągłą i wypisuje w paragrafie ${q('Pole <nazwa> jest wymagane')}, gdzie <nazwa> to atrybut name pola (imię, nazwisko, telefon)`,
+          'gdy pole jest wypełnione, ustawia obramowanie na 2 px zieloną linią ciągłą i czyści paragraf'],
+      }],
+    };
+  },
+};
+
+export const staticMergedTable = {
+  id: 'staticMergedTable',
+  plan: (ctx) => {
+    const t = ctx.S.main;
+    const cat = ctx.S.col(t, 'cat');
+    const val = ctx.S.col(t, 'price') || ctx.S.col(t, 'num');
+    if (!cat || !val) return null;
+    const n = labelCol(t);
+    const groups = ctx.rng.sample(cat.values.filter((v) => ctx.db.data[t.name].filter((r) => r[cat.name] === v).length >= 2), 2);
+    if (groups.length < 2) return null;
+    const rows = groups.map((g) => ({ g, items: ctx.db.data[t.name].filter((r) => r[cat.name] === g).slice(0, 2).map((r) => [r[n.name], val.type.startsWith('DECIMAL') ? Number(r[val.name]).toFixed(2) : r[val.name]]) }));
+    return { headers: [cap(cat.label), cap(n.label), cap(val.label)], rows };
+  },
+  render: (ctx, st) => {
+    const body = st.rows.map((g) => g.items.map((it, i) => `<tr>${i === 0 ? `<td rowspan="2">${h(g.g)}</td>` : ''}<td>${h(it[0])}</td><td>${h(it[1])}</td></tr>`).join('\n')).join('\n');
+    return {
+      lines: [{
+        text: 'tabela z trzema kolumnami i pięcioma wierszami; w pierwszej kolumnie komórki scalone w pionie po dwa wiersze:',
+        children: [`pierwszy wiersz: komórki nagłówkowe ${st.headers.map(q).join(', ')}`,
+          ...st.rows.map((g) => `scalona komórka ${q(g.g)}, a obok wiersze: ${g.items.map((it) => `${q(it[0])} – ${q(it[1])}`).join('; ')}`)],
+      }],
+      html: `<table>\n<tr>${st.headers.map((x) => `<th>${h(x)}</th>`).join('')}</tr>\n${body}\n</table>`,
+      tags: ['table', 'tr', 'th', 'td'],
+    };
+  },
+};
+
+export const EXTRA_WIDGETS = { phpDateInfo, phpDefList, jsRandomFact, jsHoverSwap, jsBlurValidate, staticMergedTable, phpSearchLike, phpUpdateForm, phpTemplateList, phpRowBlocks, jsTabs, jsSlideshow, jsTodo, jsVisitCounter, jsSummaryForm, jsColorButtons };

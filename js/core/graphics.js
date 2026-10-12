@@ -4,39 +4,54 @@ import { q } from './util.js';
 // Operacje i ich częstość w zadaniach graficznych z arkuszy 2018-2026 (kadrowanie 137, skalowanie 101,
 // przezroczystość 57, obrót/odbicie 17, skala szarości 8).
 const OPERATIONS = [
-  [(f, rng) => {
-    const [w, hgt] = rng.pick([[300, 200], [400, 300], [200, 200], [600, 150], [1000, 100]]);
-    return { text: `grafikę ${f} należy skadrować tak, aby widoczny był jedynie główny motyw, a następnie przeskalować do wymiarów dokładnie ${w} px na ${hgt} px`, check: `Grafika ${f} jest skadrowana do głównego motywu i ma wymiary ${w} px na ${hgt} px` };
-  }, 5],
-  [(f, rng) => {
-    const w = rng.pick([200, 250, 300, 400]);
-    return { text: `grafikę ${f} należy przeskalować z zachowaniem proporcji do szerokości ${w} px`, check: `Grafika ${f} ma szerokość ${w} px, proporcje są zachowane` };
-  }, 4],
-  [(f, rng) => {
-    const hgt = rng.pick([150, 200, 250]);
-    return { text: `grafikę ${f} należy przeskalować z zachowaniem proporcji do wysokości ${hgt} px`, check: `Grafika ${f} ma wysokość ${hgt} px, proporcje są zachowane` };
-  }, 3],
+  [(f, rng, z) => ({
+    text: `grafikę ${f} należy skadrować tak, aby widoczny był jedynie główny motyw, a następnie przeskalować do wymiarów dokładnie ${z.w} px na ${z.h} px${z.why}`,
+    check: `Grafika ${f} jest skadrowana do głównego motywu i ma wymiary ${z.w} px na ${z.h} px`,
+    source: { w: Math.round(z.w * 1.8), h: Math.round(z.w * 1.8 * 0.75) },
+  }), 5],
+  [(f, rng, z) => ({
+    text: `grafikę ${f} należy przeskalować z zachowaniem proporcji do szerokości ${z.w} px${z.why}`,
+    check: `Grafika ${f} ma szerokość ${z.w} px, proporcje są zachowane`,
+    source: { w: z.w * 2, h: z.h * 2 },
+  }), 4],
+  [(f, rng, z) => ({
+    text: `grafikę ${f} należy przeskalować z zachowaniem proporcji do wysokości ${z.h} px${z.why}`,
+    check: `Grafika ${f} ma wysokość ${z.h} px, proporcje są zachowane`,
+    source: { w: z.w * 2, h: z.h * 2 },
+  }), 3],
   [(f) => ({ text: `grafikę ${f} należy odbić w poziomie (lustrzane odbicie względem osi pionowej)`, check: `Grafika ${f} jest odbita w poziomie` }), 1],
   [(f) => ({ text: `grafikę ${f} należy obrócić o 90 stopni w prawo (zgodnie z ruchem wskazówek zegara)`, check: `Grafika ${f} jest obrócona o 90° w prawo` }), 1],
   [(f) => ({ text: `grafikę ${f} należy przekształcić do odcieni szarości`, check: `Grafika ${f} jest w odcieniach szarości` }), 1],
 ];
 
-export function buildGraphics(theme, rng, site) {
+// sizing: wynik computeImageSizes - wymiary docelowe wynikają z szerokości strony i bloku
+export function buildGraphics(theme, rng, site, sizing) {
   const tasks = [];
+  const sources = {};
   const logo = theme.images.logo;
+  const logoSize = sizing?.sizes[logo];
   tasks.push({
-    text: `dla grafiki ${logo} należy nadać tło przezroczyste (usunąć jednolite tło wokół motywu) i zapisać pod tą samą nazwą w formacie PNG`,
-    check: `Grafika ${logo} ma przezroczyste tło (motyw bez jednolitego tła), zapisana w formacie PNG`,
+    text: `dla grafiki ${logo} należy nadać tło przezroczyste (usunąć jednolite tło wokół motywu)${logoSize ? ` i przeskalować ją do wymiarów ${logoSize.w} px na ${logoSize.h} px (${logoSize.note || 'wymiary bloku'})` : ''}, a następnie zapisać pod tą samą nazwą w formacie PNG`,
+    check: `Grafika ${logo} ma przezroczyste tło (motyw bez jednolitego tła)${logoSize ? `, wymiary ${logoSize.w}×${logoSize.h} px` : ''}, zapisana w formacie PNG`,
   });
-  const candidates = [theme.images.main, ...site.files.filter((f) => /\.jpe?g$/.test(f))].filter((f, i, a) => a.indexOf(f) === i);
-  const target = rng.pick(candidates.slice(0, 2));
-  const first = rng.weighted(OPERATIONS);
-  tasks.push(first(target, rng));
-  if (rng.chance(0.3)) {
-    // drugie przekształcenie tylko z grupy niezmieniającej wymiarów
-    tasks.push(rng.weighted(OPERATIONS.slice(3))(target, rng));
-  }
-  return { files: [logo, target], tasks };
+  if (logoSize) sources[logo] = { w: logoSize.w * 2, h: logoSize.h * 2 };
+  // zadanie dotyczy zdjęcia widocznego na stronie (ma wymiary wynikające z bloku), a gdy takiego brak - zdjęcia głównego
+  const onPage = site.files.filter((f) => /\.jpe?g$/.test(f) && sizing?.sizes[f]);
+  const target = onPage.length ? rng.pick(onPage.slice(0, 3)) : theme.images.main;
+  const sz = sizing?.sizes[target] || { w: 300, h: 200 };
+  const blockName = sz.block ? site.defs[sz.block]?.gen : null;
+  let why = '';
+  if (blockName && sz.from === 'css') why = ` (taką szerokość obrazy mają w witrynie według stylu CSS)`;
+  else if (blockName && sizing?.fixed) why = ` (szerokość dopasowana do ${blockName}, który przy szerokości strony ${sizing.pagePx} px ma ${Math.round(sz.blockPx)} px)`;
+  const z = { w: sz.w, h: sz.h, why };
+  const firstOp = rng.weighted(OPERATIONS);
+  const first = firstOp(target, rng, z);
+  tasks.push(first);
+  if (first.source) sources[target] = first.source;
+  // drugie przekształcenie (bez zmiany wymiarów) - inne niż pierwsze
+  const rest = OPERATIONS.slice(3).filter(([op]) => op !== firstOp);
+  if (rng.chance(0.3)) tasks.push(rng.weighted(rest)(target, rng, z));
+  return { files: [logo, target], tasks, sources };
 }
 
 export function buildAnimation(theme, rng) {

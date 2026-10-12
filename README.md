@@ -30,11 +30,11 @@ Aplikacja działa też na dowolnym serwerze plików, np. `python3 -m http.server
 | **Baza danych** | Od 2 do 3 tabel z relacjami i realistycznymi polskimi danymi; zrzut SQL w stylu phpMyAdmin (`CREATE TABLE`, `INSERT`, klucze obce). |
 | **Kwerendy** | 4–6 zapytań z 37 wzorców, dobieranych z wagami według częstości w korpusie: selekcja z warunkami (`=`, `<`, `AND`, `OR`, `BETWEEN`, `LIKE`), sortowanie, `LIMIT`, `DISTINCT`, `RAND()`, funkcje agregujące z aliasami i `ROUND`, `GROUP BY`, `JOIN`, `LEFT JOIN`, `NOT IN`, `INSERT`, `UPDATE`, `DELETE`, `ALTER TABLE` (`ADD`, `ADD … AFTER`, `MODIFY`, `DROP COLUMN`), `CREATE TABLE`, `DROP TABLE`, `CREATE USER`, `GRANT`. |
 | **Tematy** | 18 dziedzin (np. kwiaciarnia, hotel, schronisko, wędkarstwo, prognoza pogody, piekarnia, koło szachowe), każda z 2–3 tabelami i relacjami. |
-| **Witryna** | 5 układów bloków semantycznych (`header`, `nav`, `main`, `section`, `aside`, `footer`) i widżety treści (listy, tabele, formularze, obrazy, kontakt). |
-| **Skrypty PHP** | Tabela z wynikami zapytania (opcjonalnie z kolumną wyliczaną), lista, lista według wzoru zdania, galeria, statystyki, karty z losowymi rekordami, bloki z warunkiem, filtr przez przyciski opcji, wyszukiwanie po początku nazwy, lista rozwijana ze szczegółami i obliczeniem wartości, formularze `INSERT` i `UPDATE`, dwie strony połączone parametrem `GET`. |
-| **Skrypty JS** | Kalkulator kosztu (radio/select, checkbox, rabat), suwak, bieżąca data, galeria miniatur, pokaz zdjęć, zakładki, pokaż/ukryj, zmiana rozmiaru i koloru tekstu, walidacja i podsumowanie formularza, lista zadań, licznik odwiedzin (localStorage), wyszukiwarka w tablicy obiektów. |
-| **CSS** | 10 palet (nazwy kolorów CSS i hex), 10 krojów pisma, reguły dla bloków, znaczników, klas, odnośników w menu (`nav a`) i `:hover`, z adnotacją „wyłącznie selektor znacznika”. |
-| **Grafika / animacja** | Kadrowanie do wymiarów, skalowanie z zachowaniem proporcji, przezroczyste tło, odbicie, obrót, odcienie szarości (z wagami według częstości w arkuszach); animacja GIF z paska klatek. |
+| **Witryna** | 10 układów bloków, w tym z dwoma banerami i dwiema stopkami, jak w arkuszach CKE; technika układu float, flexbox albo grid; opcjonalna responsywność (`@media` dla ekranów do 800 px); szerokość strony 100%, 1000 px lub 1200 px. Treść składa się z widżetów: listy, tabele (także ze scalonymi komórkami), formularze, obrazy, kontakt, listy definicji. |
+| **Skrypty PHP** | Data z polskim dniem tygodnia, lista definicji, tabela z wynikami zapytania (opcjonalnie z kolumną wyliczaną), lista, lista według wzoru zdania, galeria, statystyki, karty z losowymi rekordami, bloki z warunkiem, filtr przez przyciski opcji, wyszukiwanie po początku nazwy, lista rozwijana ze szczegółami i obliczeniem wartości, formularze `INSERT` i `UPDATE`, dwie strony połączone parametrem `GET`. |
+| **Skrypty JS** | Losowa ciekawostka (`Math.random`), podmiana obrazu po najechaniu, walidacja przy utracie fokusu, kalkulator kosztu (radio/select, checkbox, rabat), suwak, bieżąca data, galeria miniatur, pokaz zdjęć, zakładki, pokaż/ukryj, zmiana rozmiaru i koloru tekstu, walidacja i podsumowanie formularza, lista zadań, licznik odwiedzin (localStorage), wyszukiwarka w tablicy obiektów. |
+| **CSS** | 10 palet (nazwy kolorów CSS i hex), 10 krojów pisma, reguły dla bloków, znaczników, klas i odnośników w menu (`nav a`), z adnotacją „wyłącznie selektor znacznika”. Do tego „smaczki” z arkuszy: gradient, cień tekstu, odstępy między wyrazami. Pseudoklasy podstawowe (`:hover`) albo rozszerzone: `:nth-child`, `::first-letter`, `::first-line`, `:focus`, `:active`, `:visited`, `transform` z `transition`, `filter`. |
+| **Grafika / animacja** | Kadrowanie do wymiarów, skalowanie z zachowaniem proporcji, przezroczyste tło, odbicie, obrót, odcienie szarości (z wagami według częstości w arkuszach); animacja GIF z paska klatek. Wymiary grafik wynikają z szerokości strony i bloku, w którym stoi obraz (np. logo dopasowane do wysokości banera). Zdający dostaje większy oryginał do przeskalowania. |
 | **Klucz** (`klucz.html`) | Zasady oceniania w formacie CKE: kryteria R.1.1–R.5.n po 1 pkt (około 40), z uwagami dla egzaminatora, przykładowym SQL i oczekiwaną liczbą wierszy na zrzucie. Do tego wyniki kwerend wyliczone na danych z arkusza i pełne rozwiązanie wzorcowe. |
 
 ### Zdjęcia z Pixabay
@@ -59,7 +59,22 @@ Jak dobierane są zdjęcia:
 
 - **Baza danych + PHP** (styl styczniowy): skrypty połączenia z bazą korzystają z kwerend z arkusza.
 - **Baza danych + JavaScript** (styl czerwcowy): kwerendy są niezależne, a witryna ma skrypty po stronie klienta.
+- **Baza danych + PHP i JavaScript**: na jednej stronie są skrypty PHP korzystające z bazy i skrypty po stronie klienta. W arkuszu są osobne sekcje dla obu języków i obie tabele pomocy.
 - **Animacja + JavaScript**: zamiast operacji na bazie jest animacja GIF.
+
+### Opcje wyglądu
+
+W panelu „Wygląd i układ” wybierasz:
+
+- **układ bloków** (10 do wyboru albo losowy),
+- **technikę** (float, flexbox, grid),
+- **responsywność** (włączona lub wyłączona),
+- **pseudoklasy** (podstawowe lub rozszerzone),
+- **szerokość strony** (100% okna, 1000 px, 1200 px).
+
+Każda opcja może też być losowa. Wybrane ustawienia trafiają do wymagań CSS w arkuszu, do zasad oceniania i do rozwiązania wzorcowego.
+
+Układy z dwoma banerami lub dwiema stopkami zawsze używają techniki float.
 
 ### Powtarzalność
 
@@ -96,7 +111,8 @@ js/core/                     rdzeń - czyste moduły ES, działają w przegląda
   queries.js                 wzorce zapytań dobierane do schematu tematu
   widgets.js, widgets-extra.js  widżety treści (HTML/PHP/JS + opis + podgląd)
   site.js                    układy bloków, rozmieszczanie widżetów, numeracja, strony
-  css.js                     wymagania CSS + styl.css
+  css.js                     wymagania CSS + styl.css (float/flex/grid, @media, pseudoklasy)
+  sizing.js                  wymiary grafik dopasowane do szerokości strony i bloków
   graphics.js                zadania z grafiki i animacji
   exam.js                    orkiestrator: model arkusza, rozwiązanie
   grading.js                 zasady oceniania R.1–R.5 w formacie CKE

@@ -171,6 +171,21 @@ export const footerAuthor = {
   }),
 };
 
+export const footerLink = {
+  id: 'footerLink',
+  plan: (ctx) => ({ kind: ctx.rng.pick(['mail', 'top', 'copy']) }),
+  render: (ctx, st) => {
+    const { email } = ctx.theme.contact;
+    if (st.kind === 'mail') {
+      return { lines: [`paragraf z odnośnikiem o treści ${q('Napisz do nas')}, który otwiera domyślny program pocztowy z adresem ${email}`], html: `<p><a href="mailto:${email}">Napisz do nas</a></p>`, tags: ['p', 'a'] };
+    }
+    if (st.kind === 'top') {
+      return { lines: [`paragraf z odnośnikiem o treści ${q('Do góry')}, prowadzącym do początku strony (kotwica #)`], html: '<p><a href="#">Do góry</a></p>', tags: ['p', 'a'] };
+    }
+    return { lines: [`paragraf o treści ${q(`© ${ctx.theme.siteTitle}`)}; znak praw autorskich zapisany za pomocą encji HTML`], html: `<p>&copy; ${h(ctx.theme.siteTitle)}</p>`, tags: ['p'] };
+  },
+};
+
 // ---------------------------------------------------------------------------
 // Widżety PHP (wariant: skrypty po stronie serwera, korzystające z bazy)
 // ---------------------------------------------------------------------------
@@ -501,7 +516,7 @@ export const phpInsertForm = {
       values[c] = inp ? { param: inp.quoted ? `'$${c}'` : `$${c}`, sample: v } : v;
     }
     const pSpec = { ...spec, values };
-    const fieldsHtml = inputs.map((i) => `<label for="${i.c}">${h(i.label)}</label>\n<input type="${i.type}" name="${i.c}" id="${i.c}"${i.type === 'number' && i.c.includes('cena') ? ' step="0.01"' : ''}><br>`).join('\n');
+    const fieldsHtml = inputs.map((i) => `<label for="nowy_${i.c}">${h(i.label)}</label>\n<input type="${i.type}" name="${i.c}" id="nowy_${i.c}"${i.type === 'number' && i.c.includes('cena') ? ' step="0.01"' : ''}><br>`).join('\n');
     const form = `<form action="" method="post">\n${fieldsHtml}\n<button type="submit">${st.button}</button>\n</form>`;
     const code = phpBlock([
       `if (isset(${inputs.map((i) => `$_POST['${i.c}']`).join(', ')})) {`,
@@ -903,7 +918,7 @@ export const jsSearch = {
 };
 
 export const WIDGETS = {
-  heading, navLinks, image, contact, paragraph, staticTable, footerAuthor,
+  heading, navLinks, image, contact, paragraph, staticTable, footerAuthor, footerLink,
   phpTable, phpList, phpGallery, phpStats, phpCards, phpRadioFilter, phpSelectDetail, phpInsertForm, phpLinksDetail,
   jsCalculator, jsSlider, jsDate, jsThumbs, jsToggle, jsFontSize, jsContactForm, jsSearch,
 };

@@ -58,8 +58,10 @@ export function imagePlan(exam) {
       query,
       fallback,
       kind: isLogo ? 'illustration' : 'photo',
-      width: isLogo ? 300 : 640,
-      height: isLogo ? 300 : 440,
+      // wymiary dopasowane do bloku strony (sizing.js); oryginał dla zdającego większy, gdy jest zadanie graficzne
+      width: exam.sizing?.sizes[file]?.w || (isLogo ? 300 : 640),
+      height: exam.sizing?.sizes[file]?.h || (isLogo ? 300 : 440),
+      source: exam.graphics?.sources?.[file] || null,
       mime: /\.png$/i.test(file) ? 'image/png' : 'image/jpeg',
       // stały wybór spośród wyników, zależny od kodu arkusza - ten sam arkusz dostaje te same zdjęcia
       pick: hashSeed(`${exam.seed}:${file}`),

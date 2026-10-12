@@ -62,6 +62,31 @@ const CHECKS = {
     const ok = await page.textContent('#komunikat');
     return bad === 'Uzupełnij poprawnie formularz' && ok === 'Ola, dziękujemy za wiadomość' ? null : `formularz: "${bad}" / "${ok}"`;
   },
+  async jsRandomFact(page) {
+    await page.click('button[onclick="losujCiekawostke()"]');
+    const t = await page.textContent('#ciekawostka');
+    return t && t.includes(' – ') ? null : `ciekawostka: "${t}"`;
+  },
+  async jsHoverSwap(page) {
+    const before = await page.$eval('#podmiana', (e) => e.src);
+    await page.hover('#podmiana');
+    const during = await page.$eval('#podmiana', (e) => e.src);
+    await page.mouse.move(0, 0);
+    const after = await page.$eval('#podmiana', (e) => e.src);
+    return before !== during && after === before ? null : 'podmiana obrazu po najechaniu nie działa';
+  },
+  async jsBlurValidate(page) {
+    await page.focus('#regImie');
+    await page.focus('#regNazwisko');
+    const red = await page.$eval('#regImie', (e) => e.style.border);
+    const msg = await page.textContent('#stanPol');
+    await page.fill('#regImie', 'Ola');
+    await page.focus('#regTelefon');
+    const green = await page.$eval('#regImie', (e) => e.style.border);
+    await page.fill('#regTelefon', '600100200');
+    await page.evaluate(() => document.activeElement.blur()); // bez fokusu - nie przesuwa układu przy kolejnych kliknięciach
+    return red.includes('red') && msg.includes('imię') && green.includes('green') ? null : `walidacja: ${red} / ${msg} / ${green}`;
+  },
   async jsTabs(page) {
     const buttons = await page.$$('button[onclick^="pokazZakladke"]');
     await buttons[2].click();
@@ -117,7 +142,7 @@ const browser = await chromium.launch();
 let failed = 0;
 let checked = 0;
 for (let i = 0; i < COUNT; i++) {
-  const exam = generateExam({ seed: `JS${i}`, mode: i % 2 ? 'client' : 'animation', difficulty: ['easy', 'normal', 'hard'][i % 3] });
+  const exam = generateExam({ seed: `JS${i}`, mode: ['client', 'mixed', 'animation'][i % 3], difficulty: ['easy', 'normal', 'hard'][i % 3], responsive: i % 4 === 0 ? 'yes' : 'random' });
   const errors = [];
   const page = await browser.newPage();
   page.on('pageerror', (e) => errors.push(String(e)));
@@ -136,6 +161,25 @@ for (let i = 0; i < COUNT; i++) {
     } catch (e) {
       errors.push(`${r.widget.id}: ${e.message.split('\n')[0]}`);
     }
+  }
+  // geometria układu: bloki w każdym wierszu obok siebie, wiersze jeden pod drugim
+  await page.setViewportSize({ width: 1300, height: 900 });
+  const geometry = await page.evaluate((rows) => rows.map((r) => r.map((sel) => {
+    const el = document.querySelector(sel);
+    const b = el.getBoundingClientRect();
+    return { sel, top: Math.round(b.top), left: Math.round(b.left), width: Math.round(b.width) };
+  })), exam.site.rows.map((r) => r.blocks.map((b) => (exam.site.defs[b].id ? `#${exam.site.defs[b].id}` : exam.site.defs[b].tag))));
+  geometry.forEach((row) => {
+    if (row.length > 1 && new Set(row.map((x) => x.top)).size > 1) errors.push(`układ: bloki ${row.map((x) => x.sel).join(', ')} nie są obok siebie (${exam.site.technique})`);
+    row.slice(1).forEach((x, k) => { if (x.left <= row[k].left) errors.push(`układ: kolejność bloków ${row[k].sel} / ${x.sel}`); });
+  });
+  for (let k = 1; k < geometry.length; k++) {
+    if (geometry[k][0].top < geometry[k - 1][0].top) errors.push(`układ: wiersz ${geometry[k][0].sel} nad poprzednim`);
+  }
+  if (exam.style.responsive) {
+    await page.setViewportSize({ width: 600, height: 900 });
+    const narrow = await page.evaluate((sels) => sels.map((s) => Math.round(document.querySelector(s).getBoundingClientRect().left)), exam.site.mainBlocks.map((b) => (exam.site.defs[b].id ? `#${exam.site.defs[b].id}` : exam.site.defs[b].tag)));
+    if (new Set(narrow).size > 1) errors.push(`responsywność: przy 600 px bloki nie są jeden pod drugim (${exam.site.technique})`);
   }
   await page.close();
   if (errors.length) {

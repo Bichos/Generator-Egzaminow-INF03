@@ -19,8 +19,11 @@ export function imageResolverFor(exam) {
     if (cache.has(file)) return cache.get(file);
     let svg;
     if (exam.animation && file === exam.animation.file) svg = animatedPreviewSvg(exam.animation.frames, exam.animation.size, exam.animation.delay);
-    else if (file === exam.theme.images.logo) svg = placeholderSvg(file, { width: 160, height: 160, transparentBg: true });
-    else svg = placeholderSvg(file);
+    else {
+      const z = exam.sizing?.sizes[file];
+      const logo = file === exam.theme.images.logo;
+      svg = placeholderSvg(file, { width: z ? z.w : logo ? 160 : 240, height: z ? z.h : logo ? 160 : 160, transparentBg: logo });
+    }
     const uri = svgDataUri(svg);
     cache.set(file, uri);
     return uri;
@@ -164,17 +167,17 @@ export function renderSheet(exam, { embedPreview = true } = {}) {
     `Podział strony na bloki zrealizowany za pomocą semantycznych znaczników bloków języka HTML5 tak, aby po uruchomieniu w przeglądarce układ bloków na stronie był zgodny z ilustracją ${iLayout}`,
   ];
   const blockLines = (b, page) => site.rendered.filter((r) => r.block === b).flatMap((r) => (page === 1 && r.out.page2 ? r.out.page2.lines : r.out.lines));
-  const mainLine = `Zawartość bloku głównego: ${site.mainBlocks.map((b) => `blok ${site.defs[b].nom}`).join(', ').replace(/, ([^,]*)$/, ' i $1')}`;
+  const mainLine = `Zawartość bloku głównego: ${site.mainBlocks.map((b) => site.defs[b].label).join(', ').replace(/, ([^,]*)$/, ' i $1')}`;
   const differs = (b) => site.rendered.some((r) => r.block === b && r.out.page2);
   const contentItems = [];
-  for (const b of site.blocks) {
-    if (b === 'footer') continue;
-    if (site.pages.length > 1 && differs(b)) continue;
-    const lines = blockLines(b, 0);
-    if (lines.length) contentItems.push({ text: `Zawartość ${site.defs[b].gen}:`, children: lines.map((l) => (typeof l === 'string' ? capFirst(l) : { ...l, text: capFirst(l.text) })) });
-    if (b === site.layout.top[site.layout.top.length - 1]) contentItems.push(mainLine);
+  for (const row of site.rows) {
+    if (row.main) contentItems.push(mainLine);
+    for (const b of row.blocks) {
+      if (site.pages.length > 1 && differs(b)) continue;
+      const lines = blockLines(b, 0);
+      if (lines.length) contentItems.push({ text: `Zawartość ${site.defs[b].gen}:`, children: lines.map((l) => (typeof l === 'string' ? capFirst(l) : { ...l, text: capFirst(l.text) })) });
+    }
   }
-  contentItems.push({ text: 'Zawartość stopki:', children: blockLines('footer', 0).map(capFirst) });
   let pagesHtml = '';
   if (site.pages.length > 1) {
     const b = site.blocks.find(differs);
@@ -199,22 +202,27 @@ export function renderSheet(exam, { embedPreview = true } = {}) {
   ${exam.cssNote ? `<p class="note">${h(exam.cssNote)}</p>` : ''}`);
 
   // Skrypty
-  const tMysqli = mode === 'server' ? nextTab() : null;
-  const tDom = mode !== 'server' ? nextTab() : null;
+  const phpScripts = site.scripts.filter((x) => x.lang === 'php');
+  const jsScripts = site.scripts.filter((x) => x.lang === 'js');
+  const tMysqli = phpScripts.length ? nextTab() : null;
+  const tDom = jsScripts.length ? nextTab() : null;
   const tSem = nextTab();
-  const scriptBlocks = site.scripts.map((s) => `<p class="script-name">Skrypt ${s.number}${s.where ? ` (${h(s.where)})` : ''}:</p>${renderLines(s.lines.map((l) => (typeof l === 'string' ? capFirst(l) : { ...l, text: capFirst(l.text) })))}`).join('');
+  const scriptBlocks = (list) => list.map((s) => `<p class="script-name">Skrypt ${s.number}${s.where ? ` (${h(s.where)})` : ''}:</p>${renderLines(s.lines.map((l) => (typeof l === 'string' ? capFirst(l) : { ...l, text: capFirst(l.text) })))}`).join('');
   const exampleLines = site.rendered.map((r) => r.out.example).filter(Boolean);
-  if (mode === 'server') {
-    task.push(`<h3>Skrypt${site.scripts.length > 1 ? 'y' : ''} połączenia z bazą</h3>
+  const plural = (list) => (list.length > 1 ? 'y' : '');
+  const acting = (list) => (list.length > 1 ? 'Skrypty działające' : 'Skrypt działający');
+  if (phpScripts.length) {
+    task.push(`<h3>${jsScripts.length ? `${acting(phpScripts)} po stronie serwera (PHP)` : `Skrypt${plural(phpScripts)} połączenia z bazą`}</h3>
   <p>W tabeli ${tMysqli} zamieszczono wybrane funkcje PHP do obsługi bazy danych. Wymagania dotyczące skryptów:</p>
   <ul class="dash"><li>Napisane w języku PHP</li><li>Należy stosować znaczące nazewnictwo zmiennych i funkcji w języku polskim lub angielskim</li>
   <li>Łączą się z serwerem bazodanowym na localhost, użytkownik root bez hasła, baza danych o nazwie ${h(theme.dbName)}</li>
-  <li>Na końcu zamykane jest połączenie z serwerem</li></ul>${scriptBlocks}`);
-  } else {
-    task.push(`<h3>Skrypt${site.scripts.length > 1 ? 'y' : ''} działające po stronie klienta</h3>
+  <li>Na końcu zamykane jest połączenie z serwerem</li></ul>${scriptBlocks(phpScripts)}`);
+  }
+  if (jsScripts.length) {
+    task.push(`<h3>${acting(jsScripts)} po stronie klienta${phpScripts.length ? ' (JavaScript)' : ''}</h3>
   <p>W tabeli ${tDom} zamieszczono wybrane pola i metody modelu DOM w języku JavaScript. Wymagania dotyczące skryptów:</p>
-  <ul class="dash"><li>Napisane w języku JavaScript, wykonywane po stronie przeglądarki</li><li>Należy stosować znaczące nazewnictwo zmiennych i funkcji w języku polskim lub angielskim</li></ul>
-  ${scriptBlocks}${exampleLines.length ? `<p class="small">Przykład: ${h(exampleLines.join('; '))}.</p>` : ''}`);
+  <ul class="dash"><li>Napisane w języku JavaScript, wykonywane po stronie przeglądarki${phpScripts.length ? '; kod JavaScript może być zapisany w pliku skrypt.js lub w znaczniku script' : ''}</li><li>Należy stosować znaczące nazewnictwo zmiennych i funkcji w języku polskim lub angielskim</li></ul>
+  ${scriptBlocks(jsScripts)}${exampleLines.length ? `<p class="small">Przykład: ${h(exampleLines.join('; '))}.</p>` : ''}`);
   }
 
   // Tabele pomocy
