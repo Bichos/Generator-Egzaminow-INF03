@@ -117,6 +117,8 @@ async function loadPhotos(exam) {
   }
   const myGeneration = ++generation;
   photoStatus('Pobieranie zdjęć z Pixabay…');
+  let finish;
+  exam.photosPromise = new Promise((r) => { finish = r; });
   try {
     const { photos, errors, total } = await fetchPhotos(exam, px.key, {
       onProgress: (n, all) => { if (myGeneration === generation) photoStatus(`Pobieranie zdjęć z Pixabay… ${n}/${all}`); },
@@ -125,9 +127,16 @@ async function loadPhotos(exam) {
     exam.photos = photos;
     renderViews();
     const got = Object.keys(photos).length;
-    photoStatus(`Zdjęcia z Pixabay: ${got} z ${total}${got < total ? ' (pozostałe to grafiki zastępcze)' : ''}${errors.length ? `. Nie udało się pobrać: ${errors.length}` : ''}. Autorzy zdjęć są w kluczu i w pliku zrodla_zdjec.txt.`);
+    const inZip = Object.values(photos).filter((p) => p.bytes).length;
+    if (got && !inZip) {
+      photoStatus(`Zdjęcia z Pixabay są widoczne w podglądzie (${got} z ${total}), ale przeglądarka nie pozwala zapisać ich do paczki ZIP (blokada CORS). Uruchom generator poleceniem npm start – wtedy zdjęcia trafią do ZIP.`, true);
+    } else {
+      photoStatus(`Zdjęcia z Pixabay: ${got} z ${total}${inZip < got ? `, do ZIP trafi ${inZip}` : ''}${got < total ? ' (brakujące to grafiki zastępcze)' : ''}${errors.length ? `. Błędy: ${errors.slice(0, 3).join('; ')}` : ''}. Autorzy zdjęć są w kluczu i w pliku zrodla_zdjec.txt.`, got === 0);
+    }
   } catch (err) {
     if (myGeneration === generation) photoStatus(`Nie udało się pobrać zdjęć: ${err.message}. Używane są grafiki zastępcze.`, true);
+  } finally {
+    finish();
   }
 }
 
@@ -218,6 +227,10 @@ async function downloadPackage() {
   const btn = $('#downloadZip');
   btn.disabled = true;
   try {
+    if (current.photosPromise) {
+      btn.textContent = 'Czekam na zdjęcia…';
+      await current.photosPromise; // paczka ma zawierać zdjęcia, a nie grafiki zastępcze
+    }
     const entries = await buildPackageEntries(current, renderImage);
     download(`${examFolderName(current)}.zip`, new Blob([createZip(entries)], { type: 'application/zip' }));
     toast('Pobrano paczkę z arkuszem, kluczem, materiałami i rozwiązaniem');
@@ -226,6 +239,7 @@ async function downloadPackage() {
     toast(`Błąd: ${err.message}`);
   } finally {
     btn.disabled = false;
+    btn.textContent = 'Paczka .zip';
   }
 }
 

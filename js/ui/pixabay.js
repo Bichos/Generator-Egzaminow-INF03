@@ -4,7 +4,8 @@
 // w formacie wynikającym z nazwy pliku (JPEG/PNG), aby trafiły do paczki ZIP.
 import { imagePlan } from '../core/images.js';
 
-const API = 'https://pixabay.com/api/';
+// adres API można podmienić (testy na atrapie serwisu)
+const API = globalThis.INF03_PIXABAY_API || 'https://pixabay.com/api/';
 const CACHE_TTL = 24 * 60 * 60 * 1000;
 const memory = new Map();
 
@@ -33,27 +34,71 @@ function cacheSet(key, hits) {
 
 export class PixabayError extends Error {}
 
+// Lokalny pośrednik (server.mjs, uruchamiany przez npm start) omija ograniczenia CORS.
+let proxyCheck = null;
+export function hasProxy() {
+  if (!proxyCheck) {
+    proxyCheck = fetch('api/health', { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => Boolean(j && j.pixabayProxy))
+      .catch(() => false);
+  }
+  return proxyCheck;
+}
+
+function checkStatus(status) {
+  if (status === 400 || status === 401) throw new PixabayError('Nieprawidłowy klucz API Pixabay');
+  if (status === 429) throw new PixabayError('Przekroczono limit zapytań Pixabay (100 na minutę) – spróbuj za chwilę');
+  if (status >= 300) throw new PixabayError(`Pixabay odpowiedział błędem ${status}`);
+}
+
+// Zapasowe pobranie wyników przez JSONP (gdy przeglądarka blokuje zwykłe zapytanie).
+function jsonp(url) {
+  return new Promise((resolve, reject) => {
+    const name = `pixabayCb${Date.now()}${Math.floor(Math.random() * 1e6)}`;
+    const script = document.createElement('script');
+    const cleanup = () => { delete window[name]; script.remove(); };
+    const timer = setTimeout(() => { cleanup(); reject(new Error('timeout')); }, 15000);
+    window[name] = (data) => { clearTimeout(timer); cleanup(); resolve(data); };
+    script.onerror = () => { clearTimeout(timer); cleanup(); reject(new Error('jsonp')); };
+    script.src = `${url}&callback=${name}`;
+    document.head.appendChild(script);
+  });
+}
+
 export async function search(apiKey, query, kind) {
   const q = query.slice(0, 100);
   const key = `pixabay:${kind}:${q}`;
   const cached = cacheGet(key);
   if (cached) return cached;
   const params = new URLSearchParams({ key: apiKey, q, lang: 'pl', image_type: kind, safesearch: 'true', per_page: '20', orientation: kind === 'photo' ? 'horizontal' : 'all' });
-  const res = await fetch(`${API}?${params}`);
-  if (res.status === 400 || res.status === 401) throw new PixabayError('Nieprawidłowy klucz API Pixabay');
-  if (res.status === 429) throw new PixabayError('Przekroczono limit zapytań Pixabay (100 na minutę) – spróbuj za chwilę');
-  if (!res.ok) throw new PixabayError(`Pixabay odpowiedział błędem ${res.status}`);
-  const data = await res.json();
+  let data;
+  if (await hasProxy()) {
+    const res = await fetch(`api/pixabay?${params}`);
+    checkStatus(res.status);
+    data = await res.json();
+  } else {
+    try {
+      const res = await fetch(`${API}?${params}`);
+      checkStatus(res.status);
+      data = await res.json();
+    } catch (err) {
+      if (err instanceof PixabayError) throw err;
+      try {
+        data = await jsonp(`${API}?${params}`);
+      } catch {
+        throw new PixabayError('przeglądarka nie może połączyć się z API Pixabay (blokada CORS lub brak sieci). Uruchom generator poleceniem npm start – serwer pośredniczy w połączeniu z Pixabay');
+      }
+    }
+  }
   const hits = (data.hits || []).map((x) => ({ id: x.id, url: x.webformatURL, user: x.user, pageURL: x.pageURL, tags: x.tags }));
   cacheSet(key, hits);
   return hits;
 }
 
 // Kadrowanie "cover" do zadanych wymiarów i zapis do JPEG/PNG.
-async function toImage(url, width, height, mime) {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`obraz ${res.status}`);
-  const bitmap = await createImageBitmap(await res.blob());
+async function toImage(blob, width, height, mime) {
+  const bitmap = await createImageBitmap(blob);
   const canvas = document.createElement('canvas');
   canvas.width = width;
   canvas.height = height;
@@ -64,13 +109,17 @@ async function toImage(url, width, height, mime) {
   g.fillStyle = '#fff';
   g.fillRect(0, 0, width, height);
   g.drawImage(bitmap, (width - w) / 2, (height - hgt) / 2, w, hgt);
-  const blob = await new Promise((resolve) => canvas.toBlob(resolve, mime, 0.85));
-  const bytes = new Uint8Array(await blob.arrayBuffer());
-  const dataUrl = canvas.toDataURL(mime, 0.85);
-  return { bytes, dataUrl };
+  const out = await new Promise((resolve) => canvas.toBlob(resolve, mime, 0.85));
+  return { bytes: new Uint8Array(await out.arrayBuffer()), src: canvas.toDataURL(mime, 0.85) };
 }
 
-// Zwraca mapę plik -> { dataUrl, bytes, credit }. Obrazy, których nie udało się pobrać, są pomijane
+async function downloadImage(url) {
+  const res = await fetch((await hasProxy()) ? `api/pixabay-image?url=${encodeURIComponent(url)}` : url);
+  if (!res.ok) throw new Error(`obraz ${res.status}`);
+  return res.blob();
+}
+
+// Zwraca mapę plik -> { src, bytes, credit } (bytes = null, gdy zdjęcia nie da się zapisać do ZIP). Obrazy, których nie udało się pobrać, są pomijane
 // (zostają grafiki zastępcze). onProgress(gotowe, wszystkie).
 export async function fetchPhotos(exam, apiKey, { onProgress, concurrency = 3 } = {}) {
   const plan = imagePlan(exam);
@@ -87,8 +136,13 @@ export async function fetchPhotos(exam, apiKey, { onProgress, concurrency = 3 } 
         if (!hits.length) hits = await search(apiKey, item.fallback, item.kind);
         if (hits.length) {
           const hit = hits[item.pick % Math.min(hits.length, 10)];
-          const img = await toImage(hit.url, item.width, item.height, item.mime);
-          photos[item.file] = { ...img, credit: { user: hit.user, pageURL: hit.pageURL, query: item.query } };
+          const credit = { user: hit.user, pageURL: hit.pageURL, query: item.query };
+          try {
+            photos[item.file] = { ...(await toImage(await downloadImage(hit.url), item.width, item.height, item.mime)), credit };
+          } catch {
+            // Przeglądarka nie pozwala odczytać obrazu (CORS): zdjęcie widać w podglądzie, ale nie trafi do ZIP.
+            photos[item.file] = { src: hit.url, bytes: null, credit };
+          }
         }
       } catch (err) {
         if (err instanceof PixabayError) fatal = err;

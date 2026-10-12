@@ -8,15 +8,19 @@ Generator powstał na podstawie analizy 18 arkuszy z 2026 roku oraz 152 egzamin�
 
 ## Uruchomienie
 
-Aplikacja jest statyczna (HTML + moduły ES), nie ma backendu ani zależności.
+Wymagany jest Node.js 18 lub nowszy. Nie trzeba instalować żadnych pakietów.
 
 ```bash
-npm start            # serwer na http://localhost:8080
-# albo dowolny serwer plików, np.:
-python3 -m http.server 8080
+npm start            # albo: node server.mjs 8080
 ```
 
-Plik `index.html` trzeba otworzyć przez serwer HTTP, bo moduły ES nie działają z `file://`. Aplikację można też wrzucić bez zmian na GitHub Pages.
+Następnie otwórz http://localhost:8080.
+
+`server.mjs` udostępnia pliki aplikacji i pośredniczy w połączeniu z Pixabay. Dzięki temu zdjęcia trafiają do paczki ZIP.
+
+Aplikacja działa też na dowolnym serwerze plików, np. `python3 -m http.server 8080`, albo na GitHub Pages, ale wtedy bez pośrednika. Jeśli przeglądarka zablokuje Pixabay (CORS), zdjęcia będą widoczne tylko w podglądzie. Generator wyświetli wtedy odpowiedni komunikat.
+
+`index.html` trzeba otwierać przez serwer HTTP: moduły ES nie działają z `file://`.
 
 ## Co generuje
 
@@ -48,6 +52,8 @@ Jak dobierane są zdjęcia:
 - **Autorzy:** podane są w kluczu i w pliku `zrodla_zdjec.txt` (licencja Pixabay Content License).
 - **Limit API:** wyniki wyszukiwania są zapamiętywane na 24 h, zgodnie z zasadami API, co ogranicza liczbę zapytań (limit Pixabay to 100 na minutę).
 - **Gdy się nie uda:** obrazy, których nie udało się pobrać, zostają grafikami zastępczymi.
+- **Połączenie:** przy uruchomieniu przez `npm start` zapytania i zdjęcia idą przez lokalny serwer (`/api/pixabay`, `/api/pixabay-image`, tylko adresy Pixabay), więc nie dotyczy ich blokada CORS. Bez pośrednika aplikacja łączy się z Pixabay bezpośrednio, a wyszukiwanie ma zapasową ścieżkę JSONP.
+- **Paczka ZIP:** czeka na zakończenie pobierania zdjęć.
 
 ### Warianty
 
@@ -80,6 +86,7 @@ Archiwum 7z z hasłem trzeba utworzyć samodzielnie, np. `7z a -pHASLO pliki7.7z
 
 ```
 index.html, css/app.css      interfejs
+server.mjs                   serwer lokalny (pliki + pośrednik Pixabay)
 js/ui/app.js                 obsługa formularza, podglądy, eksport (canvas -> PNG/JPEG)
 js/core/                     rdzeń - czyste moduły ES, działają w przeglądarce i w Node.js
   rng.js                     deterministyczny PRNG (mulberry32) z niezależnymi strumieniami
@@ -114,7 +121,7 @@ Każde zapytanie jest opisane strukturą (`spec`). Z tej samej struktury powstaj
 npm test                                   # testy jednostkowe (Node >= 18)
 node tests/integration.mjs 100             # MariaDB/MySQL + PHP: import bazy, każda kwerenda, strony PHP (GET/POST)
 NODE_PATH=$(npm root -g) node tests/browser.mjs 30   # Playwright: działanie skryptów JS
-NODE_PATH=$(npm root -g) node tests/pixabay.mjs      # Playwright: zdjęcia z Pixabay na zasymulowanym API (wymaga npm start)
+NODE_PATH=$(npm root -g) node tests/pixabay.mjs      # Playwright: zdjęcia z Pixabay na atrapie API (pośrednik, brak CORS, CORS, zły klucz)
 ```
 
 Test integracyjny importuje wygenerowany zrzut do prawdziwej bazy. Potem wykonuje każdą kwerendę i porównuje wynik z kluczem. Rozwiązanie PHP uruchamia przez `php -S` i wysyła formularze. Test przeglądarkowy klika, wpisuje i sprawdza efekt każdego skryptu JS.

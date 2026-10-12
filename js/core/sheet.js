@@ -15,7 +15,7 @@ const capFirst = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 export function imageResolverFor(exam) {
   const cache = new Map();
   return (file) => {
-    if (exam.photos?.[file]) return exam.photos[file].dataUrl; // zdjęcie z Pixabay
+    if (exam.photos?.[file]) return exam.photos[file].src; // zdjęcie z Pixabay
     if (cache.has(file)) return cache.get(file);
     let svg;
     if (exam.animation && file === exam.animation.file) svg = animatedPreviewSvg(exam.animation.frames, exam.animation.size, exam.animation.delay);
