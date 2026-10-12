@@ -133,3 +133,22 @@ test('ZIP: poprawne nagłówki i suma CRC', () => {
   assert.equal(view.getUint32(zip.length - 22, true), 0x06054b50);
   assert.equal(view.getUint16(zip.length - 22 + 10, true), 1);
 });
+
+test('plan zdjęć Pixabay: hasło, wymiary i format dla każdego obrazu', async () => {
+  const { imagePlan, creditsText } = await import('../js/core/images.js');
+  for (let i = 0; i < 30; i++) {
+    const e = generateExam({ seed: `IMG${i}`, graphics: 'yes' });
+    const plan = imagePlan(e);
+    assert.deepEqual(plan.map((p) => p.file).sort(), [...new Set(e.imageFiles)].sort());
+    for (const p of plan) {
+      assert.ok(p.query.length > 1 && p.fallback.length > 1, p.file);
+      assert.equal(p.mime, p.file.endsWith('.png') ? 'image/png' : 'image/jpeg');
+      assert.ok(p.width > 0 && p.height > 0);
+    }
+    assert.deepEqual(imagePlan(generateExam({ seed: `IMG${i}`, graphics: 'yes' })), plan, 'powtarzalność');
+  }
+  const e = generateExam({ seed: 'IMGC' });
+  assert.equal(creditsText(e), '');
+  e.photos = { 'a.jpg': { credit: { user: 'Jan', pageURL: 'https://pixabay.com/photos/x-1/' } } };
+  assert.match(creditsText(e), /a\.jpg: autor Jan, https:\/\/pixabay\.com\/photos\/x-1\//);
+});

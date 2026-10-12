@@ -135,6 +135,18 @@ input:focus, select:focus, button:focus-visible { outline: 2px solid var(--accen
 .seed-row input { margin-top: 0; }
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .hint { font-size: 12px; color: var(--muted); margin: 6px 0 0; }
+.hint a { color: var(--accent); }
+label.check { display: flex; align-items: center; gap: 8px; }
+label.check input { width: auto; margin: 0; }
+.photo-status {
+  font-size: 12.5px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--accent-soft);
+  color: var(--text);
+}
+.photo-status.error { background: var(--surface); border-color: #c0392b; color: #c0392b; }
 
 button {
   font: inherit;

@@ -15,6 +15,7 @@ const capFirst = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 export function imageResolverFor(exam) {
   const cache = new Map();
   return (file) => {
+    if (exam.photos?.[file]) return exam.photos[file].dataUrl; // zdjęcie z Pixabay
     if (cache.has(file)) return cache.get(file);
     let svg;
     if (exam.animation && file === exam.animation.file) svg = animatedPreviewSvg(exam.animation.frames, exam.animation.size, exam.animation.delay);
@@ -227,6 +228,7 @@ export function renderSheet(exam, { embedPreview = true } = {}) {
   task.push(`<p class="note">UWAGA: po zakończeniu pracy utwórz plik tekstowy o nazwie przeglądarka.txt. Zapisz w nim nazwę przeglądarki internetowej, w której weryfikowana była poprawność działania witryny. Umieść go w folderze z numerem zdającego.</p>
   <p>Nagraj płytę z rezultatami pracy. W folderze z numerem zdającego powinny znajdować się pliki: ${h(exam.resultFiles.join(', '))}, ewentualnie inne przygotowane pliki. Po nagraniu płyty sprawdź poprawność jej odczytu. Opisz płytę numerem zdającego i pozostaw zapakowaną w pudełku na stanowisku wraz z arkuszem egzaminacyjnym.</p>
   <p><b>Czas przeznaczony na wykonanie zadania wynosi 150 minut.</b></p>
+  ${Object.keys(exam.photos || {}).length ? '<p class="small">Zdjęcia w ilustracjach i w archiwum pochodzą z serwisu Pixabay (pixabay.com) i są udostępnione na licencji Pixabay Content License; autorzy wymienieni są w pliku zrodla_zdjec.txt.</p>' : ''}
   <p>Ocenie podlegać będzie 5 rezultatów:</p>${renderLines(exam.results.map((r, i) => `${r}${i < 4 ? ',' : '.'}`))}`);
 
   parts.push(`<section class="page task">${task.join('\n')}</section>`);

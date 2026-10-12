@@ -33,6 +33,22 @@ Plik `index.html` trzeba otworzyć przez serwer HTTP, bo moduły ES nie działaj
 | **Grafika / animacja** | Kadrowanie do wymiarów, skalowanie z zachowaniem proporcji, przezroczyste tło, odbicie, obrót, odcienie szarości (z wagami według częstości w arkuszach); animacja GIF z paska klatek. |
 | **Klucz** (`klucz.html`) | Zasady oceniania w formacie CKE: kryteria R.1.1–R.5.n po 1 pkt (około 40), z uwagami dla egzaminatora, przykładowym SQL i oczekiwaną liczbą wierszy na zrzucie. Do tego wyniki kwerend wyliczone na danych z arkusza i pełne rozwiązanie wzorcowe. |
 
+### Zdjęcia z Pixabay
+
+Domyślnie obrazy w arkuszu i paczce są grafikami zastępczymi. Generator może też dołączać prawdziwe zdjęcia z [Pixabay](https://pixabay.com/):
+
+1. Załóż darmowe konto na pixabay.com i skopiuj klucz z [pixabay.com/api/docs](https://pixabay.com/api/docs/).
+2. W panelu „Zdjęcia z Pixabay” wklej klucz i zaznacz „Dołączaj zdjęcia z Pixabay”. Klucz zostaje tylko w tej przeglądarce (localStorage).
+
+Jak dobierane są zdjęcia:
+
+- **Hasła:** zdjęcia z bazy (np. `kwiat3.jpg`) szukane są po nazwie rekordu („Storczyk kwiaty”), obrazy witryny po haśle przypisanym do pliku („róża”, „plaża”). Wyszukiwanie odbywa się po polsku (`lang=pl`), z hasłem zapasowym dla tematu.
+- **Wybór wyniku:** zależy od kodu arkusza, więc ten sam arkusz dostaje te same zdjęcia.
+- **Format:** zdjęcia są kadrowane do 640×440 px (JPEG), a logo do 300×300 px (PNG). Wchodzą do podglądu, arkusza i paczki ZIP.
+- **Autorzy:** podane są w kluczu i w pliku `zrodla_zdjec.txt` (licencja Pixabay Content License).
+- **Limit API:** wyniki wyszukiwania są zapamiętywane na 24 h, zgodnie z zasadami API, co ogranicza liczbę zapytań (limit Pixabay to 100 na minutę).
+- **Gdy się nie uda:** obrazy, których nie udało się pobrać, zostają grafikami zastępczymi.
+
 ### Warianty
 
 - **Baza danych + PHP** (styl styczniowy): skrypty połączenia z bazą korzystają z kwerend z arkusza.
@@ -79,7 +95,9 @@ js/core/                     rdzeń - czyste moduły ES, działają w przegląda
   grading.js                 zasady oceniania R.1–R.5 w formacie CKE
   sheet.js, key.js           renderowanie arkusza i klucza do HTML
   placeholders.js            obrazy zastępcze (SVG)
+  images.js                  plan zdjęć (hasła Pixabay, wymiary, format) i lista autorów
   zip.js, package.js         paczka ZIP bez zewnętrznych bibliotek
+js/ui/pixabay.js             klient API Pixabay: wyszukiwanie, pamięć podręczna 24 h, kadrowanie
 ```
 
 Każde zapytanie jest opisane strukturą (`spec`). Z tej samej struktury powstają tekst polecenia, kod SQL, kod PHP (z parametrem w miejscu wartości z formularza) i oczekiwany wynik. Dlatego treść arkusza, rozwiązanie i klucz zawsze są ze sobą zgodne.
@@ -96,6 +114,7 @@ Każde zapytanie jest opisane strukturą (`spec`). Z tej samej struktury powstaj
 npm test                                   # testy jednostkowe (Node >= 18)
 node tests/integration.mjs 100             # MariaDB/MySQL + PHP: import bazy, każda kwerenda, strony PHP (GET/POST)
 NODE_PATH=$(npm root -g) node tests/browser.mjs 30   # Playwright: działanie skryptów JS
+NODE_PATH=$(npm root -g) node tests/pixabay.mjs      # Playwright: zdjęcia z Pixabay na zasymulowanym API (wymaga npm start)
 ```
 
 Test integracyjny importuje wygenerowany zrzut do prawdziwej bazy. Potem wykonuje każdą kwerendę i porównuje wynik z kluczem. Rozwiązanie PHP uruchamia przez `php -S` i wysyła formularze. Test przeglądarkowy klika, wpisuje i sprawdza efekt każdego skryptu JS.

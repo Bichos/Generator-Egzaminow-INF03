@@ -6,12 +6,37 @@ import { renderKey, resultTable } from '../core/key.js';
 import { createZip } from '../core/zip.js';
 import { buildPackageEntries, examFolderName } from '../core/package.js';
 import { escapeHtml as h } from '../core/util.js';
+import { fetchPhotos } from './pixabay.js';
 
 const $ = (sel) => document.querySelector(sel);
 const form = $('#settings');
 const FIELDS = ['seed', 'theme', 'mode', 'difficulty', 'queryCount', 'graphics', 'month', 'year'];
 const HASH_KEYS = { seed: 's', theme: 't', mode: 'm', difficulty: 'd', queryCount: 'q', graphics: 'g', month: 'mo', year: 'y' };
 let current = null;
+let generation = 0;
+
+// ---------- ustawienia Pixabay (tylko w tej przeglądarce) ----------
+
+const storage = {
+  get(k) {
+    try { return localStorage.getItem(k); } catch { return null; }
+  },
+  set(k, v) {
+    try { localStorage.setItem(k, v); } catch { /* brak dostępu do pamięci */ }
+  },
+};
+
+function pixabaySettings() {
+  const key = $('#pixabayKey').value.trim();
+  return { enabled: $('#usePixabay').checked && key.length > 0, key };
+}
+
+function photoStatus(text, error = false) {
+  const el = $('#photoStatus');
+  el.hidden = !text;
+  el.textContent = text || '';
+  el.classList.toggle('error', error);
+}
 const blobUrls = new Set();
 
 // ---------- formularz ----------
@@ -68,15 +93,42 @@ function generate() {
   writeHash(opts);
   blobUrls.forEach((u) => URL.revokeObjectURL(u));
   blobUrls.clear();
-  current.sheetHtml = renderSheet(current);
-  current.keyHtml = renderKey(current);
   $('#examCode').textContent = current.code;
   renderSummary();
+  renderViews();
+  renderDb();
+  renderSolution(Object.keys(current.solution)[0]);
+  loadPhotos(current);
+}
+
+function renderViews() {
+  current.sheetHtml = renderSheet(current);
+  current.keyHtml = renderKey(current);
   $('#sheetFrame').src = blobUrl(current.sheetHtml);
   $('#keyFrame').src = blobUrl(current.keyHtml);
   renderSitePreview(0);
-  renderDb();
-  renderSolution(Object.keys(current.solution)[0]);
+}
+
+async function loadPhotos(exam) {
+  const px = pixabaySettings();
+  if (!px.enabled) {
+    photoStatus($('#usePixabay').checked ? 'Podaj klucz API Pixabay, aby dołączyć zdjęcia. Na razie używane są grafiki zastępcze.' : '');
+    return;
+  }
+  const myGeneration = ++generation;
+  photoStatus('Pobieranie zdjęć z Pixabay…');
+  try {
+    const { photos, errors, total } = await fetchPhotos(exam, px.key, {
+      onProgress: (n, all) => { if (myGeneration === generation) photoStatus(`Pobieranie zdjęć z Pixabay… ${n}/${all}`); },
+    });
+    if (myGeneration !== generation || exam !== current) return; // w międzyczasie wygenerowano inny arkusz
+    exam.photos = photos;
+    renderViews();
+    const got = Object.keys(photos).length;
+    photoStatus(`Zdjęcia z Pixabay: ${got} z ${total}${got < total ? ' (pozostałe to grafiki zastępcze)' : ''}${errors.length ? `. Nie udało się pobrać: ${errors.length}` : ''}. Autorzy zdjęć są w kluczu i w pliku zrodla_zdjec.txt.`);
+  } catch (err) {
+    if (myGeneration === generation) photoStatus(`Nie udało się pobrać zdjęć: ${err.message}. Używane są grafiki zastępcze.`, true);
+  }
 }
 
 function renderSummary() {
@@ -188,6 +240,15 @@ async function downloadBatch() {
     for (let i = 1; i <= count; i++) {
       const seed = `${base.seed}-${String(i).padStart(2, '0')}`;
       const exam = generateExam({ ...base, seed });
+      const px = pixabaySettings();
+      if (px.enabled) {
+        try {
+          exam.photos = (await fetchPhotos(exam, px.key)).photos;
+        } catch (err) {
+          toast(`Zdjęcia: ${err.message}`);
+        }
+      }
+      btn.textContent = `Arkusz ${i}/${count}…`;
       entries.push(...await buildPackageEntries(exam, renderImage, 'zestaw/'));
       index.push(`${String(i).padStart(2, '0')}. ${exam.code}  seed ${seed}  ${exam.theme.app} (${exam.mode})`);
     }
@@ -199,6 +260,7 @@ async function downloadBatch() {
     toast(`Błąd: ${err.message}`);
   } finally {
     btn.disabled = false;
+    btn.textContent = 'Pobierz ZIP';
   }
 }
 
@@ -219,6 +281,23 @@ function selectTab(name) {
 // ---------- zdarzenia ----------
 
 fillSelects();
+$('#pixabayKey').value = storage.get('inf03:pixabayKey') || '';
+$('#usePixabay').checked = storage.get('inf03:usePixabay') === '1';
+$('#pixabayKey').addEventListener('change', () => {
+  storage.set('inf03:pixabayKey', $('#pixabayKey').value.trim());
+  if (current) loadPhotos(current);
+});
+$('#usePixabay').addEventListener('change', () => {
+  storage.set('inf03:usePixabay', $('#usePixabay').checked ? '1' : '0');
+  if (!current) return;
+  if ($('#usePixabay').checked) loadPhotos(current);
+  else {
+    generation++;
+    delete current.photos;
+    renderViews();
+    photoStatus('');
+  }
+});
 writeForm({ ...DEFAULTS, seed: randomSeed(), ...readHash() });
 
 form.addEventListener('submit', (e) => {

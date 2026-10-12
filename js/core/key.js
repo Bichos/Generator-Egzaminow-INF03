@@ -1,6 +1,7 @@
 // Klucz dla nauczyciela: oczekiwane wyniki zapytań, kryteria oceniania i rozwiązanie wzorcowe.
 import { escapeHtml as h } from './util.js';
 import { wrapDocument } from './sheet.js';
+import { creditsText } from './images.js';
 
 export function resultTable(res, max = 12) {
   if (!res.columns) return `<p class="info">${h(res.info || '')}</p>`;
@@ -20,6 +21,7 @@ export function renderKey(exam) {
   ${exam.hasDb ? `<h2>Zapytania SQL i oczekiwane wyniki</h2><p class="small">Wyniki wyliczono na danych z pliku ${h(exam.theme.sqlFile)} dołączonego do arkusza. Dla zapytań losowych (RAND) wynik jest przykładowy.</p>${queries}` : ''}
   <h2>Zasady oceniania</h2><p class="small">Każde kryterium oceniane jest zero-jedynkowo (spełnione – 1 pkt).</p>${crit}
   <h2>Rozwiązanie wzorcowe</h2>${files}
+  ${creditsText(exam) ? `<h2>Źródła zdjęć</h2><pre>${h(creditsText(exam))}</pre>` : ''}
 </section>`;
   return wrapDocument(`${exam.code} – klucz`, body, KEY_CSS);
 }

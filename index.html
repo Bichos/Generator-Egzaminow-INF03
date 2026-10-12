@@ -81,6 +81,15 @@
           </div>
         </fieldset>
 
+        <fieldset>
+          <legend>Zdjęcia z Pixabay</legend>
+          <label class="check"><input type="checkbox" id="usePixabay"> Dołączaj zdjęcia z Pixabay</label>
+          <label>Klucz API Pixabay
+            <input id="pixabayKey" type="password" autocomplete="off" spellcheck="false" placeholder="np. 12345678-abcdef…">
+          </label>
+          <p class="hint">Darmowy klucz otrzymasz po zalogowaniu na <a href="https://pixabay.com/api/docs/" target="_blank" rel="noopener">pixabay.com/api/docs</a>. Klucz zostaje tylko w tej przeglądarce. Bez klucza używane są grafiki zastępcze.</p>
+        </fieldset>
+
         <button type="submit" class="primary">Generuj arkusz</button>
         <button type="button" id="randomize" class="secondary">Nowy losowy arkusz</button>
       </form>
@@ -112,6 +121,7 @@
         </div>
       </div>
       <div class="summary" id="summary"></div>
+      <div class="photo-status" id="photoStatus" hidden></div>
 
       <section class="tab-panel" data-panel="sheet">
         <iframe id="sheetFrame" title="Arkusz egzaminacyjny"></iframe>
