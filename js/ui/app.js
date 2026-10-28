@@ -11,8 +11,8 @@ import { fetchPhotos } from './pixabay.js';
 
 const $ = (sel) => document.querySelector(sel);
 const form = $('#settings');
-const FIELDS = ['seed', 'theme', 'mode', 'difficulty', 'queryCount', 'graphics', 'month', 'year', 'layout', 'technique', 'responsive', 'pseudo', 'pageWidth'];
-const HASH_KEYS = { seed: 's', theme: 't', mode: 'm', difficulty: 'd', queryCount: 'q', graphics: 'g', month: 'mo', year: 'y', layout: 'l', technique: 'tc', responsive: 'r', pseudo: 'ps', pageWidth: 'w' };
+const FIELDS = ['seed', 'theme', 'mode', 'difficulty', 'queryCount', 'graphics', 'layout', 'technique', 'responsive', 'pseudo', 'pageWidth'];
+const HASH_KEYS = { seed: 's', theme: 't', mode: 'm', difficulty: 'd', queryCount: 'q', graphics: 'g', layout: 'l', technique: 'tc', responsive: 'r', pseudo: 'ps', pageWidth: 'w' };
 let current = null;
 let generation = 0;
 
@@ -53,7 +53,6 @@ function readForm() {
   const o = {};
   for (const f of FIELDS) o[f] = form.elements[f].value;
   o.seed = (o.seed || '').trim().toUpperCase() || randomSeed();
-  o.year = Number(o.year) || DEFAULTS.year;
   return o;
 }
 

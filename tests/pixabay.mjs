@@ -92,7 +92,7 @@ async function scenario(name, base, { key = 'TEST-KEY', cors, block = false, api
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', (e) => errors.push(String(e)));
-  await page.goto(`${base}#s=FOTO1&t=kwiaciarnia&m=server&d=normal&q=auto&g=yes&mo=06&y=2026`);
+  await page.goto(`${base}#s=FOTO1&t=kwiaciarnia&m=server&d=normal&q=auto&g=yes`);
   await page.fill('#pixabayKey', key);
   await page.dispatchEvent('#pixabayKey', 'change');
   await page.check('#usePixabay');

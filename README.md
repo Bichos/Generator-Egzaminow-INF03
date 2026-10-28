@@ -57,8 +57,8 @@ Jak dobierane są zdjęcia:
 
 ### Warianty
 
-- **Baza danych + PHP** (styl styczniowy): skrypty połączenia z bazą korzystają z kwerend z arkusza.
-- **Baza danych + JavaScript** (styl czerwcowy): kwerendy są niezależne, a witryna ma skrypty po stronie klienta.
+- **Baza danych + PHP**: skrypty połączenia z bazą korzystają z kwerend z arkusza.
+- **Baza danych + JavaScript**: kwerendy są niezależne, a witryna ma skrypty po stronie klienta.
 - **Baza danych + PHP i JavaScript**: na jednej stronie są skrypty PHP korzystające z bazy i skrypty po stronie klienta. W arkuszu są osobne sekcje dla obu języków i obie tabele pomocy.
 - **Animacja + JavaScript**: zamiast operacji na bazie jest animacja GIF.
 
@@ -87,7 +87,7 @@ Panel „Zestaw dla klasy” tworzy ZIP z N różnymi arkuszami (kody `KOD-01`, 
 ## Struktura paczki ZIP
 
 ```
-INF.03-07-26.06-SG_ABCD1234/
+INF.03-07-SG_ABCD1234/
 ├── arkusz.html            treść zadania (do druku / PDF)
 ├── klucz.html             wyniki kwerend, kryteria oceniania, rozwiązanie
 ├── CZYTAJ_MNIE.txt        nazwa archiwum i hasło

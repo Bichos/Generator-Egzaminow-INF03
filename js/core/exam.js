@@ -12,8 +12,8 @@ import { buildGrading } from './grading.js';
 import { computeImageSizes } from './sizing.js';
 
 export const MODES = {
-  server: 'Baza danych + skrypty PHP (styczeń)',
-  client: 'Baza danych + skrypty JavaScript (czerwiec)',
+  server: 'Baza danych + skrypty PHP',
+  client: 'Baza danych + skrypty JavaScript',
   mixed: 'Baza danych + skrypty PHP i JavaScript',
   animation: 'Animacja GIF + skrypty JavaScript',
 };
@@ -21,7 +21,7 @@ export const MODES = {
 export const TECHNIQUES = { float: 'float (opływanie)', flex: 'flexbox', grid: 'grid (siatka)' };
 
 export const DEFAULTS = {
-  theme: 'random', mode: 'random', difficulty: 'normal', queryCount: 'auto', graphics: 'random', year: 2026, month: '06',
+  theme: 'random', mode: 'random', difficulty: 'normal', queryCount: 'auto', graphics: 'random',
   layout: 'random', technique: 'random', responsive: 'random', pseudo: 'random', pageWidth: 'random',
 };
 
@@ -67,8 +67,7 @@ export function generateExam(input = {}) {
   const graphics = withGraphics ? buildGraphics(theme, rng.fork('gfx2'), site, sizing) : null;
 
   const taskNo = String(rng.fork('no').int(1, 12)).padStart(2, '0');
-  const yy = String(opts.year).slice(-2);
-  const code = `INF.03-${taskNo}-${yy}.${opts.month}-SG`;
+  const code = `INF.03-${taskNo}-SG`;
   const screenshotFmt = rng.fork('fmt').pick([['PNG', 'png'], ['JPEG', 'jpg']]);
   const importFmt = rng.fork('fmt2').pick([['PNG', 'png'], ['JPEG', 'jpg']]);
 

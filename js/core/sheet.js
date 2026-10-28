@@ -82,9 +82,8 @@ export function renderSheet(exam, { embedPreview = true } = {}) {
   const nextIll = () => ++ill;
   let tab = 0;
   const nextTab = () => ++tab;
-  const june = exam.options.month === '06';
   const usesGraphicsEditor = Boolean(exam.graphics || exam.animation);
-  const tools = june ? 'zainstalowane na komputerze aplikacje' : `${usesGraphicsEditor ? 'edytor grafiki rastrowej, ' : ''}pakiet XAMPP oraz edytor zaznaczający składnię`;
+  const tools = `${usesGraphicsEditor ? 'edytor grafiki rastrowej, ' : ''}pakiet XAMPP oraz edytor zaznaczający składnię`;
   const parts = [];
 
   // ---------- strona tytułowa ----------
@@ -97,7 +96,7 @@ export function renderSheet(exam, { embedPreview = true } = {}) {
     <div class="pesel"><span>Numer z dziennika</span><span class="boxes">${'<i></i>'.repeat(2)}</span></div>
   </div>
   <div class="row-between"><span>Czas trwania egzaminu: <b>150 minut</b></span><span class="code">${h(exam.code)}</span></div>
-  <div class="big">EGZAMIN ZAWODOWY – ARKUSZ ĆWICZENIOWY<br><small>Rok ${exam.options.year} · CZĘŚĆ PRAKTYCZNA · PODSTAWA PROGRAMOWA 2019</small></div>
+  <div class="big">EGZAMIN ZAWODOWY – ARKUSZ ĆWICZENIOWY<br><small>CZĘŚĆ PRAKTYCZNA · PODSTAWA PROGRAMOWA 2019</small></div>
   <h3>Instrukcja dla zdającego</h3>
   <ol class="instr">
     <li>Na pierwszej stronie arkusza wpisz w oznaczonym miejscu swoje imię i nazwisko oraz numer z dziennika.</li>
