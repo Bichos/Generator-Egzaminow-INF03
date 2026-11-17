@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteka szkolna – edycja książki</title>
+    <link rel="stylesheet" href="styl.css">
+</head>
+<body>
+<header class="naglowek">
+    <a href="index.php" class="logo">📚 Biblioteka <span>szkolna</span></a>
+    <nav>
+        <a href="index.php" class='aktywna'>Katalog</a>
+        <a href="dodaj.php">Dodaj książkę</a>
+        <a href="wypozyczenia.php">Wypożyczenia</a>
+    </nav>
+</header>
+    <main class="tresc">
+        <h1>Edycja książki</h1>
+        <form class="formularz" action="edytuj.php" method="post" onsubmit="return sprawdzIsbn()">
+            <input type="hidden" name="id" value="9">
+            <label for="tytul">Tytuł</label>
+            <input type="text" name="tytul" id="tytul" value="Czysty kod">
+            <label for="autor">Autor</label>
+            <input type="text" name="autor" id="autor" value="Robert C. Martin">
+            <div class="wiersz">
+                <div>
+                    <label for="rok">Rok wydania</label>
+                    <input type="number" name="rok" id="rok" value="2008">
+                </div>
+                <div>
+                    <label for="egzemplarze">Liczba egzemplarzy</label>
+                    <input type="number" name="egzemplarze" id="egzemplarze" min="1" value="2">
+                </div>
+            </div>
+            <label for="isbn">ISBN (13 cyfr)</label>
+            <input type="text" name="isbn" id="isbn" maxlength="13" value="9788328800632">
+            <p id="blad-isbn"></p>
+            <label for="kategoria">Kategoria</label>
+            <select name="kategoria" id="kategoria">
+<option value='2'>Fantastyka</option><option value='5' selected>Informatyka</option><option value='3'>Kryminał</option><option value='1'>Lektury</option><option value='4'>Popularnonaukowe</option>            </select>
+            <div class="przyciski">
+                <button type="submit">Zapisz zmiany</button>
+                <a href="index.php" class="przycisk anuluj">Anuluj</a>
+            </div>
+        </form>
+    </main>
+    <footer class="stopka">Projekt wykonał: 00</footer>
+    <script src="skrypt.js"></script>
+</body>
+</html>

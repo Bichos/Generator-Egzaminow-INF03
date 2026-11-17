@@ -61,7 +61,8 @@ export function layoutSvg(boxes, width = 340) {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${y}" width="${width}" height="${y}" font-family="Arial, sans-serif">${parts.join('')}</svg>`;
 }
 
-export function titlePage(kod, zadanie) {
+// opcje: czas (np. '2 × 150 minut'), naglowek (np. arkusz projektowy) - domyślnie jak arkusz ćwiczeniowy.
+export function titlePage(kod, zadanie, { czas = '150 minut', naglowek = 'EGZAMIN ZAWODOWY – ARKUSZ ĆWICZENIOWY', podtytul = 'CZĘŚĆ PRAKTYCZNA · PODSTAWA PROGRAMOWA 2019' } = {}) {
   return `<section class="page title-page">
   <div class="notice">Arkusz ćwiczeniowy przygotowany na zajęcia.<br>Nie jest oficjalnym arkuszem CKE.</div>
   <p class="meta">Nazwa kwalifikacji: <b>Tworzenie i administrowanie stronami i aplikacjami internetowymi oraz bazami danych</b><br>
@@ -70,8 +71,8 @@ export function titlePage(kod, zadanie) {
     <div class="pesel"><span>Imię i nazwisko</span><span class="line"></span></div>
     <div class="pesel"><span>Numer z dziennika</span><span class="boxes"><i></i><i></i></span></div>
   </div>
-  <div class="row-between"><span>Czas trwania egzaminu: <b>150 minut</b></span><span class="code">${h(kod)}</span></div>
-  <div class="big">EGZAMIN ZAWODOWY – ARKUSZ ĆWICZENIOWY<br><small>CZĘŚĆ PRAKTYCZNA · PODSTAWA PROGRAMOWA 2019</small></div>
+  <div class="row-between"><span>Czas trwania egzaminu: <b>${h(czas)}</b></span><span class="code">${h(kod)}</span></div>
+  <div class="big">${h(naglowek)}<br><small>${h(podtytul)}</small></div>
   <h3>Instrukcja dla zdającego</h3>
   <ol class="instr">
     <li>Na pierwszej stronie arkusza wpisz w oznaczonym miejscu swoje imię i nazwisko oraz numer z dziennika.</li>

@@ -1,0 +1,12 @@
+-- Zapytanie 1
+SELECT tytul, autor, nazwa FROM ksiazki JOIN kategorie ON ksiazki.kategorie_id = kategorie.id ORDER BY tytul;
+-- Zapytanie 2
+SELECT tytul, egzemplarze - COUNT(wypozyczenia.id) AS dostepne FROM ksiazki LEFT JOIN wypozyczenia ON wypozyczenia.ksiazki_id = ksiazki.id AND wypozyczenia.data_zwrotu IS NULL GROUP BY ksiazki.id ORDER BY tytul;
+-- Zapytanie 3
+SELECT imie, nazwisko, tytul, DATEDIFF('2026-11-17', data_wypozyczenia) AS dni FROM wypozyczenia JOIN czytelnicy ON wypozyczenia.czytelnicy_id = czytelnicy.id JOIN ksiazki ON wypozyczenia.ksiazki_id = ksiazki.id WHERE data_zwrotu IS NULL AND DATEDIFF('2026-11-17', data_wypozyczenia) > 14 ORDER BY dni DESC;
+-- Zapytanie 4
+INSERT INTO ksiazki (tytul, autor, rok_wydania, isbn, egzemplarze, kategorie_id) VALUES ('Solaris', 'Stanisław Lem', 1961, '9788306791051', 2, 2);
+-- Zapytanie 5
+UPDATE ksiazki SET egzemplarze = 3 WHERE tytul = 'Solaris';
+-- Zapytanie 6
+DELETE FROM ksiazki WHERE tytul = 'Solaris';

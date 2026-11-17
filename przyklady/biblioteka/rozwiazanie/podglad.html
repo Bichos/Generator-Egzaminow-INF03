@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteka szkolna – katalog</title>
+    <link rel="stylesheet" href="styl.css">
+</head>
+<body>
+<header class="naglowek">
+    <a href="index.php" class="logo">📚 Biblioteka <span>szkolna</span></a>
+    <nav>
+        <a href="index.php" class='aktywna'>Katalog</a>
+        <a href="dodaj.php">Dodaj książkę</a>
+        <a href="wypozyczenia.php">Wypożyczenia</a>
+    </nav>
+</header>
+    <main class="tresc">
+        <h1>Katalog książek</h1>
+<p class='komunikat sukces'>Dodano nową książkę.</p>        <form class="wyszukiwarka" action="index.php" method="get">
+            <input type="search" name="szukaj" placeholder="Tytuł lub autor" value="">
+            <select name="kategoria">
+                <option value="0">Wszystkie kategorie</option>
+<option value='2'>Fantastyka</option><option value='5'>Informatyka</option><option value='3'>Kryminał</option><option value='1'>Lektury</option><option value='4'>Popularnonaukowe</option>            </select>
+            <button type="submit">Szukaj</button>
+        </form>
+
+        <table class="katalog">
+            <thead>
+                <tr><th>Tytuł</th><th>Autor</th><th>Rok</th><th>Kategoria</th><th>Dostępne</th><th>Akcje</th></tr>
+            </thead>
+            <tbody>
+<tr><td>Czysty kod</td><td>Robert C. Martin</td><td>2008</td><td>Informatyka</td><td>1 / 2</td><td class='akcje'><a href='edytuj.php?id=9' class='przycisk edytuj'>Edytuj</a><a href='usun.php?id=9' class='przycisk usun'>Usuń</a></td></tr><tr><td>Hobbit, czyli tam i z powrotem</td><td>J.R.R. Tolkien</td><td>1937</td><td>Fantastyka</td><td class='brak'>0 / 2</td><td class='akcje'><a href='edytuj.php?id=5' class='przycisk edytuj'>Edytuj</a><a href='usun.php?id=5' class='przycisk usun'>Usuń</a></td></tr><tr><td>Kamienie na szaniec</td><td>Aleksander Kamiński</td><td>1943</td><td>Lektury</td><td>4 / 4</td><td class='akcje'><a href='edytuj.php?id=3' class='przycisk edytuj'>Edytuj</a><a href='usun.php?id=3' class='przycisk usun'>Usuń</a></td></tr><tr><td>Krótka historia czasu</td><td>Stephen Hawking</td><td>1988</td><td>Popularnonaukowe</td><td>1 / 1</td><td class='akcje'><a href='edytuj.php?id=8' class='przycisk edytuj'>Edytuj</a><a href='usun.php?id=8' class='przycisk usun'>Usuń</a></td></tr><tr><td>Lalka</td><td>Bolesław Prus</td><td>1890</td><td>Lektury</td><td>2 / 3</td><td class='akcje'><a href='edytuj.php?id=2' class='przycisk edytuj'>Edytuj</a><a href='usun.php?id=2' class='przycisk usun'>Usuń</a></td></tr><tr><td>Morderstwo w Orient Expressie</td><td>Agatha Christie</td><td>1934</td><td>Kryminał</td><td class='brak'>0 / 1</td><td class='akcje'><a href='edytuj.php?id=7' class='przycisk edytuj'>Edytuj</a><a href='usun.php?id=7' class='przycisk usun'>Usuń</a></td></tr><tr><td>Pan Tadeusz</td><td>Adam Mickiewicz</td><td>1834</td><td>Lektury</td><td>2 / 3</td><td class='akcje'><a href='edytuj.php?id=1' class='przycisk edytuj'>Edytuj</a><a href='usun.php?id=1' class='przycisk usun'>Usuń</a></td></tr><tr><td>Python. Wprowadzenie</td><td>Mark Lutz</td><td>2013</td><td>Informatyka</td><td>1 / 1</td><td class='akcje'><a href='edytuj.php?id=10' class='przycisk edytuj'>Edytuj</a><a href='usun.php?id=10' class='przycisk usun'>Usuń</a></td></tr><tr><td>Quo vadis</td><td>Henryk Sienkiewicz</td><td>1896</td><td>Lektury</td><td>2 / 2</td><td class='akcje'><a href='edytuj.php?id=4' class='przycisk edytuj'>Edytuj</a><a href='usun.php?id=4' class='przycisk usun'>Usuń</a></td></tr><tr><td>Wiedźmin. Ostatnie życzenie</td><td>Andrzej Sapkowski</td><td>1993</td><td>Fantastyka</td><td>2 / 2</td><td class='akcje'><a href='edytuj.php?id=6' class='przycisk edytuj'>Edytuj</a><a href='usun.php?id=6' class='przycisk usun'>Usuń</a></td></tr>            </tbody>
+        </table>
+        <p class="podsumowanie">Liczba tytułów: 10</p>
+    </main>
+    <footer class="stopka">Projekt wykonał: 00</footer>
+</body>
+</html>

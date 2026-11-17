@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteka szkolna – wypożyczenia</title>
+    <link rel="stylesheet" href="styl.css">
+</head>
+<body>
+<header class="naglowek">
+    <a href="index.php" class="logo">📚 Biblioteka <span>szkolna</span></a>
+    <nav>
+        <a href="index.php">Katalog</a>
+        <a href="dodaj.php">Dodaj książkę</a>
+        <a href="wypozyczenia.php" class='aktywna'>Wypożyczenia</a>
+    </nav>
+</header>
+    <main class="tresc">
+        <h1>Wypożyczenia</h1>
+        <form class="formularz poziomy" action="wypozyczenia.php" method="post">
+            <input type="hidden" name="akcja" value="wypozycz">
+            <div>
+                <label for="ksiazka">Książka</label>
+                <select name="ksiazka" id="ksiazka">
+<option value='9'>Czysty kod (dostępne: 1)</option><option value='3'>Kamienie na szaniec (dostępne: 4)</option><option value='8'>Krótka historia czasu (dostępne: 1)</option><option value='2'>Lalka (dostępne: 2)</option><option value='1'>Pan Tadeusz (dostępne: 2)</option><option value='10'>Python. Wprowadzenie (dostępne: 1)</option><option value='4'>Quo vadis (dostępne: 2)</option><option value='6'>Wiedźmin. Ostatnie życzenie (dostępne: 2)</option>                </select>
+            </div>
+            <div>
+                <label for="czytelnik">Czytelnik</label>
+                <select name="czytelnik" id="czytelnik">
+<option value='4'>Kamiński Szymon (2TI)</option><option value='1'>Nowak Julia (2TI)</option><option value='6'>Szymański Filip (1TP)</option><option value='2'>Wiśniewski Kacper (3TI)</option><option value='3'>Wójcik Amelia (1TP)</option><option value='5'>Zielińska Lena (4TI)</option>                </select>
+            </div>
+            <button type="submit">Wypożycz</button>
+        </form>
+
+        <h2>Książki u czytelników</h2>
+        <table>
+            <thead>
+                <tr><th>Czytelnik</th><th>Klasa</th><th>Tytuł</th><th>Wypożyczono</th><th>Dni</th><th>Zwrot</th></tr>
+            </thead>
+            <tbody>
+<tr class='przetrzymana'><td>Kacper Wiśniewski</td><td>3TI</td><td>Hobbit, czyli tam i z powrotem</td><td>20.10.2026</td><td>28</td><td><form action='wypozyczenia.php' method='post' onsubmit='return potwierdzZwrot()'><input type='hidden' name='akcja' value='zwrot'><input type='hidden' name='wypozyczenie' value='3'><button type='submit' class='maly'>Zwróć</button></form></td></tr><tr class='przetrzymana'><td>Szymon Kamiński</td><td>2TI</td><td>Lalka</td><td>26.10.2026</td><td>22</td><td><form action='wypozyczenia.php' method='post' onsubmit='return potwierdzZwrot()'><input type='hidden' name='akcja' value='zwrot'><input type='hidden' name='wypozyczenie' value='10'><button type='submit' class='maly'>Zwróć</button></form></td></tr><tr class='przetrzymana'><td>Szymon Kamiński</td><td>2TI</td><td>Morderstwo w Orient Expressie</td><td>30.10.2026</td><td>18</td><td><form action='wypozyczenia.php' method='post' onsubmit='return potwierdzZwrot()'><input type='hidden' name='akcja' value='zwrot'><input type='hidden' name='wypozyczenie' value='4'><button type='submit' class='maly'>Zwróć</button></form></td></tr><tr><td>Julia Nowak</td><td>2TI</td><td>Pan Tadeusz</td><td>10.11.2026</td><td>7</td><td><form action='wypozyczenia.php' method='post' onsubmit='return potwierdzZwrot()'><input type='hidden' name='akcja' value='zwrot'><input type='hidden' name='wypozyczenie' value='5'><button type='submit' class='maly'>Zwróć</button></form></td></tr><tr><td>Kacper Wiśniewski</td><td>3TI</td><td>Czysty kod</td><td>12.11.2026</td><td>5</td><td><form action='wypozyczenia.php' method='post' onsubmit='return potwierdzZwrot()'><input type='hidden' name='akcja' value='zwrot'><input type='hidden' name='wypozyczenie' value='7'><button type='submit' class='maly'>Zwróć</button></form></td></tr><tr><td>Filip Szymański</td><td>1TP</td><td>Hobbit, czyli tam i z powrotem</td><td>14.11.2026</td><td>3</td><td><form action='wypozyczenia.php' method='post' onsubmit='return potwierdzZwrot()'><input type='hidden' name='akcja' value='zwrot'><input type='hidden' name='wypozyczenie' value='6'><button type='submit' class='maly'>Zwróć</button></form></td></tr>            </tbody>
+        </table>
+        <p class="legenda">Wiersze wyróżnione na czerwono: książka przetrzymana dłużej niż 14 dni.</p>
+    </main>
+    <footer class="stopka">Projekt wykonał: 00</footer>
+    <script src="skrypt.js"></script>
+</body>
+</html>

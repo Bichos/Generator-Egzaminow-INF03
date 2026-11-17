@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteka szkolna – usuwanie książki</title>
+    <link rel="stylesheet" href="styl.css">
+</head>
+<body>
+<header class="naglowek">
+    <a href="index.php" class="logo">📚 Biblioteka <span>szkolna</span></a>
+    <nav>
+        <a href="index.php" class='aktywna'>Katalog</a>
+        <a href="dodaj.php">Dodaj książkę</a>
+        <a href="wypozyczenia.php">Wypożyczenia</a>
+    </nav>
+</header>
+    <main class="tresc">
+        <h1>Usuwanie książki</h1>
+<div class='potwierdzenie'><p>Czy na pewno usunąć książkę <strong>„Krótka historia czasu”</strong> (Stephen Hawking)?</p><p class='uwaga'>Zostanie usunięta także historia wypożyczeń tej książki.</p><form action='usun.php' method='post' class='przyciski'><input type='hidden' name='id' value='8'><button type='submit' name='potwierdz' class='usun'>Tak, usuń</button><a href='index.php' class='przycisk anuluj'>Anuluj</a></form></div>    </main>
+    <footer class="stopka">Projekt wykonał: 00</footer>
+</body>
+</html>

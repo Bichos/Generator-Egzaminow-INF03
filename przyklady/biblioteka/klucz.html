@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INF.03-BS-PR – Biblioteka szkolna – klucz</title>
+<style>
+* { box-sizing: border-box; }
+html { background: #eef0f3; }
+body { margin: 0; padding: 16px; font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt; color: #111; line-height: 1.4; }
+.page { background: #fff; max-width: 210mm; margin: 0 auto; padding: 16mm; box-shadow: 0 1px 6px rgba(0,0,0,.15); }
+h1 { font-size: 16pt; margin: 0 0 6px; } h2 { font-size: 13pt; border-bottom: 2px solid #333; padding-bottom: 3px; margin-top: 22px; }
+pre { background: #f5f5f7; border: 1px solid #ddd; padding: 8px; white-space: pre-wrap; word-break: break-word; font-size: 9pt; }
+table.zo { border-collapse: collapse; width: 100%; font-size: 9.5pt; }
+table.zo th, table.zo td { border: 1px solid #999; padding: 4px 6px; vertical-align: top; text-align: left; }
+table.zo td:first-child, table.zo td:last-child { white-space: nowrap; text-align: center; }
+table.zo tr.res-head td { background: #eef2f7; } table.zo tr.sum td { font-weight: bold; }
+table.zo .note { font-size: 8.5pt; color: #444; margin: 3px 0 0; } table.zo tr { break-inside: avoid; }
+.small { font-size: 9pt; color: #444; }
+@media print { html, body { background: #fff; padding: 0; } .page { box-shadow: none; padding: 0; } }
+@page { size: A4; margin: 14mm; }
+</style>
+</head>
+<body>
+<section class="page">
+  <h1>Biblioteka szkolna (projekt CRUD) – zasady oceniania i rozwiązanie</h1>
+  <p class="small">INF.03-BS-PR · baza biblioteka · archiwum biblioteka (hasło: <code>Ks1azki!CRUD</code>). Każde kryterium oceniane jest zero-jedynkowo (spełnione – 1 pkt).</p>
+  <h2>Zasady oceniania</h2><table class="zo"><tr><th>Lp.</th><th>Elementy podlegające ocenie / kryteria oceny</th><th>Pkt</th></tr><tr class="res-head"><td>R.1</td><td><b>Rezultat 1: Baza danych</b><p class="note">Uwaga: zapytanie 2 bez warunku data_zwrotu w ON (np. w WHERE) pomija książki bez wypożyczeń – kryterium niespełnione. W zapytaniu 3 dopuszcza się CURDATE() – wtedy liczby dni zależą od daty wykonania.</p></td><td>8</td></tr><tr><td>R.1.1</td><td><label><input type="checkbox"> Wykonany import bazy biblioteka (zrzut import.png)</label></td><td>1</td></tr><tr><td>R.1.2</td><td><label><input type="checkbox"> Plik kwerendy.txt zawiera zapytania w kolejności z treści zadania</label></td><td>1</td></tr><tr><td>R.1.3</td><td><label><input type="checkbox"> Zapytanie 1: np. SELECT tytul, autor, nazwa FROM ksiazki JOIN kategorie ON ksiazki.kategorie_id = kategorie.id ORDER BY tytul; – na zrzucie kw1: 10 wierszy od „Czysty kod” do „Wiedźmin. Ostatnie życzenie” z nazwami kategorii</label></td><td>1</td></tr><tr><td>R.1.4</td><td><label><input type="checkbox"> Zapytanie 2: np. SELECT tytul, egzemplarze - COUNT(wypozyczenia.id) AS dostepne FROM ksiazki LEFT JOIN wypozyczenia ON wypozyczenia.ksiazki_id = ksiazki.id AND wypozyczenia.data_zwrotu IS NULL GROUP BY ksiazki.id ORDER BY tytul; – na zrzucie kw2: 10 wierszy; „Hobbit…” i „Morderstwo w Orient Expressie” mają 0 dostępnych, „Kamienie na szaniec” 4 (książka bez wypożyczeń jest widoczna)</label></td><td>1</td></tr><tr><td>R.1.5</td><td><label><input type="checkbox"> Zapytanie 3: np. SELECT imie, nazwisko, tytul, DATEDIFF('2026-11-17', data_wypozyczenia) AS dni FROM wypozyczenia JOIN czytelnicy ON wypozyczenia.czytelnicy_id = czytelnicy.id JOIN ksiazki ON wypozyczenia.ksiazki_id = ksiazki.id WHERE data_zwrotu IS NULL AND DATEDIFF('2026-11-17', data_wypozyczenia) &gt; 14 ORDER BY dni DESC; – na zrzucie kw3: 3 wiersze: Kacper Wiśniewski – Hobbit (28), Szymon Kamiński – Lalka (22), Szymon Kamiński – Morderstwo w Orient Expressie (18)</label></td><td>1</td></tr><tr><td>R.1.6</td><td><label><input type="checkbox"> Zapytanie 4: np. INSERT INTO ksiazki (tytul, autor, rok_wydania, isbn, egzemplarze, kategorie_id) VALUES ('Solaris', 'Stanisław Lem', 1961, '9788306791051', 2, 2); – na zrzucie kw4: komunikat o dodaniu 1 wiersza</label></td><td>1</td></tr><tr><td>R.1.7</td><td><label><input type="checkbox"> Zapytanie 5: np. UPDATE ksiazki SET egzemplarze = 3 WHERE tytul = 'Solaris'; – na zrzucie kw5: komunikat o zmianie 1 wiersza</label></td><td>1</td></tr><tr><td>R.1.8</td><td><label><input type="checkbox"> Zapytanie 6: np. DELETE FROM ksiazki WHERE tytul = 'Solaris'; – na zrzucie kw6: komunikat o usunięciu 1 wiersza</label></td><td>1</td></tr><tr class="res-head"><td>R.2</td><td><b>Rezultat 2: Struktura aplikacji i pliki wspólne</b><p class="note">Uwaga: kryteria sprawdzić w kodzie źródłowym wszystkich plików PHP.</p></td><td>8</td></tr><tr><td>R.2.1</td><td><label><input type="checkbox"> Komplet plików aplikacji o nazwach z treści zadania</label></td><td>1</td></tr><tr><td>R.2.2</td><td><label><input type="checkbox"> polaczenie.php łączy się z bazą biblioteka i ustawia kodowanie utf8mb4; jest dołączany przez require_once na każdej stronie (żadna strona nie ma własnego mysqli_connect)</label></td><td>1</td></tr><tr><td>R.2.3</td><td><label><input type="checkbox"> menu.php zawiera nagłówek z logo (span „szkolna”) i trzema odnośnikami; dołączany przez include na każdej stronie</label></td><td>1</td></tr><tr><td>R.2.4</td><td><label><input type="checkbox"> Odnośnik bieżącej strony ma klasę aktywna (ustawiana na podstawie zmiennej $aktywna; przy edycji i usuwaniu aktywny jest Katalog)</label></td><td>1</td></tr><tr><td>R.2.5</td><td><label><input type="checkbox"> Każda strona ma poprawny szkielet HTML5 (lang, charset, viewport), tytuł „Biblioteka szkolna – …”, main z klasą tresc, nagłówek h1 i stopkę „Projekt wykonał: ” z numerem zdającego</label></td><td>1</td></tr><tr><td>R.2.6</td><td><label><input type="checkbox"> Dane użytkownika są wyświetlane przez htmlspecialchars (np. wpisanie &lt;b&gt;test&lt;/b&gt; w wyszukiwarce nie pogrubia tekstu)</label></td><td>1</td></tr><tr><td>R.2.7</td><td><label><input type="checkbox"> Identyfikatory i liczby są rzutowane na int, a teksty w zapytaniach przechodzą przez mysqli_real_escape_string (np. wyszukanie frazy z apostrofem nie powoduje błędu SQL)</label></td><td>1</td></tr><tr><td>R.2.8</td><td><label><input type="checkbox"> Połączenie z serwerem jest zamykane na końcu każdej strony oraz przed przekierowaniem</label></td><td>1</td></tr><tr class="res-head"><td>R.3</td><td><b>Rezultat 3: Katalog – odczyt</b><p class="note">Uwaga: kryteria sprawdzić na działającej aplikacji (XAMPP) z bazą po imporcie.</p></td><td>7</td></tr><tr><td>R.3.1</td><td><label><input type="checkbox"> index.php wyświetla tabelę 10 książek posortowanych według tytułu z kolumnami: Tytuł, Autor, Rok, Kategoria, Dostępne, Akcje</label></td><td>1</td></tr><tr><td>R.3.2</td><td><label><input type="checkbox"> Kolumna Dostępne pokazuje „dostępne / egzemplarze” wyliczone z niezwróconych wypożyczeń (Hobbit 0 / 2, Pan Tadeusz 2 / 3); dla 0 komórka ma klasę brak</label></td><td>1</td></tr><tr><td>R.3.3</td><td><label><input type="checkbox"> Wyszukiwarka filtruje po fragmencie tytułu lub autora (np. „sien” → Quo vadis), a lista kategorii po kategorii; oba warunki działają razem</label></td><td>1</td></tr><tr><td>R.3.4</td><td><label><input type="checkbox"> Po wyszukaniu pole i lista zachowują wybrane wartości</label></td><td>1</td></tr><tr><td>R.3.5</td><td><label><input type="checkbox"> Gdy brak wyników – wiersz „Nie znaleziono książek.” na całą szerokość tabeli; pod tabelą liczba tytułów zgodna z liczbą wierszy</label></td><td>1</td></tr><tr><td>R.3.6</td><td><label><input type="checkbox"> Komunikaty dodano / zmieniono / usunieto wyświetlają się tylko dla tych trzech wartości parametru</label></td><td>1</td></tr><tr><td>R.3.7</td><td><label><input type="checkbox"> Odnośniki Edytuj i Usuń prowadzą do edytuj.php?id=… i usun.php?id=… z właściwym identyfikatorem</label></td><td>1</td></tr><tr class="res-head"><td>R.4</td><td><b>Rezultat 4: Dodawanie i edycja</b><p class="note">Uwaga: przekierowanie sprawdzić, odświeżając stronę po zapisie (F5) – nie może pojawić się pytanie o ponowne wysłanie formularza.</p></td><td>7</td></tr><tr><td>R.4.1</td><td><label><input type="checkbox"> Formularz dodawania zawiera wszystkie pola z etykietami (for/id), listę kategorii z bazy, przyciski „Dodaj książkę” i „Anuluj”</label></td><td>1</td></tr><tr><td>R.4.2</td><td><label><input type="checkbox"> PHP sprawdza wszystkie pięć warunków i wyświetla listę wszystkich błędów naraz</label></td><td>1</td></tr><tr><td>R.4.3</td><td><label><input type="checkbox"> Po błędzie pola formularza zachowują wpisane wartości (również wybraną kategorię)</label></td><td>1</td></tr><tr><td>R.4.4</td><td><label><input type="checkbox"> Poprawne dane są zapisywane w bazie (INSERT), a przeglądarka przechodzi do index.php?komunikat=dodano; odświeżenie strony nie dodaje książki ponownie</label></td><td>1</td></tr><tr><td>R.4.5</td><td><label><input type="checkbox"> edytuj.php wypełnia formularz danymi wybranej książki i zaznacza jej kategorię; formularz zawiera ukryte pole id</label></td><td>1</td></tr><tr><td>R.4.6</td><td><label><input type="checkbox"> Zapis edycji zmienia tylko wybraną książkę (UPDATE … WHERE id) i przekierowuje z komunikatem zmieniono</label></td><td>1</td></tr><tr><td>R.4.7</td><td><label><input type="checkbox"> Edycja sprawdza dane tak samo jak dodawanie; dla nieistniejącego id wyświetla komunikat zamiast formularza</label></td><td>1</td></tr><tr class="res-head"><td>R.5</td><td><b>Rezultat 5: Usuwanie</b><p class="note">Uwaga: sprawdzić, że usuwanie metodą GET (samo wejście na usun.php?id=…) nie zmienia bazy.</p></td><td>5</td></tr><tr><td>R.5.1</td><td><label><input type="checkbox"> usun.php wyświetla potwierdzenie z tytułem i autorem; samo otwarcie adresu nie usuwa książki</label></td><td>1</td></tr><tr><td>R.5.2</td><td><label><input type="checkbox"> Usunięcie następuje po wysłaniu formularza POST „Tak, usuń”; „Anuluj” wraca do katalogu</label></td><td>1</td></tr><tr><td>R.5.3</td><td><label><input type="checkbox"> Książki z niezwróconymi wypożyczeniami nie można usunąć – wyświetla się komunikat z liczbą egzemplarzy u czytelników</label></td><td>1</td></tr><tr><td>R.5.4</td><td><label><input type="checkbox"> Przed usunięciem książki usuwana jest jej historia wypożyczeń (brak błędu klucza obcego, np. dla „Kamienie na szaniec”, które mają tylko zwrócone wypożyczenia); po usunięciu przekierowanie z komunikatem usunieto</label></td><td>1</td></tr><tr><td>R.5.5</td><td><label><input type="checkbox"> Dla nieistniejącego id wyświetla się komunikat z odnośnikiem do katalogu</label></td><td>1</td></tr><tr class="res-head"><td>R.6</td><td><b>Rezultat 6: Wypożyczenia</b><p class="note">Uwaga: liczby dni zależą od bieżącej daty – podane wartości dotyczą 17.11.2026.</p></td><td>7</td></tr><tr><td>R.6.1</td><td><label><input type="checkbox"> Lista książek w formularzu zawiera tylko tytuły z dostępnymi egzemplarzami (bez Hobbita i Orient Expressu) z liczbą dostępnych</label></td><td>1</td></tr><tr><td>R.6.2</td><td><label><input type="checkbox"> Lista czytelników ma postać „nazwisko imię (klasa)” i jest posortowana według nazwiska</label></td><td>1</td></tr><tr><td>R.6.3</td><td><label><input type="checkbox"> Wypożyczenie dodaje rekord z bieżącą datą i pustą datą zwrotu; liczba dostępnych w katalogu zmniejsza się o 1</label></td><td>1</td></tr><tr><td>R.6.4</td><td><label><input type="checkbox"> Tabela pokazuje tylko niezwrócone wypożyczenia posortowane według daty, z datą w formacie DD.MM.RRRR i liczbą dni liczoną od dziś (DATEDIFF, CURDATE)</label></td><td>1</td></tr><tr><td>R.6.5</td><td><label><input type="checkbox"> Wiersze wypożyczeń dłuższych niż 14 dni mają klasę przetrzymana (17.11.2026: Hobbit, Lalka, Orient Express)</label></td><td>1</td></tr><tr><td>R.6.6</td><td><label><input type="checkbox"> Przycisk „Zwróć” ustawia datę zwrotu na dziś; książka znika z tabeli, a dostępność w katalogu rośnie</label></td><td>1</td></tr><tr><td>R.6.7</td><td><label><input type="checkbox"> Po każdej operacji następuje przekierowanie z odpowiednim komunikatem</label></td><td>1</td></tr><tr class="res-head"><td>R.7</td><td><b>Rezultat 7: JavaScript</b><p class="note">Uwaga: skrypty sprawdzić w przeglądarce z otwartą konsolą (brak błędów).</p></td><td>5</td></tr><tr><td>R.7.1</td><td><label><input type="checkbox"> Formularze dodawania i edycji wywołują sprawdzIsbn przez onsubmit=&quot;return …&quot;</label></td><td>1</td></tr><tr><td>R.7.2</td><td><label><input type="checkbox"> Dla ISBN o długości innej niż 13 lub zawierającego litery wyświetla się komunikat i formularz nie jest wysyłany</label></td><td>1</td></tr><tr><td>R.7.3</td><td><label><input type="checkbox"> Cyfra kontrolna liczona poprawnie (wagi 1 i 3): 9788306791051 jest akceptowany, 9788306791052 odrzucany z informacją, że cyfra powinna być 1</label></td><td>1</td></tr><tr><td>R.7.4</td><td><label><input type="checkbox"> Poprawny ISBN czyści komunikat i formularz jest wysyłany</label></td><td>1</td></tr><tr><td>R.7.5</td><td><label><input type="checkbox"> Zwrot książki wymaga potwierdzenia (confirm); „Anuluj” przerywa wysłanie</label></td><td>1</td></tr><tr class="res-head"><td>R.8</td><td><b>Rezultat 8: Styl CSS</b><p class="note">Uwaga: kryteria muszą działać na stronie (sprawdzić w inspektorze); wspólny arkusz dla wszystkich stron.</p></td><td>14</td></tr><tr><td>R.8.1</td><td><label><input type="checkbox"> Ustawione: wspólny arkusz styl.css dla wszystkich stron. Domyślnie (*): marginesy 0, model border-box. Ciało strony: układ elastyczny kolumnowy, minimalna wysokość 100vh (stopka zawsze na dole okna), tło #FAF7F2, kolor #2B2118, krój Georgia, w przypadku braku Times New Roman, a następnie serif, wysokość linii 1,5</label></td><td>1</td></tr><tr><td>R.8.2</td><td><label><input type="checkbox"> Ustawione: nagłówki: h1 – kolor #7C2D12, 1,8 rem, dolny margines 18 px; h2 – kolor #7C2D12, 1,3 rem, marginesy górny 28 px i dolny 12 px</label></td><td>1</td></tr><tr><td>R.8.3</td><td><label><input type="checkbox"> Ustawione: klasa naglowek: układ elastyczny, elementy rozsunięte i wyśrodkowane w pionie, zawijanie, odstęp 12 px, marginesy wewnętrzne 14 px / 5%, tło #7C2D12, biały tekst. Logo: biały pogrubiony tekst 1,5 rem bez podkreślenia; span w logo – kolor #FDBA74, kursywa</label></td><td>1</td></tr><tr><td>R.8.4</td><td><label><input type="checkbox"> Ustawione: odnośniki menu: marginesy wewnętrzne 8 px / 14 px, zaokrąglenie 4 px, biały tekst bez podkreślenia, krój Arial; po najechaniu tło rgba(255, 255, 255, 0.15); odnośnik z klasą aktywna – tło #FDBA74, kolor #431407, pogrubienie</label></td><td>1</td></tr><tr><td>R.8.5</td><td><label><input type="checkbox"> Ustawione: klasa tresc: zajmuje wolne miejsce w pionie (flex: 1), szerokość 100%, maksymalnie 1100 px, wyśrodkowana, marginesy wewnętrzne 28 px / 20 px. Klasa stopka: marginesy wewnętrzne 14 px, tło #431407, kolor #FED7AA, tekst wyśrodkowany, 0,85 rem</label></td><td>1</td></tr><tr><td>R.8.6</td><td><label><input type="checkbox"> Ustawione: klasa komunikat: dolny margines 16 px, marginesy wewnętrzne 12 px / 16 px, zaokrąglenie 6 px, krój Arial. Klasa sukces: tło #DCFCE7 i lewe obramowanie 5 px #16A34A; klasa bledy: tło #FEE2E2, lewe obramowanie 5 px #DC2626, punktory wewnątrz bloku (list-style-position: inside)</label></td><td>1</td></tr><tr><td>R.8.7</td><td><label><input type="checkbox"> Ustawione: klasa formularz: maksymalna szerokość 560 px, marginesy wewnętrzne 24 px, białe tło, obramowanie 1 px #E7DCCB, zaokrąglenie 8 px. Formularz z klasą poziomy: układ elastyczny, elementy wyrównane do dołu, odstęp 14 px, bez ograniczenia szerokości; bloki div w nim dzielą szerokość po równo</label></td><td>1</td></tr><tr><td>R.8.8</td><td><label><input type="checkbox"> Ustawione: klasa wyszukiwarka: układ elastyczny, odstęp 8 px, dolny margines 18 px; pole wyszukiwania zajmuje wolne miejsce, a lista ma automatyczną szerokość. Klasa wiersz: siatka z dwiema równymi kolumnami, odstęp 16 px</label></td><td>1</td></tr><tr><td>R.8.9</td><td><label><input type="checkbox"> Ustawione: etykiety: wyświetlanie blokowe, marginesy 12 px / 4 px (w formularzu poziomym bez górnego), Arial, 0,9 rem, pogrubienie. Pola input i select: szerokość 100%, marginesy wewnętrzne 9 px, obramowanie 1 px #C8B8A0, zaokrąglenie 4 px, czcionka dziedziczona; aktywne pole: kolor obramowania #7C2D12 i obrys 2 px #FDBA74</label></td><td>1</td></tr><tr><td>R.8.10</td><td><label><input type="checkbox"> Ustawione: przyciski i odnośniki z klasą przycisk (wspólna reguła): inline-block, marginesy wewnętrzne 9 px / 18 px, tło #7C2D12, biały tekst bez podkreślenia, bez obramowania, zaokrąglenie 4 px, Arial 0,95 rem, kursor w kształcie dłoni; po najechaniu tło #9A3412. Klasa anuluj – tło #E7DCCB i ciemny tekst, klasa edytuj – tło #2563EB, klasa usun – tło #DC2626; przyciski w komórce akcje i z klasą maly – marginesy wewnętrzne 4 px / 10 px, 0,8 rem</label></td><td>1</td></tr><tr><td>R.8.11</td><td><label><input type="checkbox"> Ustawione: klasa przyciski: układ elastyczny, odstęp 10 px, górny margines 20 px. Klasa akcje: tekst bez łamania wierszy (white-space: nowrap), odnośniki w niej z prawym marginesem 4 px. Identyfikator blad-isbn: kolor #DC2626, 0,85 rem</label></td><td>1</td></tr><tr><td>R.8.12</td><td><label><input type="checkbox"> Ustawione: tabela: szerokość 100%, scalone obramowania, białe tło, Arial 0,92 rem; komórki nagłówkowe: marginesy wewnętrzne 10 px, tło #431407, biały tekst wyrównany do lewej; komórki danych: marginesy wewnętrzne 8 px / 10 px, dolne obramowanie 1 px #E7DCCB; wiersz tbody wskazany kursorem – tło #FFF7ED</label></td><td>1</td></tr><tr><td>R.8.13</td><td><label><input type="checkbox"> Ustawione: klasa brak: kolor #DC2626, pogrubienie. Klasa przetrzymana: tło #FEE2E2. Klasa pusto: tekst wyśrodkowany, kursywa. Klasy podsumowanie i legenda: górny margines 10 px, kolor #78716C, 0,9 rem. Klasa potwierdzenie: maksymalna szerokość 560 px, marginesy wewnętrzne 24 px, białe tło, obramowanie 2 px #DC2626, zaokrąglenie 8 px; klasa uwaga: górny margines 8 px, kolor #78716C, 0,9 rem</label></td><td>1</td></tr><tr><td>R.8.14</td><td><label><input type="checkbox"> Ustawione: dla ekranów do 760 px (ilustracja 9): wyszukiwarka i formularz poziomy układają elementy w kolumnie (rozciągnięte na szerokość), blok wiersz ma jedną kolumnę, lista w wyszukiwarce ma pełną szerokość, w tabeli katalog ukryte są kolumny Autor, Rok i Kategoria (selektor :nth-child), a odnośniki w komórce akcje są wyświetlane blokowo jeden pod drugim (dolny margines 4 px, tekst wyśrodkowany)</label></td><td>1</td></tr><tr class="sum"><td></td><td>Razem</td><td>61</td></tr></table>
+  <h2>Rozwiązanie wzorcowe</h2><h4>kwerendy.txt</h4><pre>-- Zapytanie 1
+SELECT tytul, autor, nazwa FROM ksiazki JOIN kategorie ON ksiazki.kategorie_id = kategorie.id ORDER BY tytul;
+-- Zapytanie 2
+SELECT tytul, egzemplarze - COUNT(wypozyczenia.id) AS dostepne FROM ksiazki LEFT JOIN wypozyczenia ON wypozyczenia.ksiazki_id = ksiazki.id AND wypozyczenia.data_zwrotu IS NULL GROUP BY ksiazki.id ORDER BY tytul;
+-- Zapytanie 3
+SELECT imie, nazwisko, tytul, DATEDIFF('2026-11-17', data_wypozyczenia) AS dni FROM wypozyczenia JOIN czytelnicy ON wypozyczenia.czytelnicy_id = czytelnicy.id JOIN ksiazki ON wypozyczenia.ksiazki_id = ksiazki.id WHERE data_zwrotu IS NULL AND DATEDIFF('2026-11-17', data_wypozyczenia) &gt; 14 ORDER BY dni DESC;
+-- Zapytanie 4
+INSERT INTO ksiazki (tytul, autor, rok_wydania, isbn, egzemplarze, kategorie_id) VALUES ('Solaris', 'Stanisław Lem', 1961, '9788306791051', 2, 2);
+-- Zapytanie 5
+UPDATE ksiazki SET egzemplarze = 3 WHERE tytul = 'Solaris';
+-- Zapytanie 6
+DELETE FROM ksiazki WHERE tytul = 'Solaris';
+</pre><h4>polaczenie.php</h4><pre>&lt;?php
+// polaczenie.php - wspólne połączenie z bazą, dołączane na początku każdej strony
+$polaczenie = mysqli_connect('localhost', 'root', '', 'biblioteka');
+mysqli_set_charset($polaczenie, 'utf8mb4');
+</pre><h4>menu.php</h4><pre>&lt;?php
+// menu.php - wspólny nagłówek z menu; zmienna $aktywna wskazuje bieżącą stronę
+?&gt;
+&lt;header class=&quot;naglowek&quot;&gt;
+    &lt;a href=&quot;index.php&quot; class=&quot;logo&quot;&gt;📚 Biblioteka &lt;span&gt;szkolna&lt;/span&gt;&lt;/a&gt;
+    &lt;nav&gt;
+        &lt;a href=&quot;index.php&quot;&lt;?php if ($aktywna == 'katalog') echo &quot; class='aktywna'&quot;; ?&gt;&gt;Katalog&lt;/a&gt;
+        &lt;a href=&quot;dodaj.php&quot;&lt;?php if ($aktywna == 'dodaj') echo &quot; class='aktywna'&quot;; ?&gt;&gt;Dodaj książkę&lt;/a&gt;
+        &lt;a href=&quot;wypozyczenia.php&quot;&lt;?php if ($aktywna == 'wypozyczenia') echo &quot; class='aktywna'&quot;; ?&gt;&gt;Wypożyczenia&lt;/a&gt;
+    &lt;/nav&gt;
+&lt;/header&gt;
+</pre><h4>index.php</h4><pre>&lt;?php
+require_once 'polaczenie.php';
+$aktywna = 'katalog';
+
+$szukaj = '';
+if (isset($_GET['szukaj'])) {
+    $szukaj = $_GET['szukaj'];
+}
+$kategoria = 0;
+if (isset($_GET['kategoria'])) {
+    $kategoria = (int) $_GET['kategoria'];
+}
+$komunikaty = array(
+    'dodano' =&gt; 'Dodano nową książkę.',
+    'zmieniono' =&gt; 'Zapisano zmiany.',
+    'usunieto' =&gt; 'Książka została usunięta.'
+);
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pl&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Biblioteka szkolna – katalog&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;styl.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;?php include 'menu.php'; ?&gt;
+    &lt;main class=&quot;tresc&quot;&gt;
+        &lt;h1&gt;Katalog książek&lt;/h1&gt;
+&lt;?php
+if (isset($_GET['komunikat']) &amp;&amp; isset($komunikaty[$_GET['komunikat']])) {
+    echo &quot;&lt;p class='komunikat sukces'&gt;&quot; . $komunikaty[$_GET['komunikat']] . &quot;&lt;/p&gt;&quot;;
+}
+?&gt;
+        &lt;form class=&quot;wyszukiwarka&quot; action=&quot;index.php&quot; method=&quot;get&quot;&gt;
+            &lt;input type=&quot;search&quot; name=&quot;szukaj&quot; placeholder=&quot;Tytuł lub autor&quot; value=&quot;&lt;?php echo htmlspecialchars($szukaj); ?&gt;&quot;&gt;
+            &lt;select name=&quot;kategoria&quot;&gt;
+                &lt;option value=&quot;0&quot;&gt;Wszystkie kategorie&lt;/option&gt;
+&lt;?php
+$wynik = mysqli_query($polaczenie, &quot;SELECT id, nazwa FROM kategorie ORDER BY nazwa;&quot;);
+while ($wiersz = mysqli_fetch_row($wynik)) {
+    $zaznaczona = '';
+    if ($wiersz[0] == $kategoria) {
+        $zaznaczona = ' selected';
+    }
+    echo &quot;&lt;option value='$wiersz[0]'$zaznaczona&gt;$wiersz[1]&lt;/option&gt;&quot;;
+}
+?&gt;
+            &lt;/select&gt;
+            &lt;button type=&quot;submit&quot;&gt;Szukaj&lt;/button&gt;
+        &lt;/form&gt;
+
+        &lt;table class=&quot;katalog&quot;&gt;
+            &lt;thead&gt;
+                &lt;tr&gt;&lt;th&gt;Tytuł&lt;/th&gt;&lt;th&gt;Autor&lt;/th&gt;&lt;th&gt;Rok&lt;/th&gt;&lt;th&gt;Kategoria&lt;/th&gt;&lt;th&gt;Dostępne&lt;/th&gt;&lt;th&gt;Akcje&lt;/th&gt;&lt;/tr&gt;
+            &lt;/thead&gt;
+            &lt;tbody&gt;
+&lt;?php
+$fraza = mysqli_real_escape_string($polaczenie, $szukaj);
+$warunek = &quot;WHERE (tytul LIKE '%$fraza%' OR autor LIKE '%$fraza%')&quot;;
+if ($kategoria &gt; 0) {
+    $warunek = $warunek . &quot; AND kategorie_id = $kategoria&quot;;
+}
+$zapytanie = &quot;SELECT ksiazki.id, tytul, autor, rok_wydania, nazwa, egzemplarze - COUNT(wypozyczenia.id) AS dostepne, egzemplarze FROM ksiazki JOIN kategorie ON ksiazki.kategorie_id = kategorie.id LEFT JOIN wypozyczenia ON wypozyczenia.ksiazki_id = ksiazki.id AND wypozyczenia.data_zwrotu IS NULL $warunek GROUP BY ksiazki.id ORDER BY tytul;&quot;;
+$wynik = mysqli_query($polaczenie, $zapytanie);
+$liczba = mysqli_num_rows($wynik);
+if ($liczba == 0) {
+    echo &quot;&lt;tr&gt;&lt;td colspan='6' class='pusto'&gt;Nie znaleziono książek.&lt;/td&gt;&lt;/tr&gt;&quot;;
+}
+while ($k = mysqli_fetch_row($wynik)) {
+    $tytul = htmlspecialchars($k[1]);
+    $autor = htmlspecialchars($k[2]);
+    $klasa = '';
+    if ($k[5] == 0) {
+        $klasa = &quot; class='brak'&quot;;
+    }
+    echo &quot;&lt;tr&gt;&lt;td&gt;$tytul&lt;/td&gt;&lt;td&gt;$autor&lt;/td&gt;&lt;td&gt;$k[3]&lt;/td&gt;&lt;td&gt;$k[4]&lt;/td&gt;&lt;td$klasa&gt;$k[5] / $k[6]&lt;/td&gt;&quot;;
+    echo &quot;&lt;td class='akcje'&gt;&lt;a href='edytuj.php?id=$k[0]' class='przycisk edytuj'&gt;Edytuj&lt;/a&gt;&lt;a href='usun.php?id=$k[0]' class='przycisk usun'&gt;Usuń&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&quot;;
+}
+?&gt;
+            &lt;/tbody&gt;
+        &lt;/table&gt;
+        &lt;p class=&quot;podsumowanie&quot;&gt;Liczba tytułów: &lt;?php echo $liczba; ?&gt;&lt;/p&gt;
+    &lt;/main&gt;
+    &lt;footer class=&quot;stopka&quot;&gt;Projekt wykonał: 00&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?php
+mysqli_close($polaczenie);
+?&gt;
+</pre><h4>dodaj.php</h4><pre>&lt;?php
+require_once 'polaczenie.php';
+$aktywna = 'dodaj';
+
+// wartości pól formularza (puste lub wpisane przez użytkownika)
+$tytul = '';
+$autor = '';
+$rok = '';
+$isbn = '';
+$egzemplarze = 1;
+$kategoria = 0;
+$bledy = array();
+
+if (isset($_POST['tytul'])) {
+    $tytul = trim($_POST['tytul']);
+    $autor = trim($_POST['autor']);
+    $rok = (int) $_POST['rok'];
+    $isbn = trim($_POST['isbn']);
+    $egzemplarze = (int) $_POST['egzemplarze'];
+    $kategoria = (int) $_POST['kategoria'];
+
+    if ($tytul == '') {
+        $bledy[] = 'Podaj tytuł.';
+    }
+    if ($autor == '') {
+        $bledy[] = 'Podaj autora.';
+    }
+    if ($rok &lt; 1400 || $rok &gt; 2026) {
+        $bledy[] = 'Rok wydania musi być z przedziału 1400–2026.';
+    }
+    if (strlen($isbn) != 13) {
+        $bledy[] = 'ISBN musi mieć 13 cyfr.';
+    }
+    if ($egzemplarze &lt; 1) {
+        $bledy[] = 'Liczba egzemplarzy musi być co najmniej 1.';
+    }
+
+    if (count($bledy) == 0) {
+        $t = mysqli_real_escape_string($polaczenie, $tytul);
+        $a = mysqli_real_escape_string($polaczenie, $autor);
+        $i = mysqli_real_escape_string($polaczenie, $isbn);
+        mysqli_query($polaczenie, &quot;INSERT INTO ksiazki (tytul, autor, rok_wydania, isbn, egzemplarze, kategorie_id) VALUES ('$t', '$a', $rok, '$i', $egzemplarze, $kategoria);&quot;);
+        mysqli_close($polaczenie);
+        header('Location: index.php?komunikat=dodano');
+        exit;
+    }
+}
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pl&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Biblioteka szkolna – dodaj książkę&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;styl.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;?php include 'menu.php'; ?&gt;
+    &lt;main class=&quot;tresc&quot;&gt;
+        &lt;h1&gt;Dodaj książkę&lt;/h1&gt;
+&lt;?php
+if (count($bledy) &gt; 0) {
+    echo &quot;&lt;ul class='komunikat bledy'&gt;&quot;;
+    foreach ($bledy as $blad) {
+        echo &quot;&lt;li&gt;$blad&lt;/li&gt;&quot;;
+    }
+    echo &quot;&lt;/ul&gt;&quot;;
+}
+?&gt;
+        &lt;form class=&quot;formularz&quot; action=&quot;dodaj.php&quot; method=&quot;post&quot; onsubmit=&quot;return sprawdzIsbn()&quot;&gt;
+            &lt;label for=&quot;tytul&quot;&gt;Tytuł&lt;/label&gt;
+            &lt;input type=&quot;text&quot; name=&quot;tytul&quot; id=&quot;tytul&quot; value=&quot;&lt;?php echo htmlspecialchars($tytul); ?&gt;&quot;&gt;
+            &lt;label for=&quot;autor&quot;&gt;Autor&lt;/label&gt;
+            &lt;input type=&quot;text&quot; name=&quot;autor&quot; id=&quot;autor&quot; value=&quot;&lt;?php echo htmlspecialchars($autor); ?&gt;&quot;&gt;
+            &lt;div class=&quot;wiersz&quot;&gt;
+                &lt;div&gt;
+                    &lt;label for=&quot;rok&quot;&gt;Rok wydania&lt;/label&gt;
+                    &lt;input type=&quot;number&quot; name=&quot;rok&quot; id=&quot;rok&quot; value=&quot;&lt;?php echo $rok; ?&gt;&quot;&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                    &lt;label for=&quot;egzemplarze&quot;&gt;Liczba egzemplarzy&lt;/label&gt;
+                    &lt;input type=&quot;number&quot; name=&quot;egzemplarze&quot; id=&quot;egzemplarze&quot; min=&quot;1&quot; value=&quot;&lt;?php echo $egzemplarze; ?&gt;&quot;&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;label for=&quot;isbn&quot;&gt;ISBN (13 cyfr)&lt;/label&gt;
+            &lt;input type=&quot;text&quot; name=&quot;isbn&quot; id=&quot;isbn&quot; maxlength=&quot;13&quot; value=&quot;&lt;?php echo htmlspecialchars($isbn); ?&gt;&quot;&gt;
+            &lt;p id=&quot;blad-isbn&quot;&gt;&lt;/p&gt;
+            &lt;label for=&quot;kategoria&quot;&gt;Kategoria&lt;/label&gt;
+            &lt;select name=&quot;kategoria&quot; id=&quot;kategoria&quot;&gt;
+&lt;?php
+$wynik = mysqli_query($polaczenie, &quot;SELECT id, nazwa FROM kategorie ORDER BY nazwa;&quot;);
+while ($wiersz = mysqli_fetch_row($wynik)) {
+    $zaznaczona = '';
+    if ($wiersz[0] == $kategoria) {
+        $zaznaczona = ' selected';
+    }
+    echo &quot;&lt;option value='$wiersz[0]'$zaznaczona&gt;$wiersz[1]&lt;/option&gt;&quot;;
+}
+?&gt;
+            &lt;/select&gt;
+            &lt;div class=&quot;przyciski&quot;&gt;
+                &lt;button type=&quot;submit&quot;&gt;Dodaj książkę&lt;/button&gt;
+                &lt;a href=&quot;index.php&quot; class=&quot;przycisk anuluj&quot;&gt;Anuluj&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/form&gt;
+    &lt;/main&gt;
+    &lt;footer class=&quot;stopka&quot;&gt;Projekt wykonał: 00&lt;/footer&gt;
+    &lt;script src=&quot;skrypt.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?php
+mysqli_close($polaczenie);
+?&gt;
+</pre><h4>edytuj.php</h4><pre>&lt;?php
+require_once 'polaczenie.php';
+$aktywna = 'katalog';
+
+$id = 0;
+if (isset($_GET['id'])) {
+    $id = (int) $_GET['id'];
+}
+if (isset($_POST['id'])) {
+    $id = (int) $_POST['id'];
+}
+$bledy = array();
+
+if (isset($_POST['tytul'])) {
+    // zapis zmian
+    $tytul = trim($_POST['tytul']);
+    $autor = trim($_POST['autor']);
+    $rok = (int) $_POST['rok'];
+    $isbn = trim($_POST['isbn']);
+    $egzemplarze = (int) $_POST['egzemplarze'];
+    $kategoria = (int) $_POST['kategoria'];
+
+    if ($tytul == '') {
+        $bledy[] = 'Podaj tytuł.';
+    }
+    if ($autor == '') {
+        $bledy[] = 'Podaj autora.';
+    }
+    if ($rok &lt; 1400 || $rok &gt; 2026) {
+        $bledy[] = 'Rok wydania musi być z przedziału 1400–2026.';
+    }
+    if (strlen($isbn) != 13) {
+        $bledy[] = 'ISBN musi mieć 13 cyfr.';
+    }
+    if ($egzemplarze &lt; 1) {
+        $bledy[] = 'Liczba egzemplarzy musi być co najmniej 1.';
+    }
+
+    if (count($bledy) == 0) {
+        $t = mysqli_real_escape_string($polaczenie, $tytul);
+        $a = mysqli_real_escape_string($polaczenie, $autor);
+        $i = mysqli_real_escape_string($polaczenie, $isbn);
+        mysqli_query($polaczenie, &quot;UPDATE ksiazki SET tytul = '$t', autor = '$a', rok_wydania = $rok, isbn = '$i', egzemplarze = $egzemplarze, kategorie_id = $kategoria WHERE id = $id;&quot;);
+        mysqli_close($polaczenie);
+        header('Location: index.php?komunikat=zmieniono');
+        exit;
+    }
+    $znaleziona = true;
+} else {
+    // odczyt danych książki do formularza
+    $wynik = mysqli_query($polaczenie, &quot;SELECT tytul, autor, rok_wydania, isbn, egzemplarze, kategorie_id FROM ksiazki WHERE id = $id;&quot;);
+    $znaleziona = mysqli_num_rows($wynik) == 1;
+    if ($znaleziona) {
+        $k = mysqli_fetch_row($wynik);
+        $tytul = $k[0];
+        $autor = $k[1];
+        $rok = $k[2];
+        $isbn = $k[3];
+        $egzemplarze = $k[4];
+        $kategoria = $k[5];
+    }
+}
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pl&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Biblioteka szkolna – edycja książki&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;styl.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;?php include 'menu.php'; ?&gt;
+    &lt;main class=&quot;tresc&quot;&gt;
+        &lt;h1&gt;Edycja książki&lt;/h1&gt;
+&lt;?php
+if (!$znaleziona) {
+    echo &quot;&lt;p class='komunikat bledy'&gt;Nie ma książki o podanym identyfikatorze. &lt;a href='index.php'&gt;Wróć do katalogu&lt;/a&gt;&lt;/p&gt;&quot;;
+} else {
+    if (count($bledy) &gt; 0) {
+        echo &quot;&lt;ul class='komunikat bledy'&gt;&quot;;
+        foreach ($bledy as $blad) {
+            echo &quot;&lt;li&gt;$blad&lt;/li&gt;&quot;;
+        }
+        echo &quot;&lt;/ul&gt;&quot;;
+    }
+?&gt;
+        &lt;form class=&quot;formularz&quot; action=&quot;edytuj.php&quot; method=&quot;post&quot; onsubmit=&quot;return sprawdzIsbn()&quot;&gt;
+            &lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;&lt;?php echo $id; ?&gt;&quot;&gt;
+            &lt;label for=&quot;tytul&quot;&gt;Tytuł&lt;/label&gt;
+            &lt;input type=&quot;text&quot; name=&quot;tytul&quot; id=&quot;tytul&quot; value=&quot;&lt;?php echo htmlspecialchars($tytul); ?&gt;&quot;&gt;
+            &lt;label for=&quot;autor&quot;&gt;Autor&lt;/label&gt;
+            &lt;input type=&quot;text&quot; name=&quot;autor&quot; id=&quot;autor&quot; value=&quot;&lt;?php echo htmlspecialchars($autor); ?&gt;&quot;&gt;
+            &lt;div class=&quot;wiersz&quot;&gt;
+                &lt;div&gt;
+                    &lt;label for=&quot;rok&quot;&gt;Rok wydania&lt;/label&gt;
+                    &lt;input type=&quot;number&quot; name=&quot;rok&quot; id=&quot;rok&quot; value=&quot;&lt;?php echo $rok; ?&gt;&quot;&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                    &lt;label for=&quot;egzemplarze&quot;&gt;Liczba egzemplarzy&lt;/label&gt;
+                    &lt;input type=&quot;number&quot; name=&quot;egzemplarze&quot; id=&quot;egzemplarze&quot; min=&quot;1&quot; value=&quot;&lt;?php echo $egzemplarze; ?&gt;&quot;&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;label for=&quot;isbn&quot;&gt;ISBN (13 cyfr)&lt;/label&gt;
+            &lt;input type=&quot;text&quot; name=&quot;isbn&quot; id=&quot;isbn&quot; maxlength=&quot;13&quot; value=&quot;&lt;?php echo htmlspecialchars($isbn); ?&gt;&quot;&gt;
+            &lt;p id=&quot;blad-isbn&quot;&gt;&lt;/p&gt;
+            &lt;label for=&quot;kategoria&quot;&gt;Kategoria&lt;/label&gt;
+            &lt;select name=&quot;kategoria&quot; id=&quot;kategoria&quot;&gt;
+&lt;?php
+    $wynik = mysqli_query($polaczenie, &quot;SELECT id, nazwa FROM kategorie ORDER BY nazwa;&quot;);
+    while ($wiersz = mysqli_fetch_row($wynik)) {
+        $zaznaczona = '';
+        if ($wiersz[0] == $kategoria) {
+            $zaznaczona = ' selected';
+        }
+        echo &quot;&lt;option value='$wiersz[0]'$zaznaczona&gt;$wiersz[1]&lt;/option&gt;&quot;;
+    }
+?&gt;
+            &lt;/select&gt;
+            &lt;div class=&quot;przyciski&quot;&gt;
+                &lt;button type=&quot;submit&quot;&gt;Zapisz zmiany&lt;/button&gt;
+                &lt;a href=&quot;index.php&quot; class=&quot;przycisk anuluj&quot;&gt;Anuluj&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/form&gt;
+&lt;?php
+}
+?&gt;
+    &lt;/main&gt;
+    &lt;footer class=&quot;stopka&quot;&gt;Projekt wykonał: 00&lt;/footer&gt;
+    &lt;script src=&quot;skrypt.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?php
+mysqli_close($polaczenie);
+?&gt;
+</pre><h4>usun.php</h4><pre>&lt;?php
+require_once 'polaczenie.php';
+$aktywna = 'katalog';
+
+$id = 0;
+if (isset($_GET['id'])) {
+    $id = (int) $_GET['id'];
+}
+if (isset($_POST['id'])) {
+    $id = (int) $_POST['id'];
+}
+
+// dane książki i liczba jej aktywnych wypożyczeń
+$wynik = mysqli_query($polaczenie, &quot;SELECT tytul, autor FROM ksiazki WHERE id = $id;&quot;);
+$znaleziona = mysqli_num_rows($wynik) == 1;
+$aktywne = 0;
+if ($znaleziona) {
+    $k = mysqli_fetch_row($wynik);
+    $wynik = mysqli_query($polaczenie, &quot;SELECT COUNT(*) FROM wypozyczenia WHERE ksiazki_id = $id AND data_zwrotu IS NULL;&quot;);
+    $aktywne = mysqli_fetch_row($wynik)[0];
+}
+
+if ($znaleziona &amp;&amp; $aktywne == 0 &amp;&amp; isset($_POST['potwierdz'])) {
+    // najpierw historia wypożyczeń (klucz obcy), potem książka
+    mysqli_query($polaczenie, &quot;DELETE FROM wypozyczenia WHERE ksiazki_id = $id;&quot;);
+    mysqli_query($polaczenie, &quot;DELETE FROM ksiazki WHERE id = $id;&quot;);
+    mysqli_close($polaczenie);
+    header('Location: index.php?komunikat=usunieto');
+    exit;
+}
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pl&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Biblioteka szkolna – usuwanie książki&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;styl.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;?php include 'menu.php'; ?&gt;
+    &lt;main class=&quot;tresc&quot;&gt;
+        &lt;h1&gt;Usuwanie książki&lt;/h1&gt;
+&lt;?php
+if (!$znaleziona) {
+    echo &quot;&lt;p class='komunikat bledy'&gt;Nie ma książki o podanym identyfikatorze. &lt;a href='index.php'&gt;Wróć do katalogu&lt;/a&gt;&lt;/p&gt;&quot;;
+} elseif ($aktywne &gt; 0) {
+    $tytul = htmlspecialchars($k[0]);
+    echo &quot;&lt;p class='komunikat bledy'&gt;Nie można usunąć książki „{$tytul}”, ponieważ jest wypożyczona (liczba egzemplarzy u czytelników: $aktywne). &lt;a href='index.php'&gt;Wróć do katalogu&lt;/a&gt;&lt;/p&gt;&quot;;
+} else {
+    $tytul = htmlspecialchars($k[0]);
+    $autor = htmlspecialchars($k[1]);
+    echo &quot;&lt;div class='potwierdzenie'&gt;&quot;;
+    echo &quot;&lt;p&gt;Czy na pewno usunąć książkę &lt;strong&gt;„{$tytul}”&lt;/strong&gt; ($autor)?&lt;/p&gt;&quot;;
+    echo &quot;&lt;p class='uwaga'&gt;Zostanie usunięta także historia wypożyczeń tej książki.&lt;/p&gt;&quot;;
+    echo &quot;&lt;form action='usun.php' method='post' class='przyciski'&gt;&quot;;
+    echo &quot;&lt;input type='hidden' name='id' value='$id'&gt;&quot;;
+    echo &quot;&lt;button type='submit' name='potwierdz' class='usun'&gt;Tak, usuń&lt;/button&gt;&quot;;
+    echo &quot;&lt;a href='index.php' class='przycisk anuluj'&gt;Anuluj&lt;/a&gt;&quot;;
+    echo &quot;&lt;/form&gt;&lt;/div&gt;&quot;;
+}
+?&gt;
+    &lt;/main&gt;
+    &lt;footer class=&quot;stopka&quot;&gt;Projekt wykonał: 00&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?php
+mysqli_close($polaczenie);
+?&gt;
+</pre><h4>wypozyczenia.php</h4><pre>&lt;?php
+require_once 'polaczenie.php';
+$aktywna = 'wypozyczenia';
+
+if (isset($_POST['akcja'])) {
+    if ($_POST['akcja'] == 'wypozycz') {
+        $ksiazka = (int) $_POST['ksiazka'];
+        $czytelnik = (int) $_POST['czytelnik'];
+        mysqli_query($polaczenie, &quot;INSERT INTO wypozyczenia (ksiazki_id, czytelnicy_id, data_wypozyczenia, data_zwrotu) VALUES ($ksiazka, $czytelnik, CURDATE(), NULL);&quot;);
+        $komunikat = 'wypozyczono';
+    } else {
+        $wypozyczenie = (int) $_POST['wypozyczenie'];
+        mysqli_query($polaczenie, &quot;UPDATE wypozyczenia SET data_zwrotu = CURDATE() WHERE id = $wypozyczenie;&quot;);
+        $komunikat = 'zwrocono';
+    }
+    mysqli_close($polaczenie);
+    header(&quot;Location: wypozyczenia.php?komunikat=$komunikat&quot;);
+    exit;
+}
+$komunikaty = array(
+    'wypozyczono' =&gt; 'Zapisano wypożyczenie.',
+    'zwrocono' =&gt; 'Zapisano zwrot książki.'
+);
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pl&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Biblioteka szkolna – wypożyczenia&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;styl.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;?php include 'menu.php'; ?&gt;
+    &lt;main class=&quot;tresc&quot;&gt;
+        &lt;h1&gt;Wypożyczenia&lt;/h1&gt;
+&lt;?php
+if (isset($_GET['komunikat']) &amp;&amp; isset($komunikaty[$_GET['komunikat']])) {
+    echo &quot;&lt;p class='komunikat sukces'&gt;&quot; . $komunikaty[$_GET['komunikat']] . &quot;&lt;/p&gt;&quot;;
+}
+?&gt;
+        &lt;form class=&quot;formularz poziomy&quot; action=&quot;wypozyczenia.php&quot; method=&quot;post&quot;&gt;
+            &lt;input type=&quot;hidden&quot; name=&quot;akcja&quot; value=&quot;wypozycz&quot;&gt;
+            &lt;div&gt;
+                &lt;label for=&quot;ksiazka&quot;&gt;Książka&lt;/label&gt;
+                &lt;select name=&quot;ksiazka&quot; id=&quot;ksiazka&quot;&gt;
+&lt;?php
+$zapytanie = &quot;SELECT ksiazki.id, tytul, egzemplarze - COUNT(wypozyczenia.id) AS dostepne FROM ksiazki LEFT JOIN wypozyczenia ON wypozyczenia.ksiazki_id = ksiazki.id AND wypozyczenia.data_zwrotu IS NULL GROUP BY ksiazki.id HAVING dostepne &gt; 0 ORDER BY tytul;&quot;;
+$wynik = mysqli_query($polaczenie, $zapytanie);
+while ($w = mysqli_fetch_row($wynik)) {
+    $tytul = htmlspecialchars($w[1]);
+    echo &quot;&lt;option value='$w[0]'&gt;$tytul (dostępne: $w[2])&lt;/option&gt;&quot;;
+}
+?&gt;
+                &lt;/select&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;label for=&quot;czytelnik&quot;&gt;Czytelnik&lt;/label&gt;
+                &lt;select name=&quot;czytelnik&quot; id=&quot;czytelnik&quot;&gt;
+&lt;?php
+$wynik = mysqli_query($polaczenie, &quot;SELECT id, imie, nazwisko, klasa FROM czytelnicy ORDER BY nazwisko, imie;&quot;);
+while ($w = mysqli_fetch_row($wynik)) {
+    echo &quot;&lt;option value='$w[0]'&gt;$w[2] $w[1] ($w[3])&lt;/option&gt;&quot;;
+}
+?&gt;
+                &lt;/select&gt;
+            &lt;/div&gt;
+            &lt;button type=&quot;submit&quot;&gt;Wypożycz&lt;/button&gt;
+        &lt;/form&gt;
+
+        &lt;h2&gt;Książki u czytelników&lt;/h2&gt;
+        &lt;table&gt;
+            &lt;thead&gt;
+                &lt;tr&gt;&lt;th&gt;Czytelnik&lt;/th&gt;&lt;th&gt;Klasa&lt;/th&gt;&lt;th&gt;Tytuł&lt;/th&gt;&lt;th&gt;Wypożyczono&lt;/th&gt;&lt;th&gt;Dni&lt;/th&gt;&lt;th&gt;Zwrot&lt;/th&gt;&lt;/tr&gt;
+            &lt;/thead&gt;
+            &lt;tbody&gt;
+&lt;?php
+$zapytanie = &quot;SELECT wypozyczenia.id, imie, nazwisko, klasa, tytul, DATE_FORMAT(data_wypozyczenia, '%d.%m.%Y'), DATEDIFF(CURDATE(), data_wypozyczenia) AS dni FROM wypozyczenia JOIN czytelnicy ON wypozyczenia.czytelnicy_id = czytelnicy.id JOIN ksiazki ON wypozyczenia.ksiazki_id = ksiazki.id WHERE data_zwrotu IS NULL ORDER BY data_wypozyczenia;&quot;;
+$wynik = mysqli_query($polaczenie, $zapytanie);
+if (mysqli_num_rows($wynik) == 0) {
+    echo &quot;&lt;tr&gt;&lt;td colspan='6' class='pusto'&gt;Wszystkie książki są w bibliotece.&lt;/td&gt;&lt;/tr&gt;&quot;;
+}
+while ($w = mysqli_fetch_row($wynik)) {
+    $klasa = '';
+    if ($w[6] &gt; 14) {
+        $klasa = &quot; class='przetrzymana'&quot;;
+    }
+    $tytul = htmlspecialchars($w[4]);
+    echo &quot;&lt;tr$klasa&gt;&lt;td&gt;$w[1] $w[2]&lt;/td&gt;&lt;td&gt;$w[3]&lt;/td&gt;&lt;td&gt;$tytul&lt;/td&gt;&lt;td&gt;$w[5]&lt;/td&gt;&lt;td&gt;$w[6]&lt;/td&gt;&quot;;
+    echo &quot;&lt;td&gt;&lt;form action='wypozyczenia.php' method='post' onsubmit='return potwierdzZwrot()'&gt;&lt;input type='hidden' name='akcja' value='zwrot'&gt;&lt;input type='hidden' name='wypozyczenie' value='$w[0]'&gt;&lt;button type='submit' class='maly'&gt;Zwróć&lt;/button&gt;&lt;/form&gt;&lt;/td&gt;&lt;/tr&gt;&quot;;
+}
+?&gt;
+            &lt;/tbody&gt;
+        &lt;/table&gt;
+        &lt;p class=&quot;legenda&quot;&gt;Wiersze wyróżnione na czerwono: książka przetrzymana dłużej niż 14 dni.&lt;/p&gt;
+    &lt;/main&gt;
+    &lt;footer class=&quot;stopka&quot;&gt;Projekt wykonał: 00&lt;/footer&gt;
+    &lt;script src=&quot;skrypt.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?php
+mysqli_close($polaczenie);
+?&gt;
+</pre><h4>styl.css</h4><pre>* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #FAF7F2;
+    color: #2B2118;
+    font-family: Georgia, &quot;Times New Roman&quot;, serif;
+    line-height: 1.5;
+}
+
+h1 {
+    margin-bottom: 18px;
+    color: #7C2D12;
+    font-size: 1.8rem;
+}
+
+h2 {
+    margin: 28px 0 12px;
+    color: #7C2D12;
+    font-size: 1.3rem;
+}
+
+/* nagłówek z menu (menu.php) */
+.naglowek {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px 5%;
+    background-color: #7C2D12;
+    color: white;
+}
+
+.logo {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.logo span {
+    color: #FDBA74;
+    font-style: italic;
+}
+
+.naglowek nav {
+    display: flex;
+    gap: 6px;
+}
+
+.naglowek nav a {
+    padding: 8px 14px;
+    border-radius: 4px;
+    color: white;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+}
+
+.naglowek nav a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.naglowek nav a.aktywna {
+    background-color: #FDBA74;
+    color: #431407;
+    font-weight: bold;
+}
+
+/* treść */
+.tresc {
+    flex: 1;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 20px;
+}
+
+.komunikat {
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+}
+
+.sukces {
+    background-color: #DCFCE7;
+    border-left: 5px solid #16A34A;
+}
+
+.bledy {
+    background-color: #FEE2E2;
+    border-left: 5px solid #DC2626;
+    list-style-position: inside;
+}
+
+/* formularze */
+.wyszukiwarka {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.wyszukiwarka input {
+    flex: 1;
+}
+
+.wyszukiwarka select {
+    width: auto;
+}
+
+.formularz {
+    max-width: 560px;
+    padding: 24px;
+    background-color: white;
+    border: 1px solid #E7DCCB;
+    border-radius: 8px;
+}
+
+.formularz.poziomy {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    max-width: none;
+}
+
+.formularz.poziomy div {
+    flex: 1;
+}
+
+label {
+    display: block;
+    margin: 12px 0 4px;
+    font-family: Arial, sans-serif;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.formularz.poziomy label {
+    margin-top: 0;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 9px;
+    border: 1px solid #C8B8A0;
+    border-radius: 4px;
+    font: inherit;
+}
+
+input:focus,
+select:focus {
+    border-color: #7C2D12;
+    outline: 2px solid #FDBA74;
+}
+
+.wiersz {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+#blad-isbn {
+    color: #DC2626;
+    font-family: Arial, sans-serif;
+    font-size: 0.85rem;
+}
+
+.przyciski {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+button,
+.przycisk {
+    display: inline-block;
+    padding: 9px 18px;
+    background-color: #7C2D12;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
+    font-size: 0.95rem;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button:hover,
+.przycisk:hover {
+    background-color: #9A3412;
+}
+
+.przycisk.anuluj {
+    background-color: #E7DCCB;
+    color: #2B2118;
+}
+
+.przycisk.edytuj {
+    background-color: #2563EB;
+}
+
+.usun,
+.przycisk.usun {
+    background-color: #DC2626;
+}
+
+button.maly,
+.akcje .przycisk {
+    padding: 4px 10px;
+    font-size: 0.8rem;
+}
+
+/* tabele */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    font-family: Arial, sans-serif;
+    font-size: 0.92rem;
+}
+
+th {
+    padding: 10px;
+    background-color: #431407;
+    color: white;
+    text-align: left;
+}
+
+td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #E7DCCB;
+}
+
+tbody tr:hover {
+    background-color: #FFF7ED;
+}
+
+.akcje {
+    white-space: nowrap;
+}
+
+.akcje .przycisk {
+    margin-right: 4px;
+}
+
+.brak {
+    color: #DC2626;
+    font-weight: bold;
+}
+
+.przetrzymana {
+    background-color: #FEE2E2;
+}
+
+.pusto {
+    text-align: center;
+    font-style: italic;
+}
+
+.podsumowanie,
+.legenda {
+    margin-top: 10px;
+    color: #78716C;
+    font-size: 0.9rem;
+}
+
+/* potwierdzenie usunięcia */
+.potwierdzenie {
+    max-width: 560px;
+    padding: 24px;
+    background-color: white;
+    border: 2px solid #DC2626;
+    border-radius: 8px;
+}
+
+.uwaga {
+    margin-top: 8px;
+    color: #78716C;
+    font-size: 0.9rem;
+}
+
+/* stopka */
+.stopka {
+    padding: 14px;
+    background-color: #431407;
+    color: #FED7AA;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 760px) {
+    .wyszukiwarka,
+    .formularz.poziomy {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .wyszukiwarka select {
+        width: 100%;
+    }
+
+    .wiersz {
+        grid-template-columns: 1fr;
+    }
+
+    .akcje .przycisk {
+        display: block;
+        margin: 0 0 4px;
+        text-align: center;
+    }
+
+    .katalog th:nth-child(2),
+    .katalog td:nth-child(2),
+    .katalog th:nth-child(3),
+    .katalog td:nth-child(3),
+    .katalog th:nth-child(4),
+    .katalog td:nth-child(4) {
+        display: none;
+    }
+}
+</pre><h4>skrypt.js</h4><pre>// skrypt JS 1 - sprawdzenie numeru ISBN-13 przed wysłaniem formularza (dodaj.php, edytuj.php)
+function sprawdzIsbn() {
+    let isbn = document.getElementById('isbn').value;
+    let komunikat = document.getElementById('blad-isbn');
+
+    if (isbn.length != 13 || isNaN(isbn)) {
+        komunikat.innerHTML = 'ISBN musi składać się z 13 cyfr';
+        return false;
+    }
+    // cyfry na pozycjach parzystych (licząc od 1) mają wagę 3, pozostałe wagę 1
+    let suma = 0;
+    for (let i = 0; i &lt; 12; i++) {
+        let cyfra = Number(isbn[i]);
+        if (i % 2 == 0) {
+            suma = suma + cyfra;
+        } else {
+            suma = suma + 3 * cyfra;
+        }
+    }
+    let kontrolna = (10 - suma % 10) % 10;
+    if (kontrolna != Number(isbn[12])) {
+        komunikat.innerHTML = 'Niepoprawna cyfra kontrolna ISBN (powinna być ' + kontrolna + ')';
+        return false;
+    }
+    komunikat.innerHTML = '';
+    return true;
+}
+
+// skrypt JS 2 - potwierdzenie zwrotu książki (wypozyczenia.php)
+function potwierdzZwrot() {
+    return confirm('Czy potwierdzasz zwrot książki?');
+}
+</pre>
+</section>
+
+</body>
+</html>
