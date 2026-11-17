@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INF.03-BZ-SG – Bazarek – klucz</title>
+<style>
+* { box-sizing: border-box; }
+html { background: #eef0f3; }
+body { margin: 0; padding: 16px; font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt; color: #111; line-height: 1.4; }
+.page { background: #fff; max-width: 210mm; margin: 0 auto; padding: 16mm; box-shadow: 0 1px 6px rgba(0,0,0,.15); }
+h1 { font-size: 16pt; margin: 0 0 6px; } h2 { font-size: 13pt; border-bottom: 2px solid #333; padding-bottom: 3px; margin-top: 22px; }
+pre { background: #f5f5f7; border: 1px solid #ddd; padding: 8px; white-space: pre-wrap; word-break: break-word; font-size: 9pt; }
+table.zo { border-collapse: collapse; width: 100%; font-size: 9.5pt; }
+table.zo th, table.zo td { border: 1px solid #999; padding: 4px 6px; vertical-align: top; text-align: left; }
+table.zo td:first-child, table.zo td:last-child { white-space: nowrap; text-align: center; }
+table.zo tr.res-head td { background: #eef2f7; } table.zo tr.sum td { font-weight: bold; }
+table.zo .note { font-size: 8.5pt; color: #444; margin: 3px 0 0; } table.zo tr { break-inside: avoid; }
+.small { font-size: 9pt; color: #444; }
+@media print { html, body { background: #fff; padding: 0; } .page { box-shadow: none; padding: 0; } }
+@page { size: A4; margin: 14mm; }
+</style>
+</head>
+<body>
+<section class="page">
+  <h1>Bazarek – zasady oceniania i rozwiązanie</h1>
+  <p class="small">INF.03-BZ-SG · baza bazarek · archiwum bazarek (hasło: <code>B@zarek#26</code>). Każde kryterium oceniane jest zero-jedynkowo (spełnione – 1 pkt).</p>
+  <h2>Zasady oceniania</h2><table class="zo"><tr><th>Lp.</th><th>Elementy podlegające ocenie / kryteria oceny</th><th>Pkt</th></tr><tr class="res-head"><td>R.1</td><td><b>Rezultat 1: Operacje na bazie danych</b><p class="note">Uwaga: W przypadku oceny zrzutów należy uznać za prawidłowe, jeżeli widoczny jest cały obszar ekranu z widocznym paskiem zadań, a zapytanie ma charakter uniwersalny dla każdego zestawu danych.</p></td><td>7</td></tr><tr><td>R.1.1</td><td><label><input type="checkbox"> Wykonany import tabel do bazy danych bazarek, co jest udokumentowane w pliku import w formacie PNG</label></td><td>1</td></tr><tr><td>R.1.2</td><td><label><input type="checkbox"> Zapisany plik kwerendy.txt zawierający co najmniej jedno zapytanie SQL wynikające z treści zadania</label></td><td>1</td></tr><tr><td>R.1.3</td><td><label><input type="checkbox"> Wykonane zapytanie 1. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT nazwa FROM producenci ORDER BY nazwa; oraz wynik działania udokumentowany zrzutem kw1, na którym widocznych jest dokładnie 6 wierszy w kolejności: Aero, Lumia, Nova, Orion, Titan, Vega</label></td><td>1</td></tr><tr><td>R.1.4</td><td><label><input type="checkbox"> Wykonane zapytanie 2. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT COUNT(*) AS liczba FROM oferty; oraz wynik działania udokumentowany zrzutem kw2, na którym widoczny jest jeden wiersz z kolumną liczba o wartości 8</label></td><td>1</td></tr><tr><td>R.1.5</td><td><label><input type="checkbox"> Wykonane zapytanie 3. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT tytul, cena, stara_cena, gwiazdki, opinie, dostawa, smart, okazja FROM oferty; oraz wynik działania udokumentowany zrzutem kw3, na którym widocznych jest dokładnie 8 wierszy z 8 kolumnami (stara_cena ma wartość NULL dla 5 ofert)</label></td><td>1</td></tr><tr><td>R.1.6</td><td><label><input type="checkbox"> Wykonane zapytanie 4. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT tytul, cena, stara_cena FROM oferty WHERE stara_cena IS NOT NULL ORDER BY cena; oraz wynik działania udokumentowany zrzutem kw4, na którym widoczne są dokładnie 3 wiersze w kolejności: Basic 4 (349.00), Aero S5 (599.00), Nova X12 (1299.00)</label></td><td>1</td></tr><tr><td>R.1.7</td><td><label><input type="checkbox"> Wykonane zapytanie 5. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT producenci.nazwa, oferty.tytul, oferty.cena FROM oferty JOIN producenci ON oferty.producenci_id = producenci.id WHERE oferty.smart = 1; oraz wynik działania udokumentowany zrzutem kw5, na którym widoczne są dokładnie 3 wiersze: Lumia – Lumia Pro, Titan – Titan 5G, Vega – Vega 8</label></td><td>1</td></tr><tr class="res-head"><td>R.2</td><td><b>Rezultat 2: Zawartość witryny internetowej</b><p class="note">Uwaga: W napisach widocznych na stronie dopuszcza się drobne błędy literowe, błędy wielkości liter i znaków diakrytycznych.</p></td><td>9</td></tr><tr><td>R.2.1</td><td><label><input type="checkbox"> Witryna zapisana w pliku index.php, jawnie zapisany standard kodowania polskich znaków, deklaracja &lt;!DOCTYPE html&gt;, język polski, znacznik meta viewport, tytuł „Bazarek – telefony i smartfony”</label></td><td>1</td></tr><tr><td>R.2.2</td><td><label><input type="checkbox"> Bloki zdefiniowane znacznikami semantycznymi: header (gora), nav (kategorie), aside (filtry) i main wewnątrz div z klasą uklad, footer (stopka), w kolejności zgodnej z ilustracją 3</label></td><td>1</td></tr><tr><td>R.2.3</td><td><label><input type="checkbox"> W nagłówku: odnośnik BAZAREK z klasą logo, formularz z klasą szukaj (pole z podpowiedzią „Czego szukasz?”, lista z czterema opcjami, przycisk „Szukaj” typu submit), blok konto z trzema odnośnikami, odnośnik koszyka z id koszyk</label></td><td>1</td></tr><tr><td>R.2.4</td><td><label><input type="checkbox"> Menu kategorii: nav z klasą kategorie i listą ul/li z dziesięcioma odnośnikami; paragraf okruszki z dwoma odnośnikami i ostatnią częścią w znaczniku strong</label></td><td>1</td></tr><tr><td>R.2.5</td><td><label><input type="checkbox"> Panel filtrów: nagłówek h2 „Filtry”, formularz z czterema fieldset z legendami Stan, Cena, Dostawa, Producent; pola wyboru umieszczone w etykietach, „Nowy” domyślnie zaznaczone</label></td><td>1</td></tr><tr><td>R.2.6</td><td><label><input type="checkbox"> Grupa Cena: blok cena-pola z dwoma polami typu number z podpowiedziami „od” i „do” oraz przycisk „Zastosuj”</label></td><td>1</td></tr><tr><td>R.2.7</td><td><label><input type="checkbox"> Pasek wyników: nagłówek h1 „Telefony i smartfony”, lista sortowania z czterema opcjami; sekcja z klasą oferty</label></td><td>1</td></tr><tr><td>R.2.8</td><td><label><input type="checkbox"> Paginacja: nav z klasą strony i siedmioma odnośnikami, odnośnik „1” z klasą aktualna</label></td><td>1</td></tr><tr><td>R.2.9</td><td><label><input type="checkbox"> Stopka: blok stopka-kolumny z trzema kolumnami (h4 i lista trzech odnośników) oraz paragraf z klasą prawa „Stronę wykonał: ” z numerem zdającego</label></td><td>1</td></tr><tr class="res-head"><td>R.3</td><td><b>Rezultat 3: Działanie witryny internetowej</b><p class="note">Uwaga: Jeśli witryna nie uruchamia się z powodu błędów PHP – sprawdzić według kryteriów w kodzie źródłowym strony.</p></td><td>7</td></tr><tr><td>R.3.1</td><td><label><input type="checkbox"> Układ bloków po uruchomieniu w przeglądarce jest zgodny z ilustracjami 2 i 3; filtry w kolumnie 260 px po lewej, oferty po prawej</label></td><td>1</td></tr><tr><td>R.3.2</td><td><label><input type="checkbox"> Strona zawiera działające połączenie z zewnętrznym arkuszem stylów styl.css, formatowanie CSS pochodzi jedynie z tego arkusza</label></td><td>1</td></tr><tr><td>R.3.3</td><td><label><input type="checkbox"> W filtrach wyświetla się 6 producentów w kolejności alfabetycznej, w pasku wyników napis „Znaleziono 8 ofert” (dane z bazy)</label></td><td>1</td></tr><tr><td>R.3.4</td><td><label><input type="checkbox"> Wyświetla się 8 kart ofert; plakietka „Okazja” i przekreślona stara cena są tylko na kartach Nova X12, Aero S5 i Basic 4; „Smart!” tylko na kartach Lumia Pro, Titan 5G i Vega 8</label></td><td>1</td></tr><tr><td>R.3.5</td><td><label><input type="checkbox"> Na szerokim ekranie oferty są w czterech kolumnach, a liczba kolumn zmniejsza się sama po zwężeniu okna; przyciski kart w rzędzie są na tej samej wysokości</label></td><td>1</td></tr><tr><td>R.3.6</td><td><label><input type="checkbox"> Kliknięcie „Dodaj do koszyka” zwiększa licznik w odnośniku koszyka o 1, a przycisk zmienia napis na „W koszyku ✓” i przestaje działać</label></td><td>1</td></tr><tr><td>R.3.7</td><td><label><input type="checkbox"> Przy szerokości okna do 900 px filtry są nad ofertami, a linki konta ukryte; do 560 px wyszukiwarka jest pod logo, oferty w dwóch kolumnach, stopka w jednej kolumnie</label></td><td>1</td></tr><tr class="res-head"><td>R.4</td><td><b>Rezultat 4: Styl CSS witryny internetowej</b><p class="note">Uwaga: Kryteria muszą działać na stronie (sprawdzić w inspektorze). Kryteria dotyczące selektorów znaczników są spełnione jedynie dla stylu zdefiniowanego selektorem znacznika.</p></td><td>26</td></tr><tr><td>R.4.1</td><td><label><input type="checkbox"> Ustawione domyślnie dla wszystkich selektorów (*): marginesy zewnętrzne i wewnętrzne 0, model pudełkowy border-box</label></td><td>1</td></tr><tr><td>R.4.2</td><td><label><input type="checkbox"> Ustawione dla selektora ciała strony: kolor tła #F2F2F2, kolor czcionki #222222, krój czcionki Arial, w przypadku braku Helvetica, a następnie sans-serif, wysokość linii 1,4. Dla selektora odnośnika: kolor dziedziczony z elementu nadrzędnego, tekst bez podkreślenia. Dla selektora listy punktowanej: brak punktora</label></td><td>1</td></tr><tr><td>R.4.3</td><td><label><input type="checkbox"> Ustawione dla klasy gora: biały kolor tła, sposób wyświetlania elastyczny (flex), elementy wyśrodkowane w pionie, odstęp między elementami 24 px, marginesy wewnętrzne: górny i dolny 14 px, lewy i prawy 4%, dolne obramowanie linią ciągłą 1 px w kolorze #DDDDDD. Dla klasy logo: kolor #FF6A13, rozmiar czcionki 1,9 rem, pogrubienie</label></td><td>1</td></tr><tr><td>R.4.4</td><td><label><input type="checkbox"> Ustawione dla klasy szukaj: zajmuje całe wolne miejsce w nagłówku (flex: 1), sposób wyświetlania elastyczny. Pole tekstowe, lista i przycisk tworzą jeden połączony pasek z pomarańczową ramką 2 px (#FF6A13) bez podwójnych ramek między elementami; zaokrąglone (4 px) są tylko lewe rogi pola tekstowego i prawe rogi przycisku. Pole tekstowe rozciąga się na wolne miejsce (flex: 1, min-width: 0), marginesy wewnętrzne 10 px / 14 px; lista ma białe tło, marginesy wewnętrzne 10 px</label></td><td>1</td></tr><tr><td>R.4.5</td><td><label><input type="checkbox"> Ustawione dla przycisku w klasie szukaj: kolor tła #FF6A13, biały pogrubiony tekst, marginesy wewnętrzne: górny i dolny 10 px, lewy i prawy 22 px, kursor w kształcie wskazującej dłoni; gdy kursor znajdzie się na przycisku, kolor tła zmienia się na #E55A0A</label></td><td>1</td></tr><tr><td>R.4.6</td><td><label><input type="checkbox"> Ustawione dla klasy konto: sposób wyświetlania elastyczny, odstęp 20 px, rozmiar czcionki 0,9 rem; gdy kursor znajdzie się na odnośniku w tym bloku, kolor czcionki zmienia się na #FF6A13</label></td><td>1</td></tr><tr><td>R.4.7</td><td><label><input type="checkbox"> Ustawione dla klasy kategorie: biały kolor tła, dolne obramowanie 1 px #DDDDDD; lista w menu: sposób wyświetlania elastyczny, odstęp 24 px, marginesy wewnętrzne: lewy i prawy 4%, poziomy pasek przewijania widoczny jedynie wtedy, gdy pozycje się nie mieszczą</label></td><td>1</td></tr><tr><td>R.4.8</td><td><label><input type="checkbox"> Ustawione dla odnośników w menu kategorii: sposób wyświetlania blokowy, marginesy wewnętrzne: górny i dolny 12 px, rozmiar czcionki 0,92 rem, tekst bez łamania wierszy, dolne obramowanie 3 px w kolorze przezroczystym; gdy kursor znajdzie się na odnośniku, kolor czcionki i kolor dolnego obramowania zmieniają się na #FF6A13</label></td><td>1</td></tr><tr><td>R.4.9</td><td><label><input type="checkbox"> Ustawione dla klasy okruszki: marginesy wewnętrzne: górny i dolny 14 px, lewy i prawy 4%, rozmiar czcionki 0,85 rem, kolor #666666; gdy kursor znajdzie się na odnośniku w tym bloku, tekst jest podkreślony</label></td><td>1</td></tr><tr><td>R.4.10</td><td><label><input type="checkbox"> Ustawione dla klasy uklad: sposób wyświetlania w postaci siatki (grid) z dwiema kolumnami: lewa o stałej szerokości 260 px, prawa zajmuje pozostałe miejsce (1fr), odstęp 24 px, marginesy wewnętrzne: lewy i prawy 4%, dolny 40 px, elementy wyrównane do góry (align-items: start)</label></td><td>1</td></tr><tr><td>R.4.11</td><td><label><input type="checkbox"> Ustawione dla klasy filtry: biały kolor tła, marginesy wewnętrzne 18 px, zaokrąglenie rogów 6 px; nagłówek panelu: rozmiar czcionki 1,1 rem, dolny margines 12 px; grupy (fieldset): bez obramowania, dolny margines 16 px; legenda: pogrubiona, dolny margines wewnętrzny 8 px</label></td><td>1</td></tr><tr><td>R.4.12</td><td><label><input type="checkbox"> Ustawione dla etykiet w panelu filtrów: sposób wyświetlania blokowy, marginesy zewnętrzne: górny i dolny 6 px, rozmiar czcionki 0,92 rem, kursor w kształcie wskazującej dłoni; pola wyboru: prawy margines 8 px, kolor zaznaczenia #FF6A13 (accent-color)</label></td><td>1</td></tr><tr><td>R.4.13</td><td><label><input type="checkbox"> Ustawione dla klasy cena-pola: sposób wyświetlania elastyczny, odstęp 8 px; pola liczbowe: szerokość 100%, marginesy wewnętrzne 8 px, obramowanie 1 px #CCCCCC, zaokrąglenie 4 px</label></td><td>1</td></tr><tr><td>R.4.14</td><td><label><input type="checkbox"> Ustawione dla przycisku w panelu filtrów: szerokość 100%, górny margines 10 px, marginesy wewnętrzne 9 px, białe tło, pomarańczowa (#FF6A13) ramka 2 px i pomarańczowy pogrubiony tekst, zaokrąglenie 4 px, kursor w kształcie dłoni; gdy kursor znajdzie się na przycisku, kolory odwracają się (tło #FF6A13, biały tekst)</label></td><td>1</td></tr><tr><td>R.4.15</td><td><label><input type="checkbox"> Ustawione dla klasy pasek-wynikow: sposób wyświetlania elastyczny, elementy rozsunięte do krawędzi (justify-content: space-between), wyśrodkowane w pionie, zawijanie do kolejnego wiersza, odstęp 12 px, dolny margines 16 px; nagłówek: 1,5 rem; paragraf: 0,9 rem, kolor #666666; lista rozwijana: marginesy wewnętrzne 8 px / 10 px, obramowanie 1 px #CCCCCC, zaokrąglenie 4 px, białe tło</label></td><td>1</td></tr><tr><td>R.4.16</td><td><label><input type="checkbox"> Ustawione dla klasy oferty: sposób wyświetlania w postaci siatki, kolumny o szerokości co najmniej 210 px dzielące równo wolne miejsce, w liczbie mieszczącej się w bloku (repeat(auto-fill, minmax(210px, 1fr))), odstęp 16 px</label></td><td>1</td></tr><tr><td>R.4.17</td><td><label><input type="checkbox"> Ustawione dla klasy oferta: pozycjonowanie względne, sposób wyświetlania elastyczny w kierunku kolumnowym (elementy jeden pod drugim), odstęp 8 px, marginesy wewnętrzne 14 px, białe tło, zaokrąglenie 6 px, płynne przejście cienia i transformacji 0,2 s; gdy kursor znajdzie się na karcie: cień 0 6px 18px w kolorze czarnym o nieprzezroczystości 0,15 i przesunięcie karty o 3 px w górę (translateY)</label></td><td>1</td></tr><tr><td>R.4.18</td><td><label><input type="checkbox"> Ustawione dla klasy zdjecie: wysokość 150 px, zaokrąglenie 4 px, tło – gradient ukośny (135 stopni) od #F5F5F5 do #E2E2E2, zawartość wyśrodkowana w obu kierunkach (np. siatka z place-items: center), rozmiar czcionki 3,2 rem</label></td><td>1</td></tr><tr><td>R.4.19</td><td><label><input type="checkbox"> Ustawione dla klasy badge: pozycjonowanie bezwzględne 22 px od góry i 22 px od lewej krawędzi karty, marginesy wewnętrzne 3 px / 8 px, tło #FF6A13, biały pogrubiony tekst 0,75 rem, zaokrąglenie 3 px</label></td><td>1</td></tr><tr><td>R.4.20</td><td><label><input type="checkbox"> Ustawione dla tytułu oferty (h3 w karcie): rozmiar czcionki 0,95 rem, bez pogrubienia, minimalna wysokość 2,8 em. Dla klasy ocena: kolor #F5A623, 0,85 rem; liczba opinii (span) w kolorze #777777</label></td><td>1</td></tr><tr><td>R.4.21</td><td><label><input type="checkbox"> Ustawione dla klasy cena: 1,4 rem, pogrubienie. Dla klasy stara: kolor #888888, 0,85 rem, tekst przekreślony. Dla klasy dostawa: kolor #2E8B57, 0,82 rem. Dla klasy smart: kolor #FF6A13, pogrubienie</label></td><td>1</td></tr><tr><td>R.4.22</td><td><label><input type="checkbox"> Ustawione dla przycisku w karcie: przyklejony do dołu karty (górny margines automatyczny), marginesy wewnętrzne 9 px, tło #FF6A13, biały pogrubiony tekst, bez obramowania, zaokrąglenie 4 px, kursor w kształcie dłoni; gdy kursor znajdzie się na przycisku – tło #E55A0A; przycisk wyłączony (disabled) ma tło #2E8B57 i zwykły kursor</label></td><td>1</td></tr><tr><td>R.4.23</td><td><label><input type="checkbox"> Ustawione dla klasy strony: sposób wyświetlania elastyczny, zawartość wyśrodkowana w poziomie, odstęp 6 px, górny margines 28 px; odnośniki: marginesy wewnętrzne 8 px / 14 px, białe tło, obramowanie 1 px #DDDDDD, zaokrąglenie 4 px; gdy kursor znajdzie się na odnośniku, kolor obramowania i czcionki zmienia się na #FF6A13; klasa aktualna: tło i obramowanie #FF6A13, biały tekst, element nie reaguje na kliknięcia (pointer-events: none)</label></td><td>1</td></tr><tr><td>R.4.24</td><td><label><input type="checkbox"> Ustawione dla klasy stopka: marginesy wewnętrzne: górny i dolny 32 px, lewy i prawy 4%, białe tło, górne obramowanie 1 px #DDDDDD. Dla klasy stopka-kolumny: siatka z trzema równymi kolumnami, odstęp 24 px. Nagłówki w stopce: 1 rem, dolny margines 8 px; elementy list: marginesy zewnętrzne górny i dolny 4 px, 0,9 rem, kolor #555555; gdy kursor znajdzie się na odnośniku w stopce: kolor #FF6A13 i podkreślenie. Dla klasy prawa: górny margines 24 px, 0,82 rem, kolor #888888, tekst wyśrodkowany</label></td><td>1</td></tr><tr><td>R.4.25</td><td><label><input type="checkbox"> Ustawione w przypadku ekranów o szerokości do 900 px: siatka klasy uklad ma jedną kolumnę (filtry nad ofertami), a blok konto jest ukryty</label></td><td>1</td></tr><tr><td>R.4.26</td><td><label><input type="checkbox"> Ustawione w przypadku ekranów o szerokości do 560 px (ilustracja 5): nagłówek zawija elementy do kolejnego wiersza, wyszukiwarka zajmuje całą szerokość i jest wyświetlana pod logo (flex-basis: 100%, order: 3), lista rozwijana w wyszukiwarce jest ukryta, oferty są wyświetlane w dwóch kolumnach, a kolumny stopki jedna pod drugą</label></td><td>1</td></tr><tr class="res-head"><td>R.5</td><td><b>Rezultat 5: Skrypty</b><p class="note">Uwaga: Kryteria należy sprawdzić w kodzie źródłowym oraz na działającej stronie (XAMPP).</p></td><td>11</td></tr><tr><td>R.5.1</td><td><label><input type="checkbox"> Skrypt PHP łączy się z serwerem MySQL na localhost, użytkownik root bez hasła, baza bazarek (np. mysqli_connect)</label></td><td>1</td></tr><tr><td>R.5.2</td><td><label><input type="checkbox"> Skrypt 1 wysyła zapytanie 1 i dla każdego producenta tworzy etykietę z polem wyboru i nazwą</label></td><td>1</td></tr><tr><td>R.5.3</td><td><label><input type="checkbox"> Skrypt 2 wysyła zapytanie 2 i wyświetla paragraf „Znaleziono &lt;liczba&gt; ofert”</label></td><td>1</td></tr><tr><td>R.5.4</td><td><label><input type="checkbox"> Skrypt 3 wysyła zapytanie 3 i dla każdego rekordu tworzy element article z klasą oferta z tytułem w h3 i znakiem 📱 w bloku zdjecie</label></td><td>1</td></tr><tr><td>R.5.5</td><td><label><input type="checkbox"> Skrypt 3 wyświetla gwiazdki zgodnie z polem gwiazdki (★ uzupełnione ☆ do pięciu) i liczbę opinii w nawiasie w elemencie span</label></td><td>1</td></tr><tr><td>R.5.6</td><td><label><input type="checkbox"> Skrypt 3 wyświetla cenę w formacie „1 299,00 zł” (np. number_format) oraz starą cenę tylko wtedy, gdy nie jest pusta</label></td><td>1</td></tr><tr><td>R.5.7</td><td><label><input type="checkbox"> Skrypt 3 wyświetla plakietkę „Okazja” tylko dla ofert z polem okazja równym 1 oraz span „Smart!” tylko dla ofert z polem smart równym 1</label></td><td>1</td></tr><tr><td>R.5.8</td><td><label><input type="checkbox"> Na końcu skryptu zamykane jest połączenie z serwerem (np. mysqli_close)</label></td><td>1</td></tr><tr><td>R.5.9</td><td><label><input type="checkbox"> Skrypt 4 jest napisany w języku JavaScript, przechowuje liczbę produktów w koszyku i aktualizuje treść odnośnika z id koszyk</label></td><td>1</td></tr><tr><td>R.5.10</td><td><label><input type="checkbox"> Skrypt 4 zmienia napis klikniętego przycisku na „W koszyku ✓” i wyłącza przycisk (disabled)</label></td><td>1</td></tr><tr><td>R.5.11</td><td><label><input type="checkbox"> Zastosowano znaczące nazewnictwo zmiennych i funkcji</label></td><td>1</td></tr><tr class="sum"><td></td><td>Razem</td><td>60</td></tr></table>
+  <h2>Rozwiązanie wzorcowe</h2><h4>kwerendy.txt</h4><pre>-- Zapytanie 1
+SELECT nazwa FROM producenci ORDER BY nazwa;
+
+-- Zapytanie 2
+SELECT COUNT(*) AS liczba FROM oferty;
+
+-- Zapytanie 3
+SELECT tytul, cena, stara_cena, gwiazdki, opinie, dostawa, smart, okazja FROM oferty;
+
+-- Zapytanie 4
+SELECT tytul, cena, stara_cena FROM oferty WHERE stara_cena IS NOT NULL ORDER BY cena;
+
+-- Zapytanie 5
+SELECT producenci.nazwa, oferty.tytul, oferty.cena FROM oferty JOIN producenci ON oferty.producenci_id = producenci.id WHERE oferty.smart = 1;
+</pre><h4>index.php</h4><pre>&lt;?php
+$polaczenie = mysqli_connect('localhost', 'root', '', 'bazarek');
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pl&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Bazarek – telefony i smartfony&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;styl.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header class=&quot;gora&quot;&gt;
+        &lt;a href=&quot;index.php&quot; class=&quot;logo&quot;&gt;BAZAREK&lt;/a&gt;
+        &lt;form class=&quot;szukaj&quot; action=&quot;#&quot;&gt;
+            &lt;input type=&quot;text&quot; placeholder=&quot;Czego szukasz?&quot;&gt;
+            &lt;select&gt;
+                &lt;option&gt;Wszystkie kategorie&lt;/option&gt;
+                &lt;option&gt;Elektronika&lt;/option&gt;
+                &lt;option&gt;Moda&lt;/option&gt;
+                &lt;option&gt;Dom i ogród&lt;/option&gt;
+            &lt;/select&gt;
+            &lt;button type=&quot;submit&quot;&gt;Szukaj&lt;/button&gt;
+        &lt;/form&gt;
+        &lt;div class=&quot;konto&quot;&gt;
+            &lt;a href=&quot;#&quot;&gt;Moje konto&lt;/a&gt;
+            &lt;a href=&quot;#&quot;&gt;Obserwowane ♡&lt;/a&gt;
+            &lt;a href=&quot;#&quot; id=&quot;koszyk&quot;&gt;Koszyk (2)&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/header&gt;
+
+    &lt;nav class=&quot;kategorie&quot;&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Elektronika&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Moda&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Dom i ogród&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Supermarket&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Dziecko&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Uroda&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Zdrowie&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Kultura i rozrywka&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Sport i turystyka&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Motoryzacja&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/nav&gt;
+
+    &lt;p class=&quot;okruszki&quot;&gt;&lt;a href=&quot;index.php&quot;&gt;Strona główna&lt;/a&gt; › &lt;a href=&quot;#&quot;&gt;Elektronika&lt;/a&gt; › &lt;strong&gt;Telefony i smartfony&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;div class=&quot;uklad&quot;&gt;
+        &lt;aside class=&quot;filtry&quot;&gt;
+            &lt;h2&gt;Filtry&lt;/h2&gt;
+            &lt;form action=&quot;#&quot;&gt;
+                &lt;fieldset&gt;
+                    &lt;legend&gt;Stan&lt;/legend&gt;
+                    &lt;label&gt;&lt;input type=&quot;checkbox&quot; checked&gt; Nowy&lt;/label&gt;
+                    &lt;label&gt;&lt;input type=&quot;checkbox&quot;&gt; Używany&lt;/label&gt;
+                &lt;/fieldset&gt;
+                &lt;fieldset&gt;
+                    &lt;legend&gt;Cena&lt;/legend&gt;
+                    &lt;div class=&quot;cena-pola&quot;&gt;
+                        &lt;input type=&quot;number&quot; placeholder=&quot;od&quot;&gt;
+                        &lt;input type=&quot;number&quot; placeholder=&quot;do&quot;&gt;
+                    &lt;/div&gt;
+                    &lt;button type=&quot;button&quot;&gt;Zastosuj&lt;/button&gt;
+                &lt;/fieldset&gt;
+                &lt;fieldset&gt;
+                    &lt;legend&gt;Dostawa&lt;/legend&gt;
+                    &lt;label&gt;&lt;input type=&quot;checkbox&quot;&gt; Darmowa dostawa&lt;/label&gt;
+                    &lt;label&gt;&lt;input type=&quot;checkbox&quot;&gt; Smart!&lt;/label&gt;
+                &lt;/fieldset&gt;
+                &lt;fieldset&gt;
+                    &lt;legend&gt;Producent&lt;/legend&gt;
+                    &lt;?php
+                    // skrypt 1 - producenci w filtrach
+                    $zapytanie = &quot;SELECT nazwa FROM producenci ORDER BY nazwa&quot;;
+                    $wynik = mysqli_query($polaczenie, $zapytanie);
+                    while ($wiersz = mysqli_fetch_row($wynik)) {
+                        echo &quot;&lt;label&gt;&lt;input type='checkbox'&gt; $wiersz[0]&lt;/label&gt;&quot;;
+                    }
+                    ?&gt;
+                &lt;/fieldset&gt;
+            &lt;/form&gt;
+        &lt;/aside&gt;
+
+        &lt;main&gt;
+            &lt;div class=&quot;pasek-wynikow&quot;&gt;
+                &lt;div&gt;
+                    &lt;h1&gt;Telefony i smartfony&lt;/h1&gt;
+                    &lt;?php
+                    // skrypt 2 - liczba ofert
+                    $zapytanie = &quot;SELECT COUNT(*) AS liczba FROM oferty&quot;;
+                    $wynik = mysqli_query($polaczenie, $zapytanie);
+                    $wiersz = mysqli_fetch_row($wynik);
+                    echo &quot;&lt;p&gt;Znaleziono $wiersz[0] ofert&lt;/p&gt;&quot;;
+                    ?&gt;
+                &lt;/div&gt;
+                &lt;select&gt;
+                    &lt;option&gt;Trafność: największa&lt;/option&gt;
+                    &lt;option&gt;Cena: od najniższej&lt;/option&gt;
+                    &lt;option&gt;Cena: od najwyższej&lt;/option&gt;
+                    &lt;option&gt;Najnowsze&lt;/option&gt;
+                &lt;/select&gt;
+            &lt;/div&gt;
+
+            &lt;section class=&quot;oferty&quot;&gt;
+                &lt;?php
+                // skrypt 3 - karty ofert
+                $zapytanie = &quot;SELECT tytul, cena, stara_cena, gwiazdki, opinie, dostawa, smart, okazja FROM oferty&quot;;
+                $wynik = mysqli_query($polaczenie, $zapytanie);
+                while ($wiersz = mysqli_fetch_row($wynik)) {
+                    $cena = number_format($wiersz[1], 2, ',', ' ');
+                    $gwiazdki = str_repeat('★', $wiersz[3]) . str_repeat('☆', 5 - $wiersz[3]);
+                    echo &quot;&lt;article class='oferta'&gt;&quot;;
+                    if ($wiersz[7] == 1) {
+                        echo &quot;&lt;span class='badge'&gt;Okazja&lt;/span&gt;&quot;;
+                    }
+                    echo &quot;&lt;div class='zdjecie'&gt;📱&lt;/div&gt;&quot;;
+                    echo &quot;&lt;h3&gt;$wiersz[0]&lt;/h3&gt;&quot;;
+                    echo &quot;&lt;p class='ocena'&gt;$gwiazdki &lt;span&gt;($wiersz[4])&lt;/span&gt;&lt;/p&gt;&quot;;
+                    echo &quot;&lt;p class='cena'&gt;$cena zł&lt;/p&gt;&quot;;
+                    if ($wiersz[2] != null) {
+                        $stara = number_format($wiersz[2], 2, ',', ' ');
+                        echo &quot;&lt;p class='stara'&gt;$stara zł&lt;/p&gt;&quot;;
+                    }
+                    if ($wiersz[6] == 1) {
+                        echo &quot;&lt;p class='dostawa'&gt;&lt;span class='smart'&gt;Smart!&lt;/span&gt; $wiersz[5]&lt;/p&gt;&quot;;
+                    } else {
+                        echo &quot;&lt;p class='dostawa'&gt;$wiersz[5]&lt;/p&gt;&quot;;
+                    }
+                    echo &quot;&lt;button type='button' onclick='dodajDoKoszyka(this)'&gt;Dodaj do koszyka&lt;/button&gt;&quot;;
+                    echo &quot;&lt;/article&gt;&quot;;
+                }
+                ?&gt;
+            &lt;/section&gt;
+
+            &lt;nav class=&quot;strony&quot;&gt;
+                &lt;a href=&quot;#&quot;&gt;‹&lt;/a&gt;
+                &lt;a href=&quot;#&quot; class=&quot;aktualna&quot;&gt;1&lt;/a&gt;
+                &lt;a href=&quot;#&quot;&gt;2&lt;/a&gt;
+                &lt;a href=&quot;#&quot;&gt;3&lt;/a&gt;
+                &lt;a href=&quot;#&quot;&gt;…&lt;/a&gt;
+                &lt;a href=&quot;#&quot;&gt;12&lt;/a&gt;
+                &lt;a href=&quot;#&quot;&gt;›&lt;/a&gt;
+            &lt;/nav&gt;
+        &lt;/main&gt;
+    &lt;/div&gt;
+
+    &lt;footer class=&quot;stopka&quot;&gt;
+        &lt;div class=&quot;stopka-kolumny&quot;&gt;
+            &lt;div&gt;
+                &lt;h4&gt;Pomoc&lt;/h4&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Jak kupować&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Płatności i dostawa&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Zwroty i reklamacje&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;h4&gt;O nas&lt;/h4&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;O Bazarku&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Kariera&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Regulamin&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;h4&gt;Dla sprzedających&lt;/h4&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Załóż sklep&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Opłaty i prowizje&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Poradnik sprzedawcy&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;p class=&quot;prawa&quot;&gt;Stronę wykonał: 00&lt;/p&gt;
+    &lt;/footer&gt;
+
+    &lt;script src=&quot;skrypt.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?php
+mysqli_close($polaczenie);
+?&gt;
+</pre><h4>styl.css</h4><pre>* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #F2F2F2;
+    color: #222222;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.4;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+/* nagłówek */
+.gora {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 14px 4%;
+    background-color: white;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.logo {
+    color: #FF6A13;
+    font-size: 1.9rem;
+    font-weight: bold;
+}
+
+.szukaj {
+    flex: 1;
+    display: flex;
+}
+
+.szukaj input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 14px;
+    border: 2px solid #FF6A13;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    font-size: 1rem;
+}
+
+.szukaj select {
+    padding: 10px;
+    border: 2px solid #FF6A13;
+    border-right: none;
+    background-color: white;
+    font-size: 0.95rem;
+}
+
+.szukaj button {
+    padding: 10px 22px;
+    background: #FF6A13;
+    color: white;
+    border: 2px solid #FF6A13;
+    border-radius: 0 4px 4px 0;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.szukaj button:hover {
+    background: #E55A0A;
+}
+
+.konto {
+    display: flex;
+    gap: 20px;
+    font-size: 0.9rem;
+}
+
+.konto a:hover {
+    color: #FF6A13;
+}
+
+.kategorie {
+    background-color: white;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.kategorie ul {
+    display: flex;
+    gap: 24px;
+    padding: 0 4%;
+    overflow-x: auto;
+}
+
+.kategorie a {
+    display: block;
+    padding: 12px 0;
+    font-size: 0.92rem;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+}
+
+.kategorie a:hover {
+    color: #FF6A13;
+    border-bottom-color: #FF6A13;
+}
+
+.okruszki {
+    padding: 14px 4%;
+    font-size: 0.85rem;
+    color: #666666;
+}
+
+.okruszki a:hover {
+    text-decoration: underline;
+}
+
+/* układ dwukolumnowy */
+.uklad {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 24px;
+    padding: 0 4% 40px;
+    align-items: start;
+}
+
+.filtry {
+    padding: 18px;
+    background-color: white;
+    border-radius: 6px;
+}
+
+.filtry h2 {
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+.filtry fieldset {
+    border: none;
+    margin-bottom: 16px;
+}
+
+.filtry legend {
+    padding-bottom: 8px;
+    font-weight: bold;
+}
+
+.filtry label {
+    display: block;
+    margin: 6px 0;
+    font-size: 0.92rem;
+    cursor: pointer;
+}
+
+.filtry input[type=&quot;checkbox&quot;] {
+    margin-right: 8px;
+    accent-color: #FF6A13;
+}
+
+.cena-pola {
+    display: flex;
+    gap: 8px;
+}
+
+.cena-pola input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+}
+
+.filtry button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 9px;
+    background-color: white;
+    color: #FF6A13;
+    border: 2px solid #FF6A13;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.filtry button:hover {
+    background: #FF6A13;
+    color: white;
+}
+
+/* lista ofert */
+.pasek-wynikow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.pasek-wynikow h1 {
+    font-size: 1.5rem;
+}
+
+.pasek-wynikow p {
+    font-size: 0.9rem;
+    color: #666666;
+}
+
+.pasek-wynikow select {
+    padding: 8px 10px;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    background-color: white;
+}
+
+.oferty {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 16px;
+}
+
+.oferta {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px;
+    background-color: white;
+    border-radius: 6px;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.oferta:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+}
+
+.zdjecie {
+    display: grid;
+    place-items: center;
+    height: 150px;
+    border-radius: 4px;
+    background: linear-gradient(135deg, #F5F5F5, #E2E2E2);
+    font-size: 3.2rem;
+}
+
+.badge {
+    position: absolute;
+    top: 22px;
+    left: 22px;
+    padding: 3px 8px;
+    background: #FF6A13;
+    color: white;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.oferta h3 {
+    min-height: 2.8em;
+    font-size: 0.95rem;
+    font-weight: normal;
+}
+
+.ocena {
+    color: #F5A623;
+    font-size: 0.85rem;
+}
+
+.ocena span {
+    color: #777777;
+}
+
+.cena {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.stara {
+    color: #888888;
+    font-size: 0.85rem;
+    text-decoration: line-through;
+}
+
+.dostawa {
+    color: #2E8B57;
+    font-size: 0.82rem;
+}
+
+.smart {
+    color: #FF6A13;
+    font-weight: bold;
+}
+
+.oferta button {
+    margin-top: auto;
+    padding: 9px;
+    background: #FF6A13;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.oferta button:hover {
+    background: #E55A0A;
+}
+
+.oferta button:disabled {
+    background: #2E8B57;
+    cursor: default;
+}
+
+/* paginacja */
+.strony {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 28px;
+}
+
+.strony a {
+    padding: 8px 14px;
+    background-color: white;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+}
+
+.strony a:hover {
+    border-color: #FF6A13;
+    color: #FF6A13;
+}
+
+.strony .aktualna {
+    background: #FF6A13;
+    border-color: #FF6A13;
+    color: white;
+    pointer-events: none;
+}
+
+/* stopka */
+.stopka {
+    padding: 32px 4%;
+    background-color: white;
+    border-top: 1px solid #DDDDDD;
+}
+
+.stopka-kolumny {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.stopka h4 {
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.stopka li {
+    margin: 4px 0;
+    font-size: 0.9rem;
+    color: #555555;
+}
+
+.stopka a:hover {
+    color: #FF6A13;
+    text-decoration: underline;
+}
+
+.prawa {
+    margin-top: 24px;
+    font-size: 0.82rem;
+    color: #888888;
+    text-align: center;
+}
+
+/* wersja na mniejsze ekrany */
+@media (max-width: 900px) {
+    .uklad {
+        grid-template-columns: 1fr;
+    }
+
+    .konto {
+        display: none;
+    }
+}
+
+@media (max-width: 560px) {
+    .gora {
+        flex-wrap: wrap;
+    }
+
+    .szukaj {
+        flex-basis: 100%;
+        order: 3;
+    }
+
+    .szukaj select {
+        display: none;
+    }
+
+    .oferty {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .stopka-kolumny {
+        grid-template-columns: 1fr;
+    }
+}
+</pre><h4>skrypt.js</h4><pre>// skrypt 4 - dodawanie do koszyka
+let liczbaWKoszyku = 2;
+
+function dodajDoKoszyka(przycisk) {
+    liczbaWKoszyku++;
+    document.getElementById('koszyk').innerHTML = 'Koszyk (' + liczbaWKoszyku + ')';
+    przycisk.innerHTML = 'W koszyku ✓';
+    przycisk.disabled = true;
+}
+</pre>
+</section>
+
+</body>
+</html>

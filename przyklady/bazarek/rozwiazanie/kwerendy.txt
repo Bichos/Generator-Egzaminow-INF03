@@ -1,0 +1,14 @@
+-- Zapytanie 1
+SELECT nazwa FROM producenci ORDER BY nazwa;
+
+-- Zapytanie 2
+SELECT COUNT(*) AS liczba FROM oferty;
+
+-- Zapytanie 3
+SELECT tytul, cena, stara_cena, gwiazdki, opinie, dostawa, smart, okazja FROM oferty;
+
+-- Zapytanie 4
+SELECT tytul, cena, stara_cena FROM oferty WHERE stara_cena IS NOT NULL ORDER BY cena;
+
+-- Zapytanie 5
+SELECT producenci.nazwa, oferty.tytul, oferty.cena FROM oferty JOIN producenci ON oferty.producenci_id = producenci.id WHERE oferty.smart = 1;

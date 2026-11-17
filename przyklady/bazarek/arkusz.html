@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INF.03-BZ-SG – Bazarek – arkusz ćwiczeniowy</title>
+<style>
+:root { --ink: #111; --line: #333; --paper: #fff; }
+* { box-sizing: border-box; }
+html { background: #e9e9ec; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; padding: 16px 0; font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt; line-height: 1.38; color: var(--ink); }
+.page { background: var(--paper); width: 210mm; max-width: 100%; margin: 0 auto 16px; padding: 18mm 18mm 20mm; box-shadow: 0 1px 6px rgba(0,0,0,.18); }
+.title-page { min-height: 297mm; }
+h2.task-title { font-size: 13pt; margin: 0 0 8px; }
+h3 { font-size: 11pt; margin: 16px 0 6px; break-after: avoid; }
+p { margin: 5px 0; }
+ul.dash { list-style: none; padding-left: 20px; margin: 4px 0; }
+ul.dash > li { position: relative; margin: 2px 0; }
+ul.dash > li::before { content: '−'; position: absolute; left: -15px; }
+.notice { border: 2px solid #b00; color: #b00; padding: 6px 10px; text-align: center; font-weight: bold; margin-bottom: 14px; }
+.meta { font-size: 10.5pt; }
+.fill { border: 1px solid var(--line); padding: 10px; margin: 14px 0; }
+.fill-title { text-align: center; font-weight: bold; margin-bottom: 8px; }
+.pesel { display: flex; align-items: center; justify-content: space-between; margin: 6px 0; gap: 10px; flex-wrap: wrap; }
+.pesel .line { flex: 1; min-width: 200px; max-width: 60%; border-bottom: 1px solid var(--line); height: 22px; }
+.boxes { display: inline-flex; }
+.boxes i { width: 22px; height: 26px; border: 1px solid var(--line); margin-left: -1px; display: inline-block; }
+.row-between { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.code { font-weight: bold; border: 1px solid var(--line); padding: 2px 8px; }
+.big { text-align: center; font-weight: bold; font-size: 15pt; margin: 18px 0; }
+.big small { font-size: 10pt; font-weight: normal; }
+.instr li { margin: 4px 0; }
+.right { text-align: right; }
+.small { font-size: 9pt; color: #333; }
+.seed { margin-top: 30px; color: #555; }
+.mono { font-family: 'Courier New', monospace; }
+figure { margin: 10px 0; text-align: center; break-inside: avoid; }
+figcaption { font-size: 9.5pt; margin-top: 4px; }
+figure.schema svg { max-width: 100%; height: auto; }
+img.strip { max-width: 100%; border: 1px solid #999; }
+.frame-wrap { width: 100%; height: 420px; overflow: hidden; border: 1px solid #888; position: relative; background: #fff; }
+.frame-wrap.placeholder { display: flex; align-items: center; justify-content: center; color: #777; height: 160px; }
+iframe.site { border: 0; width: 161.3%; height: 680px; transform: scale(0.62); transform-origin: 0 0; position: absolute; left: 0; top: 0; }
+.with-layout { display: flex; gap: 14px; align-items: flex-start; }
+.with-layout > div { flex: 1; min-width: 0; }
+figure.layout { flex: 0 0 230px; margin-top: 30px; }
+figure.layout svg { width: 100%; height: auto; }
+.note { margin: 8px 0; }
+.script-name { font-weight: bold; margin-top: 8px; }
+.help-tables { margin-top: 14px; }
+table.help { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 9pt; break-inside: avoid; }
+table.help caption { text-align: left; font-weight: bold; margin-bottom: 3px; }
+table.help th, table.help td { border: 1px solid var(--line); padding: 3px 6px; text-align: left; vertical-align: top; }
+table.help th { background: #eee; }
+@media (max-width: 700px) {
+  .page { padding: 16px; }
+  .with-layout { flex-direction: column; }
+  figure.layout { flex: none; width: 100%; max-width: 300px; margin: 0 auto; }
+}
+@page { size: A4; margin: 14mm 14mm 16mm;
+  @bottom-center { content: "Strona " counter(page) " z " counter(pages); font: 9pt Arial, sans-serif; } }
+@media print {
+  html, body { background: #fff; padding: 0; }
+  .page { box-shadow: none; margin: 0; padding: 0; width: auto; min-height: 0; }
+  .title-page { break-after: page; }
+}
+
+.logo-demo { display: inline-block; padding: 14px 18px; background: repeating-conic-gradient(#ddd 0% 25%, #fff 0% 50%) 0 0 / 16px 16px; border: 1px solid #999; }
+.logo-demo img { display: block; height: 40px; }
+.swatch { display: inline-block; width: 90px; height: 22px; border-radius: 3px; vertical-align: middle; }
+
+figure.preview.mobile .frame-wrap { height: 1000px !important; overflow: hidden; }
+</style>
+</head>
+<body>
+<section class="page title-page">
+  <div class="notice">Arkusz ćwiczeniowy przygotowany na zajęcia.<br>Nie jest oficjalnym arkuszem CKE.</div>
+  <p class="meta">Nazwa kwalifikacji: <b>Tworzenie i administrowanie stronami i aplikacjami internetowymi oraz bazami danych</b><br>
+  Symbol kwalifikacji: <b>INF.03</b><br>Zadanie: <b>Bazarek – sklep internetowy z telefonami</b><br>Wersja arkusza: <b>SG</b></p>
+  <div class="fill"><div class="fill-title">Wypełnia zdający</div>
+    <div class="pesel"><span>Imię i nazwisko</span><span class="line"></span></div>
+    <div class="pesel"><span>Numer z dziennika</span><span class="boxes"><i></i><i></i></span></div>
+  </div>
+  <div class="row-between"><span>Czas trwania egzaminu: <b>150 minut</b></span><span class="code">INF.03-BZ-SG</span></div>
+  <div class="big">EGZAMIN ZAWODOWY – ARKUSZ ĆWICZENIOWY<br><small>CZĘŚĆ PRAKTYCZNA · PODSTAWA PROGRAMOWA 2019</small></div>
+  <h3>Instrukcja dla zdającego</h3>
+  <ol class="instr">
+    <li>Na pierwszej stronie arkusza wpisz w oznaczonym miejscu swoje imię i nazwisko oraz numer z dziennika.</li>
+    <li>Sprawdź, czy arkusz egzaminacyjny zawiera wszystkie strony i nie zawiera błędów. Ewentualny brak stron lub inne usterki zgłoś przez podniesienie ręki nauczycielowi.</li>
+    <li>Zapoznaj się z treścią zadania oraz stanowiskiem egzaminacyjnym. Masz na to 10 minut. Czas ten nie jest wliczany do czasu trwania egzaminu.</li>
+    <li>Wykonaj samodzielnie zadanie egzaminacyjne. Przestrzegaj zasad bezpieczeństwa i organizacji pracy.</li>
+    <li>Po zakończeniu wykonania zadania pozostaw arkusz egzaminacyjny z rezultatami wykonania zadania na swoim stanowisku.</li>
+  </ol>
+  <p class="right"><b>Powodzenia!</b></p>
+</section>
+<section class="page task">
+  <h2 class="task-title">Zadanie egzaminacyjne</h2>
+  <p>UWAGA: numer z dziennika, którym został podpisany arkusz, jest w zadaniu nazywany numerem zdającego.</p>
+  <p>Wykonaj aplikację internetową sklepu w stylu platformy handlowej Bazarek, wykorzystując pakiet XAMPP oraz edytor zaznaczający składnię.</p>
+  <p>Aby wykonać zadanie, należy zalogować się na konto <b>Egzamin</b> bez hasła. Na pulpicie znajduje się archiwum 7z o nazwie <b>bazarek</b> zabezpieczone hasłem: <b class="mono">B@zarek#26</b>. Archiwum należy rozpakować.</p>
+  <p>Na pulpicie konta Egzamin należy utworzyć folder. Jako nazwy folderu należy użyć numeru zdającego. Po skończonej pracy wszystkie wyniki należy zapisać w tym folderze.</p>
+
+  <h3>Operacje na bazie danych</h3>
+  <p>Baza danych zawiera połączone relacją tabele przedstawione na ilustracji 1. Tabela producenci opisuje producentów telefonów, tabela oferty – oferty sklepu. Pole stara_cena jest puste (NULL), gdy oferta nie ma obniżki; pole gwiazdki zawiera ocenę od 1 do 5; pola smart i okazja przyjmują wartości 0 lub 1. Nazwa serwisu, produkty i ceny są wymyślone.</p>
+  <figure class="schema"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 276" width="460" height="276"><path d="M260 246.5 H230 V45.5 H200" fill="none" stroke="#555" stroke-width="1.5"/><circle cx="200" cy="45.5" r="3" fill="#555"/><g font-family="Arial, sans-serif"><rect x="10" y="10" width="190" height="83" fill="#fff" stroke="#333"/><rect x="10" y="10" width="190" height="26" fill="#d9e3ef" stroke="#333"/><text x="18" y="27" font-size="13" font-weight="bold">producenci</text><text x="18" y="50" font-size="12">🔑 id</text><text x="192" y="50" font-size="10" fill="#666" text-anchor="end">int</text><text x="18" y="69" font-size="12">nazwa</text><text x="192" y="69" font-size="10" fill="#666" text-anchor="end">varchar(30)</text><text x="18" y="88" font-size="12">kraj</text><text x="192" y="88" font-size="10" fill="#666" text-anchor="end">varchar(30)</text></g><g font-family="Arial, sans-serif"><rect x="260" y="40" width="190" height="216" fill="#fff" stroke="#333"/><rect x="260" y="40" width="190" height="26" fill="#d9e3ef" stroke="#333"/><text x="268" y="57" font-size="13" font-weight="bold">oferty</text><text x="268" y="80" font-size="12">🔑 id</text><text x="442" y="80" font-size="10" fill="#666" text-anchor="end">int</text><text x="268" y="99" font-size="12">tytul</text><text x="442" y="99" font-size="10" fill="#666" text-anchor="end">varchar(60)</text><text x="268" y="118" font-size="12">cena</text><text x="442" y="118" font-size="10" fill="#666" text-anchor="end">decimal(7,2)</text><text x="268" y="137" font-size="12">stara_cena</text><text x="442" y="137" font-size="10" fill="#666" text-anchor="end">decimal(7,2)</text><text x="268" y="156" font-size="12">gwiazdki</text><text x="442" y="156" font-size="10" fill="#666" text-anchor="end">int</text><text x="268" y="175" font-size="12">opinie</text><text x="442" y="175" font-size="10" fill="#666" text-anchor="end">int</text><text x="268" y="194" font-size="12">dostawa</text><text x="442" y="194" font-size="10" fill="#666" text-anchor="end">varchar(30)</text><text x="268" y="213" font-size="12">smart</text><text x="442" y="213" font-size="10" fill="#666" text-anchor="end">tinyint(1)</text><text x="268" y="232" font-size="12">okazja</text><text x="442" y="232" font-size="10" fill="#666" text-anchor="end">tinyint(1)</text><text x="268" y="251" font-size="12"># producenci_id</text><text x="442" y="251" font-size="10" fill="#666" text-anchor="end">int</text></g></svg><figcaption>Ilustracja 1. Baza danych</figcaption></figure>
+  <p>Za pomocą narzędzia phpMyAdmin wykonaj następujące operacje na bazie danych:</p>
+  <ul class="dash">
+    <li>Utwórz bazę danych o nazwie <b>bazarek</b>, z zestawem polskich znaków (np. utf8mb4_polish_ci)</li>
+    <li>Z rozpakowanego archiwum zaimportuj tabele z pliku bazarek.sql do utworzonej bazy</li>
+    <li>Wykonaj zrzut ekranu po imporcie. Zapisz zrzut w formacie PNG pod nazwą import. Nie kadruj zrzutu. Powinien on obejmować cały ekran monitora, z widocznym paskiem zadań. Na zrzucie powinny być widoczne elementy wskazujące na poprawnie wykonany import tabel</li>
+    <li>Wykonaj zapytania SQL działające na bazie bazarek. Zapytania zapisz w pliku kwerendy.txt. Wykonaj zrzuty ekranu przedstawiające wyniki działania kwerend. Zrzuty zapisz w formacie PNG i nadaj im nazwy kw1, kw2, kw3, kw4, kw5. Zrzuty powinny obejmować cały ekran monitora z widocznym paskiem zadań
+      <ul class="dash"><li>Zapytanie 1: wybierające jedynie nazwy wszystkich producentów, posortowane rosnąco alfabetycznie</li><li>Zapytanie 2: zliczające wszystkie oferty; kolumna z wynikiem ma nazwę (alias) „liczba”</li><li>Zapytanie 3: wybierające jedynie tytuł, cenę, starą cenę, liczbę gwiazdek, liczbę opinii, dostawę oraz pola smart i okazja wszystkich ofert</li><li>Zapytanie 4: wybierające jedynie tytuł, cenę i starą cenę ofert, które mają starą cenę (pole nie jest puste), posortowane rosnąco według ceny</li><li>Zapytanie 5: wybierające jedynie nazwę producenta z tabeli producenci oraz odpowiadające jej tytuł i cenę z tabeli oferty, dla ofert z dostawą Smart! (pole smart ma wartość 1). Należy posłużyć się relacją</li></ul></li>
+  </ul>
+
+  <h3>Witryna internetowa</h3>
+  <figure class="preview "><div class="frame-wrap" style="width:640px;max-width:100%;margin:0 auto" data-scale="0.5"><iframe class="site" style="width:1280px;transform:scale(0.5)" srcdoc="<!DOCTYPE html>
+<html lang=&quot;pl&quot;>
+<head>
+    <meta charset=&quot;UTF-8&quot;>
+    <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+    <title>Bazarek – telefony i smartfony</title>
+    <style>html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #F2F2F2;
+    color: #222222;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.4;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+/* nagłówek */
+.gora {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 14px 4%;
+    background-color: white;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.logo {
+    color: #FF6A13;
+    font-size: 1.9rem;
+    font-weight: bold;
+}
+
+.szukaj {
+    flex: 1;
+    display: flex;
+}
+
+.szukaj input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 14px;
+    border: 2px solid #FF6A13;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    font-size: 1rem;
+}
+
+.szukaj select {
+    padding: 10px;
+    border: 2px solid #FF6A13;
+    border-right: none;
+    background-color: white;
+    font-size: 0.95rem;
+}
+
+.szukaj button {
+    padding: 10px 22px;
+    background: #FF6A13;
+    color: white;
+    border: 2px solid #FF6A13;
+    border-radius: 0 4px 4px 0;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.szukaj button:hover {
+    background: #E55A0A;
+}
+
+.konto {
+    display: flex;
+    gap: 20px;
+    font-size: 0.9rem;
+}
+
+.konto a:hover {
+    color: #FF6A13;
+}
+
+.kategorie {
+    background-color: white;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.kategorie ul {
+    display: flex;
+    gap: 24px;
+    padding: 0 4%;
+    overflow-x: auto;
+}
+
+.kategorie a {
+    display: block;
+    padding: 12px 0;
+    font-size: 0.92rem;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+}
+
+.kategorie a:hover {
+    color: #FF6A13;
+    border-bottom-color: #FF6A13;
+}
+
+.okruszki {
+    padding: 14px 4%;
+    font-size: 0.85rem;
+    color: #666666;
+}
+
+.okruszki a:hover {
+    text-decoration: underline;
+}
+
+/* układ dwukolumnowy */
+.uklad {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 24px;
+    padding: 0 4% 40px;
+    align-items: start;
+}
+
+.filtry {
+    padding: 18px;
+    background-color: white;
+    border-radius: 6px;
+}
+
+.filtry h2 {
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+.filtry fieldset {
+    border: none;
+    margin-bottom: 16px;
+}
+
+.filtry legend {
+    padding-bottom: 8px;
+    font-weight: bold;
+}
+
+.filtry label {
+    display: block;
+    margin: 6px 0;
+    font-size: 0.92rem;
+    cursor: pointer;
+}
+
+.filtry input[type=&quot;checkbox&quot;] {
+    margin-right: 8px;
+    accent-color: #FF6A13;
+}
+
+.cena-pola {
+    display: flex;
+    gap: 8px;
+}
+
+.cena-pola input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+}
+
+.filtry button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 9px;
+    background-color: white;
+    color: #FF6A13;
+    border: 2px solid #FF6A13;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.filtry button:hover {
+    background: #FF6A13;
+    color: white;
+}
+
+/* lista ofert */
+.pasek-wynikow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.pasek-wynikow h1 {
+    font-size: 1.5rem;
+}
+
+.pasek-wynikow p {
+    font-size: 0.9rem;
+    color: #666666;
+}
+
+.pasek-wynikow select {
+    padding: 8px 10px;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    background-color: white;
+}
+
+.oferty {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 16px;
+}
+
+.oferta {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px;
+    background-color: white;
+    border-radius: 6px;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.oferta:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+}
+
+.zdjecie {
+    display: grid;
+    place-items: center;
+    height: 150px;
+    border-radius: 4px;
+    background: linear-gradient(135deg, #F5F5F5, #E2E2E2);
+    font-size: 3.2rem;
+}
+
+.badge {
+    position: absolute;
+    top: 22px;
+    left: 22px;
+    padding: 3px 8px;
+    background: #FF6A13;
+    color: white;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.oferta h3 {
+    min-height: 2.8em;
+    font-size: 0.95rem;
+    font-weight: normal;
+}
+
+.ocena {
+    color: #F5A623;
+    font-size: 0.85rem;
+}
+
+.ocena span {
+    color: #777777;
+}
+
+.cena {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.stara {
+    color: #888888;
+    font-size: 0.85rem;
+    text-decoration: line-through;
+}
+
+.dostawa {
+    color: #2E8B57;
+    font-size: 0.82rem;
+}
+
+.smart {
+    color: #FF6A13;
+    font-weight: bold;
+}
+
+.oferta button {
+    margin-top: auto;
+    padding: 9px;
+    background: #FF6A13;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.oferta button:hover {
+    background: #E55A0A;
+}
+
+.oferta button:disabled {
+    background: #2E8B57;
+    cursor: default;
+}
+
+/* paginacja */
+.strony {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 28px;
+}
+
+.strony a {
+    padding: 8px 14px;
+    background-color: white;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+}
+
+.strony a:hover {
+    border-color: #FF6A13;
+    color: #FF6A13;
+}
+
+.strony .aktualna {
+    background: #FF6A13;
+    border-color: #FF6A13;
+    color: white;
+    pointer-events: none;
+}
+
+/* stopka */
+.stopka {
+    padding: 32px 4%;
+    background-color: white;
+    border-top: 1px solid #DDDDDD;
+}
+
+.stopka-kolumny {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.stopka h4 {
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.stopka li {
+    margin: 4px 0;
+    font-size: 0.9rem;
+    color: #555555;
+}
+
+.stopka a:hover {
+    color: #FF6A13;
+    text-decoration: underline;
+}
+
+.prawa {
+    margin-top: 24px;
+    font-size: 0.82rem;
+    color: #888888;
+    text-align: center;
+}
+
+/* wersja na mniejsze ekrany */
+@media (max-width: 900px) {
+    .uklad {
+        grid-template-columns: 1fr;
+    }
+
+    .konto {
+        display: none;
+    }
+}
+
+@media (max-width: 560px) {
+    .gora {
+        flex-wrap: wrap;
+    }
+
+    .szukaj {
+        flex-basis: 100%;
+        order: 3;
+    }
+
+    .szukaj select {
+        display: none;
+    }
+
+    .oferty {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .stopka-kolumny {
+        grid-template-columns: 1fr;
+    }
+}
+
+</style>
+</head>
+<body>
+    <header class=&quot;gora&quot;>
+        <a href=&quot;index.php&quot; class=&quot;logo&quot;>BAZAREK</a>
+        <form class=&quot;szukaj&quot; action=&quot;#&quot;>
+            <input type=&quot;text&quot; placeholder=&quot;Czego szukasz?&quot;>
+            <select>
+                <option>Wszystkie kategorie</option>
+                <option>Elektronika</option>
+                <option>Moda</option>
+                <option>Dom i ogród</option>
+            </select>
+            <button type=&quot;submit&quot;>Szukaj</button>
+        </form>
+        <div class=&quot;konto&quot;>
+            <a href=&quot;#&quot;>Moje konto</a>
+            <a href=&quot;#&quot;>Obserwowane ♡</a>
+            <a href=&quot;#&quot; id=&quot;koszyk&quot;>Koszyk (2)</a>
+        </div>
+    </header>
+
+    <nav class=&quot;kategorie&quot;>
+        <ul>
+            <li><a href=&quot;#&quot;>Elektronika</a></li>
+            <li><a href=&quot;#&quot;>Moda</a></li>
+            <li><a href=&quot;#&quot;>Dom i ogród</a></li>
+            <li><a href=&quot;#&quot;>Supermarket</a></li>
+            <li><a href=&quot;#&quot;>Dziecko</a></li>
+            <li><a href=&quot;#&quot;>Uroda</a></li>
+            <li><a href=&quot;#&quot;>Zdrowie</a></li>
+            <li><a href=&quot;#&quot;>Kultura i rozrywka</a></li>
+            <li><a href=&quot;#&quot;>Sport i turystyka</a></li>
+            <li><a href=&quot;#&quot;>Motoryzacja</a></li>
+        </ul>
+    </nav>
+
+    <p class=&quot;okruszki&quot;><a href=&quot;index.php&quot;>Strona główna</a> › <a href=&quot;#&quot;>Elektronika</a> › <strong>Telefony i smartfony</strong></p>
+
+    <div class=&quot;uklad&quot;>
+        <aside class=&quot;filtry&quot;>
+            <h2>Filtry</h2>
+            <form action=&quot;#&quot;>
+                <fieldset>
+                    <legend>Stan</legend>
+                    <label><input type=&quot;checkbox&quot; checked> Nowy</label>
+                    <label><input type=&quot;checkbox&quot;> Używany</label>
+                </fieldset>
+                <fieldset>
+                    <legend>Cena</legend>
+                    <div class=&quot;cena-pola&quot;>
+                        <input type=&quot;number&quot; placeholder=&quot;od&quot;>
+                        <input type=&quot;number&quot; placeholder=&quot;do&quot;>
+                    </div>
+                    <button type=&quot;button&quot;>Zastosuj</button>
+                </fieldset>
+                <fieldset>
+                    <legend>Dostawa</legend>
+                    <label><input type=&quot;checkbox&quot;> Darmowa dostawa</label>
+                    <label><input type=&quot;checkbox&quot;> Smart!</label>
+                </fieldset>
+                <fieldset>
+                    <legend>Producent</legend>
+                    <label><input type='checkbox'> Aero</label><label><input type='checkbox'> Lumia</label><label><input type='checkbox'> Nova</label><label><input type='checkbox'> Orion</label><label><input type='checkbox'> Titan</label><label><input type='checkbox'> Vega</label>                </fieldset>
+            </form>
+        </aside>
+
+        <main>
+            <div class=&quot;pasek-wynikow&quot;>
+                <div>
+                    <h1>Telefony i smartfony</h1>
+                    <p>Znaleziono 8 ofert</p>                </div>
+                <select>
+                    <option>Trafność: największa</option>
+                    <option>Cena: od najniższej</option>
+                    <option>Cena: od najwyższej</option>
+                    <option>Najnowsze</option>
+                </select>
+            </div>
+
+            <section class=&quot;oferty&quot;>
+                <article class='oferta'><span class='badge'>Okazja</span><div class='zdjecie'>📱</div><h3>Smartfon Nova X12 128 GB czarny</h3><p class='ocena'>★★★★☆ <span>(128)</span></p><p class='cena'>1 299,00 zł</p><p class='stara'>1 499,00 zł</p><p class='dostawa'>Darmowa dostawa</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><div class='zdjecie'>📱</div><h3>Smartfon Lumia Pro 256 GB niebieski</h3><p class='ocena'>★★★★★ <span>(342)</span></p><p class='cena'>2 149,00 zł</p><p class='dostawa'><span class='smart'>Smart!</span> Darmowa dostawa</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><span class='badge'>Okazja</span><div class='zdjecie'>📱</div><h3>Smartfon Aero S5 64 GB zielony</h3><p class='ocena'>★★★★☆ <span>(87)</span></p><p class='cena'>599,00 zł</p><p class='stara'>749,00 zł</p><p class='dostawa'>Darmowa dostawa</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><div class='zdjecie'>📱</div><h3>Smartfon Titan 5G 512 GB grafit</h3><p class='ocena'>★★★★★ <span>(51)</span></p><p class='cena'>3 499,00 zł</p><p class='dostawa'><span class='smart'>Smart!</span> Darmowa dostawa</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><div class='zdjecie'>📱</div><h3>Smartfon Flip Mini 128 GB różowy</h3><p class='ocena'>★★★★☆ <span>(64)</span></p><p class='cena'>1 799,00 zł</p><p class='dostawa'>Dostawa od 12,99 zł</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><span class='badge'>Okazja</span><div class='zdjecie'>📱</div><h3>Smartfon Basic 4 32 GB szary</h3><p class='ocena'>★★★★☆ <span>(212)</span></p><p class='cena'>349,00 zł</p><p class='stara'>399,00 zł</p><p class='dostawa'>Darmowa dostawa</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><div class='zdjecie'>📱</div><h3>Smartfon Vega 8 256 GB fioletowy</h3><p class='ocena'>★★★★☆ <span>(176)</span></p><p class='cena'>1 549,00 zł</p><p class='dostawa'><span class='smart'>Smart!</span> Darmowa dostawa</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><div class='zdjecie'>📱</div><h3>Smartfon Orion Lite 128 GB biały</h3><p class='ocena'>★★★★☆ <span>(93)</span></p><p class='cena'>899,00 zł</p><p class='dostawa'>Dostawa od 9,99 zł</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article>            </section>
+
+            <nav class=&quot;strony&quot;>
+                <a href=&quot;#&quot;>‹</a>
+                <a href=&quot;#&quot; class=&quot;aktualna&quot;>1</a>
+                <a href=&quot;#&quot;>2</a>
+                <a href=&quot;#&quot;>3</a>
+                <a href=&quot;#&quot;>…</a>
+                <a href=&quot;#&quot;>12</a>
+                <a href=&quot;#&quot;>›</a>
+            </nav>
+        </main>
+    </div>
+
+    <footer class=&quot;stopka&quot;>
+        <div class=&quot;stopka-kolumny&quot;>
+            <div>
+                <h4>Pomoc</h4>
+                <ul>
+                    <li><a href=&quot;#&quot;>Jak kupować</a></li>
+                    <li><a href=&quot;#&quot;>Płatności i dostawa</a></li>
+                    <li><a href=&quot;#&quot;>Zwroty i reklamacje</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>O nas</h4>
+                <ul>
+                    <li><a href=&quot;#&quot;>O Bazarku</a></li>
+                    <li><a href=&quot;#&quot;>Kariera</a></li>
+                    <li><a href=&quot;#&quot;>Regulamin</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Dla sprzedających</h4>
+                <ul>
+                    <li><a href=&quot;#&quot;>Załóż sklep</a></li>
+                    <li><a href=&quot;#&quot;>Opłaty i prowizje</a></li>
+                    <li><a href=&quot;#&quot;>Poradnik sprzedawcy</a></li>
+                </ul>
+            </div>
+        </div>
+        <p class=&quot;prawa&quot;>Stronę wykonał: 00</p>
+    </footer>
+
+    <script>// skrypt 4 - dodawanie do koszyka
+let liczbaWKoszyku = 2;
+
+function dodajDoKoszyka(przycisk) {
+    liczbaWKoszyku++;
+    document.getElementById('koszyk').innerHTML = 'Koszyk (' + liczbaWKoszyku + ')';
+    przycisk.innerHTML = 'W koszyku ✓';
+    przycisk.disabled = true;
+}
+
+document.querySelectorAll('figure.preview:not(.mobile) iframe.site').forEach(function (f) {
+  f.addEventListener('load', function () {
+    try {
+      var karta = f.contentDocument.querySelectorAll('.oferta')[2];
+      karta.style.boxShadow = '0 6px 18px rgba(0, 0, 0, 0.15)';
+      karta.style.transform = 'translateY(-3px)';
+    } catch (e) {}
+  });
+});
+</script>
+</body>
+</html>
+" title="Podgląd witryny"></iframe></div><figcaption>Ilustracja 2. Wygląd witryny internetowej na ekranie o szerokości 1280 px, kursor na trzeciej karcie; dane pochodzą z bazy</figcaption></figure>
+  <div class="with-layout"><div>
+  <figure class="preview mobile"><div class="frame-wrap" style="width:240px;max-width:100%;margin:0 auto" data-scale="0.6"><iframe class="site" style="width:400px;transform:scale(0.6)" srcdoc="<!DOCTYPE html>
+<html lang=&quot;pl&quot;>
+<head>
+    <meta charset=&quot;UTF-8&quot;>
+    <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+    <title>Bazarek – telefony i smartfony</title>
+    <style>html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #F2F2F2;
+    color: #222222;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.4;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+/* nagłówek */
+.gora {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 14px 4%;
+    background-color: white;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.logo {
+    color: #FF6A13;
+    font-size: 1.9rem;
+    font-weight: bold;
+}
+
+.szukaj {
+    flex: 1;
+    display: flex;
+}
+
+.szukaj input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 14px;
+    border: 2px solid #FF6A13;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    font-size: 1rem;
+}
+
+.szukaj select {
+    padding: 10px;
+    border: 2px solid #FF6A13;
+    border-right: none;
+    background-color: white;
+    font-size: 0.95rem;
+}
+
+.szukaj button {
+    padding: 10px 22px;
+    background: #FF6A13;
+    color: white;
+    border: 2px solid #FF6A13;
+    border-radius: 0 4px 4px 0;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.szukaj button:hover {
+    background: #E55A0A;
+}
+
+.konto {
+    display: flex;
+    gap: 20px;
+    font-size: 0.9rem;
+}
+
+.konto a:hover {
+    color: #FF6A13;
+}
+
+.kategorie {
+    background-color: white;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.kategorie ul {
+    display: flex;
+    gap: 24px;
+    padding: 0 4%;
+    overflow-x: auto;
+}
+
+.kategorie a {
+    display: block;
+    padding: 12px 0;
+    font-size: 0.92rem;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+}
+
+.kategorie a:hover {
+    color: #FF6A13;
+    border-bottom-color: #FF6A13;
+}
+
+.okruszki {
+    padding: 14px 4%;
+    font-size: 0.85rem;
+    color: #666666;
+}
+
+.okruszki a:hover {
+    text-decoration: underline;
+}
+
+/* układ dwukolumnowy */
+.uklad {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 24px;
+    padding: 0 4% 40px;
+    align-items: start;
+}
+
+.filtry {
+    padding: 18px;
+    background-color: white;
+    border-radius: 6px;
+}
+
+.filtry h2 {
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+.filtry fieldset {
+    border: none;
+    margin-bottom: 16px;
+}
+
+.filtry legend {
+    padding-bottom: 8px;
+    font-weight: bold;
+}
+
+.filtry label {
+    display: block;
+    margin: 6px 0;
+    font-size: 0.92rem;
+    cursor: pointer;
+}
+
+.filtry input[type=&quot;checkbox&quot;] {
+    margin-right: 8px;
+    accent-color: #FF6A13;
+}
+
+.cena-pola {
+    display: flex;
+    gap: 8px;
+}
+
+.cena-pola input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+}
+
+.filtry button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 9px;
+    background-color: white;
+    color: #FF6A13;
+    border: 2px solid #FF6A13;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.filtry button:hover {
+    background: #FF6A13;
+    color: white;
+}
+
+/* lista ofert */
+.pasek-wynikow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.pasek-wynikow h1 {
+    font-size: 1.5rem;
+}
+
+.pasek-wynikow p {
+    font-size: 0.9rem;
+    color: #666666;
+}
+
+.pasek-wynikow select {
+    padding: 8px 10px;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    background-color: white;
+}
+
+.oferty {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 16px;
+}
+
+.oferta {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px;
+    background-color: white;
+    border-radius: 6px;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.oferta:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+}
+
+.zdjecie {
+    display: grid;
+    place-items: center;
+    height: 150px;
+    border-radius: 4px;
+    background: linear-gradient(135deg, #F5F5F5, #E2E2E2);
+    font-size: 3.2rem;
+}
+
+.badge {
+    position: absolute;
+    top: 22px;
+    left: 22px;
+    padding: 3px 8px;
+    background: #FF6A13;
+    color: white;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.oferta h3 {
+    min-height: 2.8em;
+    font-size: 0.95rem;
+    font-weight: normal;
+}
+
+.ocena {
+    color: #F5A623;
+    font-size: 0.85rem;
+}
+
+.ocena span {
+    color: #777777;
+}
+
+.cena {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.stara {
+    color: #888888;
+    font-size: 0.85rem;
+    text-decoration: line-through;
+}
+
+.dostawa {
+    color: #2E8B57;
+    font-size: 0.82rem;
+}
+
+.smart {
+    color: #FF6A13;
+    font-weight: bold;
+}
+
+.oferta button {
+    margin-top: auto;
+    padding: 9px;
+    background: #FF6A13;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.oferta button:hover {
+    background: #E55A0A;
+}
+
+.oferta button:disabled {
+    background: #2E8B57;
+    cursor: default;
+}
+
+/* paginacja */
+.strony {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 28px;
+}
+
+.strony a {
+    padding: 8px 14px;
+    background-color: white;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+}
+
+.strony a:hover {
+    border-color: #FF6A13;
+    color: #FF6A13;
+}
+
+.strony .aktualna {
+    background: #FF6A13;
+    border-color: #FF6A13;
+    color: white;
+    pointer-events: none;
+}
+
+/* stopka */
+.stopka {
+    padding: 32px 4%;
+    background-color: white;
+    border-top: 1px solid #DDDDDD;
+}
+
+.stopka-kolumny {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.stopka h4 {
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.stopka li {
+    margin: 4px 0;
+    font-size: 0.9rem;
+    color: #555555;
+}
+
+.stopka a:hover {
+    color: #FF6A13;
+    text-decoration: underline;
+}
+
+.prawa {
+    margin-top: 24px;
+    font-size: 0.82rem;
+    color: #888888;
+    text-align: center;
+}
+
+/* wersja na mniejsze ekrany */
+@media (max-width: 900px) {
+    .uklad {
+        grid-template-columns: 1fr;
+    }
+
+    .konto {
+        display: none;
+    }
+}
+
+@media (max-width: 560px) {
+    .gora {
+        flex-wrap: wrap;
+    }
+
+    .szukaj {
+        flex-basis: 100%;
+        order: 3;
+    }
+
+    .szukaj select {
+        display: none;
+    }
+
+    .oferty {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .stopka-kolumny {
+        grid-template-columns: 1fr;
+    }
+}
+
+</style>
+</head>
+<body>
+    <header class=&quot;gora&quot;>
+        <a href=&quot;index.php&quot; class=&quot;logo&quot;>BAZAREK</a>
+        <form class=&quot;szukaj&quot; action=&quot;#&quot;>
+            <input type=&quot;text&quot; placeholder=&quot;Czego szukasz?&quot;>
+            <select>
+                <option>Wszystkie kategorie</option>
+                <option>Elektronika</option>
+                <option>Moda</option>
+                <option>Dom i ogród</option>
+            </select>
+            <button type=&quot;submit&quot;>Szukaj</button>
+        </form>
+        <div class=&quot;konto&quot;>
+            <a href=&quot;#&quot;>Moje konto</a>
+            <a href=&quot;#&quot;>Obserwowane ♡</a>
+            <a href=&quot;#&quot; id=&quot;koszyk&quot;>Koszyk (2)</a>
+        </div>
+    </header>
+
+    <nav class=&quot;kategorie&quot;>
+        <ul>
+            <li><a href=&quot;#&quot;>Elektronika</a></li>
+            <li><a href=&quot;#&quot;>Moda</a></li>
+            <li><a href=&quot;#&quot;>Dom i ogród</a></li>
+            <li><a href=&quot;#&quot;>Supermarket</a></li>
+            <li><a href=&quot;#&quot;>Dziecko</a></li>
+            <li><a href=&quot;#&quot;>Uroda</a></li>
+            <li><a href=&quot;#&quot;>Zdrowie</a></li>
+            <li><a href=&quot;#&quot;>Kultura i rozrywka</a></li>
+            <li><a href=&quot;#&quot;>Sport i turystyka</a></li>
+            <li><a href=&quot;#&quot;>Motoryzacja</a></li>
+        </ul>
+    </nav>
+
+    <p class=&quot;okruszki&quot;><a href=&quot;index.php&quot;>Strona główna</a> › <a href=&quot;#&quot;>Elektronika</a> › <strong>Telefony i smartfony</strong></p>
+
+    <div class=&quot;uklad&quot;>
+        <aside class=&quot;filtry&quot;>
+            <h2>Filtry</h2>
+            <form action=&quot;#&quot;>
+                <fieldset>
+                    <legend>Stan</legend>
+                    <label><input type=&quot;checkbox&quot; checked> Nowy</label>
+                    <label><input type=&quot;checkbox&quot;> Używany</label>
+                </fieldset>
+                <fieldset>
+                    <legend>Cena</legend>
+                    <div class=&quot;cena-pola&quot;>
+                        <input type=&quot;number&quot; placeholder=&quot;od&quot;>
+                        <input type=&quot;number&quot; placeholder=&quot;do&quot;>
+                    </div>
+                    <button type=&quot;button&quot;>Zastosuj</button>
+                </fieldset>
+                <fieldset>
+                    <legend>Dostawa</legend>
+                    <label><input type=&quot;checkbox&quot;> Darmowa dostawa</label>
+                    <label><input type=&quot;checkbox&quot;> Smart!</label>
+                </fieldset>
+                <fieldset>
+                    <legend>Producent</legend>
+                    <label><input type='checkbox'> Aero</label><label><input type='checkbox'> Lumia</label><label><input type='checkbox'> Nova</label><label><input type='checkbox'> Orion</label><label><input type='checkbox'> Titan</label><label><input type='checkbox'> Vega</label>                </fieldset>
+            </form>
+        </aside>
+
+        <main>
+            <div class=&quot;pasek-wynikow&quot;>
+                <div>
+                    <h1>Telefony i smartfony</h1>
+                    <p>Znaleziono 8 ofert</p>                </div>
+                <select>
+                    <option>Trafność: największa</option>
+                    <option>Cena: od najniższej</option>
+                    <option>Cena: od najwyższej</option>
+                    <option>Najnowsze</option>
+                </select>
+            </div>
+
+            <section class=&quot;oferty&quot;>
+                <article class='oferta'><span class='badge'>Okazja</span><div class='zdjecie'>📱</div><h3>Smartfon Nova X12 128 GB czarny</h3><p class='ocena'>★★★★☆ <span>(128)</span></p><p class='cena'>1 299,00 zł</p><p class='stara'>1 499,00 zł</p><p class='dostawa'>Darmowa dostawa</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><div class='zdjecie'>📱</div><h3>Smartfon Lumia Pro 256 GB niebieski</h3><p class='ocena'>★★★★★ <span>(342)</span></p><p class='cena'>2 149,00 zł</p><p class='dostawa'><span class='smart'>Smart!</span> Darmowa dostawa</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><span class='badge'>Okazja</span><div class='zdjecie'>📱</div><h3>Smartfon Aero S5 64 GB zielony</h3><p class='ocena'>★★★★☆ <span>(87)</span></p><p class='cena'>599,00 zł</p><p class='stara'>749,00 zł</p><p class='dostawa'>Darmowa dostawa</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><div class='zdjecie'>📱</div><h3>Smartfon Titan 5G 512 GB grafit</h3><p class='ocena'>★★★★★ <span>(51)</span></p><p class='cena'>3 499,00 zł</p><p class='dostawa'><span class='smart'>Smart!</span> Darmowa dostawa</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><div class='zdjecie'>📱</div><h3>Smartfon Flip Mini 128 GB różowy</h3><p class='ocena'>★★★★☆ <span>(64)</span></p><p class='cena'>1 799,00 zł</p><p class='dostawa'>Dostawa od 12,99 zł</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><span class='badge'>Okazja</span><div class='zdjecie'>📱</div><h3>Smartfon Basic 4 32 GB szary</h3><p class='ocena'>★★★★☆ <span>(212)</span></p><p class='cena'>349,00 zł</p><p class='stara'>399,00 zł</p><p class='dostawa'>Darmowa dostawa</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><div class='zdjecie'>📱</div><h3>Smartfon Vega 8 256 GB fioletowy</h3><p class='ocena'>★★★★☆ <span>(176)</span></p><p class='cena'>1 549,00 zł</p><p class='dostawa'><span class='smart'>Smart!</span> Darmowa dostawa</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><div class='zdjecie'>📱</div><h3>Smartfon Orion Lite 128 GB biały</h3><p class='ocena'>★★★★☆ <span>(93)</span></p><p class='cena'>899,00 zł</p><p class='dostawa'>Dostawa od 9,99 zł</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article>            </section>
+
+            <nav class=&quot;strony&quot;>
+                <a href=&quot;#&quot;>‹</a>
+                <a href=&quot;#&quot; class=&quot;aktualna&quot;>1</a>
+                <a href=&quot;#&quot;>2</a>
+                <a href=&quot;#&quot;>3</a>
+                <a href=&quot;#&quot;>…</a>
+                <a href=&quot;#&quot;>12</a>
+                <a href=&quot;#&quot;>›</a>
+            </nav>
+        </main>
+    </div>
+
+    <footer class=&quot;stopka&quot;>
+        <div class=&quot;stopka-kolumny&quot;>
+            <div>
+                <h4>Pomoc</h4>
+                <ul>
+                    <li><a href=&quot;#&quot;>Jak kupować</a></li>
+                    <li><a href=&quot;#&quot;>Płatności i dostawa</a></li>
+                    <li><a href=&quot;#&quot;>Zwroty i reklamacje</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>O nas</h4>
+                <ul>
+                    <li><a href=&quot;#&quot;>O Bazarku</a></li>
+                    <li><a href=&quot;#&quot;>Kariera</a></li>
+                    <li><a href=&quot;#&quot;>Regulamin</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Dla sprzedających</h4>
+                <ul>
+                    <li><a href=&quot;#&quot;>Załóż sklep</a></li>
+                    <li><a href=&quot;#&quot;>Opłaty i prowizje</a></li>
+                    <li><a href=&quot;#&quot;>Poradnik sprzedawcy</a></li>
+                </ul>
+            </div>
+        </div>
+        <p class=&quot;prawa&quot;>Stronę wykonał: 00</p>
+    </footer>
+
+    <script>// skrypt 4 - dodawanie do koszyka
+let liczbaWKoszyku = 2;
+
+function dodajDoKoszyka(przycisk) {
+    liczbaWKoszyku++;
+    document.getElementById('koszyk').innerHTML = 'Koszyk (' + liczbaWKoszyku + ')';
+    przycisk.innerHTML = 'W koszyku ✓';
+    przycisk.disabled = true;
+}
+</script>
+</body>
+</html>
+" title="Podgląd witryny"></iframe></div><figcaption>Ilustracja 4. Wygląd witryny na ekranie o szerokości 400 px (początek strony – filtry nad ofertami, oferty w dwóch kolumnach)</figcaption></figure>
+  </div><figure class="layout"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 270" width="340" height="270" font-family="Arial, sans-serif"><rect x="4" y="4" width="332" height="34" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="25" font-size="12" text-anchor="middle">nagłówek (header.gora): logo, wyszukiwarka, konto</text><rect x="4" y="42" width="332" height="26" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="59" font-size="12" text-anchor="middle">menu kategorii (nav.kategorie)</text><rect x="4" y="72" width="332" height="22" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="87" font-size="12" text-anchor="middle">okruszki (p.okruszki)</text><rect x="4" y="98" width="332" height="120" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="162" font-size="12" text-anchor="middle">układ (div.uklad): filtry (aside) | oferty (main)</text><rect x="4" y="222" width="332" height="44" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="248" font-size="12" text-anchor="middle">stopka (footer.stopka): trzy kolumny</text></svg><figcaption>Ilustracja 3. Układ bloków</figcaption></figure></div>
+  <p>Cechy witryny:</p>
+  <ul class="dash"><li>Składa się ze strony o nazwie index.php</li><li>Zapisana w języku HTML5, zadeklarowany polski język zawartości witryny, jawnie zastosowany standard kodowania polskich znaków, znacznik meta viewport (szerokość widoku równa szerokości urządzenia)</li><li>Tytuł strony widoczny na karcie przeglądarki: „Bazarek – telefony i smartfony”</li><li>Arkusz stylów w pliku o nazwie styl.css prawidłowo połączony z kodem strony; wygląd w całości w CSS, bez stylów w atrybutach</li><li>Podział strony na bloki zrealizowany za pomocą semantycznych znaczników HTML5 zgodnie z ilustracją 3</li><li>Zawartość nagłówka (header z klasą gora):<ul class="dash"><li>odnośnik z klasą logo o treści „BAZAREK”, prowadzący do index.php</li><li>formularz z klasą szukaj, zawierający: pole tekstowe z podpowiedzią „Czego szukasz?”, listę rozwijaną z opcjami „Wszystkie kategorie”, „Elektronika”, „Moda”, „Dom i ogród” oraz przycisk „Szukaj” wysyłający formularz</li><li>blok div z klasą konto i trzema odnośnikami: „Moje konto”, „Obserwowane ♡”, „Koszyk (2)”; odnośnik koszyka ma identyfikator koszyk</li></ul></li><li>Menu kategorii: blok nawigacyjny (nav) z klasą kategorie, a w nim lista punktowana z dziesięcioma odnośnikami: „Elektronika”, „Moda”, „Dom i ogród”, „Supermarket”, „Dziecko”, „Uroda”, „Zdrowie”, „Kultura i rozrywka”, „Sport i turystyka”, „Motoryzacja”</li><li>Paragraf z klasą okruszki o treści „Strona główna › Elektronika › Telefony i smartfony”; „Strona główna” i „Elektronika” są odnośnikami, a ostatnia część jest zapisana znacznikiem oznaczającym tekst ważny (strong)</li><li>Blok div z klasą uklad, zawierający panel filtrów (aside z klasą filtry) i blok główny (main). W panelu filtrów nagłówek drugiego stopnia „Filtry” i formularz z czterema grupami (fieldset z legendą):<ul class="dash"><li>„Stan”: pola wyboru „Nowy” (domyślnie zaznaczone) i „Używany”</li><li>„Cena”: blok div z klasą cena-pola z dwoma polami liczbowymi z podpowiedziami „od” i „do”, pod nim przycisk „Zastosuj”</li><li>„Dostawa”: pola wyboru „Darmowa dostawa” i „Smart!”</li><li>„Producent”: efekt działania skryptu 1</li><li>każde pole wyboru jest umieszczone wewnątrz etykiety (label) razem ze swoim tekstem</li></ul></li><li>Zawartość bloku głównego:<ul class="dash"><li>blok div z klasą pasek-wynikow: po lewej blok div z nagłówkiem pierwszego stopnia „Telefony i smartfony” i efektem działania skryptu 2, po prawej lista rozwijana z opcjami „Trafność: największa”, „Cena: od najniższej”, „Cena: od najwyższej”, „Najnowsze”</li><li>blok section z klasą oferty, wypełniony przez skrypt 3</li><li>blok nawigacyjny (nav) z klasą strony i odnośnikami „‹”, „1”, „2”, „3”, „…”, „12”, „›”; odnośnik „1” ma dodatkową klasę aktualna</li></ul></li><li>Zawartość stopki (footer z klasą stopka):<ul class="dash"><li>blok div z klasą stopka-kolumny i trzema blokami div; w każdym nagłówek czwartego stopnia i lista punktowana z trzema odnośnikami: „Pomoc” (Jak kupować, Płatności i dostawa, Zwroty i reklamacje), „O nas” (O Bazarku, Kariera, Regulamin), „Dla sprzedających” (Załóż sklep, Opłaty i prowizje, Poradnik sprzedawcy)</li><li>paragraf z klasą prawa o treści „Stronę wykonał: ”, dalej wstawiony numer zdającego</li></ul></li><li>Wszystkie odnośniki poza logo i „Strona główna” prowadzą do adresu #</li></ul>
+
+  <h3>Styl CSS witryny internetowej</h3>
+  <p>Styl CSS zdefiniowany jest w całości w zewnętrznym pliku o nazwie styl.css. W tabeli 2 zamieszczono pomoc do niektórych właściwości CSS. Cechy formatowania CSS, działające na stronie:</p>
+  <ul class="dash"><li>Domyślnie dla wszystkich selektorów (*): marginesy zewnętrzne i wewnętrzne 0, model pudełkowy border-box</li><li>Dla selektora ciała strony: kolor tła #F2F2F2, kolor czcionki #222222, krój czcionki Arial, w przypadku braku Helvetica, a następnie sans-serif, wysokość linii 1,4. Dla selektora odnośnika: kolor dziedziczony z elementu nadrzędnego, tekst bez podkreślenia. Dla selektora listy punktowanej: brak punktora</li><li>Dla klasy gora: biały kolor tła, sposób wyświetlania elastyczny (flex), elementy wyśrodkowane w pionie, odstęp między elementami 24 px, marginesy wewnętrzne: górny i dolny 14 px, lewy i prawy 4%, dolne obramowanie linią ciągłą 1 px w kolorze #DDDDDD. Dla klasy logo: kolor #FF6A13, rozmiar czcionki 1,9 rem, pogrubienie</li><li>Dla klasy szukaj: zajmuje całe wolne miejsce w nagłówku (flex: 1), sposób wyświetlania elastyczny. Pole tekstowe, lista i przycisk tworzą jeden połączony pasek z pomarańczową ramką 2 px (#FF6A13) bez podwójnych ramek między elementami; zaokrąglone (4 px) są tylko lewe rogi pola tekstowego i prawe rogi przycisku. Pole tekstowe rozciąga się na wolne miejsce (flex: 1, min-width: 0), marginesy wewnętrzne 10 px / 14 px; lista ma białe tło, marginesy wewnętrzne 10 px</li><li>Dla przycisku w klasie szukaj: kolor tła #FF6A13, biały pogrubiony tekst, marginesy wewnętrzne: górny i dolny 10 px, lewy i prawy 22 px, kursor w kształcie wskazującej dłoni; gdy kursor znajdzie się na przycisku, kolor tła zmienia się na #E55A0A</li><li>Dla klasy konto: sposób wyświetlania elastyczny, odstęp 20 px, rozmiar czcionki 0,9 rem; gdy kursor znajdzie się na odnośniku w tym bloku, kolor czcionki zmienia się na #FF6A13</li><li>Dla klasy kategorie: biały kolor tła, dolne obramowanie 1 px #DDDDDD; lista w menu: sposób wyświetlania elastyczny, odstęp 24 px, marginesy wewnętrzne: lewy i prawy 4%, poziomy pasek przewijania widoczny jedynie wtedy, gdy pozycje się nie mieszczą</li><li>Dla odnośników w menu kategorii: sposób wyświetlania blokowy, marginesy wewnętrzne: górny i dolny 12 px, rozmiar czcionki 0,92 rem, tekst bez łamania wierszy, dolne obramowanie 3 px w kolorze przezroczystym; gdy kursor znajdzie się na odnośniku, kolor czcionki i kolor dolnego obramowania zmieniają się na #FF6A13</li><li>Dla klasy okruszki: marginesy wewnętrzne: górny i dolny 14 px, lewy i prawy 4%, rozmiar czcionki 0,85 rem, kolor #666666; gdy kursor znajdzie się na odnośniku w tym bloku, tekst jest podkreślony</li><li>Dla klasy uklad: sposób wyświetlania w postaci siatki (grid) z dwiema kolumnami: lewa o stałej szerokości 260 px, prawa zajmuje pozostałe miejsce (1fr), odstęp 24 px, marginesy wewnętrzne: lewy i prawy 4%, dolny 40 px, elementy wyrównane do góry (align-items: start)</li><li>Dla klasy filtry: biały kolor tła, marginesy wewnętrzne 18 px, zaokrąglenie rogów 6 px; nagłówek panelu: rozmiar czcionki 1,1 rem, dolny margines 12 px; grupy (fieldset): bez obramowania, dolny margines 16 px; legenda: pogrubiona, dolny margines wewnętrzny 8 px</li><li>Dla etykiet w panelu filtrów: sposób wyświetlania blokowy, marginesy zewnętrzne: górny i dolny 6 px, rozmiar czcionki 0,92 rem, kursor w kształcie wskazującej dłoni; pola wyboru: prawy margines 8 px, kolor zaznaczenia #FF6A13 (accent-color)</li><li>Dla klasy cena-pola: sposób wyświetlania elastyczny, odstęp 8 px; pola liczbowe: szerokość 100%, marginesy wewnętrzne 8 px, obramowanie 1 px #CCCCCC, zaokrąglenie 4 px</li><li>Dla przycisku w panelu filtrów: szerokość 100%, górny margines 10 px, marginesy wewnętrzne 9 px, białe tło, pomarańczowa (#FF6A13) ramka 2 px i pomarańczowy pogrubiony tekst, zaokrąglenie 4 px, kursor w kształcie dłoni; gdy kursor znajdzie się na przycisku, kolory odwracają się (tło #FF6A13, biały tekst)</li><li>Dla klasy pasek-wynikow: sposób wyświetlania elastyczny, elementy rozsunięte do krawędzi (justify-content: space-between), wyśrodkowane w pionie, zawijanie do kolejnego wiersza, odstęp 12 px, dolny margines 16 px; nagłówek: 1,5 rem; paragraf: 0,9 rem, kolor #666666; lista rozwijana: marginesy wewnętrzne 8 px / 10 px, obramowanie 1 px #CCCCCC, zaokrąglenie 4 px, białe tło</li><li>Dla klasy oferty: sposób wyświetlania w postaci siatki, kolumny o szerokości co najmniej 210 px dzielące równo wolne miejsce, w liczbie mieszczącej się w bloku (repeat(auto-fill, minmax(210px, 1fr))), odstęp 16 px</li><li>Dla klasy oferta: pozycjonowanie względne, sposób wyświetlania elastyczny w kierunku kolumnowym (elementy jeden pod drugim), odstęp 8 px, marginesy wewnętrzne 14 px, białe tło, zaokrąglenie 6 px, płynne przejście cienia i transformacji 0,2 s; gdy kursor znajdzie się na karcie: cień 0 6px 18px w kolorze czarnym o nieprzezroczystości 0,15 i przesunięcie karty o 3 px w górę (translateY)</li><li>Dla klasy zdjecie: wysokość 150 px, zaokrąglenie 4 px, tło – gradient ukośny (135 stopni) od #F5F5F5 do #E2E2E2, zawartość wyśrodkowana w obu kierunkach (np. siatka z place-items: center), rozmiar czcionki 3,2 rem</li><li>Dla klasy badge: pozycjonowanie bezwzględne 22 px od góry i 22 px od lewej krawędzi karty, marginesy wewnętrzne 3 px / 8 px, tło #FF6A13, biały pogrubiony tekst 0,75 rem, zaokrąglenie 3 px</li><li>Dla tytułu oferty (h3 w karcie): rozmiar czcionki 0,95 rem, bez pogrubienia, minimalna wysokość 2,8 em. Dla klasy ocena: kolor #F5A623, 0,85 rem; liczba opinii (span) w kolorze #777777</li><li>Dla klasy cena: 1,4 rem, pogrubienie. Dla klasy stara: kolor #888888, 0,85 rem, tekst przekreślony. Dla klasy dostawa: kolor #2E8B57, 0,82 rem. Dla klasy smart: kolor #FF6A13, pogrubienie</li><li>Dla przycisku w karcie: przyklejony do dołu karty (górny margines automatyczny), marginesy wewnętrzne 9 px, tło #FF6A13, biały pogrubiony tekst, bez obramowania, zaokrąglenie 4 px, kursor w kształcie dłoni; gdy kursor znajdzie się na przycisku – tło #E55A0A; przycisk wyłączony (disabled) ma tło #2E8B57 i zwykły kursor</li><li>Dla klasy strony: sposób wyświetlania elastyczny, zawartość wyśrodkowana w poziomie, odstęp 6 px, górny margines 28 px; odnośniki: marginesy wewnętrzne 8 px / 14 px, białe tło, obramowanie 1 px #DDDDDD, zaokrąglenie 4 px; gdy kursor znajdzie się na odnośniku, kolor obramowania i czcionki zmienia się na #FF6A13; klasa aktualna: tło i obramowanie #FF6A13, biały tekst, element nie reaguje na kliknięcia (pointer-events: none)</li><li>Dla klasy stopka: marginesy wewnętrzne: górny i dolny 32 px, lewy i prawy 4%, białe tło, górne obramowanie 1 px #DDDDDD. Dla klasy stopka-kolumny: siatka z trzema równymi kolumnami, odstęp 24 px. Nagłówki w stopce: 1 rem, dolny margines 8 px; elementy list: marginesy zewnętrzne górny i dolny 4 px, 0,9 rem, kolor #555555; gdy kursor znajdzie się na odnośniku w stopce: kolor #FF6A13 i podkreślenie. Dla klasy prawa: górny margines 24 px, 0,82 rem, kolor #888888, tekst wyśrodkowany</li><li>W przypadku ekranów o szerokości do 900 px: siatka klasy uklad ma jedną kolumnę (filtry nad ofertami), a blok konto jest ukryty</li><li>W przypadku ekranów o szerokości do 560 px (ilustracja 5): nagłówek zawija elementy do kolejnego wiersza, wyszukiwarka zajmuje całą szerokość i jest wyświetlana pod logo (flex-basis: 100%, order: 3), lista rozwijana w wyszukiwarce jest ukryta, oferty są wyświetlane w dwóch kolumnach, a kolumny stopki jedna pod drugą</li></ul>
+  <p class="note">Uwaga: styl CSS ciała strony, odnośnika i listy punktowanej należy zdefiniować wyłącznie przy pomocy selektora tych znaczników. Jest to uwarunkowane projektem późniejszej rozbudowy witryny.</p>
+
+  <h3>Skrypty działające po stronie serwera (PHP)</h3>
+  <p>W tabeli 1 zamieszczono wybrane funkcje PHP. Wymagania dotyczące skryptów:</p>
+  <ul class="dash"><li>Napisane w języku PHP</li><li>Należy stosować znaczące nazewnictwo zmiennych i funkcji w języku polskim lub angielskim</li><li>Łączą się z serwerem bazodanowym na localhost, użytkownik root bez hasła, baza danych o nazwie bazarek</li><li>Na końcu zamykane jest połączenie z serwerem</li></ul>
+  <p class="script-name">Skrypt 1 (producenci w filtrach):</p><ul class="dash"><li>Wysyła do bazy danych zapytanie 1</li><li>Dla każdego zwróconego producenta tworzy etykietę (label) zawierającą pole wyboru (checkbox) i nazwę producenta</li></ul><p class="script-name">Skrypt 2 (liczba ofert):</p><ul class="dash"><li>Wysyła do bazy danych zapytanie 2</li><li>Wyświetla paragraf o treści „Znaleziono &lt;liczba&gt; ofert”, gdzie &lt;liczba&gt; to wartość zwrócona zapytaniem</li></ul><p class="script-name">Skrypt 3 (karty ofert):</p><ul class="dash"><li>Wysyła do bazy danych zapytanie 3</li><li>Dla każdej oferty tworzy element article z klasą oferta, zawierający kolejno:<ul class="dash"><li>tylko gdy pole okazja ma wartość 1: element span z klasą badge o treści „Okazja”</li><li>blok div z klasą zdjecie zawierający znak 📱</li><li>nagłówek trzeciego stopnia z tytułem</li><li>paragraf z klasą ocena: tyle znaków ★, ile wynosi pole gwiazdki, uzupełnionych znakami ☆ do pięciu (np. dla 4: ★★★★☆), a po spacji element span z liczbą opinii w nawiasie, np. „(128)”</li><li>paragraf z klasą cena: cena w formacie polskim z dwoma miejscami po przecinku, spacją jako separatorem tysięcy i dopiskiem „ zł”, np. „1 299,00 zł” (można użyć funkcji number_format)</li><li>tylko gdy stara cena nie jest pusta: paragraf z klasą stara, ze starą ceną w tym samym formacie</li><li>paragraf z klasą dostawa z treścią pola dostawa; gdy pole smart ma wartość 1, przed tą treścią znajduje się element span z klasą smart o treści „Smart!” i spacja</li><li>przycisk „Dodaj do koszyka”, którego kliknięcie uruchamia skrypt 4</li></ul></li></ul>
+  <h3>Skrypt działający po stronie klienta (JavaScript)</h3>
+  <p>W tabeli 3 zamieszczono wybrane pola i metody modelu DOM. Skrypt jest napisany w języku JavaScript (w pliku skrypt.js lub w znaczniku script), należy stosować znaczące nazewnictwo zmiennych i funkcji.</p>
+  <p class="script-name">Skrypt 4 (koszyk):</p><ul class="dash"><li>Wywoływany po kliknięciu dowolnego przycisku „Dodaj do koszyka”</li><li>Zwiększa o 1 liczbę produktów w koszyku (początkowo 2) i wyświetla ją w odnośniku z identyfikatorem koszyk w postaci „Koszyk (&lt;liczba&gt;)”</li><li>Zmienia napis na klikniętym przycisku na „W koszyku ✓” i wyłącza przycisk (właściwość disabled), aby nie można go było kliknąć ponownie</li></ul>
+
+  <div class="help-tables">
+  <table class="help"><caption>Tabela 1. Wybrane funkcje języka PHP</caption><tr><th>Funkcja</th><th>Zwracana wartość</th></tr><tr><td>mysqli_connect(serwer, użytkownik, hasło, nazwa_bazy)</td><td>id połączenia lub FALSE, gdy niepowodzenie</td></tr><tr><td>mysqli_query(id_polaczenia, zapytanie)</td><td>Wynik zapytania</td></tr><tr><td>mysqli_fetch_row(wynik_zapytania)</td><td>Tablica numeryczna odpowiadająca wierszowi zapytania</td></tr><tr><td>mysqli_fetch_array(wynik_zapytania)</td><td>Tablica z kolejnym wierszem wyniku lub FALSE, gdy nie ma więcej wierszy</td></tr><tr><td>mysqli_num_rows(wynik_zapytania)</td><td>Liczba wierszy w wyniku zapytania</td></tr><tr><td>mysqli_close(id_polaczenia)</td><td>TRUE/FALSE w zależności od stanu operacji</td></tr><tr><td>number_format(liczba, 2, ',', ' ')</td><td>Liczba z dwoma miejscami po przecinku, przecinkiem dziesiętnym i spacją jako separatorem tysięcy</td></tr><tr><td>str_repeat(napis, n)</td><td>Napis powtórzony n razy</td></tr></table>
+  <table class="help"><caption>Tabela 2. Wybrane właściwości CSS</caption><tr><th>Zapis</th><th>Znaczenie</th></tr><tr><td>display: grid; grid-template-columns: 260px 1fr</td><td>Siatka z kolumną o stałej szerokości i kolumną na pozostałe miejsce</td></tr><tr><td>repeat(auto-fill, minmax(210px, 1fr))</td><td>Tyle kolumn, ile się zmieści; każda co najmniej 210 px, wolne miejsce dzielone równo</td></tr><tr><td>align-items: start</td><td>Elementy siatki wyrównane do góry (nie rozciągają się na wysokość wiersza)</td></tr><tr><td>display: grid; place-items: center</td><td>Zawartość wyśrodkowana w obu kierunkach</td></tr><tr><td>display: flex; flex-direction: column</td><td>Elementy układane jeden pod drugim</td></tr><tr><td>flex: 1; min-width: 0</td><td>Element zajmuje wolne miejsce i może się zwężać</td></tr><tr><td>flex-wrap: wrap</td><td>Elementy przenoszone do kolejnego wiersza, gdy brakuje miejsca</td></tr><tr><td>flex-basis: 100%; order: 3</td><td>Element na całą szerokość, wyświetlany jako trzeci w kolejności</td></tr><tr><td>margin-top: auto</td><td>W układzie kolumnowym flex przesuwa element na sam dół</td></tr><tr><td>position: relative / absolute</td><td>Element bezwzględny pozycjonowany względem najbliższego przodka z position: relative</td></tr><tr><td>accent-color: #FF6A13</td><td>Kolor zaznaczenia pól wyboru</td></tr><tr><td>white-space: nowrap</td><td>Tekst bez łamania wierszy</td></tr><tr><td>pointer-events: none</td><td>Element nie reaguje na kliknięcia</td></tr><tr><td>box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15)</td><td>Cień przesunięty o 6 px w dół, rozmycie 18 px, czarny o nieprzezroczystości 0,15</td></tr><tr><td>transform: translateY(-3px)</td><td>Przesunięcie elementu o 3 px w górę</td></tr><tr><td>transition: box-shadow 0.2s, transform 0.2s</td><td>Płynne przejście cienia i transformacji w czasie 0,2 s</td></tr></table>
+  <table class="help"><caption>Tabela 3. Wybrane pola i metody modelu DOM języka JavaScript</caption><tr><th>Wyszukiwanie i zdarzenia</th><th>Zmiana elementów</th></tr><tr><td>document.getElementById(id)</td><td>element.innerHTML = &quot;wartość&quot;</td></tr><tr><td>onclick=&quot;funkcja(this)&quot;</td><td>this – element, który wywołał zdarzenie</td></tr><tr><td>element.disabled = true</td><td>wyłączenie przycisku lub pola formularza</td></tr></table>
+  </div>
+
+  <p class="note">UWAGA: po zakończeniu pracy utwórz plik tekstowy o nazwie przeglądarka.txt. Zapisz w nim nazwę przeglądarki internetowej, w której weryfikowana była poprawność działania witryny. Umieść go w folderze z numerem zdającego.</p>
+  <p>W folderze z numerem zdającego powinny znajdować się pliki: import.png, index.php, kw1.png, kw2.png, kw3.png, kw4.png, kw5.png, kwerendy.txt, przeglądarka.txt, skrypt.js, styl.css, ewentualnie inne przygotowane pliki. Spakuj folder do archiwum ZIP o nazwie równej numerowi zdającego i prześlij je w sposób wskazany przez nauczyciela.</p>
+  <p><b>Czas przeznaczony na wykonanie zadania wynosi 150 minut.</b></p>
+  <p>Ocenie podlegać będzie 5 rezultatów:</p>
+  <ul class="dash"><li>operacje na bazie danych,</li><li>zawartość witryny internetowej,</li><li>działanie witryny internetowej,</li><li>styl CSS witryny internetowej,</li><li>skrypty.</li></ul>
+</section>
+<script>
+function dopasuj() {
+  document.querySelectorAll('figure.preview').forEach(function (fig) {
+    var f = fig.querySelector('iframe.site');
+    var wrap = fig.querySelector('.frame-wrap');
+    var scale = Number(wrap.dataset.scale);
+    try {
+      var d = f.contentDocument;
+      if (!d || !d.body) return;
+      var hgt = Math.max(d.documentElement.scrollHeight, d.body.scrollHeight);
+      f.style.height = hgt + 'px';
+      wrap.style.height = Math.ceil(hgt * scale) + 'px';
+    } catch (e) {}
+  });
+}
+document.querySelectorAll('figure.preview').forEach(function (fig) {
+  var f = fig.querySelector('iframe.site');
+  f.addEventListener('load', function () {
+    var id = fig.dataset.click;
+    if (id) { try { f.contentDocument.getElementById(id).click(); } catch (e) {} }
+    dopasuj();
+  });
+});
+window.addEventListener('load', dopasuj);
+window.addEventListener('beforeprint', dopasuj);
+</script>
+</body>
+</html>

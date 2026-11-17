@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bazarek – telefony i smartfony</title>
+    <link rel="stylesheet" href="styl.css">
+</head>
+<body>
+    <header class="gora">
+        <a href="index.php" class="logo">BAZAREK</a>
+        <form class="szukaj" action="#">
+            <input type="text" placeholder="Czego szukasz?">
+            <select>
+                <option>Wszystkie kategorie</option>
+                <option>Elektronika</option>
+                <option>Moda</option>
+                <option>Dom i ogród</option>
+            </select>
+            <button type="submit">Szukaj</button>
+        </form>
+        <div class="konto">
+            <a href="#">Moje konto</a>
+            <a href="#">Obserwowane ♡</a>
+            <a href="#" id="koszyk">Koszyk (2)</a>
+        </div>
+    </header>
+
+    <nav class="kategorie">
+        <ul>
+            <li><a href="#">Elektronika</a></li>
+            <li><a href="#">Moda</a></li>
+            <li><a href="#">Dom i ogród</a></li>
+            <li><a href="#">Supermarket</a></li>
+            <li><a href="#">Dziecko</a></li>
+            <li><a href="#">Uroda</a></li>
+            <li><a href="#">Zdrowie</a></li>
+            <li><a href="#">Kultura i rozrywka</a></li>
+            <li><a href="#">Sport i turystyka</a></li>
+            <li><a href="#">Motoryzacja</a></li>
+        </ul>
+    </nav>
+
+    <p class="okruszki"><a href="index.php">Strona główna</a> › <a href="#">Elektronika</a> › <strong>Telefony i smartfony</strong></p>
+
+    <div class="uklad">
+        <aside class="filtry">
+            <h2>Filtry</h2>
+            <form action="#">
+                <fieldset>
+                    <legend>Stan</legend>
+                    <label><input type="checkbox" checked> Nowy</label>
+                    <label><input type="checkbox"> Używany</label>
+                </fieldset>
+                <fieldset>
+                    <legend>Cena</legend>
+                    <div class="cena-pola">
+                        <input type="number" placeholder="od">
+                        <input type="number" placeholder="do">
+                    </div>
+                    <button type="button">Zastosuj</button>
+                </fieldset>
+                <fieldset>
+                    <legend>Dostawa</legend>
+                    <label><input type="checkbox"> Darmowa dostawa</label>
+                    <label><input type="checkbox"> Smart!</label>
+                </fieldset>
+                <fieldset>
+                    <legend>Producent</legend>
+                    <label><input type='checkbox'> Aero</label><label><input type='checkbox'> Lumia</label><label><input type='checkbox'> Nova</label><label><input type='checkbox'> Orion</label><label><input type='checkbox'> Titan</label><label><input type='checkbox'> Vega</label>                </fieldset>
+            </form>
+        </aside>
+
+        <main>
+            <div class="pasek-wynikow">
+                <div>
+                    <h1>Telefony i smartfony</h1>
+                    <p>Znaleziono 8 ofert</p>                </div>
+                <select>
+                    <option>Trafność: największa</option>
+                    <option>Cena: od najniższej</option>
+                    <option>Cena: od najwyższej</option>
+                    <option>Najnowsze</option>
+                </select>
+            </div>
+
+            <section class="oferty">
+                <article class='oferta'><span class='badge'>Okazja</span><div class='zdjecie'>📱</div><h3>Smartfon Nova X12 128 GB czarny</h3><p class='ocena'>★★★★☆ <span>(128)</span></p><p class='cena'>1 299,00 zł</p><p class='stara'>1 499,00 zł</p><p class='dostawa'>Darmowa dostawa</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><div class='zdjecie'>📱</div><h3>Smartfon Lumia Pro 256 GB niebieski</h3><p class='ocena'>★★★★★ <span>(342)</span></p><p class='cena'>2 149,00 zł</p><p class='dostawa'><span class='smart'>Smart!</span> Darmowa dostawa</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><span class='badge'>Okazja</span><div class='zdjecie'>📱</div><h3>Smartfon Aero S5 64 GB zielony</h3><p class='ocena'>★★★★☆ <span>(87)</span></p><p class='cena'>599,00 zł</p><p class='stara'>749,00 zł</p><p class='dostawa'>Darmowa dostawa</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><div class='zdjecie'>📱</div><h3>Smartfon Titan 5G 512 GB grafit</h3><p class='ocena'>★★★★★ <span>(51)</span></p><p class='cena'>3 499,00 zł</p><p class='dostawa'><span class='smart'>Smart!</span> Darmowa dostawa</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><div class='zdjecie'>📱</div><h3>Smartfon Flip Mini 128 GB różowy</h3><p class='ocena'>★★★★☆ <span>(64)</span></p><p class='cena'>1 799,00 zł</p><p class='dostawa'>Dostawa od 12,99 zł</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><span class='badge'>Okazja</span><div class='zdjecie'>📱</div><h3>Smartfon Basic 4 32 GB szary</h3><p class='ocena'>★★★★☆ <span>(212)</span></p><p class='cena'>349,00 zł</p><p class='stara'>399,00 zł</p><p class='dostawa'>Darmowa dostawa</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><div class='zdjecie'>📱</div><h3>Smartfon Vega 8 256 GB fioletowy</h3><p class='ocena'>★★★★☆ <span>(176)</span></p><p class='cena'>1 549,00 zł</p><p class='dostawa'><span class='smart'>Smart!</span> Darmowa dostawa</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article><article class='oferta'><div class='zdjecie'>📱</div><h3>Smartfon Orion Lite 128 GB biały</h3><p class='ocena'>★★★★☆ <span>(93)</span></p><p class='cena'>899,00 zł</p><p class='dostawa'>Dostawa od 9,99 zł</p><button type='button' onclick='dodajDoKoszyka(this)'>Dodaj do koszyka</button></article>            </section>
+
+            <nav class="strony">
+                <a href="#">‹</a>
+                <a href="#" class="aktualna">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">…</a>
+                <a href="#">12</a>
+                <a href="#">›</a>
+            </nav>
+        </main>
+    </div>
+
+    <footer class="stopka">
+        <div class="stopka-kolumny">
+            <div>
+                <h4>Pomoc</h4>
+                <ul>
+                    <li><a href="#">Jak kupować</a></li>
+                    <li><a href="#">Płatności i dostawa</a></li>
+                    <li><a href="#">Zwroty i reklamacje</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>O nas</h4>
+                <ul>
+                    <li><a href="#">O Bazarku</a></li>
+                    <li><a href="#">Kariera</a></li>
+                    <li><a href="#">Regulamin</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Dla sprzedających</h4>
+                <ul>
+                    <li><a href="#">Załóż sklep</a></li>
+                    <li><a href="#">Opłaty i prowizje</a></li>
+                    <li><a href="#">Poradnik sprzedawcy</a></li>
+                </ul>
+            </div>
+        </div>
+        <p class="prawa">Stronę wykonał: 00</p>
+    </footer>
+
+    <script src="skrypt.js"></script>
+</body>
+</html>

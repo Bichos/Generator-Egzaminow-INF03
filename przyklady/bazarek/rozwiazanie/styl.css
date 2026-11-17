@@ -1,0 +1,412 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #F2F2F2;
+    color: #222222;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.4;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+/* nagłówek */
+.gora {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 14px 4%;
+    background-color: white;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.logo {
+    color: #FF6A13;
+    font-size: 1.9rem;
+    font-weight: bold;
+}
+
+.szukaj {
+    flex: 1;
+    display: flex;
+}
+
+.szukaj input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 14px;
+    border: 2px solid #FF6A13;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    font-size: 1rem;
+}
+
+.szukaj select {
+    padding: 10px;
+    border: 2px solid #FF6A13;
+    border-right: none;
+    background-color: white;
+    font-size: 0.95rem;
+}
+
+.szukaj button {
+    padding: 10px 22px;
+    background: #FF6A13;
+    color: white;
+    border: 2px solid #FF6A13;
+    border-radius: 0 4px 4px 0;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.szukaj button:hover {
+    background: #E55A0A;
+}
+
+.konto {
+    display: flex;
+    gap: 20px;
+    font-size: 0.9rem;
+}
+
+.konto a:hover {
+    color: #FF6A13;
+}
+
+.kategorie {
+    background-color: white;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.kategorie ul {
+    display: flex;
+    gap: 24px;
+    padding: 0 4%;
+    overflow-x: auto;
+}
+
+.kategorie a {
+    display: block;
+    padding: 12px 0;
+    font-size: 0.92rem;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+}
+
+.kategorie a:hover {
+    color: #FF6A13;
+    border-bottom-color: #FF6A13;
+}
+
+.okruszki {
+    padding: 14px 4%;
+    font-size: 0.85rem;
+    color: #666666;
+}
+
+.okruszki a:hover {
+    text-decoration: underline;
+}
+
+/* układ dwukolumnowy */
+.uklad {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 24px;
+    padding: 0 4% 40px;
+    align-items: start;
+}
+
+.filtry {
+    padding: 18px;
+    background-color: white;
+    border-radius: 6px;
+}
+
+.filtry h2 {
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+.filtry fieldset {
+    border: none;
+    margin-bottom: 16px;
+}
+
+.filtry legend {
+    padding-bottom: 8px;
+    font-weight: bold;
+}
+
+.filtry label {
+    display: block;
+    margin: 6px 0;
+    font-size: 0.92rem;
+    cursor: pointer;
+}
+
+.filtry input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: #FF6A13;
+}
+
+.cena-pola {
+    display: flex;
+    gap: 8px;
+}
+
+.cena-pola input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+}
+
+.filtry button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 9px;
+    background-color: white;
+    color: #FF6A13;
+    border: 2px solid #FF6A13;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.filtry button:hover {
+    background: #FF6A13;
+    color: white;
+}
+
+/* lista ofert */
+.pasek-wynikow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.pasek-wynikow h1 {
+    font-size: 1.5rem;
+}
+
+.pasek-wynikow p {
+    font-size: 0.9rem;
+    color: #666666;
+}
+
+.pasek-wynikow select {
+    padding: 8px 10px;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    background-color: white;
+}
+
+.oferty {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 16px;
+}
+
+.oferta {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px;
+    background-color: white;
+    border-radius: 6px;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.oferta:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+}
+
+.zdjecie {
+    display: grid;
+    place-items: center;
+    height: 150px;
+    border-radius: 4px;
+    background: linear-gradient(135deg, #F5F5F5, #E2E2E2);
+    font-size: 3.2rem;
+}
+
+.badge {
+    position: absolute;
+    top: 22px;
+    left: 22px;
+    padding: 3px 8px;
+    background: #FF6A13;
+    color: white;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.oferta h3 {
+    min-height: 2.8em;
+    font-size: 0.95rem;
+    font-weight: normal;
+}
+
+.ocena {
+    color: #F5A623;
+    font-size: 0.85rem;
+}
+
+.ocena span {
+    color: #777777;
+}
+
+.cena {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.stara {
+    color: #888888;
+    font-size: 0.85rem;
+    text-decoration: line-through;
+}
+
+.dostawa {
+    color: #2E8B57;
+    font-size: 0.82rem;
+}
+
+.smart {
+    color: #FF6A13;
+    font-weight: bold;
+}
+
+.oferta button {
+    margin-top: auto;
+    padding: 9px;
+    background: #FF6A13;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.oferta button:hover {
+    background: #E55A0A;
+}
+
+.oferta button:disabled {
+    background: #2E8B57;
+    cursor: default;
+}
+
+/* paginacja */
+.strony {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 28px;
+}
+
+.strony a {
+    padding: 8px 14px;
+    background-color: white;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+}
+
+.strony a:hover {
+    border-color: #FF6A13;
+    color: #FF6A13;
+}
+
+.strony .aktualna {
+    background: #FF6A13;
+    border-color: #FF6A13;
+    color: white;
+    pointer-events: none;
+}
+
+/* stopka */
+.stopka {
+    padding: 32px 4%;
+    background-color: white;
+    border-top: 1px solid #DDDDDD;
+}
+
+.stopka-kolumny {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.stopka h4 {
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.stopka li {
+    margin: 4px 0;
+    font-size: 0.9rem;
+    color: #555555;
+}
+
+.stopka a:hover {
+    color: #FF6A13;
+    text-decoration: underline;
+}
+
+.prawa {
+    margin-top: 24px;
+    font-size: 0.82rem;
+    color: #888888;
+    text-align: center;
+}
+
+/* wersja na mniejsze ekrany */
+@media (max-width: 900px) {
+    .uklad {
+        grid-template-columns: 1fr;
+    }
+
+    .konto {
+        display: none;
+    }
+}
+
+@media (max-width: 560px) {
+    .gora {
+        flex-wrap: wrap;
+    }
+
+    .szukaj {
+        flex-basis: 100%;
+        order: 3;
+    }
+
+    .szukaj select {
+        display: none;
+    }
+
+    .oferty {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .stopka-kolumny {
+        grid-template-columns: 1fr;
+    }
+}
