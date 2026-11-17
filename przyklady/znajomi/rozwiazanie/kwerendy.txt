@@ -1,0 +1,10 @@
+-- Zapytanie 1
+SELECT posty.id, CONCAT(LEFT(imie, 1), LEFT(nazwisko, 1)) AS inicjaly, imie, nazwisko, kolor, DATE_FORMAT(dodano, '%d.%m.%Y %H:%i') AS data, tresc, tlo, obraz, polubienia, komentarze, udostepnienia FROM posty JOIN uzytkownicy ON posty.uzytkownicy_id = uzytkownicy.id ORDER BY dodano DESC;
+-- Zapytanie 2
+SELECT CONCAT(LEFT(imie, 1), LEFT(nazwisko, 1)) AS inicjaly, imie, nazwisko, kolor, online FROM uzytkownicy WHERE status = 'znajomy';
+-- Zapytanie 3
+SELECT CONCAT(LEFT(imie, 1), LEFT(nazwisko, 1)) AS inicjaly, imie, nazwisko, kolor, wspolni FROM uzytkownicy WHERE status = 'zaproszenie' ORDER BY wspolni DESC;
+-- Zapytanie 4
+SELECT imie, nazwisko FROM uzytkownicy WHERE MONTH(data_urodzenia) = 11 AND DAY(data_urodzenia) = 17;
+-- Zapytanie 5
+SELECT COUNT(*) AS liczba FROM uzytkownicy WHERE status = 'znajomy' AND online = 1;

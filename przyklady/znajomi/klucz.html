@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INF.03-ZN-SG – Znajomi – klucz</title>
+<style>
+* { box-sizing: border-box; }
+html { background: #eef0f3; }
+body { margin: 0; padding: 16px; font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt; color: #111; line-height: 1.4; }
+.page { background: #fff; max-width: 210mm; margin: 0 auto; padding: 16mm; box-shadow: 0 1px 6px rgba(0,0,0,.15); }
+h1 { font-size: 16pt; margin: 0 0 6px; } h2 { font-size: 13pt; border-bottom: 2px solid #333; padding-bottom: 3px; margin-top: 22px; }
+pre { background: #f5f5f7; border: 1px solid #ddd; padding: 8px; white-space: pre-wrap; word-break: break-word; font-size: 9pt; }
+table.zo { border-collapse: collapse; width: 100%; font-size: 9.5pt; }
+table.zo th, table.zo td { border: 1px solid #999; padding: 4px 6px; vertical-align: top; text-align: left; }
+table.zo td:first-child, table.zo td:last-child { white-space: nowrap; text-align: center; }
+table.zo tr.res-head td { background: #eef2f7; } table.zo tr.sum td { font-weight: bold; }
+table.zo .note { font-size: 8.5pt; color: #444; margin: 3px 0 0; } table.zo tr { break-inside: avoid; }
+.small { font-size: 9pt; color: #444; }
+@media print { html, body { background: #fff; padding: 0; } .page { box-shadow: none; padding: 0; } }
+@page { size: A4; margin: 14mm; }
+</style>
+</head>
+<body>
+<section class="page">
+  <h1>Znajomi – zasady oceniania i rozwiązanie</h1>
+  <p class="small">INF.03-ZN-SG · baza znajomi · archiwum znajomi (hasło: <code>Zn@jomi!2026</code>). Każde kryterium oceniane jest zero-jedynkowo (spełnione – 1 pkt).</p>
+  <h2>Zasady oceniania</h2><table class="zo"><tr><th>Lp.</th><th>Elementy podlegające ocenie / kryteria oceny</th><th>Pkt</th></tr><tr class="res-head"><td>R.1</td><td><b>Rezultat 1: Operacje na bazie danych</b><p class="note">Uwaga: W przypadku oceny zrzutów należy uznać za prawidłowe, jeżeli widoczny jest cały obszar ekranu z widocznym paskiem zadań, a zapytanie ma charakter uniwersalny dla każdego zestawu danych.</p></td><td>7</td></tr><tr><td>R.1.1</td><td><label><input type="checkbox"> Wykonany import tabel do bazy danych znajomi, co jest udokumentowane w pliku import w formacie PNG</label></td><td>1</td></tr><tr><td>R.1.2</td><td><label><input type="checkbox"> Zapisany plik kwerendy.txt zawierający co najmniej jedno zapytanie SQL wynikające z treści zadania</label></td><td>1</td></tr><tr><td>R.1.3</td><td><label><input type="checkbox"> Wykonane zapytanie 1. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT posty.id, CONCAT(LEFT(imie, 1), LEFT(nazwisko, 1)) AS inicjaly, imie, nazwisko, kolor, DATE_FORMAT(dodano, '%d.%m.%Y %H:%i') AS data, tresc, tlo, obraz, polubienia, komentarze, udostepnienia FROM posty JOIN uzytkownicy ON posty.uzytkownicy_id = uzytkownicy.id ORDER BY dodano DESC; oraz wynik działania udokumentowany zrzutem kw1, na którym widoczne są dokładnie 4 wiersze w kolejności: AK (17.11.2026 08:05), KI (17.11.2026 05:10), MZ (16.11.2026 19:12), PW (15.11.2026 20:30); pole obraz puste dla KI i PW</label></td><td>1</td></tr><tr><td>R.1.4</td><td><label><input type="checkbox"> Wykonane zapytanie 2. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT CONCAT(LEFT(imie, 1), LEFT(nazwisko, 1)) AS inicjaly, imie, nazwisko, kolor, online FROM uzytkownicy WHERE status = 'znajomy'; oraz wynik działania udokumentowany zrzutem kw2, na którym widoczne są dokładnie 4 wiersze: AK, PW, EL, MZ z polami kolor i online (online = 0 tylko dla EL)</label></td><td>1</td></tr><tr><td>R.1.5</td><td><label><input type="checkbox"> Wykonane zapytanie 3. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT CONCAT(LEFT(imie, 1), LEFT(nazwisko, 1)) AS inicjaly, imie, nazwisko, kolor, wspolni FROM uzytkownicy WHERE status = 'zaproszenie' ORDER BY wspolni DESC; oraz wynik działania udokumentowany zrzutem kw3, na którym widoczne są dokładnie 2 wiersze w kolejności: TN Tomek Nowicki (8), KD Kasia Dąbrowska (3)</label></td><td>1</td></tr><tr><td>R.1.6</td><td><label><input type="checkbox"> Wykonane zapytanie 4. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT imie, nazwisko FROM uzytkownicy WHERE MONTH(data_urodzenia) = 11 AND DAY(data_urodzenia) = 17; oraz wynik działania udokumentowany zrzutem kw4, na którym widoczny jest dokładnie jeden wiersz: Ewa Lis</label></td><td>1</td></tr><tr><td>R.1.7</td><td><label><input type="checkbox"> Wykonane zapytanie 5. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT COUNT(*) AS liczba FROM uzytkownicy WHERE status = 'znajomy' AND online = 1; oraz wynik działania udokumentowany zrzutem kw5, na którym widoczny jest jeden wiersz z kolumną liczba o wartości 3</label></td><td>1</td></tr><tr class="res-head"><td>R.2</td><td><b>Rezultat 2: Zawartość witryny internetowej</b><p class="note">Uwaga: W napisach widocznych na stronie dopuszcza się drobne błędy literowe, błędy wielkości liter i znaków diakrytycznych.</p></td><td>9</td></tr><tr><td>R.2.1</td><td><label><input type="checkbox"> Witryna zapisana w pliku index.php, jawnie zapisany standard kodowania polskich znaków, deklaracja &lt;!DOCTYPE html&gt;, język polski, meta viewport, tytuł „Znajomi – strona główna”</label></td><td>1</td></tr><tr><td>R.2.2</td><td><label><input type="checkbox"> Bloki zdefiniowane znacznikami semantycznymi zgodnie z ilustracją 3: header pasek, div strona z aside lewa, main feed, aside prawa</label></td><td>1</td></tr><tr><td>R.2.3</td><td><label><input type="checkbox"> Pasek: pasek-lewa (logo do index.php, pole szukaj z podpowiedzią), nav pasek-srodek z pięcioma odnośnikami z atrybutami title (pierwszy z klasą aktywny), pasek-prawa z dwoma przyciskami okragly i awatarem JN</label></td><td>1</td></tr><tr><td>R.2.4</td><td><label><input type="checkbox"> Awatary zapisane jako span z klasami avatar i a1–a8 z inicjałami</label></td><td>1</td></tr><tr><td>R.2.5</td><td><label><input type="checkbox"> Lewy panel: lista menu z sześcioma odnośnikami (awatar JN i pięć ikon w span z klasą ikona)</label></td><td>1</td></tr><tr><td>R.2.6</td><td><label><input type="checkbox"> Sekcja relacje: cztery article z klasą relacja (dodaj z plusem, r1–r3 z awatarem i imieniem); gradienty ustawione klasami, a nie w atrybucie style</label></td><td>1</td></tr><tr><td>R.2.7</td><td><label><input type="checkbox"> Karta nowy-post: blok nowy-gora z awatarem i polem tekstowym z podpowiedzią, blok nowy-dol z trzema przyciskami typu button</label></td><td>1</td></tr><tr><td>R.2.8</td><td><label><input type="checkbox"> Prawy panel: trzy sekcje z nagłówkami h2 („Zaproszenia do znajomych”, „Urodziny”, „Kontakty”), paragraf urodziny z „Ewa Lis” w strong, lista ul kontakty</label></td><td>1</td></tr><tr><td>R.2.9</td><td><label><input type="checkbox"> Stopka (footer) autor-strony w bloku main z napisem „Stronę wykonał: ” i numerem zdającego</label></td><td>1</td></tr><tr class="res-head"><td>R.3</td><td><b>Rezultat 3: Działanie witryny internetowej</b><p class="note">Uwaga: Jeśli witryna nie uruchamia się z powodu błędów PHP – sprawdzić według kryteriów w kodzie źródłowym strony.</p></td><td>7</td></tr><tr><td>R.3.1</td><td><label><input type="checkbox"> Układ bloków po uruchomieniu w przeglądarce jest zgodny z ilustracjami 2 i 3: trzy kolumny wyśrodkowane, pasek na górze</label></td><td>1</td></tr><tr><td>R.3.2</td><td><label><input type="checkbox"> Strona zawiera działające połączenie z zewnętrznym arkuszem stylów styl.css, formatowanie CSS pochodzi jedynie z tego arkusza</label></td><td>1</td></tr><tr><td>R.3.3</td><td><label><input type="checkbox"> Pasek górny pozostaje na górze okna podczas przewijania, a lewy i prawy panel zatrzymują się 72 px od góry okna</label></td><td>1</td></tr><tr><td>R.3.4</td><td><label><input type="checkbox"> Wyświetlają się 4 posty z bazy w kolejności od najnowszego (Anna Kowalska, Klub Informatyków, Marek Zieliński, Piotr Wiśniewski); post Klubu jest napisem na kolorowym tle, post Piotra nie ma obrazu</label></td><td>1</td></tr><tr><td>R.3.5</td><td><label><input type="checkbox"> Zaproszenia: Tomek Nowicki (8 wspólnych), Kasia Dąbrowska (3); kontakty: 4 osoby, zielona kropka przy AK, PW i MZ, bez kropki przy EL</label></td><td>1</td></tr><tr><td>R.3.6</td><td><label><input type="checkbox"> Kliknięcie „Lubię to” zwiększa liczbę polubień danego postu o 1 i zmienia kolor napisu na #0E9F8E; ponowne kliknięcie przywraca poprzednią liczbę i kolor</label></td><td>1</td></tr><tr><td>R.3.7</td><td><label><input type="checkbox"> Przy szerokości do 1100 px znika prawy panel, do 800 px także lewy panel, wyszukiwarka i przyciski okrągłe; do 560 px ikony menu w pasku są węższe</label></td><td>1</td></tr><tr class="res-head"><td>R.4</td><td><b>Rezultat 4: Styl CSS witryny internetowej</b><p class="note">Uwaga: Kryteria muszą działać na stronie (sprawdzić w inspektorze). Kryteria dotyczące selektorów znaczników są spełnione jedynie dla stylu zdefiniowanego selektorem znacznika.</p></td><td>33</td></tr><tr><td>R.4.1</td><td><label><input type="checkbox"> Ustawione domyślnie dla wszystkich selektorów (*): marginesy zewnętrzne i wewnętrzne 0, model pudełkowy border-box. Dla selektora ciała strony: kolor tła #F0F2F5, kolor czcionki #1C1E21, krój Arial, w przypadku braku Helvetica, a następnie sans-serif, wysokość linii 1,4</label></td><td>1</td></tr><tr><td>R.4.2</td><td><label><input type="checkbox"> Ustawione dla selektora odnośnika: kolor dziedziczony, bez podkreślenia. Dla selektora listy punktowanej: brak punktorów. Dla selektorów przycisku i pola input: czcionka dziedziczona (font: inherit); przyciski mają kursor w kształcie wskazującej dłoni</label></td><td>1</td></tr><tr><td>R.4.3</td><td><label><input type="checkbox"> Ustawione dla klasy avatar: pozycjonowanie względne, element nie zmienia rozmiaru w układzie flex (flex: none), siatka z zawartością wyśrodkowaną (place-items: center), szerokość i wysokość 40 px, kształt koła, biały pogrubiony tekst 0,9 rem. Awatar z klasą maly: 32 × 32 px, 0,78 rem</label></td><td>1</td></tr><tr><td>R.4.4</td><td><label><input type="checkbox"> Ustawione kolory tła awatarów: a1 #E17055, a2 #6C5CE7, a3 #E84393, a4 #00A8A8, a5 #F39C12, a6 #2D98DA, a7 #0E9F8E, a8 #34495E</label></td><td>1</td></tr><tr><td>R.4.5</td><td><label><input type="checkbox"> Ustawione dla klasy online: pseudoelement ::after z pustą zawartością, pozycjonowany bezwzględnie 1 px poza prawą i dolną krawędzią awatara (right i bottom: -1px), 12 × 12 px, kolor tła #31A24C, biała ramka 2 px, kształt koła – zielona kropka „dostępny”</label></td><td>1</td></tr><tr><td>R.4.6</td><td><label><input type="checkbox"> Ustawione dla klasy pasek: przypięty do górnej krawędzi okna (position: fixed, top, left, right: 0) nad pozostałą treścią (z-index: 50), siatka z trzema kolumnami 1fr auto 1fr, elementy wyśrodkowane w pionie, wysokość 56 px, marginesy wewnętrzne: lewy i prawy 16 px, białe tło, cień 0 1px 3px w kolorze czarnym o nieprzezroczystości 0,2</label></td><td>1</td></tr><tr><td>R.4.7</td><td><label><input type="checkbox"> Ustawione dla klasy pasek-lewa: układ elastyczny, elementy wyśrodkowane w pionie, odstęp 10 px. Dla klasy logo: siatka z wyśrodkowaną zawartością, 40 × 40 px, kolor tła #0E9F8E, biały tekst, kształt koła, rozmiar 1,5 rem, pogrubienie</label></td><td>1</td></tr><tr><td>R.4.8</td><td><label><input type="checkbox"> Ustawione dla klasy szukaj: szerokość 240 px, marginesy wewnętrzne 10 px / 14 px, kolor tła #F0F2F5, bez obramowania i bez obrysu (outline), zaokrąglenie 20 px</label></td><td>1</td></tr><tr><td>R.4.9</td><td><label><input type="checkbox"> Ustawione dla listy w klasie pasek-srodek: układ elastyczny, odstęp 6 px. Odnośniki: siatka z wyśrodkowaną zawartością, 100 × 56 px, dolne obramowanie 3 px przezroczyste, zaokrąglone tylko górne rogi (8 px), rozmiar 1,5 rem; gdy kursor znajdzie się na odnośniku – tło #F0F2F5; odnośnik z klasą aktywny ma dolne obramowanie w kolorze #0E9F8E</label></td><td>1</td></tr><tr><td>R.4.10</td><td><label><input type="checkbox"> Ustawione dla klasy pasek-prawa: układ elastyczny, elementy dosunięte do prawej (justify-content: flex-end) i wyśrodkowane w pionie, odstęp 8 px. Dla klasy okragly: 40 × 40 px, tło #E4E6EB, bez obramowania, kształt koła, rozmiar 1,1 rem; gdy kursor znajdzie się na przycisku – tło #D8DADF</label></td><td>1</td></tr><tr><td>R.4.11</td><td><label><input type="checkbox"> Ustawione dla klasy strona: siatka z trzema kolumnami: 280 px, środkowa od 0 do 680 px (minmax(0, 680px)), 300 px, kolumny wyśrodkowane w poziomie (justify-content: center), odstęp 24 px, marginesy wewnętrzne: górny 72 px, lewy i prawy 16 px, dolny 24 px, elementy wyrównane do góry</label></td><td>1</td></tr><tr><td>R.4.12</td><td><label><input type="checkbox"> Ustawione dla klas lewa i prawa: pozycjonowanie przyklejone (sticky) 72 px od górnej krawędzi okna</label></td><td>1</td></tr><tr><td>R.4.13</td><td><label><input type="checkbox"> Ustawione dla odnośników w klasie menu: układ elastyczny, elementy wyśrodkowane w pionie, odstęp 12 px, marginesy wewnętrzne 8 px, zaokrąglenie 8 px, pogrubienie, 0,95 rem; gdy kursor znajdzie się na odnośniku – tło #E4E6EB. Dla klasy ikona: siatka z wyśrodkowaną zawartością, 40 × 40 px, tło #E4E6EB, kształt koła, 1,2 rem</label></td><td>1</td></tr><tr><td>R.4.14</td><td><label><input type="checkbox"> Ustawione dla klasy relacje: układ elastyczny, odstęp 8 px, dolny margines 16 px, poziomy pasek przewijania widoczny tylko wtedy, gdy relacje się nie mieszczą</label></td><td>1</td></tr><tr><td>R.4.15</td><td><label><input type="checkbox"> Ustawione dla klasy relacja: pozycjonowanie względne, stała szerokość 110 px bez rozciągania i zwężania (flex: 0 0 110px), wysokość 190 px, zaokrąglenie 10 px, ukryta zawartość wychodząca poza element, biały tekst, kursor w kształcie dłoni, płynne przejście transformacji 0,2 s; gdy kursor znajdzie się na relacji, jest ona powiększana 1,03 raza (scale)</label></td><td>1</td></tr><tr><td>R.4.16</td><td><label><input type="checkbox"> Ustawione tło relacji – gradient liniowy pod kątem 160 stopni: klasa r1 od #F6D365 do #FDA085, r2 od #84FAB0 do #8FD3F4, r3 od #A18CD1 do #FBC2EB</label></td><td>1</td></tr><tr><td>R.4.17</td><td><label><input type="checkbox"> Ustawione dla awatara w relacji: pozycjonowanie bezwzględne 10 px od górnej i lewej krawędzi, 36 × 36 px, ramka 3 px linią ciągłą #0E9F8E, 0,75 rem. Dla klasy imie w relacji: pozycjonowanie bezwzględne 10 px od lewej, prawej i dolnej krawędzi, 0,82 rem, pogrubienie, cień tekstu 0 1px 3px czarny o nieprzezroczystości 0,6</label></td><td>1</td></tr><tr><td>R.4.18</td><td><label><input type="checkbox"> Ustawione dla relacji z klasą dodaj: układ elastyczny kolumnowy, elementy wyśrodkowane w obu kierunkach, odstęp 10 px, białe tło, kolor tekstu #1C1E21, cień 0 1px 2px czarny o nieprzezroczystości 0,2; jej klasa imie ma zwykłe pozycjonowanie (static), tekst wyśrodkowany, bez cienia. Dla klasy plus: siatka z wyśrodkowaną zawartością, 40 × 40 px, tło #0E9F8E, biały tekst, kształt koła, 1,6 rem</label></td><td>1</td></tr><tr><td>R.4.19</td><td><label><input type="checkbox"> Ustawione dla klasy karta: dolny margines 16 px, białe tło, zaokrąglenie 8 px, cień 0 1px 2px czarny o nieprzezroczystości 0,2</label></td><td>1</td></tr><tr><td>R.4.20</td><td><label><input type="checkbox"> Ustawione dla klasy nowy-gora: układ elastyczny, elementy wyśrodkowane w pionie, odstęp 10 px, marginesy wewnętrzne 12 px / 16 px; pole tekstowe w tym bloku zajmuje wolne miejsce (flex: 1), marginesy wewnętrzne 10 px / 14 px, tło #F0F2F5, bez obramowania i obrysu, zaokrąglenie 20 px</label></td><td>1</td></tr><tr><td>R.4.21</td><td><label><input type="checkbox"> Ustawione dla klas nowy-dol i akcje: układ elastyczny, marginesy zewnętrzne: lewy i prawy 16 px, górne obramowanie 1 px #DDD; marginesy wewnętrzne górny i dolny: 6 px (nowy-dol) i 4 px (akcje)</label></td><td>1</td></tr><tr><td>R.4.22</td><td><label><input type="checkbox"> Ustawione dla przycisków w klasach nowy-dol i akcje (jedna wspólna reguła): równy podział szerokości (flex: 1), marginesy wewnętrzne 8 px, bez tła i obramowania, zaokrąglenie 6 px, kolor #65676B, pogrubienie; gdy kursor znajdzie się na przycisku – tło #F0F2F5. Przycisk z klasą polubione w klasie akcje ma kolor #0E9F8E</label></td><td>1</td></tr><tr><td>R.4.23</td><td><label><input type="checkbox"> Ustawione dla klasy post-naglowek: układ elastyczny, elementy wyśrodkowane w pionie, odstęp 10 px, marginesy wewnętrzne 12 px / 16 px. Klasa autor zajmuje wolne miejsce (flex: 1); pogrubione imię w niej jest wyświetlane blokowo, a span ma kolor #65676B i 0,8 rem</label></td><td>1</td></tr><tr><td>R.4.24</td><td><label><input type="checkbox"> Ustawione dla klasy post-tekst: marginesy wewnętrzne: górny 0, lewy i prawy 16 px, dolny 12 px. Dla klasy post-obraz: wysokość 320 px; tło – gradient 135 stopni: klasa g1 od #F6D365 do #C0562C, g2 od #4FACFE do #00C6A7</label></td><td>1</td></tr><tr><td>R.4.25</td><td><label><input type="checkbox"> Ustawione dla klasy post-tlo: siatka z wyśrodkowaną zawartością, minimalna wysokość 240 px, marginesy wewnętrzne 24 px, tło – gradient 135 stopni od #0E9F8E do #2D98DA, biały pogrubiony tekst 1,6 rem wyśrodkowany</label></td><td>1</td></tr><tr><td>R.4.26</td><td><label><input type="checkbox"> Ustawione dla klasy statystyki: układ elastyczny, elementy rozsunięte do krawędzi, marginesy wewnętrzne 10 px / 16 px, kolor #65676B, 0,88 rem. Dla klasy autor-strony: marginesy wewnętrzne: górny 8 px, dolny 16 px, kolor #65676B, 0,85 rem, tekst wyśrodkowany</label></td><td>1</td></tr><tr><td>R.4.27</td><td><label><input type="checkbox"> Ustawione dla sekcji w klasie prawa: dolny margines 16 px, dolny margines wewnętrzny 12 px, dolne obramowanie 1 px #DDD; nagłówki: dolny margines 10 px, kolor #65676B, 1 rem. Dla klasy urodziny: 0,92 rem</label></td><td>1</td></tr><tr><td>R.4.28</td><td><label><input type="checkbox"> Ustawione dla klasy zaproszenie: układ elastyczny, odstęp 10 px, dolny margines 12 px; paragraf w zaproszeniu: kolor #65676B, 0,8 rem. Dla klasy przyciski: układ elastyczny, odstęp 6 px, górny margines 6 px; przyciski: równy podział szerokości, marginesy wewnętrzne 7 px / 10 px, bez obramowania, zaokrąglenie 6 px, 0,85 rem, pogrubienie</label></td><td>1</td></tr><tr><td>R.4.29</td><td><label><input type="checkbox"> Ustawione dla klasy btn-glowny: tło #0E9F8E, biały tekst, po najechaniu tło #0B8577. Dla klasy btn-szary: tło #E4E6EB, tekst #1C1E21, po najechaniu tło #D8DADF</label></td><td>1</td></tr><tr><td>R.4.30</td><td><label><input type="checkbox"> Ustawione dla odnośników w klasie kontakty: układ elastyczny, elementy wyśrodkowane w pionie, odstęp 10 px, marginesy wewnętrzne 6 px / 8 px, zaokrąglenie 8 px, 0,92 rem, pogrubienie; gdy kursor znajdzie się na odnośniku – tło #E4E6EB</label></td><td>1</td></tr><tr><td>R.4.31</td><td><label><input type="checkbox"> Ustawione w przypadku ekranów o szerokości do 1100 px: siatka klasy strona ma dwie kolumny (240 px i minmax(0, 680px)), a prawy panel jest ukryty</label></td><td>1</td></tr><tr><td>R.4.32</td><td><label><input type="checkbox"> Ustawione w przypadku ekranów o szerokości do 800 px: siatka strony ma jedną kolumnę (minmax(0, 680px)), ukryte są lewy panel, pole wyszukiwania i przyciski okragly w pasku; odnośniki w pasek-srodek mają szerokość 56 px, a post-obraz wysokość 220 px</label></td><td>1</td></tr><tr><td>R.4.33</td><td><label><input type="checkbox"> Ustawione w przypadku ekranów o szerokości do 560 px (ilustracja 4): pasek ma marginesy wewnętrzne lewy i prawy 10 px, odstęp w liście pasek-srodek 2 px, a odnośniki w niej szerokość 44 px</label></td><td>1</td></tr><tr class="res-head"><td>R.5</td><td><b>Rezultat 5: Skrypty</b><p class="note">Uwaga: Kryteria należy sprawdzić w kodzie źródłowym oraz na działającej stronie (XAMPP).</p></td><td>10</td></tr><tr><td>R.5.1</td><td><label><input type="checkbox"> Skrypt PHP łączy się z serwerem MySQL na localhost, użytkownik root bez hasła, baza znajomi (np. mysqli_connect)</label></td><td>1</td></tr><tr><td>R.5.2</td><td><label><input type="checkbox"> Skrypt 1 wysyła zapytanie 1 i dla każdego postu tworzy article z klasami karta i post z nagłówkiem (awatar z klasą koloru z bazy, autor, data, przycisk „…”)</label></td><td>1</td></tr><tr><td>R.5.3</td><td><label><input type="checkbox"> Skrypt 1 wyświetla treść w bloku post-tlo, gdy pole tlo = 1, w przeciwnym razie w paragrafie post-tekst i blok post-obraz z klasą gN tylko dla niepustego pola obraz</label></td><td>1</td></tr><tr><td>R.5.4</td><td><label><input type="checkbox"> Skrypt 1 tworzy statystyki z liczbą polubień w span o id lajki + id postu oraz blok akcje z trzema przyciskami; „Lubię to” wywołuje skrypt 4 z numerem postu</label></td><td>1</td></tr><tr><td>R.5.5</td><td><label><input type="checkbox"> Skrypt 2 wysyła zapytanie 3 i tworzy bloki zaproszenie z awatarem, imieniem i nazwiskiem, liczbą wspólnych znajomych i dwoma przyciskami</label></td><td>1</td></tr><tr><td>R.5.6</td><td><label><input type="checkbox"> Skrypt 3 wysyła zapytanie 2 i tworzy elementy listy kontaktów z awatarem i imieniem i nazwiskiem; klasa online tylko dla osób z polem online = 1</label></td><td>1</td></tr><tr><td>R.5.7</td><td><label><input type="checkbox"> Na końcu skryptu zamykane jest połączenie z serwerem (np. mysqli_close)</label></td><td>1</td></tr><tr><td>R.5.8</td><td><label><input type="checkbox"> Skrypt 4 jest napisany w języku JavaScript, odczytuje liczbę polubień z elementu lajki + numer postu i zapisuje zmienioną wartość</label></td><td>1</td></tr><tr><td>R.5.9</td><td><label><input type="checkbox"> Skrypt 4 rozpoznaje stan przycisku po klasie polubione: dodaje klasę i zwiększa liczbę albo usuwa klasę i zmniejsza liczbę</label></td><td>1</td></tr><tr><td>R.5.10</td><td><label><input type="checkbox"> Zastosowano znaczące nazewnictwo zmiennych i funkcji</label></td><td>1</td></tr><tr class="sum"><td></td><td>Razem</td><td>66</td></tr></table>
+  <h2>Rozwiązanie wzorcowe</h2><h4>kwerendy.txt</h4><pre>-- Zapytanie 1
+SELECT posty.id, CONCAT(LEFT(imie, 1), LEFT(nazwisko, 1)) AS inicjaly, imie, nazwisko, kolor, DATE_FORMAT(dodano, '%d.%m.%Y %H:%i') AS data, tresc, tlo, obraz, polubienia, komentarze, udostepnienia FROM posty JOIN uzytkownicy ON posty.uzytkownicy_id = uzytkownicy.id ORDER BY dodano DESC;
+-- Zapytanie 2
+SELECT CONCAT(LEFT(imie, 1), LEFT(nazwisko, 1)) AS inicjaly, imie, nazwisko, kolor, online FROM uzytkownicy WHERE status = 'znajomy';
+-- Zapytanie 3
+SELECT CONCAT(LEFT(imie, 1), LEFT(nazwisko, 1)) AS inicjaly, imie, nazwisko, kolor, wspolni FROM uzytkownicy WHERE status = 'zaproszenie' ORDER BY wspolni DESC;
+-- Zapytanie 4
+SELECT imie, nazwisko FROM uzytkownicy WHERE MONTH(data_urodzenia) = 11 AND DAY(data_urodzenia) = 17;
+-- Zapytanie 5
+SELECT COUNT(*) AS liczba FROM uzytkownicy WHERE status = 'znajomy' AND online = 1;
+</pre><h4>index.php</h4><pre>&lt;?php
+$polaczenie = mysqli_connect('localhost', 'root', '', 'znajomi');
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pl&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Znajomi – strona główna&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;styl.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header class=&quot;pasek&quot;&gt;
+        &lt;div class=&quot;pasek-lewa&quot;&gt;
+            &lt;a href=&quot;index.php&quot; class=&quot;logo&quot;&gt;Z&lt;/a&gt;
+            &lt;input type=&quot;text&quot; class=&quot;szukaj&quot; placeholder=&quot;Szukaj wśród znajomych&quot;&gt;
+        &lt;/div&gt;
+        &lt;nav class=&quot;pasek-srodek&quot;&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot; class=&quot;aktywny&quot; title=&quot;Start&quot;&gt;🏠&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot; title=&quot;Znajomi&quot;&gt;👥&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot; title=&quot;Wideo&quot;&gt;🎬&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot; title=&quot;Sklep&quot;&gt;🛍&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot; title=&quot;Grupy&quot;&gt;👪&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/nav&gt;
+        &lt;div class=&quot;pasek-prawa&quot;&gt;
+            &lt;button type=&quot;button&quot; class=&quot;okragly&quot; title=&quot;Wiadomości&quot;&gt;💬&lt;/button&gt;
+            &lt;button type=&quot;button&quot; class=&quot;okragly&quot; title=&quot;Powiadomienia&quot;&gt;🔔&lt;/button&gt;
+            &lt;span class=&quot;avatar a7&quot;&gt;JN&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/header&gt;
+
+    &lt;div class=&quot;strona&quot;&gt;
+        &lt;aside class=&quot;lewa&quot;&gt;
+            &lt;ul class=&quot;menu&quot;&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;span class=&quot;avatar a7&quot;&gt;JN&lt;/span&gt;&lt;span&gt;Jan Nowak&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;span class=&quot;ikona&quot;&gt;👥&lt;/span&gt;&lt;span&gt;Znajomi&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;span class=&quot;ikona&quot;&gt;👪&lt;/span&gt;&lt;span&gt;Grupy&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;span class=&quot;ikona&quot;&gt;📅&lt;/span&gt;&lt;span&gt;Wydarzenia&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;span class=&quot;ikona&quot;&gt;🔖&lt;/span&gt;&lt;span&gt;Zapisane&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;span class=&quot;ikona&quot;&gt;🕘&lt;/span&gt;&lt;span&gt;Wspomnienia&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/aside&gt;
+
+        &lt;main class=&quot;feed&quot;&gt;
+            &lt;section class=&quot;relacje&quot;&gt;
+                &lt;article class=&quot;relacja dodaj&quot;&gt;
+                    &lt;span class=&quot;plus&quot;&gt;+&lt;/span&gt;
+                    &lt;span class=&quot;imie&quot;&gt;Dodaj relację&lt;/span&gt;
+                &lt;/article&gt;
+                &lt;article class=&quot;relacja r1&quot;&gt;
+                    &lt;span class=&quot;avatar a1&quot;&gt;AK&lt;/span&gt;
+                    &lt;span class=&quot;imie&quot;&gt;Anna Kowalska&lt;/span&gt;
+                &lt;/article&gt;
+                &lt;article class=&quot;relacja r2&quot;&gt;
+                    &lt;span class=&quot;avatar a2&quot;&gt;PW&lt;/span&gt;
+                    &lt;span class=&quot;imie&quot;&gt;Piotr Wiśniewski&lt;/span&gt;
+                &lt;/article&gt;
+                &lt;article class=&quot;relacja r3&quot;&gt;
+                    &lt;span class=&quot;avatar a4&quot;&gt;MZ&lt;/span&gt;
+                    &lt;span class=&quot;imie&quot;&gt;Marek Zieliński&lt;/span&gt;
+                &lt;/article&gt;
+            &lt;/section&gt;
+
+            &lt;section class=&quot;karta nowy-post&quot;&gt;
+                &lt;div class=&quot;nowy-gora&quot;&gt;
+                    &lt;span class=&quot;avatar a7&quot;&gt;JN&lt;/span&gt;
+                    &lt;input type=&quot;text&quot; placeholder=&quot;Co słychać, Janie?&quot;&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;nowy-dol&quot;&gt;
+                    &lt;button type=&quot;button&quot;&gt;🎥 Wideo&lt;/button&gt;
+                    &lt;button type=&quot;button&quot;&gt;🖼 Zdjęcie&lt;/button&gt;
+                    &lt;button type=&quot;button&quot;&gt;😊 Nastrój&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/section&gt;
+&lt;?php
+// skrypt 1 - posty
+$zapytanie = &quot;SELECT posty.id, CONCAT(LEFT(imie, 1), LEFT(nazwisko, 1)) AS inicjaly, imie, nazwisko, kolor, DATE_FORMAT(dodano, '%d.%m.%Y %H:%i') AS data, tresc, tlo, obraz, polubienia, komentarze, udostepnienia FROM posty JOIN uzytkownicy ON posty.uzytkownicy_id = uzytkownicy.id ORDER BY dodano DESC;&quot;;
+$wynik = mysqli_query($polaczenie, $zapytanie);
+while ($post = mysqli_fetch_array($wynik)) {
+    echo &quot;&lt;article class='karta post'&gt;&quot;;
+    echo &quot;&lt;div class='post-naglowek'&gt;&quot;;
+    echo &quot;&lt;span class='avatar a$post[kolor]'&gt;$post[inicjaly]&lt;/span&gt;&quot;;
+    echo &quot;&lt;div class='autor'&gt;&lt;strong&gt;$post[imie] $post[nazwisko]&lt;/strong&gt;&lt;span&gt;$post[data]&lt;/span&gt;&lt;/div&gt;&quot;;
+    echo &quot;&lt;button type='button' class='okragly'&gt;…&lt;/button&gt;&quot;;
+    echo &quot;&lt;/div&gt;&quot;;
+    if ($post['tlo'] == 1) {
+        echo &quot;&lt;div class='post-tlo'&gt;$post[tresc]&lt;/div&gt;&quot;;
+    } else {
+        echo &quot;&lt;p class='post-tekst'&gt;$post[tresc]&lt;/p&gt;&quot;;
+        if ($post['obraz'] != NULL) {
+            echo &quot;&lt;div class='post-obraz g$post[obraz]'&gt;&lt;/div&gt;&quot;;
+        }
+    }
+    echo &quot;&lt;div class='statystyki'&gt;&quot;;
+    echo &quot;&lt;span&gt;👍 &lt;span id='lajki$post[id]'&gt;$post[polubienia]&lt;/span&gt;&lt;/span&gt;&quot;;
+    echo &quot;&lt;span&gt;Komentarze: $post[komentarze] · Udostępnienia: $post[udostepnienia]&lt;/span&gt;&quot;;
+    echo &quot;&lt;/div&gt;&quot;;
+    echo &quot;&lt;div class='akcje'&gt;&quot;;
+    echo &quot;&lt;button type='button' onclick='polub(this, $post[id])'&gt;👍 Lubię to&lt;/button&gt;&quot;;
+    echo &quot;&lt;button type='button'&gt;💬 Komentarz&lt;/button&gt;&quot;;
+    echo &quot;&lt;button type='button'&gt;↗ Udostępnij&lt;/button&gt;&quot;;
+    echo &quot;&lt;/div&gt;&quot;;
+    echo &quot;&lt;/article&gt;&quot;;
+}
+?&gt;
+            &lt;footer class=&quot;autor-strony&quot;&gt;Stronę wykonał: 00&lt;/footer&gt;
+        &lt;/main&gt;
+
+        &lt;aside class=&quot;prawa&quot;&gt;
+            &lt;section&gt;
+                &lt;h2&gt;Zaproszenia do znajomych&lt;/h2&gt;
+&lt;?php
+// skrypt 2 - zaproszenia
+$zapytanie = &quot;SELECT CONCAT(LEFT(imie, 1), LEFT(nazwisko, 1)) AS inicjaly, imie, nazwisko, kolor, wspolni FROM uzytkownicy WHERE status = 'zaproszenie' ORDER BY wspolni DESC;&quot;;
+$wynik = mysqli_query($polaczenie, $zapytanie);
+while ($osoba = mysqli_fetch_array($wynik)) {
+    echo &quot;&lt;div class='zaproszenie'&gt;&quot;;
+    echo &quot;&lt;span class='avatar a$osoba[kolor]'&gt;$osoba[inicjaly]&lt;/span&gt;&quot;;
+    echo &quot;&lt;div&gt;&lt;strong&gt;$osoba[imie] $osoba[nazwisko]&lt;/strong&gt;&quot;;
+    echo &quot;&lt;p&gt;Wspólni znajomi: $osoba[wspolni]&lt;/p&gt;&quot;;
+    echo &quot;&lt;div class='przyciski'&gt;&lt;button type='button' class='btn-glowny'&gt;Potwierdź&lt;/button&gt;&lt;button type='button' class='btn-szary'&gt;Usuń&lt;/button&gt;&lt;/div&gt;&quot;;
+    echo &quot;&lt;/div&gt;&lt;/div&gt;&quot;;
+}
+?&gt;
+            &lt;/section&gt;
+            &lt;section&gt;
+                &lt;h2&gt;Urodziny&lt;/h2&gt;
+                &lt;p class=&quot;urodziny&quot;&gt;🎂 Dziś urodziny ma &lt;strong&gt;Ewa Lis&lt;/strong&gt;.&lt;/p&gt;
+            &lt;/section&gt;
+            &lt;section&gt;
+                &lt;h2&gt;Kontakty&lt;/h2&gt;
+                &lt;ul class=&quot;kontakty&quot;&gt;
+&lt;?php
+// skrypt 3 - kontakty
+$zapytanie = &quot;SELECT CONCAT(LEFT(imie, 1), LEFT(nazwisko, 1)) AS inicjaly, imie, nazwisko, kolor, online FROM uzytkownicy WHERE status = 'znajomy';&quot;;
+$wynik = mysqli_query($polaczenie, $zapytanie);
+while ($osoba = mysqli_fetch_array($wynik)) {
+    $klasy = &quot;avatar a$osoba[kolor]&quot;;
+    if ($osoba['online'] == 1) {
+        $klasy = $klasy . &quot; online&quot;;
+    }
+    echo &quot;&lt;li&gt;&lt;a href='#'&gt;&lt;span class='$klasy'&gt;$osoba[inicjaly]&lt;/span&gt;&lt;span&gt;$osoba[imie] $osoba[nazwisko]&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&quot;;
+}
+?&gt;
+                &lt;/ul&gt;
+            &lt;/section&gt;
+        &lt;/aside&gt;
+    &lt;/div&gt;
+    &lt;script src=&quot;skrypt.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?php
+mysqli_close($polaczenie);
+?&gt;
+</pre><h4>styl.css</h4><pre>* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #F0F2F5;
+    color: #1C1E21;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.4;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    font: inherit;
+    cursor: pointer;
+}
+
+input {
+    font: inherit;
+}
+
+/* awatary */
+.avatar {
+    position: relative;
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: #FFF;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.avatar.maly {
+    width: 32px;
+    height: 32px;
+    font-size: 0.78rem;
+}
+
+.a1 { background: #E17055; }
+.a2 { background: #6C5CE7; }
+.a3 { background: #E84393; }
+.a4 { background: #00A8A8; }
+.a5 { background: #F39C12; }
+.a6 { background: #2D98DA; }
+.a7 { background: #0E9F8E; }
+.a8 { background: #34495E; }
+
+.online::after {
+    content: &quot;&quot;;
+    position: absolute;
+    right: -1px;
+    bottom: -1px;
+    width: 12px;
+    height: 12px;
+    background: #31A24C;
+    border: 2px solid #FFF;
+    border-radius: 50%;
+}
+
+/* górny pasek */
+.pasek {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    height: 56px;
+    padding: 0 16px;
+    background: #FFF;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.pasek-lewa {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    background: #0E9F8E;
+    color: #FFF;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.szukaj {
+    width: 240px;
+    padding: 10px 14px;
+    background: #F0F2F5;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+}
+
+.pasek-srodek ul {
+    display: flex;
+    gap: 6px;
+}
+
+.pasek-srodek a {
+    display: grid;
+    place-items: center;
+    width: 100px;
+    height: 56px;
+    border-bottom: 3px solid transparent;
+    border-radius: 8px 8px 0 0;
+    font-size: 1.5rem;
+}
+
+.pasek-srodek a:hover {
+    background: #F0F2F5;
+}
+
+.pasek-srodek a.aktywny {
+    border-bottom-color: #0E9F8E;
+}
+
+.pasek-prawa {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+}
+
+.okragly {
+    width: 40px;
+    height: 40px;
+    background: #E4E6EB;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.1rem;
+}
+
+.okragly:hover {
+    background: #D8DADF;
+}
+
+/* układ trzykolumnowy */
+.strona {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 680px) 300px;
+    justify-content: center;
+    gap: 24px;
+    padding: 72px 16px 24px;
+    align-items: start;
+}
+
+.lewa,
+.prawa {
+    position: sticky;
+    top: 72px;
+}
+
+.menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.menu a:hover {
+    background: #E4E6EB;
+}
+
+.ikona {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    background: #E4E6EB;
+    border-radius: 50%;
+    font-size: 1.2rem;
+}
+
+/* relacje */
+.relacje {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+}
+
+.relacja {
+    position: relative;
+    flex: 0 0 110px;
+    height: 190px;
+    border-radius: 10px;
+    overflow: hidden;
+    color: #FFF;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.relacja:hover {
+    transform: scale(1.03);
+}
+
+.relacja .avatar {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 36px;
+    height: 36px;
+    border: 3px solid #0E9F8E;
+    font-size: 0.75rem;
+}
+
+.relacja .imie {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    font-size: 0.82rem;
+    font-weight: bold;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.relacja.dodaj {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #FFF;
+    color: #1C1E21;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.relacja.dodaj .imie {
+    position: static;
+    text-align: center;
+    text-shadow: none;
+}
+
+.plus {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    background: #0E9F8E;
+    color: #FFF;
+    border-radius: 50%;
+    font-size: 1.6rem;
+}
+
+.r1 { background: linear-gradient(160deg, #F6D365, #FDA085); }
+.r2 { background: linear-gradient(160deg, #84FAB0, #8FD3F4); }
+.r3 { background: linear-gradient(160deg, #A18CD1, #FBC2EB); }
+
+/* karty */
+.karta {
+    margin-bottom: 16px;
+    background: #FFF;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.nowy-gora {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+}
+
+.nowy-gora input {
+    flex: 1;
+    padding: 10px 14px;
+    background: #F0F2F5;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+}
+
+.nowy-dol {
+    display: flex;
+    margin: 0 16px;
+    padding: 6px 0;
+    border-top: 1px solid #DDD;
+}
+
+.nowy-dol button,
+.akcje button {
+    flex: 1;
+    padding: 8px;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    color: #65676B;
+    font-weight: bold;
+}
+
+.nowy-dol button:hover,
+.akcje button:hover {
+    background: #F0F2F5;
+}
+
+/* posty */
+.post-naglowek {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+}
+
+.autor {
+    flex: 1;
+}
+
+.autor strong {
+    display: block;
+}
+
+.autor span {
+    color: #65676B;
+    font-size: 0.8rem;
+}
+
+.post-tekst {
+    padding: 0 16px 12px;
+}
+
+.post-obraz {
+    height: 320px;
+}
+
+.g1 { background: linear-gradient(135deg, #F6D365, #C0562C); }
+.g2 { background: linear-gradient(135deg, #4FACFE, #00C6A7); }
+
+.post-tlo {
+    display: grid;
+    place-items: center;
+    min-height: 240px;
+    padding: 24px;
+    background: linear-gradient(135deg, #0E9F8E, #2D98DA);
+    color: #FFF;
+    font-size: 1.6rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.statystyki {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 16px;
+    color: #65676B;
+    font-size: 0.88rem;
+}
+
+.akcje {
+    display: flex;
+    margin: 0 16px;
+    padding: 4px 0;
+    border-top: 1px solid #DDD;
+}
+
+.akcje .polubione {
+    color: #0E9F8E;
+}
+
+.komentarze {
+    padding: 4px 16px 14px;
+}
+
+.komentarz {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.babelek {
+    padding: 8px 12px;
+    background: #F0F2F5;
+    border-radius: 18px;
+    font-size: 0.9rem;
+}
+
+.babelek strong {
+    display: block;
+    font-size: 0.82rem;
+}
+
+.komentarz input {
+    flex: 1;
+    padding: 9px 14px;
+    background: #F0F2F5;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+}
+
+.autor-strony {
+    padding: 8px 0 16px;
+    color: #65676B;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+/* prawa kolumna */
+.prawa section {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #DDD;
+}
+
+.prawa h2 {
+    margin-bottom: 10px;
+    color: #65676B;
+    font-size: 1rem;
+}
+
+.zaproszenie {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.zaproszenie p {
+    color: #65676B;
+    font-size: 0.8rem;
+}
+
+.przyciski {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.przyciski button {
+    flex: 1;
+    padding: 7px 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.btn-glowny {
+    background: #0E9F8E;
+    color: #FFF;
+}
+
+.btn-glowny:hover {
+    background: #0B8577;
+}
+
+.btn-szary {
+    background: #E4E6EB;
+    color: #1C1E21;
+}
+
+.btn-szary:hover {
+    background: #D8DADF;
+}
+
+.urodziny {
+    font-size: 0.92rem;
+}
+
+.kontakty a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    font-size: 0.92rem;
+    font-weight: bold;
+}
+
+.kontakty a:hover {
+    background: #E4E6EB;
+}
+
+/* mniejsze ekrany */
+@media (max-width: 1100px) {
+    .strona {
+        grid-template-columns: 240px minmax(0, 680px);
+    }
+
+    .prawa {
+        display: none;
+    }
+}
+
+@media (max-width: 800px) {
+    .strona {
+        grid-template-columns: minmax(0, 680px);
+    }
+
+    .lewa,
+    .szukaj,
+    .pasek-prawa .okragly {
+        display: none;
+    }
+
+    .pasek-srodek a {
+        width: 56px;
+    }
+
+    .post-obraz {
+        height: 220px;
+    }
+}
+
+@media (max-width: 560px) {
+    .pasek {
+        padding: 0 10px;
+    }
+
+    .pasek-srodek ul {
+        gap: 2px;
+    }
+
+    .pasek-srodek a {
+        width: 44px;
+    }
+}
+</pre><h4>skrypt.js</h4><pre>// skrypt 4 - przycisk „Lubię to”
+function polub(przycisk, numerPostu) {
+    let licznik = document.getElementById('lajki' + numerPostu);
+    let liczba = Number(licznik.innerHTML);
+    if (przycisk.classList.contains('polubione')) {
+        liczba = liczba - 1;
+        przycisk.classList.remove('polubione');
+    } else {
+        liczba = liczba + 1;
+        przycisk.classList.add('polubione');
+    }
+    licznik.innerHTML = liczba;
+}
+</pre>
+</section>
+
+</body>
+</html>

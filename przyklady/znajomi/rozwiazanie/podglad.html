@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Znajomi – strona główna</title>
+    <link rel="stylesheet" href="styl.css">
+</head>
+<body>
+    <header class="pasek">
+        <div class="pasek-lewa">
+            <a href="index.php" class="logo">Z</a>
+            <input type="text" class="szukaj" placeholder="Szukaj wśród znajomych">
+        </div>
+        <nav class="pasek-srodek">
+            <ul>
+                <li><a href="#" class="aktywny" title="Start">🏠</a></li>
+                <li><a href="#" title="Znajomi">👥</a></li>
+                <li><a href="#" title="Wideo">🎬</a></li>
+                <li><a href="#" title="Sklep">🛍</a></li>
+                <li><a href="#" title="Grupy">👪</a></li>
+            </ul>
+        </nav>
+        <div class="pasek-prawa">
+            <button type="button" class="okragly" title="Wiadomości">💬</button>
+            <button type="button" class="okragly" title="Powiadomienia">🔔</button>
+            <span class="avatar a7">JN</span>
+        </div>
+    </header>
+
+    <div class="strona">
+        <aside class="lewa">
+            <ul class="menu">
+                <li><a href="#"><span class="avatar a7">JN</span><span>Jan Nowak</span></a></li>
+                <li><a href="#"><span class="ikona">👥</span><span>Znajomi</span></a></li>
+                <li><a href="#"><span class="ikona">👪</span><span>Grupy</span></a></li>
+                <li><a href="#"><span class="ikona">📅</span><span>Wydarzenia</span></a></li>
+                <li><a href="#"><span class="ikona">🔖</span><span>Zapisane</span></a></li>
+                <li><a href="#"><span class="ikona">🕘</span><span>Wspomnienia</span></a></li>
+            </ul>
+        </aside>
+
+        <main class="feed">
+            <section class="relacje">
+                <article class="relacja dodaj">
+                    <span class="plus">+</span>
+                    <span class="imie">Dodaj relację</span>
+                </article>
+                <article class="relacja r1">
+                    <span class="avatar a1">AK</span>
+                    <span class="imie">Anna Kowalska</span>
+                </article>
+                <article class="relacja r2">
+                    <span class="avatar a2">PW</span>
+                    <span class="imie">Piotr Wiśniewski</span>
+                </article>
+                <article class="relacja r3">
+                    <span class="avatar a4">MZ</span>
+                    <span class="imie">Marek Zieliński</span>
+                </article>
+            </section>
+
+            <section class="karta nowy-post">
+                <div class="nowy-gora">
+                    <span class="avatar a7">JN</span>
+                    <input type="text" placeholder="Co słychać, Janie?">
+                </div>
+                <div class="nowy-dol">
+                    <button type="button">🎥 Wideo</button>
+                    <button type="button">🖼 Zdjęcie</button>
+                    <button type="button">😊 Nastrój</button>
+                </div>
+            </section>
+<article class='karta post'><div class='post-naglowek'><span class='avatar a1'>AK</span><div class='autor'><strong>Anna Kowalska</strong><span>17.11.2026 08:05</span></div><button type='button' class='okragly'>…</button></div><p class='post-tekst'>Jesienny spacer po Puszczy Białowieskiej. Polecam wszystkim, którzy potrzebują chwili ciszy! 🍂</p><div class='post-obraz g1'></div><div class='statystyki'><span>👍 <span id='lajki2'>24</span></span><span>Komentarze: 5 · Udostępnienia: 2</span></div><div class='akcje'><button type='button' onclick='polub(this, 2)'>👍 Lubię to</button><button type='button'>💬 Komentarz</button><button type='button'>↗ Udostępnij</button></div></article><article class='karta post'><div class='post-naglowek'><span class='avatar a8'>KI</span><div class='autor'><strong>Klub Informatyków</strong><span>17.11.2026 05:10</span></div><button type='button' class='okragly'>…</button></div><div class='post-tlo'>Jutro o 17:00 warsztaty z HTML i CSS. Zapraszamy wszystkich!</div><div class='statystyki'><span>👍 <span id='lajki4'>41</span></span><span>Komentarze: 9 · Udostępnienia: 6</span></div><div class='akcje'><button type='button' onclick='polub(this, 4)'>👍 Lubię to</button><button type='button'>💬 Komentarz</button><button type='button'>↗ Udostępnij</button></div></article><article class='karta post'><div class='post-naglowek'><span class='avatar a4'>MZ</span><div class='autor'><strong>Marek Zieliński</strong><span>16.11.2026 19:12</span></div><button type='button' class='okragly'>…</button></div><p class='post-tekst'>Udało się! Mój pierwszy własny projekt strony działa 🎉</p><div class='post-obraz g2'></div><div class='statystyki'><span>👍 <span id='lajki1'>58</span></span><span>Komentarze: 12 · Udostępnienia: 1</span></div><div class='akcje'><button type='button' onclick='polub(this, 1)'>👍 Lubię to</button><button type='button'>💬 Komentarz</button><button type='button'>↗ Udostępnij</button></div></article><article class='karta post'><div class='post-naglowek'><span class='avatar a2'>PW</span><div class='autor'><strong>Piotr Wiśniewski</strong><span>15.11.2026 20:30</span></div><button type='button' class='okragly'>…</button></div><p class='post-tekst'>Ktoś chętny na planszówki w sobotę? 🎲</p><div class='statystyki'><span>👍 <span id='lajki3'>7</span></span><span>Komentarze: 3 · Udostępnienia: 0</span></div><div class='akcje'><button type='button' onclick='polub(this, 3)'>👍 Lubię to</button><button type='button'>💬 Komentarz</button><button type='button'>↗ Udostępnij</button></div></article>            <footer class="autor-strony">Stronę wykonał: 00</footer>
+        </main>
+
+        <aside class="prawa">
+            <section>
+                <h2>Zaproszenia do znajomych</h2>
+<div class='zaproszenie'><span class='avatar a6'>TN</span><div><strong>Tomek Nowicki</strong><p>Wspólni znajomi: 8</p><div class='przyciski'><button type='button' class='btn-glowny'>Potwierdź</button><button type='button' class='btn-szary'>Usuń</button></div></div></div><div class='zaproszenie'><span class='avatar a5'>KD</span><div><strong>Kasia Dąbrowska</strong><p>Wspólni znajomi: 3</p><div class='przyciski'><button type='button' class='btn-glowny'>Potwierdź</button><button type='button' class='btn-szary'>Usuń</button></div></div></div>            </section>
+            <section>
+                <h2>Urodziny</h2>
+                <p class="urodziny">🎂 Dziś urodziny ma <strong>Ewa Lis</strong>.</p>
+            </section>
+            <section>
+                <h2>Kontakty</h2>
+                <ul class="kontakty">
+<li><a href='#'><span class='avatar a1 online'>AK</span><span>Anna Kowalska</span></a></li><li><a href='#'><span class='avatar a2 online'>PW</span><span>Piotr Wiśniewski</span></a></li><li><a href='#'><span class='avatar a3'>EL</span><span>Ewa Lis</span></a></li><li><a href='#'><span class='avatar a4 online'>MZ</span><span>Marek Zieliński</span></a></li>                </ul>
+            </section>
+        </aside>
+    </div>
+    <script src="skrypt.js"></script>
+</body>
+</html>
