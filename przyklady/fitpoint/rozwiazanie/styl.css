@@ -1,0 +1,261 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #F3F4F6;
+    color: #111827;
+    font-family: Verdana, Geneva, sans-serif;
+    line-height: 1.5;
+}
+
+h2 {
+    margin-bottom: 14px;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* baner i menu */
+.baner {
+    padding: 28px 5%;
+    background: linear-gradient(120deg, #111827, #4C1D95);
+    color: white;
+}
+
+.logo {
+    color: white;
+    font-size: 2.4rem;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 3px;
+}
+
+.logo span {
+    color: #FACC15;
+}
+
+.haslo {
+    color: #C4B5FD;
+    font-style: italic;
+}
+
+.menu {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px;
+    background-color: #7C3AED;
+}
+
+.menu a {
+    padding: 8px 18px;
+    border-radius: 20px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.menu a:hover {
+    background-color: #FACC15;
+    color: #111827;
+}
+
+/* układ */
+.uklad {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    grid-template-areas:
+        "grafik zapis"
+        "grafik bmi"
+        "trenerzy trenerzy";
+    gap: 20px;
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 0 20px;
+}
+
+.grafik { grid-area: grafik; }
+.zapis { grid-area: zapis; }
+.bmi { grid-area: bmi; }
+.trenerzy { grid-area: trenerzy; }
+
+.grafik,
+.zapis,
+.bmi {
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* formularze */
+label {
+    display: block;
+    margin: 10px 0 4px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 9px;
+    border: 2px solid #D1D5DB;
+    border-radius: 6px;
+    font: inherit;
+}
+
+input:focus,
+select:focus {
+    border-color: #7C3AED;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    margin-top: 14px;
+    padding: 10px;
+    background-color: #7C3AED;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #5B21B6;
+}
+
+.filtr {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.filtr label,
+.filtr button {
+    margin: 0;
+    width: auto;
+    white-space: nowrap;
+}
+
+.potwierdzenie {
+    margin-top: 14px;
+    padding: 10px;
+    background-color: #DCFCE7;
+    border-left: 5px solid #16A34A;
+    color: #14532D;
+}
+
+#wynik {
+    margin-top: 14px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #5B21B6;
+}
+
+/* tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    padding: 10px;
+    background-color: #111827;
+    color: white;
+    text-align: left;
+    font-size: 0.85rem;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #F5F3FF;
+}
+
+tbody tr:hover {
+    background-color: #FEF9C3;
+}
+
+.pelne {
+    color: #DC2626;
+    font-weight: bold;
+}
+
+/* trenerzy */
+.karty {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.trener {
+    flex: 1 1 220px;
+    padding: 18px;
+    background-color: white;
+    border-top: 6px solid #FACC15;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.trener:hover {
+    transform: translateY(-5px);
+}
+
+.trener h3 {
+    color: #4C1D95;
+}
+
+.liczba {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: #6B7280;
+}
+
+/* stopka */
+.stopka {
+    padding: 20px;
+    background-color: #111827;
+    color: #9CA3AF;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 900px) {
+    .uklad {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "grafik"
+            "zapis"
+            "bmi"
+            "trenerzy";
+    }
+
+    .filtr {
+        flex-wrap: wrap;
+    }
+
+    th,
+    td {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+}

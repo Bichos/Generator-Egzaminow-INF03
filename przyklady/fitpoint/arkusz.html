@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INF.03-FP-SG – FitPoint – arkusz ćwiczeniowy</title>
+<style>
+:root { --ink: #111; --line: #333; --paper: #fff; }
+* { box-sizing: border-box; }
+html { background: #e9e9ec; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; padding: 16px 0; font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt; line-height: 1.38; color: var(--ink); }
+.page { background: var(--paper); width: 210mm; max-width: 100%; margin: 0 auto 16px; padding: 18mm 18mm 20mm; box-shadow: 0 1px 6px rgba(0,0,0,.18); }
+.title-page { min-height: 297mm; }
+h2.task-title { font-size: 13pt; margin: 0 0 8px; }
+h3 { font-size: 11pt; margin: 16px 0 6px; break-after: avoid; }
+p { margin: 5px 0; }
+ul.dash { list-style: none; padding-left: 20px; margin: 4px 0; }
+ul.dash > li { position: relative; margin: 2px 0; }
+ul.dash > li::before { content: '−'; position: absolute; left: -15px; }
+.notice { border: 2px solid #b00; color: #b00; padding: 6px 10px; text-align: center; font-weight: bold; margin-bottom: 14px; }
+.meta { font-size: 10.5pt; }
+.fill { border: 1px solid var(--line); padding: 10px; margin: 14px 0; }
+.fill-title { text-align: center; font-weight: bold; margin-bottom: 8px; }
+.pesel { display: flex; align-items: center; justify-content: space-between; margin: 6px 0; gap: 10px; flex-wrap: wrap; }
+.pesel .line { flex: 1; min-width: 200px; max-width: 60%; border-bottom: 1px solid var(--line); height: 22px; }
+.boxes { display: inline-flex; }
+.boxes i { width: 22px; height: 26px; border: 1px solid var(--line); margin-left: -1px; display: inline-block; }
+.row-between { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.code { font-weight: bold; border: 1px solid var(--line); padding: 2px 8px; }
+.big { text-align: center; font-weight: bold; font-size: 15pt; margin: 18px 0; }
+.big small { font-size: 10pt; font-weight: normal; }
+.instr li { margin: 4px 0; }
+.right { text-align: right; }
+.small { font-size: 9pt; color: #333; }
+.seed { margin-top: 30px; color: #555; }
+.mono { font-family: 'Courier New', monospace; }
+figure { margin: 10px 0; text-align: center; break-inside: avoid; }
+figcaption { font-size: 9.5pt; margin-top: 4px; }
+figure.schema svg { max-width: 100%; height: auto; }
+img.strip { max-width: 100%; border: 1px solid #999; }
+.frame-wrap { width: 100%; height: 420px; overflow: hidden; border: 1px solid #888; position: relative; background: #fff; }
+.frame-wrap.placeholder { display: flex; align-items: center; justify-content: center; color: #777; height: 160px; }
+iframe.site { border: 0; width: 161.3%; height: 680px; transform: scale(0.62); transform-origin: 0 0; position: absolute; left: 0; top: 0; }
+.with-layout { display: flex; gap: 14px; align-items: flex-start; }
+.with-layout > div { flex: 1; min-width: 0; }
+figure.layout { flex: 0 0 230px; margin-top: 30px; }
+figure.layout svg { width: 100%; height: auto; }
+.note { margin: 8px 0; }
+.script-name { font-weight: bold; margin-top: 8px; }
+.help-tables { margin-top: 14px; }
+table.help { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 9pt; break-inside: avoid; }
+table.help caption { text-align: left; font-weight: bold; margin-bottom: 3px; }
+table.help th, table.help td { border: 1px solid var(--line); padding: 3px 6px; text-align: left; vertical-align: top; }
+table.help th { background: #eee; }
+@media (max-width: 700px) {
+  .page { padding: 16px; }
+  .with-layout { flex-direction: column; }
+  figure.layout { flex: none; width: 100%; max-width: 300px; margin: 0 auto; }
+}
+@page { size: A4; margin: 14mm 14mm 16mm;
+  @bottom-center { content: "Strona " counter(page) " z " counter(pages); font: 9pt Arial, sans-serif; } }
+@media print {
+  html, body { background: #fff; padding: 0; }
+  .page { box-shadow: none; margin: 0; padding: 0; width: auto; min-height: 0; }
+  .title-page { break-after: page; }
+}
+
+.logo-demo { display: inline-block; padding: 14px 18px; background: repeating-conic-gradient(#ddd 0% 25%, #fff 0% 50%) 0 0 / 16px 16px; border: 1px solid #999; }
+.logo-demo img { display: block; height: 40px; }
+.swatch { display: inline-block; width: 90px; height: 22px; border-radius: 3px; vertical-align: middle; }
+
+figure.preview.mobile .frame-wrap { height: 900px !important; overflow: hidden; }
+</style>
+</head>
+<body>
+<section class="page title-page">
+  <div class="notice">Arkusz ćwiczeniowy przygotowany na zajęcia.<br>Nie jest oficjalnym arkuszem CKE.</div>
+  <p class="meta">Nazwa kwalifikacji: <b>Tworzenie i administrowanie stronami i aplikacjami internetowymi oraz bazami danych</b><br>
+  Symbol kwalifikacji: <b>INF.03</b><br>Zadanie: <b>FitPoint – grafik zajęć i zapisy</b><br>Wersja arkusza: <b>SG</b></p>
+  <div class="fill"><div class="fill-title">Wypełnia zdający</div>
+    <div class="pesel"><span>Imię i nazwisko</span><span class="line"></span></div>
+    <div class="pesel"><span>Numer z dziennika</span><span class="boxes"><i></i><i></i></span></div>
+  </div>
+  <div class="row-between"><span>Czas trwania egzaminu: <b>150 minut</b></span><span class="code">INF.03-FP-SG</span></div>
+  <div class="big">EGZAMIN ZAWODOWY – ARKUSZ ĆWICZENIOWY<br><small>CZĘŚĆ PRAKTYCZNA · PODSTAWA PROGRAMOWA 2019</small></div>
+  <h3>Instrukcja dla zdającego</h3>
+  <ol class="instr">
+    <li>Na pierwszej stronie arkusza wpisz w oznaczonym miejscu swoje imię i nazwisko oraz numer z dziennika.</li>
+    <li>Sprawdź, czy arkusz egzaminacyjny zawiera wszystkie strony i nie zawiera błędów. Ewentualny brak stron lub inne usterki zgłoś przez podniesienie ręki nauczycielowi.</li>
+    <li>Zapoznaj się z treścią zadania oraz stanowiskiem egzaminacyjnym. Masz na to 10 minut. Czas ten nie jest wliczany do czasu trwania egzaminu.</li>
+    <li>Wykonaj samodzielnie zadanie egzaminacyjne. Przestrzegaj zasad bezpieczeństwa i organizacji pracy.</li>
+    <li>Po zakończeniu wykonania zadania pozostaw arkusz egzaminacyjny z rezultatami wykonania zadania na swoim stanowisku.</li>
+  </ol>
+  <p class="right"><b>Powodzenia!</b></p>
+</section>
+<section class="page task">
+  <h2 class="task-title">Zadanie egzaminacyjne</h2>
+  <p>UWAGA: numer z dziennika, którym został podpisany arkusz, jest w zadaniu nazywany numerem zdającego.</p>
+  <p>Wykonaj aplikację internetową siłowni FitPoint z grafikiem zajęć i formularzem zapisów, wykorzystując pakiet XAMPP oraz edytor zaznaczający składnię.</p>
+  <p>Aby wykonać zadanie, należy zalogować się na konto <b>Egzamin</b> bez hasła. Na pulpicie znajduje się archiwum 7z o nazwie <b>fitpoint</b> zabezpieczone hasłem: <b class="mono">F1tP0int!</b>. Archiwum należy rozpakować.</p>
+  <p>Na pulpicie konta Egzamin należy utworzyć folder. Jako nazwy folderu należy użyć numeru zdającego. Po skończonej pracy wszystkie wyniki należy zapisać w tym folderze.</p>
+
+  <h3>Operacje na bazie danych</h3>
+  <p>Baza danych zawiera trzy tabele połączone relacjami, przedstawione na ilustracji 1. Pole miejsca w tabeli zajecia oznacza liczbę wolnych miejsc. Nazwa klubu, trenerzy i zajęcia są wymyślone.</p>
+  <figure class="schema"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 710 219" width="710" height="219"><path d="M260 189.5 H230 V45.5 H200" fill="none" stroke="#555" stroke-width="1.5"/><circle cx="200" cy="45.5" r="3" fill="#555"/><path d="M510 64.5 H480 V75.5 H450" fill="none" stroke="#555" stroke-width="1.5"/><circle cx="450" cy="75.5" r="3" fill="#555"/><g font-family="Arial, sans-serif"><rect x="10" y="10" width="190" height="102" fill="#fff" stroke="#333"/><rect x="10" y="10" width="190" height="26" fill="#d9e3ef" stroke="#333"/><text x="18" y="27" font-size="13" font-weight="bold">trenerzy</text><text x="18" y="50" font-size="12">🔑 id</text><text x="192" y="50" font-size="10" fill="#666" text-anchor="end">int</text><text x="18" y="69" font-size="12">imie</text><text x="192" y="69" font-size="10" fill="#666" text-anchor="end">varchar(30)</text><text x="18" y="88" font-size="12">nazwisko</text><text x="192" y="88" font-size="10" fill="#666" text-anchor="end">varchar(30)</text><text x="18" y="107" font-size="12">specjalizacja</text><text x="192" y="107" font-size="10" fill="#666" text-anchor="end">varchar(50)</text></g><g font-family="Arial, sans-serif"><rect x="260" y="40" width="190" height="159" fill="#fff" stroke="#333"/><rect x="260" y="40" width="190" height="26" fill="#d9e3ef" stroke="#333"/><text x="268" y="57" font-size="13" font-weight="bold">zajecia</text><text x="268" y="80" font-size="12">🔑 id</text><text x="442" y="80" font-size="10" fill="#666" text-anchor="end">int</text><text x="268" y="99" font-size="12">nazwa</text><text x="442" y="99" font-size="10" fill="#666" text-anchor="end">varchar(40)</text><text x="268" y="118" font-size="12">dzien</text><text x="442" y="118" font-size="10" fill="#666" text-anchor="end">varchar(15)</text><text x="268" y="137" font-size="12">godzina</text><text x="442" y="137" font-size="10" fill="#666" text-anchor="end">time</text><text x="268" y="156" font-size="12">sala</text><text x="442" y="156" font-size="10" fill="#666" text-anchor="end">varchar(10)</text><text x="268" y="175" font-size="12">miejsca</text><text x="442" y="175" font-size="10" fill="#666" text-anchor="end">int</text><text x="268" y="194" font-size="12"># trenerzy_id</text><text x="442" y="194" font-size="10" fill="#666" text-anchor="end">int</text></g><g font-family="Arial, sans-serif"><rect x="510" y="10" width="190" height="121" fill="#fff" stroke="#333"/><rect x="510" y="10" width="190" height="26" fill="#d9e3ef" stroke="#333"/><text x="518" y="27" font-size="13" font-weight="bold">zapisy</text><text x="518" y="50" font-size="12">🔑 id</text><text x="692" y="50" font-size="10" fill="#666" text-anchor="end">int</text><text x="518" y="69" font-size="12"># zajecia_id</text><text x="692" y="69" font-size="10" fill="#666" text-anchor="end">int</text><text x="518" y="88" font-size="12">imie</text><text x="692" y="88" font-size="10" fill="#666" text-anchor="end">varchar(30)</text><text x="518" y="107" font-size="12">email</text><text x="692" y="107" font-size="10" fill="#666" text-anchor="end">varchar(60)</text><text x="518" y="126" font-size="12">data_zapisu</text><text x="692" y="126" font-size="10" fill="#666" text-anchor="end">datetime</text></g></svg><figcaption>Ilustracja 1. Baza danych</figcaption></figure>
+  <p>Za pomocą narzędzia phpMyAdmin wykonaj następujące operacje na bazie danych:</p>
+  <ul class="dash">
+    <li>Utwórz bazę danych o nazwie <b>fitpoint</b>, z zestawem polskich znaków (np. utf8mb4_polish_ci)</li>
+    <li>Z rozpakowanego archiwum zaimportuj tabele z pliku fitpoint.sql do utworzonej bazy</li>
+    <li>Wykonaj zrzut ekranu po imporcie. Zapisz zrzut w formacie PNG pod nazwą import. Nie kadruj zrzutu. Powinien on obejmować cały ekran monitora, z widocznym paskiem zadań. Na zrzucie powinny być widoczne elementy wskazujące na poprawnie wykonany import tabel</li>
+    <li>Wykonaj zapytania SQL działające na bazie fitpoint (każde dokładnie jeden raz). Zapytania zapisz w pliku kwerendy.txt. Wykonaj zrzuty ekranu przedstawiające wyniki działania kwerend. Zrzuty zapisz w formacie PNG i nadaj im nazwy kw1, kw2, kw3, kw4, kw5. Zrzuty powinny obejmować cały ekran monitora z widocznym paskiem zadań
+      <ul class="dash"><li>Zapytanie 1: wybierające jedynie godzinę zajęć w formacie GG:MM (kolumna „godz”), nazwę zajęć, salę oraz imię i nazwisko trenera dla zajęć odbywających się w poniedziałek, posortowane rosnąco według godziny. Należy posłużyć się relacją</li><li>Zapytanie 2: wybierające jedynie identyfikator, nazwę, dzień i godzinę w formacie GG:MM (kolumna „godz”) zajęć, na które są jeszcze wolne miejsca</li><li>Zapytanie 3: wybierające imię, nazwisko i specjalizację trenerów oraz liczbę prowadzonych przez nich zajęć (kolumna „liczba”), tylko dla trenerów prowadzących zajęcia; wynik posortowany malejąco według liczby zajęć, a przy równej liczbie – alfabetycznie według nazwiska</li><li>Zapytanie 4: dodające do tabeli zapisy zapis na zajęcia o identyfikatorze 3: imię Ola, e-mail ola@example.com, data zapisu – bieżąca data i godzina (funkcja NOW())</li><li>Zapytanie 5: zmniejszające o 1 liczbę wolnych miejsc na zajęciach o identyfikatorze 3</li></ul></li>
+  </ul>
+  <p>W tabeli 1 zamieszczono wybrane elementy języka SQL.</p>
+
+  <h3>Witryna internetowa</h3>
+  <figure class="preview "><div class="frame-wrap" style="width:640px;max-width:100%;margin:0 auto" data-scale="0.5"><iframe class="site" style="width:1280px;transform:scale(0.5)" srcdoc="<!DOCTYPE html>
+<html lang=&quot;pl&quot;>
+<head>
+    <meta charset=&quot;UTF-8&quot;>
+    <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+    <title>FitPoint – grafik zajęć</title>
+    <style>html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #F3F4F6;
+    color: #111827;
+    font-family: Verdana, Geneva, sans-serif;
+    line-height: 1.5;
+}
+
+h2 {
+    margin-bottom: 14px;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* baner i menu */
+.baner {
+    padding: 28px 5%;
+    background: linear-gradient(120deg, #111827, #4C1D95);
+    color: white;
+}
+
+.logo {
+    color: white;
+    font-size: 2.4rem;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 3px;
+}
+
+.logo span {
+    color: #FACC15;
+}
+
+.haslo {
+    color: #C4B5FD;
+    font-style: italic;
+}
+
+.menu {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px;
+    background-color: #7C3AED;
+}
+
+.menu a {
+    padding: 8px 18px;
+    border-radius: 20px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.menu a:hover {
+    background-color: #FACC15;
+    color: #111827;
+}
+
+/* układ */
+.uklad {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    grid-template-areas:
+        &quot;grafik zapis&quot;
+        &quot;grafik bmi&quot;
+        &quot;trenerzy trenerzy&quot;;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 0 20px;
+}
+
+.grafik { grid-area: grafik; }
+.zapis { grid-area: zapis; }
+.bmi { grid-area: bmi; }
+.trenerzy { grid-area: trenerzy; }
+
+.grafik,
+.zapis,
+.bmi {
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* formularze */
+label {
+    display: block;
+    margin: 10px 0 4px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 9px;
+    border: 2px solid #D1D5DB;
+    border-radius: 6px;
+    font: inherit;
+}
+
+input:focus,
+select:focus {
+    border-color: #7C3AED;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    margin-top: 14px;
+    padding: 10px;
+    background-color: #7C3AED;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #5B21B6;
+}
+
+.filtr {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.filtr label,
+.filtr button {
+    margin: 0;
+    width: auto;
+    white-space: nowrap;
+}
+
+.potwierdzenie {
+    margin-top: 14px;
+    padding: 10px;
+    background-color: #DCFCE7;
+    border-left: 5px solid #16A34A;
+    color: #14532D;
+}
+
+#wynik {
+    margin-top: 14px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #5B21B6;
+}
+
+/* tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    padding: 10px;
+    background-color: #111827;
+    color: white;
+    text-align: left;
+    font-size: 0.85rem;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #F5F3FF;
+}
+
+tbody tr:hover {
+    background-color: #FEF9C3;
+}
+
+.pelne {
+    color: #DC2626;
+    font-weight: bold;
+}
+
+/* trenerzy */
+.karty {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.trener {
+    flex: 1 1 220px;
+    padding: 18px;
+    background-color: white;
+    border-top: 6px solid #FACC15;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.trener:hover {
+    transform: translateY(-5px);
+}
+
+.trener h3 {
+    color: #4C1D95;
+}
+
+.liczba {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: #6B7280;
+}
+
+/* stopka */
+.stopka {
+    padding: 20px;
+    background-color: #111827;
+    color: #9CA3AF;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 900px) {
+    .uklad {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            &quot;grafik&quot;
+            &quot;zapis&quot;
+            &quot;bmi&quot;
+            &quot;trenerzy&quot;;
+    }
+
+    .filtr {
+        flex-wrap: wrap;
+    }
+
+    th,
+    td {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+}
+
+</style>
+</head>
+<body>
+    <header class=&quot;baner&quot;>
+        <a href=&quot;index.php&quot; class=&quot;logo&quot;>FIT<span>POINT</span></a>
+        <p class=&quot;haslo&quot;>Siłownia osiedlowa · otwarte 6:00–23:00</p>
+    </header>
+
+    <nav class=&quot;menu&quot;>
+        <a href=&quot;#grafik&quot;>Grafik</a>
+        <a href=&quot;#zapis&quot;>Zapisy</a>
+        <a href=&quot;#bmi&quot;>Kalkulator BMI</a>
+        <a href=&quot;#trenerzy&quot;>Trenerzy</a>
+    </nav>
+
+    <main class=&quot;uklad&quot;>
+        <section class=&quot;grafik&quot; id=&quot;grafik&quot;>
+            <h2>Grafik zajęć: Poniedziałek</h2>
+            <form class=&quot;filtr&quot; action=&quot;index.php&quot; method=&quot;get&quot;>
+                <label for=&quot;dzien&quot;>Dzień tygodnia</label>
+                <select name=&quot;dzien&quot; id=&quot;dzien&quot;>
+                    <option>Poniedziałek</option>
+                    <option>Wtorek</option>
+                    <option>Środa</option>
+                    <option>Czwartek</option>
+                    <option>Piątek</option>
+                </select>
+                <button type=&quot;submit&quot;>Pokaż</button>
+            </form>
+            <table>
+                <thead>
+                    <tr><th>Godzina</th><th>Zajęcia</th><th>Sala</th><th>Trener</th><th>Wolne miejsca</th></tr>
+                </thead>
+                <tbody>
+<tr><td>08:00</td><td>Joga</td><td>Sala A</td><td>Ola Mazur</td><td>12</td></tr><tr><td>17:00</td><td>Trening obwodowy</td><td>Sala B</td><td>Kamil Wójcik</td><td>3</td></tr><tr><td>18:30</td><td>Zumba</td><td>Sala A</td><td>Natalia Kaczmarek</td><td class='pelne'>brak miejsc</td></tr><tr><td>19:30</td><td>Crossfit</td><td>Sala C</td><td>Bartek Krawczyk</td><td>8</td></tr>                </tbody>
+            </table>
+        </section>
+
+        <section class=&quot;zapis&quot; id=&quot;zapis&quot;>
+            <h2>Zapisz się</h2>
+            <form action=&quot;index.php&quot; method=&quot;post&quot;>
+                <label for=&quot;zajecia&quot;>Zajęcia</label>
+                <select name=&quot;zajecia&quot; id=&quot;zajecia&quot;>
+<option value='1'>Joga – Poniedziałek 08:00</option><option value='2'>Crossfit – Poniedziałek 19:30</option><option value='3'>Trening obwodowy – Poniedziałek 17:00</option><option value='5'>Stretching – Wtorek 07:30</option><option value='6'>Zumba – Wtorek 18:00</option><option value='7'>Siłownia z trenerem – Środa 16:00</option><option value='9'>Joga – Czwartek 18:00</option><option value='10'>Trening obwodowy – Piątek 17:30</option>                </select>
+                <label for=&quot;imie&quot;>Imię</label>
+                <input type=&quot;text&quot; name=&quot;imie&quot; id=&quot;imie&quot; required>
+                <label for=&quot;email&quot;>E-mail</label>
+                <input type=&quot;email&quot; name=&quot;email&quot; id=&quot;email&quot; required>
+                <button type=&quot;submit&quot;>Zapisz mnie</button>
+            </form>
+        </section>
+
+        <section class=&quot;bmi&quot; id=&quot;bmi&quot;>
+            <h2>Kalkulator BMI</h2>
+            <label for=&quot;waga&quot;>Waga [kg]</label>
+            <input type=&quot;number&quot; id=&quot;waga&quot;>
+            <label for=&quot;wzrost&quot;>Wzrost [cm]</label>
+            <input type=&quot;number&quot; id=&quot;wzrost&quot;>
+            <button type=&quot;button&quot; onclick=&quot;obliczBmi()&quot;>Oblicz</button>
+            <p id=&quot;wynik&quot;></p>
+        </section>
+
+        <section class=&quot;trenerzy&quot; id=&quot;trenerzy&quot;>
+            <h2>Nasi trenerzy</h2>
+            <div class=&quot;karty&quot;>
+<article class='trener'><h3>Ola Mazur</h3><p>joga i stretching</p><p class='liczba'>Zajęć w tygodniu: 3</p></article><article class='trener'><h3>Kamil Wójcik</h3><p>trening siłowy</p><p class='liczba'>Zajęć w tygodniu: 3</p></article><article class='trener'><h3>Natalia Kaczmarek</h3><p>zumba i fitness</p><p class='liczba'>Zajęć w tygodniu: 2</p></article><article class='trener'><h3>Bartek Krawczyk</h3><p>crossfit</p><p class='liczba'>Zajęć w tygodniu: 2</p></article>            </div>
+        </section>
+    </main>
+
+    <footer class=&quot;stopka&quot;>
+        <p>FitPoint, ul. Sportowa 7 · tel. 500 600 700</p>
+        <p>Stronę wykonał: 00</p>
+    </footer>
+    <script>// skrypt 5 - kalkulator BMI
+function obliczBmi() {
+    let waga = Number(document.getElementById('waga').value);
+    let wzrost = Number(document.getElementById('wzrost').value) / 100;
+    let wynik = document.getElementById('wynik');
+    if (waga <= 0 || wzrost <= 0) {
+        wynik.innerHTML = 'Podaj wagę i wzrost';
+        return;
+    }
+    let bmi = waga / (wzrost * wzrost);
+    let opis;
+    if (bmi < 18.5) {
+        opis = 'niedowaga';
+    } else if (bmi < 25) {
+        opis = 'waga prawidłowa';
+    } else {
+        opis = 'nadwaga';
+    }
+    wynik.innerHTML = 'Twoje BMI: ' + bmi.toFixed(1) + ' – ' + opis;
+}
+</script>
+</body>
+</html>
+" title="Podgląd witryny"></iframe></div><figcaption>Ilustracja 2. Wygląd witryny na ekranie o szerokości 1280 px po wykonaniu zapytań 4 i 5, kursor na drugim wierszu tabeli; dane pochodzą z bazy</figcaption></figure>
+  <div class="with-layout"><div>
+  <figure class="preview zapis"><div class="frame-wrap" style="width:206px;max-width:100%;margin:0 auto" data-scale="0.6"><iframe class="site" style="width:344px;transform:scale(0.6)" srcdoc="<!DOCTYPE html>
+<html lang=&quot;pl&quot;>
+<head>
+    <meta charset=&quot;UTF-8&quot;>
+    <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+    <title>FitPoint – grafik zajęć</title>
+    <style>html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #F3F4F6;
+    color: #111827;
+    font-family: Verdana, Geneva, sans-serif;
+    line-height: 1.5;
+}
+
+h2 {
+    margin-bottom: 14px;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* baner i menu */
+.baner {
+    padding: 28px 5%;
+    background: linear-gradient(120deg, #111827, #4C1D95);
+    color: white;
+}
+
+.logo {
+    color: white;
+    font-size: 2.4rem;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 3px;
+}
+
+.logo span {
+    color: #FACC15;
+}
+
+.haslo {
+    color: #C4B5FD;
+    font-style: italic;
+}
+
+.menu {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px;
+    background-color: #7C3AED;
+}
+
+.menu a {
+    padding: 8px 18px;
+    border-radius: 20px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.menu a:hover {
+    background-color: #FACC15;
+    color: #111827;
+}
+
+/* układ */
+.uklad {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    grid-template-areas:
+        &quot;grafik zapis&quot;
+        &quot;grafik bmi&quot;
+        &quot;trenerzy trenerzy&quot;;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 0 20px;
+}
+
+.grafik { grid-area: grafik; }
+.zapis { grid-area: zapis; }
+.bmi { grid-area: bmi; }
+.trenerzy { grid-area: trenerzy; }
+
+.grafik,
+.zapis,
+.bmi {
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* formularze */
+label {
+    display: block;
+    margin: 10px 0 4px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 9px;
+    border: 2px solid #D1D5DB;
+    border-radius: 6px;
+    font: inherit;
+}
+
+input:focus,
+select:focus {
+    border-color: #7C3AED;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    margin-top: 14px;
+    padding: 10px;
+    background-color: #7C3AED;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #5B21B6;
+}
+
+.filtr {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.filtr label,
+.filtr button {
+    margin: 0;
+    width: auto;
+    white-space: nowrap;
+}
+
+.potwierdzenie {
+    margin-top: 14px;
+    padding: 10px;
+    background-color: #DCFCE7;
+    border-left: 5px solid #16A34A;
+    color: #14532D;
+}
+
+#wynik {
+    margin-top: 14px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #5B21B6;
+}
+
+/* tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    padding: 10px;
+    background-color: #111827;
+    color: white;
+    text-align: left;
+    font-size: 0.85rem;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #F5F3FF;
+}
+
+tbody tr:hover {
+    background-color: #FEF9C3;
+}
+
+.pelne {
+    color: #DC2626;
+    font-weight: bold;
+}
+
+/* trenerzy */
+.karty {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.trener {
+    flex: 1 1 220px;
+    padding: 18px;
+    background-color: white;
+    border-top: 6px solid #FACC15;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.trener:hover {
+    transform: translateY(-5px);
+}
+
+.trener h3 {
+    color: #4C1D95;
+}
+
+.liczba {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: #6B7280;
+}
+
+/* stopka */
+.stopka {
+    padding: 20px;
+    background-color: #111827;
+    color: #9CA3AF;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 900px) {
+    .uklad {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            &quot;grafik&quot;
+            &quot;zapis&quot;
+            &quot;bmi&quot;
+            &quot;trenerzy&quot;;
+    }
+
+    .filtr {
+        flex-wrap: wrap;
+    }
+
+    th,
+    td {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+}
+
+.baner,.menu,.grafik,.bmi,.trenerzy,.stopka{display:none}.uklad{grid-template-columns:1fr;grid-template-areas:&quot;zapis&quot;;margin:0;padding:12px}</style>
+</head>
+<body>
+    <header class=&quot;baner&quot;>
+        <a href=&quot;index.php&quot; class=&quot;logo&quot;>FIT<span>POINT</span></a>
+        <p class=&quot;haslo&quot;>Siłownia osiedlowa · otwarte 6:00–23:00</p>
+    </header>
+
+    <nav class=&quot;menu&quot;>
+        <a href=&quot;#grafik&quot;>Grafik</a>
+        <a href=&quot;#zapis&quot;>Zapisy</a>
+        <a href=&quot;#bmi&quot;>Kalkulator BMI</a>
+        <a href=&quot;#trenerzy&quot;>Trenerzy</a>
+    </nav>
+
+    <main class=&quot;uklad&quot;>
+        <section class=&quot;grafik&quot; id=&quot;grafik&quot;>
+            <h2>Grafik zajęć: Poniedziałek</h2>
+            <form class=&quot;filtr&quot; action=&quot;index.php&quot; method=&quot;get&quot;>
+                <label for=&quot;dzien&quot;>Dzień tygodnia</label>
+                <select name=&quot;dzien&quot; id=&quot;dzien&quot;>
+                    <option>Poniedziałek</option>
+                    <option>Wtorek</option>
+                    <option>Środa</option>
+                    <option>Czwartek</option>
+                    <option>Piątek</option>
+                </select>
+                <button type=&quot;submit&quot;>Pokaż</button>
+            </form>
+            <table>
+                <thead>
+                    <tr><th>Godzina</th><th>Zajęcia</th><th>Sala</th><th>Trener</th><th>Wolne miejsca</th></tr>
+                </thead>
+                <tbody>
+<tr><td>08:00</td><td>Joga</td><td>Sala A</td><td>Ola Mazur</td><td>11</td></tr><tr><td>17:00</td><td>Trening obwodowy</td><td>Sala B</td><td>Kamil Wójcik</td><td>3</td></tr><tr><td>18:30</td><td>Zumba</td><td>Sala A</td><td>Natalia Kaczmarek</td><td class='pelne'>brak miejsc</td></tr><tr><td>19:30</td><td>Crossfit</td><td>Sala C</td><td>Bartek Krawczyk</td><td>8</td></tr>                </tbody>
+            </table>
+        </section>
+
+        <section class=&quot;zapis&quot; id=&quot;zapis&quot;>
+            <h2>Zapisz się</h2>
+            <form action=&quot;index.php&quot; method=&quot;post&quot;>
+                <label for=&quot;zajecia&quot;>Zajęcia</label>
+                <select name=&quot;zajecia&quot; id=&quot;zajecia&quot;>
+<option value='1'>Joga – Poniedziałek 08:00</option><option value='2'>Crossfit – Poniedziałek 19:30</option><option value='3'>Trening obwodowy – Poniedziałek 17:00</option><option value='5'>Stretching – Wtorek 07:30</option><option value='6'>Zumba – Wtorek 18:00</option><option value='7'>Siłownia z trenerem – Środa 16:00</option><option value='9'>Joga – Czwartek 18:00</option><option value='10'>Trening obwodowy – Piątek 17:30</option>                </select>
+                <label for=&quot;imie&quot;>Imię</label>
+                <input type=&quot;text&quot; name=&quot;imie&quot; id=&quot;imie&quot; required>
+                <label for=&quot;email&quot;>E-mail</label>
+                <input type=&quot;email&quot; name=&quot;email&quot; id=&quot;email&quot; required>
+                <button type=&quot;submit&quot;>Zapisz mnie</button>
+            </form>
+<p class='potwierdzenie'>Dziękujemy, Kasia! Zapis został przyjęty.</p>        </section>
+
+        <section class=&quot;bmi&quot; id=&quot;bmi&quot;>
+            <h2>Kalkulator BMI</h2>
+            <label for=&quot;waga&quot;>Waga [kg]</label>
+            <input type=&quot;number&quot; id=&quot;waga&quot;>
+            <label for=&quot;wzrost&quot;>Wzrost [cm]</label>
+            <input type=&quot;number&quot; id=&quot;wzrost&quot;>
+            <button type=&quot;button&quot; onclick=&quot;obliczBmi()&quot;>Oblicz</button>
+            <p id=&quot;wynik&quot;></p>
+        </section>
+
+        <section class=&quot;trenerzy&quot; id=&quot;trenerzy&quot;>
+            <h2>Nasi trenerzy</h2>
+            <div class=&quot;karty&quot;>
+<article class='trener'><h3>Ola Mazur</h3><p>joga i stretching</p><p class='liczba'>Zajęć w tygodniu: 3</p></article><article class='trener'><h3>Kamil Wójcik</h3><p>trening siłowy</p><p class='liczba'>Zajęć w tygodniu: 3</p></article><article class='trener'><h3>Natalia Kaczmarek</h3><p>zumba i fitness</p><p class='liczba'>Zajęć w tygodniu: 2</p></article><article class='trener'><h3>Bartek Krawczyk</h3><p>crossfit</p><p class='liczba'>Zajęć w tygodniu: 2</p></article>            </div>
+        </section>
+    </main>
+
+    <footer class=&quot;stopka&quot;>
+        <p>FitPoint, ul. Sportowa 7 · tel. 500 600 700</p>
+        <p>Stronę wykonał: 00</p>
+    </footer>
+    <script>// skrypt 5 - kalkulator BMI
+function obliczBmi() {
+    let waga = Number(document.getElementById('waga').value);
+    let wzrost = Number(document.getElementById('wzrost').value) / 100;
+    let wynik = document.getElementById('wynik');
+    if (waga <= 0 || wzrost <= 0) {
+        wynik.innerHTML = 'Podaj wagę i wzrost';
+        return;
+    }
+    let bmi = waga / (wzrost * wzrost);
+    let opis;
+    if (bmi < 18.5) {
+        opis = 'niedowaga';
+    } else if (bmi < 25) {
+        opis = 'waga prawidłowa';
+    } else {
+        opis = 'nadwaga';
+    }
+    wynik.innerHTML = 'Twoje BMI: ' + bmi.toFixed(1) + ' – ' + opis;
+}
+</script>
+</body>
+</html>
+" title="Podgląd witryny"></iframe></div><figcaption>Ilustracja 4. Sekcja zapisu po wysłaniu formularza z imieniem Kasia</figcaption></figure>
+  </div><figure class="layout"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 254" width="340" height="254" font-family="Arial, sans-serif"><rect x="4" y="4" width="332" height="30" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="23" font-size="12" text-anchor="middle">baner (header.baner)</text><rect x="4" y="38" width="332" height="20" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="52" font-size="12" text-anchor="middle">menu (nav.menu) – przyklejone</text><rect x="4" y="62" width="332" height="60" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="96" font-size="12" text-anchor="middle">main.uklad: grafik | zapis</text><rect x="4" y="126" width="332" height="50" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="155" font-size="12" text-anchor="middle">main.uklad: grafik | bmi</text><rect x="4" y="180" width="332" height="44" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="206" font-size="12" text-anchor="middle">main.uklad: trenerzy (cała szerokość)</text><rect x="4" y="228" width="332" height="22" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="243" font-size="12" text-anchor="middle">stopka (footer.stopka)</text></svg><figcaption>Ilustracja 3. Układ bloków (szerokość powyżej 900 px)</figcaption></figure></div>
+  <figure class="preview mobile"><div class="frame-wrap" style="width:252px;max-width:100%;margin:0 auto" data-scale="0.6"><iframe class="site" style="width:420px;transform:scale(0.6)" srcdoc="<!DOCTYPE html>
+<html lang=&quot;pl&quot;>
+<head>
+    <meta charset=&quot;UTF-8&quot;>
+    <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+    <title>FitPoint – grafik zajęć</title>
+    <style>html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #F3F4F6;
+    color: #111827;
+    font-family: Verdana, Geneva, sans-serif;
+    line-height: 1.5;
+}
+
+h2 {
+    margin-bottom: 14px;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* baner i menu */
+.baner {
+    padding: 28px 5%;
+    background: linear-gradient(120deg, #111827, #4C1D95);
+    color: white;
+}
+
+.logo {
+    color: white;
+    font-size: 2.4rem;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 3px;
+}
+
+.logo span {
+    color: #FACC15;
+}
+
+.haslo {
+    color: #C4B5FD;
+    font-style: italic;
+}
+
+.menu {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px;
+    background-color: #7C3AED;
+}
+
+.menu a {
+    padding: 8px 18px;
+    border-radius: 20px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.menu a:hover {
+    background-color: #FACC15;
+    color: #111827;
+}
+
+/* układ */
+.uklad {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    grid-template-areas:
+        &quot;grafik zapis&quot;
+        &quot;grafik bmi&quot;
+        &quot;trenerzy trenerzy&quot;;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 0 20px;
+}
+
+.grafik { grid-area: grafik; }
+.zapis { grid-area: zapis; }
+.bmi { grid-area: bmi; }
+.trenerzy { grid-area: trenerzy; }
+
+.grafik,
+.zapis,
+.bmi {
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* formularze */
+label {
+    display: block;
+    margin: 10px 0 4px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 9px;
+    border: 2px solid #D1D5DB;
+    border-radius: 6px;
+    font: inherit;
+}
+
+input:focus,
+select:focus {
+    border-color: #7C3AED;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    margin-top: 14px;
+    padding: 10px;
+    background-color: #7C3AED;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #5B21B6;
+}
+
+.filtr {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.filtr label,
+.filtr button {
+    margin: 0;
+    width: auto;
+    white-space: nowrap;
+}
+
+.potwierdzenie {
+    margin-top: 14px;
+    padding: 10px;
+    background-color: #DCFCE7;
+    border-left: 5px solid #16A34A;
+    color: #14532D;
+}
+
+#wynik {
+    margin-top: 14px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #5B21B6;
+}
+
+/* tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    padding: 10px;
+    background-color: #111827;
+    color: white;
+    text-align: left;
+    font-size: 0.85rem;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #F5F3FF;
+}
+
+tbody tr:hover {
+    background-color: #FEF9C3;
+}
+
+.pelne {
+    color: #DC2626;
+    font-weight: bold;
+}
+
+/* trenerzy */
+.karty {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.trener {
+    flex: 1 1 220px;
+    padding: 18px;
+    background-color: white;
+    border-top: 6px solid #FACC15;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.trener:hover {
+    transform: translateY(-5px);
+}
+
+.trener h3 {
+    color: #4C1D95;
+}
+
+.liczba {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: #6B7280;
+}
+
+/* stopka */
+.stopka {
+    padding: 20px;
+    background-color: #111827;
+    color: #9CA3AF;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 900px) {
+    .uklad {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            &quot;grafik&quot;
+            &quot;zapis&quot;
+            &quot;bmi&quot;
+            &quot;trenerzy&quot;;
+    }
+
+    .filtr {
+        flex-wrap: wrap;
+    }
+
+    th,
+    td {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+}
+
+</style>
+</head>
+<body>
+    <header class=&quot;baner&quot;>
+        <a href=&quot;index.php&quot; class=&quot;logo&quot;>FIT<span>POINT</span></a>
+        <p class=&quot;haslo&quot;>Siłownia osiedlowa · otwarte 6:00–23:00</p>
+    </header>
+
+    <nav class=&quot;menu&quot;>
+        <a href=&quot;#grafik&quot;>Grafik</a>
+        <a href=&quot;#zapis&quot;>Zapisy</a>
+        <a href=&quot;#bmi&quot;>Kalkulator BMI</a>
+        <a href=&quot;#trenerzy&quot;>Trenerzy</a>
+    </nav>
+
+    <main class=&quot;uklad&quot;>
+        <section class=&quot;grafik&quot; id=&quot;grafik&quot;>
+            <h2>Grafik zajęć: Poniedziałek</h2>
+            <form class=&quot;filtr&quot; action=&quot;index.php&quot; method=&quot;get&quot;>
+                <label for=&quot;dzien&quot;>Dzień tygodnia</label>
+                <select name=&quot;dzien&quot; id=&quot;dzien&quot;>
+                    <option>Poniedziałek</option>
+                    <option>Wtorek</option>
+                    <option>Środa</option>
+                    <option>Czwartek</option>
+                    <option>Piątek</option>
+                </select>
+                <button type=&quot;submit&quot;>Pokaż</button>
+            </form>
+            <table>
+                <thead>
+                    <tr><th>Godzina</th><th>Zajęcia</th><th>Sala</th><th>Trener</th><th>Wolne miejsca</th></tr>
+                </thead>
+                <tbody>
+<tr><td>08:00</td><td>Joga</td><td>Sala A</td><td>Ola Mazur</td><td>12</td></tr><tr><td>17:00</td><td>Trening obwodowy</td><td>Sala B</td><td>Kamil Wójcik</td><td>3</td></tr><tr><td>18:30</td><td>Zumba</td><td>Sala A</td><td>Natalia Kaczmarek</td><td class='pelne'>brak miejsc</td></tr><tr><td>19:30</td><td>Crossfit</td><td>Sala C</td><td>Bartek Krawczyk</td><td>8</td></tr>                </tbody>
+            </table>
+        </section>
+
+        <section class=&quot;zapis&quot; id=&quot;zapis&quot;>
+            <h2>Zapisz się</h2>
+            <form action=&quot;index.php&quot; method=&quot;post&quot;>
+                <label for=&quot;zajecia&quot;>Zajęcia</label>
+                <select name=&quot;zajecia&quot; id=&quot;zajecia&quot;>
+<option value='1'>Joga – Poniedziałek 08:00</option><option value='2'>Crossfit – Poniedziałek 19:30</option><option value='3'>Trening obwodowy – Poniedziałek 17:00</option><option value='5'>Stretching – Wtorek 07:30</option><option value='6'>Zumba – Wtorek 18:00</option><option value='7'>Siłownia z trenerem – Środa 16:00</option><option value='9'>Joga – Czwartek 18:00</option><option value='10'>Trening obwodowy – Piątek 17:30</option>                </select>
+                <label for=&quot;imie&quot;>Imię</label>
+                <input type=&quot;text&quot; name=&quot;imie&quot; id=&quot;imie&quot; required>
+                <label for=&quot;email&quot;>E-mail</label>
+                <input type=&quot;email&quot; name=&quot;email&quot; id=&quot;email&quot; required>
+                <button type=&quot;submit&quot;>Zapisz mnie</button>
+            </form>
+        </section>
+
+        <section class=&quot;bmi&quot; id=&quot;bmi&quot;>
+            <h2>Kalkulator BMI</h2>
+            <label for=&quot;waga&quot;>Waga [kg]</label>
+            <input type=&quot;number&quot; id=&quot;waga&quot;>
+            <label for=&quot;wzrost&quot;>Wzrost [cm]</label>
+            <input type=&quot;number&quot; id=&quot;wzrost&quot;>
+            <button type=&quot;button&quot; onclick=&quot;obliczBmi()&quot;>Oblicz</button>
+            <p id=&quot;wynik&quot;></p>
+        </section>
+
+        <section class=&quot;trenerzy&quot; id=&quot;trenerzy&quot;>
+            <h2>Nasi trenerzy</h2>
+            <div class=&quot;karty&quot;>
+<article class='trener'><h3>Ola Mazur</h3><p>joga i stretching</p><p class='liczba'>Zajęć w tygodniu: 3</p></article><article class='trener'><h3>Kamil Wójcik</h3><p>trening siłowy</p><p class='liczba'>Zajęć w tygodniu: 3</p></article><article class='trener'><h3>Natalia Kaczmarek</h3><p>zumba i fitness</p><p class='liczba'>Zajęć w tygodniu: 2</p></article><article class='trener'><h3>Bartek Krawczyk</h3><p>crossfit</p><p class='liczba'>Zajęć w tygodniu: 2</p></article>            </div>
+        </section>
+    </main>
+
+    <footer class=&quot;stopka&quot;>
+        <p>FitPoint, ul. Sportowa 7 · tel. 500 600 700</p>
+        <p>Stronę wykonał: 00</p>
+    </footer>
+    <script>// skrypt 5 - kalkulator BMI
+function obliczBmi() {
+    let waga = Number(document.getElementById('waga').value);
+    let wzrost = Number(document.getElementById('wzrost').value) / 100;
+    let wynik = document.getElementById('wynik');
+    if (waga <= 0 || wzrost <= 0) {
+        wynik.innerHTML = 'Podaj wagę i wzrost';
+        return;
+    }
+    let bmi = waga / (wzrost * wzrost);
+    let opis;
+    if (bmi < 18.5) {
+        opis = 'niedowaga';
+    } else if (bmi < 25) {
+        opis = 'waga prawidłowa';
+    } else {
+        opis = 'nadwaga';
+    }
+    wynik.innerHTML = 'Twoje BMI: ' + bmi.toFixed(1) + ' – ' + opis;
+}
+</script>
+</body>
+</html>
+" title="Podgląd witryny"></iframe></div><figcaption>Ilustracja 5. Wygląd witryny na ekranie o szerokości 420 px (początek strony)</figcaption></figure>
+  <p>Cechy witryny:</p>
+  <ul class="dash"><li>Składa się ze strony o nazwie index.php</li><li>Zapisana w języku HTML5, zadeklarowany polski język zawartości witryny, jawnie zastosowany standard kodowania polskich znaków, znacznik meta viewport</li><li>Tytuł strony widoczny na karcie przeglądarki: „FitPoint – grafik zajęć”</li><li>Arkusz stylów w pliku o nazwie styl.css prawidłowo połączony z kodem strony; wygląd w całości w CSS, bez stylów w atrybutach</li><li>Podział strony na bloki zrealizowany za pomocą znaczników semantycznych HTML5 zgodnie z ilustracją 3</li><li>Baner (header z klasą baner): odnośnik z klasą logo do index.php o treści „FITPOINT”, w którym „POINT” jest w osobnym elemencie span, oraz paragraf z klasą haslo „Siłownia osiedlowa · otwarte 6:00–23:00”</li><li>Menu (nav z klasą menu): cztery odnośniki prowadzące do sekcji na tej samej stronie: „Grafik” (#grafik), „Zapisy” (#zapis), „Kalkulator BMI” (#bmi), „Trenerzy” (#trenerzy)</li><li>Blok główny (main z klasą uklad) zawiera cztery sekcje (section) o klasach i identyfikatorach: grafik, zapis, bmi, trenerzy; każda zaczyna się nagłówkiem drugiego stopnia</li><li>Sekcja grafik:<ul class="dash"><li>nagłówek „Grafik zajęć: &lt;dzień&gt;”, gdzie &lt;dzień&gt; to dzień wybrany w formularzu (domyślnie Poniedziałek)</li><li>formularz z klasą filtr, wysyłany metodą GET do index.php: etykieta „Dzień tygodnia” powiązana z listą rozwijaną o nazwie i identyfikatorze dzien (opcje: Poniedziałek, Wtorek, Środa, Czwartek, Piątek) oraz przycisk „Pokaż” wysyłający formularz</li><li>tabela z nagłówkiem (thead) zawierającym komórki nagłówkowe: Godzina, Zajęcia, Sala, Trener, Wolne miejsca, oraz częścią tbody wypełnianą przez skrypt 1</li></ul></li><li>Sekcja zapis: nagłówek „Zapisz się” i formularz wysyłany metodą POST do index.php, zawierający: listę rozwijaną o nazwie i identyfikatorze zajecia (opcje generuje skrypt 2), pole tekstowe imie i pole typu email o nazwie email – oba wymagane (required), każde pole z etykietą powiązaną atrybutami for i id („Zajęcia”, „Imię”, „E-mail”), przycisk „Zapisz mnie” wysyłający formularz; pod formularzem komunikat skryptu 3 (ilustracja 4)</li><li>Sekcja bmi: nagłówek „Kalkulator BMI”, etykiety „Waga [kg]” i „Wzrost [cm]” z polami liczbowymi o identyfikatorach waga i wzrost, przycisk „Oblicz” uruchamiający skrypt 5 oraz pusty paragraf o identyfikatorze wynik</li><li>Sekcja trenerzy: nagłówek „Nasi trenerzy” i blok div z klasą karty, wypełniony przez skrypt 4</li><li>Stopka (footer z klasą stopka): paragraf „FitPoint, ul. Sportowa 7 · tel. 500 600 700” i paragraf „Stronę wykonał: ”, dalej wstawiony numer zdającego</li></ul>
+
+  <h3>Styl CSS witryny internetowej</h3>
+  <p>Styl CSS zdefiniowany jest w całości w zewnętrznym pliku o nazwie styl.css. W tabeli 3 zamieszczono pomoc do niektórych właściwości CSS. Cechy formatowania CSS, działające na stronie:</p>
+  <ul class="dash"><li>Domyślnie dla wszystkich selektorów (*): marginesy zewnętrzne i wewnętrzne 0, model pudełkowy border-box. Dla selektora html: płynne przewijanie (scroll-behavior: smooth) – po kliknięciu pozycji menu strona płynnie przewija się do sekcji</li><li>Dla selektora ciała strony: kolor tła #F3F4F6, kolor czcionki #111827, krój Verdana, w przypadku braku Geneva, a następnie sans-serif, wysokość linii 1,5</li><li>Dla selektora nagłówka drugiego stopnia: dolny margines 14 px, rozmiar 1,25 rem, wielkie litery (text-transform), odstęp między literami 1 px</li><li>Dla klasy baner: marginesy wewnętrzne: górny i dolny 28 px, lewy i prawy 5%, tło – gradient liniowy pod kątem 120 stopni od #111827 do #4C1D95, biały kolor czcionki</li><li>Dla klasy logo: biały kolor, rozmiar 2,4 rem, pogrubienie, bez podkreślenia, odstęp między literami 3 px; element span w logo ma kolor #FACC15. Dla klasy haslo: kolor #C4B5FD, kursywa</li><li>Dla klasy menu: przyklejone do górnej krawędzi okna podczas przewijania (position: sticky, top: 0, z-index: 10), układ elastyczny z elementami wyśrodkowanymi w poziomie, odstęp 6 px, marginesy wewnętrzne 8 px, kolor tła #7C3AED</li><li>Dla odnośników menu: marginesy wewnętrzne 8 px / 18 px, zaokrąglenie 20 px, biały pogrubiony tekst bez podkreślenia; gdy kursor znajdzie się na odnośniku – tło #FACC15, kolor tekstu #111827</li><li>Dla klasy uklad: siatka z kolumnami 1fr i 320 px oraz obszarami nazwanymi (grid-template-areas): w pierwszym wierszu „grafik zapis”, w drugim „grafik bmi”, w trzecim „trenerzy trenerzy”; odstęp 20 px, maksymalna szerokość 1200 px, blok wyśrodkowany, górny i dolny margines 24 px, marginesy wewnętrzne lewy i prawy 20 px</li><li>Klasy grafik, zapis, bmi i trenerzy są przypisane do obszarów siatki o tych samych nazwach (grid-area). Sekcje grafik, zapis i bmi mają marginesy wewnętrzne 20 px, białe tło, zaokrąglenie 10 px, cień 0 2px 8px czarny o nieprzezroczystości 0,08</li><li>Dla selektora etykiety: wyświetlanie blokowe, marginesy: górny 10 px, dolny 4 px, rozmiar 0,85 rem, pogrubienie. Dla selektorów input i select: szerokość 100%, marginesy wewnętrzne 9 px, obramowanie 2 px linią ciągłą #D1D5DB, zaokrąglenie 6 px, czcionka dziedziczona</li><li>Gdy pole input lub lista select jest aktywna (pseudoklasa :focus): kolor obramowania #7C3AED i brak obrysu (outline)</li><li>Dla selektora przycisku: szerokość 100%, górny margines 14 px, marginesy wewnętrzne 10 px, tło #7C3AED, biały pogrubiony tekst, bez obramowania, zaokrąglenie 6 px, czcionka dziedziczona, kursor w kształcie dłoni; gdy kursor znajdzie się na przycisku – tło #5B21B6</li><li>Dla klasy filtr: układ elastyczny, elementy wyśrodkowane w pionie, odstęp 10 px, dolny margines 16 px; etykieta i przycisk w tym formularzu mają marginesy 0, automatyczną szerokość i tekst bez łamania wierszy</li><li>Dla klasy potwierdzenie: górny margines 14 px, marginesy wewnętrzne 10 px, tło #DCFCE7, lewe obramowanie 5 px linią ciągłą #16A34A, kolor tekstu #14532D. Dla identyfikatora wynik: górny margines 14 px, rozmiar 1,1 rem, pogrubienie, kolor #5B21B6</li><li>Dla tabeli: szerokość 100%, obramowania komórek scalone (border-collapse: collapse). Komórki nagłówkowe: marginesy wewnętrzne 10 px, tło #111827, biały tekst wyrównany do lewej, 0,85 rem. Komórki danych: marginesy wewnętrzne 10 px, dolne obramowanie 1 px #E5E7EB</li><li>Co drugi (parzysty) wiersz części tbody ma tło #F5F3FF (pseudoklasa :nth-child); gdy kursor znajdzie się na wierszu tbody, jego tło zmienia się na #FEF9C3. Dla klasy pelne: kolor #DC2626, pogrubienie</li><li>Dla klasy karty: układ elastyczny z zawijaniem do kolejnego wiersza, odstęp 16 px. Dla klasy trener: podstawa szerokości 220 px z możliwością rozciągania i zwężania (flex: 1 1 220px), marginesy wewnętrzne 18 px, białe tło, górne obramowanie 6 px #FACC15, zaokrąglenie 10 px, tekst wyśrodkowany, płynne przejście transformacji 0,3 s</li><li>Gdy kursor znajdzie się na karcie trenera, karta przesuwa się o 5 px w górę (translateY). Nagłówek karty: kolor #4C1D95. Dla klasy liczba: górny margines 8 px, 0,85 rem, kolor #6B7280</li><li>Dla klasy stopka: marginesy wewnętrzne 20 px, tło #111827, kolor #9CA3AF, tekst wyśrodkowany, 0,85 rem</li><li>W przypadku ekranów o szerokości do 900 px (ilustracja 5): siatka klasy uklad ma jedną kolumnę i obszary kolejno: grafik, zapis, bmi, trenerzy; formularz filtr zawija elementy; komórki tabeli mają marginesy wewnętrzne 6 px i rozmiar 0,8 rem</li></ul>
+  <p class="note">Uwaga: styl CSS ciała strony, nagłówka drugiego stopnia, etykiety, pól formularza, przycisku i komórek tabeli należy zdefiniować wyłącznie przy pomocy selektora tych znaczników. Jest to uwarunkowane projektem późniejszej rozbudowy witryny.</p>
+
+  <h3>Skrypty działające po stronie serwera (PHP)</h3>
+  <p>W tabeli 2 zamieszczono wybrane funkcje i zmienne PHP. Wymagania dotyczące skryptów:</p>
+  <ul class="dash"><li>Napisane w języku PHP</li><li>Należy stosować znaczące nazewnictwo zmiennych i funkcji w języku polskim lub angielskim</li><li>Łączą się z serwerem bazodanowym na localhost, użytkownik root bez hasła, baza danych o nazwie fitpoint</li><li>Na końcu zamykane jest połączenie z serwerem</li></ul>
+  <p class="script-name">Skrypt 1 (grafik):</p><ul class="dash"><li>Jeżeli formularz filtru został wysłany (istnieje parametr dzien w tablicy $_GET), wybranym dniem jest jego wartość; w przeciwnym razie Poniedziałek. Wybrany dzień jest wypisywany w nagłówku sekcji</li><li>Wysyła do bazy danych zapytanie 1, w którym zamiast stałej wartości Poniedziałek użyty jest wybrany dzień</li><li>Dla każdego rekordu tworzy wiersz tabeli z komórkami: godzina, nazwa, sala, imię i nazwisko trenera (w jednej komórce, rozdzielone spacją) oraz liczba wolnych miejsc</li><li>Jeżeli liczba wolnych miejsc wynosi 0, ostatnia komórka ma klasę pelne i treść „brak miejsc”</li></ul><p class="script-name">Skrypt 2 (lista zajęć w formularzu):</p><ul class="dash"><li>Wysyła do bazy danych zapytanie 2</li><li>Dla każdego rekordu tworzy opcję listy, której wartością (atrybut value) jest identyfikator zajęć, a treścią: nazwa – dzień godzina, np. „Joga – Poniedziałek 08:00”</li></ul><p class="script-name">Skrypt 3 (zapis na zajęcia):</p><ul class="dash"><li>Umieszczony na początku pliku, przed kodem HTML, aby grafik pokazywał liczbę miejsc już po zapisie</li><li>Jeżeli formularz zapisu został wysłany (istnieje pole zajecia w tablicy $_POST): pobiera z formularza identyfikator zajęć, imię i e-mail, wysyła do bazy zapytanie dodające zapis (jak zapytanie 4, z danymi z formularza) oraz zapytanie zmniejszające liczbę wolnych miejsc wybranych zajęć (jak zapytanie 5)</li><li>Pod formularzem zapisu wyświetla paragraf z klasą potwierdzenie o treści „Dziękujemy, &lt;imię&gt;! Zapis został przyjęty.”; gdy formularz nie został wysłany, paragraf nie jest wyświetlany</li></ul><p class="script-name">Skrypt 4 (trenerzy):</p><ul class="dash"><li>Wysyła do bazy danych zapytanie 3</li><li>Dla każdego trenera tworzy element article z klasą trener, zawierający nagłówek trzeciego stopnia z imieniem i nazwiskiem, paragraf ze specjalizacją i paragraf z klasą liczba o treści „Zajęć w tygodniu: &lt;liczba&gt;”</li></ul>
+  <h3>Skrypt działający po stronie klienta (JavaScript)</h3>
+  <p>W tabeli 4 zamieszczono wybrane elementy języka JavaScript. Skrypt jest napisany w języku JavaScript (w pliku skrypt.js lub w znaczniku script), należy stosować znaczące nazewnictwo zmiennych i funkcji.</p>
+  <p class="script-name">Skrypt 5 (kalkulator BMI):</p><ul class="dash"><li>Wywoływany po kliknięciu przycisku „Oblicz”</li><li>Pobiera wagę w kilogramach i wzrost w centymetrach; jeżeli któraś wartość jest pusta lub nie jest większa od 0, wyświetla w paragrafie wynik tekst „Podaj wagę i wzrost” i kończy działanie</li><li>Oblicza BMI = waga / (wzrost w metrach)², np. dla 70 kg i 175 cm BMI wynosi 22,9</li><li>Wyświetla w paragrafie wynik tekst „Twoje BMI: &lt;bmi&gt; – &lt;opis&gt;”, gdzie &lt;bmi&gt; jest zaokrąglone do jednego miejsca po przecinku, a &lt;opis&gt; to „niedowaga” dla BMI poniżej 18,5, „waga prawidłowa” dla BMI od 18,5 do mniej niż 25, „nadwaga” w pozostałych przypadkach</li></ul>
+
+  <div class="help-tables">
+  <table class="help"><caption>Tabela 1. Wybrane elementy języka SQL (MySQL)</caption><tr><th>Zapis</th><th>Znaczenie</th></tr><tr><td>TIME_FORMAT(czas, '%H:%i')</td><td>Godzina i minuty, np. 08:00</td></tr><tr><td>NOW()</td><td>Bieżąca data i godzina</td></tr><tr><td>INSERT INTO tabela (kolumny) VALUES (wartości)</td><td>Dodanie rekordu</td></tr><tr><td>UPDATE tabela SET kolumna = wartość WHERE warunek</td><td>Zmiana rekordów spełniających warunek</td></tr></table>
+  <table class="help"><caption>Tabela 2. Wybrane funkcje i zmienne języka PHP</caption><tr><th>Funkcja</th><th>Zwracana wartość</th></tr><tr><td>mysqli_connect(serwer, użytkownik, hasło, nazwa_bazy)</td><td>id połączenia lub FALSE, gdy niepowodzenie</td></tr><tr><td>mysqli_query(id_polaczenia, zapytanie)</td><td>Wynik zapytania</td></tr><tr><td>mysqli_fetch_row(wynik_zapytania)</td><td>Tablica numeryczna odpowiadająca wierszowi zapytania</td></tr><tr><td>mysqli_fetch_array(wynik_zapytania)</td><td>Tablica z kolejnym wierszem wyniku lub FALSE, gdy nie ma więcej wierszy</td></tr><tr><td>mysqli_num_rows(wynik_zapytania)</td><td>Liczba wierszy w wyniku zapytania</td></tr><tr><td>mysqli_close(id_polaczenia)</td><td>TRUE/FALSE w zależności od stanu operacji</td></tr><tr><td>isset($zmienna)</td><td>TRUE, gdy zmienna (np. $_POST['imie']) istnieje</td></tr><tr><td>$_GET['nazwa'], $_POST['nazwa']</td><td>Wartość pola formularza wysłanego metodą GET / POST</td></tr></table>
+  <table class="help"><caption>Tabela 3. Wybrane właściwości CSS</caption><tr><th>Zapis</th><th>Znaczenie</th></tr><tr><td>grid-template-areas: &quot;a b&quot; &quot;a c&quot;</td><td>Nazwane obszary siatki – każdy napis to jeden wiersz</td></tr><tr><td>grid-area: a</td><td>Umieszczenie elementu w obszarze siatki o nazwie a</td></tr><tr><td>tbody tr:nth-child(even)</td><td>Parzyste wiersze części tbody</td></tr><tr><td>input:focus</td><td>Pole, w którym znajduje się kursor</td></tr><tr><td>border-collapse: collapse</td><td>Wspólne obramowania sąsiednich komórek tabeli</td></tr><tr><td>flex: 1 1 220px</td><td>Podstawa 220 px, element może się rozciągać i zwężać</td></tr><tr><td>scroll-behavior: smooth</td><td>Płynne przewijanie do odnośników wewnątrz strony</td></tr></table>
+  <table class="help"><caption>Tabela 4. Wybrane elementy języka JavaScript</caption><tr><th>Zapis</th><th>Znaczenie</th></tr><tr><td>document.getElementById(id).value</td><td>Wartość pola formularza (napis)</td></tr><tr><td>Number(napis)</td><td>Liczba z napisu</td></tr><tr><td>liczba.toFixed(1)</td><td>Liczba zaokrąglona do 1 miejsca po przecinku (napis)</td></tr><tr><td>element.innerHTML = &quot;tekst&quot;</td><td>Zmiana zawartości elementu</td></tr></table>
+  </div>
+
+  <p class="note">UWAGA: po zakończeniu pracy utwórz plik tekstowy o nazwie przeglądarka.txt. Zapisz w nim nazwę przeglądarki internetowej, w której weryfikowana była poprawność działania witryny. Umieść go w folderze z numerem zdającego.</p>
+  <p>W folderze z numerem zdającego powinny znajdować się pliki: import.png, index.php, kw1.png, kw2.png, kw3.png, kw4.png, kw5.png, kwerendy.txt, przeglądarka.txt, skrypt.js, styl.css, ewentualnie inne przygotowane pliki. Spakuj folder do archiwum ZIP o nazwie równej numerowi zdającego i prześlij je w sposób wskazany przez nauczyciela.</p>
+  <p><b>Czas przeznaczony na wykonanie zadania wynosi 150 minut.</b></p>
+  <p>Ocenie podlegać będzie 5 rezultatów:</p>
+  <ul class="dash"><li>operacje na bazie danych,</li><li>zawartość witryny internetowej,</li><li>działanie witryny internetowej,</li><li>styl CSS witryny internetowej,</li><li>skrypty.</li></ul>
+</section>
+<script>
+function dopasuj() {
+  document.querySelectorAll('figure.preview').forEach(function (fig) {
+    var f = fig.querySelector('iframe.site');
+    var wrap = fig.querySelector('.frame-wrap');
+    var scale = Number(wrap.dataset.scale);
+    try {
+      var d = f.contentDocument;
+      if (!d || !d.body) return;
+      var hgt = Math.max(d.documentElement.scrollHeight, d.body.scrollHeight);
+      f.style.height = hgt + 'px';
+      wrap.style.height = Math.ceil(hgt * scale) + 'px';
+    } catch (e) {}
+  });
+}
+document.querySelectorAll('figure.preview').forEach(function (fig) {
+  var f = fig.querySelector('iframe.site');
+  f.addEventListener('load', function () {
+    var id = fig.dataset.click;
+    if (id) { try { f.contentDocument.getElementById(id).click(); } catch (e) {} }
+    dopasuj();
+  });
+});
+window.addEventListener('load', dopasuj);
+window.addEventListener('beforeprint', dopasuj);
+
+document.querySelectorAll('figure.preview:not(.mobile):not(.zapis) iframe.site').forEach(function (f) {
+  f.addEventListener('load', function () {
+    try {
+      var d = f.contentDocument;
+      d.querySelectorAll('tbody tr')[1].style.backgroundColor = '#FEF9C3';
+      d.getElementById('waga').value = 70;
+      d.getElementById('wzrost').value = 175;
+      d.querySelector('.bmi button').click();
+    } catch (e) {}
+  });
+});
+</script>
+</body>
+</html>

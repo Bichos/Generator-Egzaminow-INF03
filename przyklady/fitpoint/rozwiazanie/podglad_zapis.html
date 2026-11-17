@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitPoint – grafik zajęć</title>
+    <link rel="stylesheet" href="styl.css">
+</head>
+<body>
+    <header class="baner">
+        <a href="index.php" class="logo">FIT<span>POINT</span></a>
+        <p class="haslo">Siłownia osiedlowa · otwarte 6:00–23:00</p>
+    </header>
+
+    <nav class="menu">
+        <a href="#grafik">Grafik</a>
+        <a href="#zapis">Zapisy</a>
+        <a href="#bmi">Kalkulator BMI</a>
+        <a href="#trenerzy">Trenerzy</a>
+    </nav>
+
+    <main class="uklad">
+        <section class="grafik" id="grafik">
+            <h2>Grafik zajęć: Poniedziałek</h2>
+            <form class="filtr" action="index.php" method="get">
+                <label for="dzien">Dzień tygodnia</label>
+                <select name="dzien" id="dzien">
+                    <option>Poniedziałek</option>
+                    <option>Wtorek</option>
+                    <option>Środa</option>
+                    <option>Czwartek</option>
+                    <option>Piątek</option>
+                </select>
+                <button type="submit">Pokaż</button>
+            </form>
+            <table>
+                <thead>
+                    <tr><th>Godzina</th><th>Zajęcia</th><th>Sala</th><th>Trener</th><th>Wolne miejsca</th></tr>
+                </thead>
+                <tbody>
+<tr><td>08:00</td><td>Joga</td><td>Sala A</td><td>Ola Mazur</td><td>11</td></tr><tr><td>17:00</td><td>Trening obwodowy</td><td>Sala B</td><td>Kamil Wójcik</td><td>3</td></tr><tr><td>18:30</td><td>Zumba</td><td>Sala A</td><td>Natalia Kaczmarek</td><td class='pelne'>brak miejsc</td></tr><tr><td>19:30</td><td>Crossfit</td><td>Sala C</td><td>Bartek Krawczyk</td><td>8</td></tr>                </tbody>
+            </table>
+        </section>
+
+        <section class="zapis" id="zapis">
+            <h2>Zapisz się</h2>
+            <form action="index.php" method="post">
+                <label for="zajecia">Zajęcia</label>
+                <select name="zajecia" id="zajecia">
+<option value='1'>Joga – Poniedziałek 08:00</option><option value='2'>Crossfit – Poniedziałek 19:30</option><option value='3'>Trening obwodowy – Poniedziałek 17:00</option><option value='5'>Stretching – Wtorek 07:30</option><option value='6'>Zumba – Wtorek 18:00</option><option value='7'>Siłownia z trenerem – Środa 16:00</option><option value='9'>Joga – Czwartek 18:00</option><option value='10'>Trening obwodowy – Piątek 17:30</option>                </select>
+                <label for="imie">Imię</label>
+                <input type="text" name="imie" id="imie" required>
+                <label for="email">E-mail</label>
+                <input type="email" name="email" id="email" required>
+                <button type="submit">Zapisz mnie</button>
+            </form>
+<p class='potwierdzenie'>Dziękujemy, Kasia! Zapis został przyjęty.</p>        </section>
+
+        <section class="bmi" id="bmi">
+            <h2>Kalkulator BMI</h2>
+            <label for="waga">Waga [kg]</label>
+            <input type="number" id="waga">
+            <label for="wzrost">Wzrost [cm]</label>
+            <input type="number" id="wzrost">
+            <button type="button" onclick="obliczBmi()">Oblicz</button>
+            <p id="wynik"></p>
+        </section>
+
+        <section class="trenerzy" id="trenerzy">
+            <h2>Nasi trenerzy</h2>
+            <div class="karty">
+<article class='trener'><h3>Ola Mazur</h3><p>joga i stretching</p><p class='liczba'>Zajęć w tygodniu: 3</p></article><article class='trener'><h3>Kamil Wójcik</h3><p>trening siłowy</p><p class='liczba'>Zajęć w tygodniu: 3</p></article><article class='trener'><h3>Natalia Kaczmarek</h3><p>zumba i fitness</p><p class='liczba'>Zajęć w tygodniu: 2</p></article><article class='trener'><h3>Bartek Krawczyk</h3><p>crossfit</p><p class='liczba'>Zajęć w tygodniu: 2</p></article>            </div>
+        </section>
+    </main>
+
+    <footer class="stopka">
+        <p>FitPoint, ul. Sportowa 7 · tel. 500 600 700</p>
+        <p>Stronę wykonał: 00</p>
+    </footer>
+    <script src="skrypt.js"></script>
+</body>
+</html>

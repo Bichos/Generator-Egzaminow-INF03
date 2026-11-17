@@ -33,8 +33,8 @@ export function project(dir) {
 }
 
 // Podgląd: wynik działania index.php (podglad.html) z wstawionym stylem, skryptem i obrazami.
-export function previewDoc(sol, { extraCss = '', images = {} } = {}) {
-  let html = sol('podglad.html')
+export function previewDoc(sol, { extraCss = '', images = {}, file = 'podglad.html' } = {}) {
+  let html = sol(file)
     .replace('<link rel="stylesheet" href="styl.css">', `<style>html{-webkit-print-color-adjust:exact;print-color-adjust:exact}\n${sol('styl.css')}\n${extraCss}</style>`)
     .replace('<script src="skrypt.js"></script>', `<script>${sol('skrypt.js')}</script>`);
   for (const [file, uri] of Object.entries(images)) html = html.split(`src="${file}"`).join(`src="${uri}"`);

@@ -1,0 +1,10 @@
+-- Zapytanie 1
+SELECT TIME_FORMAT(godzina, '%H:%i') AS godz, nazwa, sala, imie, nazwisko, miejsca FROM zajecia JOIN trenerzy ON zajecia.trenerzy_id = trenerzy.id WHERE dzien = 'Poniedziałek' ORDER BY godzina;
+-- Zapytanie 2
+SELECT id, nazwa, dzien, TIME_FORMAT(godzina, '%H:%i') AS godz FROM zajecia WHERE miejsca > 0;
+-- Zapytanie 3
+SELECT imie, nazwisko, specjalizacja, COUNT(zajecia.id) AS liczba FROM trenerzy JOIN zajecia ON zajecia.trenerzy_id = trenerzy.id GROUP BY trenerzy.id ORDER BY liczba DESC, nazwisko;
+-- Zapytanie 4
+INSERT INTO zapisy (zajecia_id, imie, email, data_zapisu) VALUES (3, 'Ola', 'ola@example.com', NOW());
+-- Zapytanie 5
+UPDATE zajecia SET miejsca = miejsca - 1 WHERE id = 3;

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INF.03-FP-SG – FitPoint – klucz</title>
+<style>
+* { box-sizing: border-box; }
+html { background: #eef0f3; }
+body { margin: 0; padding: 16px; font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt; color: #111; line-height: 1.4; }
+.page { background: #fff; max-width: 210mm; margin: 0 auto; padding: 16mm; box-shadow: 0 1px 6px rgba(0,0,0,.15); }
+h1 { font-size: 16pt; margin: 0 0 6px; } h2 { font-size: 13pt; border-bottom: 2px solid #333; padding-bottom: 3px; margin-top: 22px; }
+pre { background: #f5f5f7; border: 1px solid #ddd; padding: 8px; white-space: pre-wrap; word-break: break-word; font-size: 9pt; }
+table.zo { border-collapse: collapse; width: 100%; font-size: 9.5pt; }
+table.zo th, table.zo td { border: 1px solid #999; padding: 4px 6px; vertical-align: top; text-align: left; }
+table.zo td:first-child, table.zo td:last-child { white-space: nowrap; text-align: center; }
+table.zo tr.res-head td { background: #eef2f7; } table.zo tr.sum td { font-weight: bold; }
+table.zo .note { font-size: 8.5pt; color: #444; margin: 3px 0 0; } table.zo tr { break-inside: avoid; }
+.small { font-size: 9pt; color: #444; }
+@media print { html, body { background: #fff; padding: 0; } .page { box-shadow: none; padding: 0; } }
+@page { size: A4; margin: 14mm; }
+</style>
+</head>
+<body>
+<section class="page">
+  <h1>FitPoint – zasady oceniania i rozwiązanie</h1>
+  <p class="small">INF.03-FP-SG · baza fitpoint · archiwum fitpoint (hasło: <code>F1tP0int!</code>). Każde kryterium oceniane jest zero-jedynkowo (spełnione – 1 pkt).</p>
+  <h2>Zasady oceniania</h2><table class="zo"><tr><th>Lp.</th><th>Elementy podlegające ocenie / kryteria oceny</th><th>Pkt</th></tr><tr class="res-head"><td>R.1</td><td><b>Rezultat 1: Operacje na bazie danych</b><p class="note">Uwaga: W przypadku oceny zrzutów należy uznać za prawidłowe, jeżeli widoczny jest cały obszar ekranu z widocznym paskiem zadań, a zapytanie ma charakter uniwersalny dla każdego zestawu danych.</p></td><td>7</td></tr><tr><td>R.1.1</td><td><label><input type="checkbox"> Wykonany import tabel do bazy danych fitpoint, co jest udokumentowane w pliku import w formacie PNG</label></td><td>1</td></tr><tr><td>R.1.2</td><td><label><input type="checkbox"> Zapisany plik kwerendy.txt zawierający co najmniej jedno zapytanie SQL wynikające z treści zadania</label></td><td>1</td></tr><tr><td>R.1.3</td><td><label><input type="checkbox"> Wykonane zapytanie 1. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT TIME_FORMAT(godzina, '%H:%i') AS godz, nazwa, sala, imie, nazwisko, miejsca FROM zajecia JOIN trenerzy ON zajecia.trenerzy_id = trenerzy.id WHERE dzien = 'Poniedziałek' ORDER BY godzina; oraz wynik działania udokumentowany zrzutem kw1, na którym widoczne są dokładnie 4 wiersze w kolejności godzin: 08:00 Joga, 17:00 Trening obwodowy, 18:30 Zumba, 19:30 Crossfit, z imionami i nazwiskami trenerów</label></td><td>1</td></tr><tr><td>R.1.4</td><td><label><input type="checkbox"> Wykonane zapytanie 2. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT id, nazwa, dzien, TIME_FORMAT(godzina, '%H:%i') AS godz FROM zajecia WHERE miejsca &gt; 0; oraz wynik działania udokumentowany zrzutem kw2, na którym widocznych jest dokładnie 8 wierszy (bez zajęć o id 4 i 8, które nie mają wolnych miejsc)</label></td><td>1</td></tr><tr><td>R.1.5</td><td><label><input type="checkbox"> Wykonane zapytanie 3. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT imie, nazwisko, specjalizacja, COUNT(zajecia.id) AS liczba FROM trenerzy JOIN zajecia ON zajecia.trenerzy_id = trenerzy.id GROUP BY trenerzy.id ORDER BY liczba DESC, nazwisko; oraz wynik działania udokumentowany zrzutem kw3, na którym widoczne są 4 wiersze w kolejności: Mazur 3, Wójcik 3, Kaczmarek 2, Krawczyk 2 (bez trenera Igora Pawlaka, który nie prowadzi zajęć)</label></td><td>1</td></tr><tr><td>R.1.6</td><td><label><input type="checkbox"> Wykonane zapytanie 4. W pliku z kwerendami lub na zrzucie istnieje zapis np. INSERT INTO zapisy (zajecia_id, imie, email, data_zapisu) VALUES (3, 'Ola', 'ola@example.com', NOW()); oraz wynik działania udokumentowany zrzutem kw4, na którym widoczny jest komunikat o dodaniu 1 wiersza</label></td><td>1</td></tr><tr><td>R.1.7</td><td><label><input type="checkbox"> Wykonane zapytanie 5. W pliku z kwerendami lub na zrzucie istnieje zapis np. UPDATE zajecia SET miejsca = miejsca - 1 WHERE id = 3; oraz wynik działania udokumentowany zrzutem kw5, na którym widoczny jest komunikat o zmianie 1 wiersza</label></td><td>1</td></tr><tr class="res-head"><td>R.2</td><td><b>Rezultat 2: Zawartość witryny internetowej</b><p class="note">Uwaga: W napisach widocznych na stronie dopuszcza się drobne błędy literowe, błędy wielkości liter i znaków diakrytycznych.</p></td><td>9</td></tr><tr><td>R.2.1</td><td><label><input type="checkbox"> Witryna zapisana w pliku index.php, jawnie zapisany standard kodowania polskich znaków, deklaracja &lt;!DOCTYPE html&gt;, język polski, meta viewport, tytuł „FitPoint – grafik zajęć”</label></td><td>1</td></tr><tr><td>R.2.2</td><td><label><input type="checkbox"> Bloki zdefiniowane znacznikami semantycznymi: header baner, nav menu, main uklad z czterema section, footer stopka, w kolejności zgodnej z ilustracją 3</label></td><td>1</td></tr><tr><td>R.2.3</td><td><label><input type="checkbox"> Baner: odnośnik logo do index.php z „POINT” w span, paragraf haslo; menu: cztery odnośniki do #grafik, #zapis, #bmi, #trenerzy</label></td><td>1</td></tr><tr><td>R.2.4</td><td><label><input type="checkbox"> Sekcje mają klasy i identyfikatory grafik, zapis, bmi, trenerzy oraz nagłówki h2</label></td><td>1</td></tr><tr><td>R.2.5</td><td><label><input type="checkbox"> Formularz filtr: metoda get, akcja index.php, etykieta powiązana z listą dzien zawierającą pięć dni, przycisk typu submit „Pokaż”</label></td><td>1</td></tr><tr><td>R.2.6</td><td><label><input type="checkbox"> Tabela z thead (pięć komórek th: Godzina, Zajęcia, Sala, Trener, Wolne miejsca) i tbody</label></td><td>1</td></tr><tr><td>R.2.7</td><td><label><input type="checkbox"> Formularz zapisu: metoda post, akcja index.php, lista zajecia, pole text imie i pole email o nazwie email z atrybutem required, etykiety powiązane przez for/id, przycisk typu submit „Zapisz mnie”</label></td><td>1</td></tr><tr><td>R.2.8</td><td><label><input type="checkbox"> Sekcja bmi: dwa pola typu number o id waga i wzrost z etykietami, przycisk „Oblicz”, paragraf o id wynik; sekcja trenerzy z blokiem karty</label></td><td>1</td></tr><tr><td>R.2.9</td><td><label><input type="checkbox"> Stopka z adresem i paragrafem „Stronę wykonał: ” z numerem zdającego</label></td><td>1</td></tr><tr class="res-head"><td>R.3</td><td><b>Rezultat 3: Działanie witryny internetowej</b><p class="note">Uwaga: Jeśli witryna nie uruchamia się z powodu błędów PHP – sprawdzić według kryteriów w kodzie źródłowym strony.</p></td><td>9</td></tr><tr><td>R.3.1</td><td><label><input type="checkbox"> Układ bloków po uruchomieniu w przeglądarce jest zgodny z ilustracjami 2 i 3: grafik po lewej na wysokość dwóch sekcji, zapis i BMI w kolumnie 320 px, trenerzy na całą szerokość</label></td><td>1</td></tr><tr><td>R.3.2</td><td><label><input type="checkbox"> Strona zawiera działające połączenie z zewnętrznym arkuszem stylów styl.css, formatowanie CSS pochodzi jedynie z tego arkusza</label></td><td>1</td></tr><tr><td>R.3.3</td><td><label><input type="checkbox"> Menu pozostaje przyklejone do górnej krawędzi okna, a kliknięcie pozycji menu przewija stronę do odpowiedniej sekcji</label></td><td>1</td></tr><tr><td>R.3.4</td><td><label><input type="checkbox"> Po uruchomieniu (bez parametru) wyświetla się grafik na Poniedziałek: 4 wiersze od 08:00 do 19:30; Zumba ma czerwony napis „brak miejsc”; po wykonaniu zapytania 5 Trening obwodowy ma 3 wolne miejsca</label></td><td>1</td></tr><tr><td>R.3.5</td><td><label><input type="checkbox"> Wybranie w filtrze dnia (np. Środa) i kliknięcie „Pokaż” wyświetla grafik tego dnia (Środa: 16:00 Siłownia z trenerem, 19:00 Crossfit – brak miejsc) i nazwę dnia w nagłówku</label></td><td>1</td></tr><tr><td>R.3.6</td><td><label><input type="checkbox"> Lista w formularzu zapisu zawiera tylko zajęcia z wolnymi miejscami (8 opcji, np. „Joga – Poniedziałek 08:00”)</label></td><td>1</td></tr><tr><td>R.3.7</td><td><label><input type="checkbox"> Wysłanie formularza zapisu dodaje rekord do tabeli zapisy (sprawdzić w phpMyAdmin), zmniejsza liczbę wolnych miejsc wybranych zajęć i wyświetla zielony komunikat z imieniem</label></td><td>1</td></tr><tr><td>R.3.8</td><td><label><input type="checkbox"> Kalkulator BMI dla 70 kg i 175 cm wyświetla „Twoje BMI: 22.9 – waga prawidłowa” (dopuszcza się przecinek); dla pustych pól komunikat „Podaj wagę i wzrost”</label></td><td>1</td></tr><tr><td>R.3.9</td><td><label><input type="checkbox"> Przy szerokości do 900 px sekcje są w jednej kolumnie w kolejności: grafik, zapis, BMI, trenerzy; karty trenerów zawijają się do kolejnych wierszy</label></td><td>1</td></tr><tr class="res-head"><td>R.4</td><td><b>Rezultat 4: Styl CSS witryny internetowej</b><p class="note">Uwaga: Kryteria muszą działać na stronie (sprawdzić w inspektorze). Kryteria dotyczące selektorów znaczników są spełnione jedynie dla stylu zdefiniowanego selektorem znacznika.</p></td><td>20</td></tr><tr><td>R.4.1</td><td><label><input type="checkbox"> Ustawione domyślnie dla wszystkich selektorów (*): marginesy zewnętrzne i wewnętrzne 0, model pudełkowy border-box. Dla selektora html: płynne przewijanie (scroll-behavior: smooth) – po kliknięciu pozycji menu strona płynnie przewija się do sekcji</label></td><td>1</td></tr><tr><td>R.4.2</td><td><label><input type="checkbox"> Ustawione dla selektora ciała strony: kolor tła #F3F4F6, kolor czcionki #111827, krój Verdana, w przypadku braku Geneva, a następnie sans-serif, wysokość linii 1,5</label></td><td>1</td></tr><tr><td>R.4.3</td><td><label><input type="checkbox"> Ustawione dla selektora nagłówka drugiego stopnia: dolny margines 14 px, rozmiar 1,25 rem, wielkie litery (text-transform), odstęp między literami 1 px</label></td><td>1</td></tr><tr><td>R.4.4</td><td><label><input type="checkbox"> Ustawione dla klasy baner: marginesy wewnętrzne: górny i dolny 28 px, lewy i prawy 5%, tło – gradient liniowy pod kątem 120 stopni od #111827 do #4C1D95, biały kolor czcionki</label></td><td>1</td></tr><tr><td>R.4.5</td><td><label><input type="checkbox"> Ustawione dla klasy logo: biały kolor, rozmiar 2,4 rem, pogrubienie, bez podkreślenia, odstęp między literami 3 px; element span w logo ma kolor #FACC15. Dla klasy haslo: kolor #C4B5FD, kursywa</label></td><td>1</td></tr><tr><td>R.4.6</td><td><label><input type="checkbox"> Ustawione dla klasy menu: przyklejone do górnej krawędzi okna podczas przewijania (position: sticky, top: 0, z-index: 10), układ elastyczny z elementami wyśrodkowanymi w poziomie, odstęp 6 px, marginesy wewnętrzne 8 px, kolor tła #7C3AED</label></td><td>1</td></tr><tr><td>R.4.7</td><td><label><input type="checkbox"> Ustawione dla odnośników menu: marginesy wewnętrzne 8 px / 18 px, zaokrąglenie 20 px, biały pogrubiony tekst bez podkreślenia; gdy kursor znajdzie się na odnośniku – tło #FACC15, kolor tekstu #111827</label></td><td>1</td></tr><tr><td>R.4.8</td><td><label><input type="checkbox"> Ustawione dla klasy uklad: siatka z kolumnami 1fr i 320 px oraz obszarami nazwanymi (grid-template-areas): w pierwszym wierszu „grafik zapis”, w drugim „grafik bmi”, w trzecim „trenerzy trenerzy”; odstęp 20 px, maksymalna szerokość 1200 px, blok wyśrodkowany, górny i dolny margines 24 px, marginesy wewnętrzne lewy i prawy 20 px</label></td><td>1</td></tr><tr><td>R.4.9</td><td><label><input type="checkbox"> Ustawione klasy grafik, zapis, bmi i trenerzy są przypisane do obszarów siatki o tych samych nazwach (grid-area). Sekcje grafik, zapis i bmi mają marginesy wewnętrzne 20 px, białe tło, zaokrąglenie 10 px, cień 0 2px 8px czarny o nieprzezroczystości 0,08</label></td><td>1</td></tr><tr><td>R.4.10</td><td><label><input type="checkbox"> Ustawione dla selektora etykiety: wyświetlanie blokowe, marginesy: górny 10 px, dolny 4 px, rozmiar 0,85 rem, pogrubienie. Dla selektorów input i select: szerokość 100%, marginesy wewnętrzne 9 px, obramowanie 2 px linią ciągłą #D1D5DB, zaokrąglenie 6 px, czcionka dziedziczona</label></td><td>1</td></tr><tr><td>R.4.11</td><td><label><input type="checkbox"> Ustawione gdy pole input lub lista select jest aktywna (pseudoklasa :focus): kolor obramowania #7C3AED i brak obrysu (outline)</label></td><td>1</td></tr><tr><td>R.4.12</td><td><label><input type="checkbox"> Ustawione dla selektora przycisku: szerokość 100%, górny margines 14 px, marginesy wewnętrzne 10 px, tło #7C3AED, biały pogrubiony tekst, bez obramowania, zaokrąglenie 6 px, czcionka dziedziczona, kursor w kształcie dłoni; gdy kursor znajdzie się na przycisku – tło #5B21B6</label></td><td>1</td></tr><tr><td>R.4.13</td><td><label><input type="checkbox"> Ustawione dla klasy filtr: układ elastyczny, elementy wyśrodkowane w pionie, odstęp 10 px, dolny margines 16 px; etykieta i przycisk w tym formularzu mają marginesy 0, automatyczną szerokość i tekst bez łamania wierszy</label></td><td>1</td></tr><tr><td>R.4.14</td><td><label><input type="checkbox"> Ustawione dla klasy potwierdzenie: górny margines 14 px, marginesy wewnętrzne 10 px, tło #DCFCE7, lewe obramowanie 5 px linią ciągłą #16A34A, kolor tekstu #14532D. Dla identyfikatora wynik: górny margines 14 px, rozmiar 1,1 rem, pogrubienie, kolor #5B21B6</label></td><td>1</td></tr><tr><td>R.4.15</td><td><label><input type="checkbox"> Ustawione dla tabeli: szerokość 100%, obramowania komórek scalone (border-collapse: collapse). Komórki nagłówkowe: marginesy wewnętrzne 10 px, tło #111827, biały tekst wyrównany do lewej, 0,85 rem. Komórki danych: marginesy wewnętrzne 10 px, dolne obramowanie 1 px #E5E7EB</label></td><td>1</td></tr><tr><td>R.4.16</td><td><label><input type="checkbox"> Ustawione co drugi (parzysty) wiersz części tbody ma tło #F5F3FF (pseudoklasa :nth-child); gdy kursor znajdzie się na wierszu tbody, jego tło zmienia się na #FEF9C3. Dla klasy pelne: kolor #DC2626, pogrubienie</label></td><td>1</td></tr><tr><td>R.4.17</td><td><label><input type="checkbox"> Ustawione dla klasy karty: układ elastyczny z zawijaniem do kolejnego wiersza, odstęp 16 px. Dla klasy trener: podstawa szerokości 220 px z możliwością rozciągania i zwężania (flex: 1 1 220px), marginesy wewnętrzne 18 px, białe tło, górne obramowanie 6 px #FACC15, zaokrąglenie 10 px, tekst wyśrodkowany, płynne przejście transformacji 0,3 s</label></td><td>1</td></tr><tr><td>R.4.18</td><td><label><input type="checkbox"> Ustawione gdy kursor znajdzie się na karcie trenera, karta przesuwa się o 5 px w górę (translateY). Nagłówek karty: kolor #4C1D95. Dla klasy liczba: górny margines 8 px, 0,85 rem, kolor #6B7280</label></td><td>1</td></tr><tr><td>R.4.19</td><td><label><input type="checkbox"> Ustawione dla klasy stopka: marginesy wewnętrzne 20 px, tło #111827, kolor #9CA3AF, tekst wyśrodkowany, 0,85 rem</label></td><td>1</td></tr><tr><td>R.4.20</td><td><label><input type="checkbox"> Ustawione w przypadku ekranów o szerokości do 900 px (ilustracja 5): siatka klasy uklad ma jedną kolumnę i obszary kolejno: grafik, zapis, bmi, trenerzy; formularz filtr zawija elementy; komórki tabeli mają marginesy wewnętrzne 6 px i rozmiar 0,8 rem</label></td><td>1</td></tr><tr class="res-head"><td>R.5</td><td><b>Rezultat 5: Skrypty</b><p class="note">Uwaga: Kryteria należy sprawdzić w kodzie źródłowym oraz na działającej stronie (XAMPP).</p></td><td>13</td></tr><tr><td>R.5.1</td><td><label><input type="checkbox"> Skrypt PHP łączy się z serwerem MySQL na localhost, użytkownik root bez hasła, baza fitpoint (np. mysqli_connect)</label></td><td>1</td></tr><tr><td>R.5.2</td><td><label><input type="checkbox"> Skrypt 1 odczytuje dzień z $_GET (z użyciem isset), a w przeciwnym razie przyjmuje Poniedziałek; wybrany dzień jest w nagłówku i w zapytaniu</label></td><td>1</td></tr><tr><td>R.5.3</td><td><label><input type="checkbox"> Skrypt 1 tworzy wiersze tabeli z pięcioma komórkami (imię i nazwisko trenera w jednej komórce)</label></td><td>1</td></tr><tr><td>R.5.4</td><td><label><input type="checkbox"> Skrypt 1 dla 0 wolnych miejsc wypisuje komórkę z klasą pelne i tekstem „brak miejsc”</label></td><td>1</td></tr><tr><td>R.5.5</td><td><label><input type="checkbox"> Skrypt 2 tworzy opcje listy z identyfikatorem zajęć w atrybucie value i treścią „nazwa – dzień godzina”</label></td><td>1</td></tr><tr><td>R.5.6</td><td><label><input type="checkbox"> Skrypt 3 sprawdza wysłanie formularza (isset na $_POST) i odczytuje trzy pola formularza</label></td><td>1</td></tr><tr><td>R.5.7</td><td><label><input type="checkbox"> Skrypt 3 wysyła zapytanie INSERT do tabeli zapisy z danymi z formularza i datą NOW() oraz zapytanie UPDATE zmniejszające liczbę miejsc wybranych zajęć</label></td><td>1</td></tr><tr><td>R.5.8</td><td><label><input type="checkbox"> Skrypt 3 wyświetla paragraf potwierdzenie z imieniem tylko po wysłaniu formularza; jest umieszczony przed wypisaniem grafiku</label></td><td>1</td></tr><tr><td>R.5.9</td><td><label><input type="checkbox"> Skrypt 4 tworzy element article z klasą trener z h3 (imię i nazwisko), specjalizacją i paragrafem liczba „Zajęć w tygodniu: &lt;liczba&gt;”</label></td><td>1</td></tr><tr><td>R.5.10</td><td><label><input type="checkbox"> Na końcu skryptu zamykane jest połączenie z serwerem (np. mysqli_close)</label></td><td>1</td></tr><tr><td>R.5.11</td><td><label><input type="checkbox"> Skrypt 5 jest napisany w języku JavaScript, pobiera wagę i wzrost, sprawdza poprawność wartości i przelicza wzrost na metry</label></td><td>1</td></tr><tr><td>R.5.12</td><td><label><input type="checkbox"> Skrypt 5 oblicza BMI, zaokrągla do jednego miejsca po przecinku i dobiera opis według progów 18,5 i 25</label></td><td>1</td></tr><tr><td>R.5.13</td><td><label><input type="checkbox"> Zastosowano znaczące nazewnictwo zmiennych i funkcji</label></td><td>1</td></tr><tr class="sum"><td></td><td>Razem</td><td>58</td></tr></table>
+  <h2>Rozwiązanie wzorcowe</h2><h4>kwerendy.txt</h4><pre>-- Zapytanie 1
+SELECT TIME_FORMAT(godzina, '%H:%i') AS godz, nazwa, sala, imie, nazwisko, miejsca FROM zajecia JOIN trenerzy ON zajecia.trenerzy_id = trenerzy.id WHERE dzien = 'Poniedziałek' ORDER BY godzina;
+-- Zapytanie 2
+SELECT id, nazwa, dzien, TIME_FORMAT(godzina, '%H:%i') AS godz FROM zajecia WHERE miejsca &gt; 0;
+-- Zapytanie 3
+SELECT imie, nazwisko, specjalizacja, COUNT(zajecia.id) AS liczba FROM trenerzy JOIN zajecia ON zajecia.trenerzy_id = trenerzy.id GROUP BY trenerzy.id ORDER BY liczba DESC, nazwisko;
+-- Zapytanie 4
+INSERT INTO zapisy (zajecia_id, imie, email, data_zapisu) VALUES (3, 'Ola', 'ola@example.com', NOW());
+-- Zapytanie 5
+UPDATE zajecia SET miejsca = miejsca - 1 WHERE id = 3;
+</pre><h4>index.php</h4><pre>&lt;?php
+$polaczenie = mysqli_connect('localhost', 'root', '', 'fitpoint');
+
+// skrypt 3 - obsługa formularza zapisu
+$komunikat = '';
+if (isset($_POST['zajecia'])) {
+    $zajecia = $_POST['zajecia'];
+    $imie = $_POST['imie'];
+    $email = $_POST['email'];
+    mysqli_query($polaczenie, &quot;INSERT INTO zapisy (zajecia_id, imie, email, data_zapisu) VALUES ($zajecia, '$imie', '$email', NOW());&quot;);
+    mysqli_query($polaczenie, &quot;UPDATE zajecia SET miejsca = miejsca - 1 WHERE id = $zajecia;&quot;);
+    $komunikat = &quot;Dziękujemy, $imie! Zapis został przyjęty.&quot;;
+}
+
+// wybrany dzień grafiku
+$dzien = 'Poniedziałek';
+if (isset($_GET['dzien'])) {
+    $dzien = $_GET['dzien'];
+}
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pl&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;FitPoint – grafik zajęć&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;styl.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header class=&quot;baner&quot;&gt;
+        &lt;a href=&quot;index.php&quot; class=&quot;logo&quot;&gt;FIT&lt;span&gt;POINT&lt;/span&gt;&lt;/a&gt;
+        &lt;p class=&quot;haslo&quot;&gt;Siłownia osiedlowa · otwarte 6:00–23:00&lt;/p&gt;
+    &lt;/header&gt;
+
+    &lt;nav class=&quot;menu&quot;&gt;
+        &lt;a href=&quot;#grafik&quot;&gt;Grafik&lt;/a&gt;
+        &lt;a href=&quot;#zapis&quot;&gt;Zapisy&lt;/a&gt;
+        &lt;a href=&quot;#bmi&quot;&gt;Kalkulator BMI&lt;/a&gt;
+        &lt;a href=&quot;#trenerzy&quot;&gt;Trenerzy&lt;/a&gt;
+    &lt;/nav&gt;
+
+    &lt;main class=&quot;uklad&quot;&gt;
+        &lt;section class=&quot;grafik&quot; id=&quot;grafik&quot;&gt;
+            &lt;h2&gt;Grafik zajęć: &lt;?php echo $dzien; ?&gt;&lt;/h2&gt;
+            &lt;form class=&quot;filtr&quot; action=&quot;index.php&quot; method=&quot;get&quot;&gt;
+                &lt;label for=&quot;dzien&quot;&gt;Dzień tygodnia&lt;/label&gt;
+                &lt;select name=&quot;dzien&quot; id=&quot;dzien&quot;&gt;
+                    &lt;option&gt;Poniedziałek&lt;/option&gt;
+                    &lt;option&gt;Wtorek&lt;/option&gt;
+                    &lt;option&gt;Środa&lt;/option&gt;
+                    &lt;option&gt;Czwartek&lt;/option&gt;
+                    &lt;option&gt;Piątek&lt;/option&gt;
+                &lt;/select&gt;
+                &lt;button type=&quot;submit&quot;&gt;Pokaż&lt;/button&gt;
+            &lt;/form&gt;
+            &lt;table&gt;
+                &lt;thead&gt;
+                    &lt;tr&gt;&lt;th&gt;Godzina&lt;/th&gt;&lt;th&gt;Zajęcia&lt;/th&gt;&lt;th&gt;Sala&lt;/th&gt;&lt;th&gt;Trener&lt;/th&gt;&lt;th&gt;Wolne miejsca&lt;/th&gt;&lt;/tr&gt;
+                &lt;/thead&gt;
+                &lt;tbody&gt;
+&lt;?php
+// skrypt 1 - grafik wybranego dnia
+$zapytanie = &quot;SELECT TIME_FORMAT(godzina, '%H:%i') AS godz, nazwa, sala, imie, nazwisko, miejsca FROM zajecia JOIN trenerzy ON zajecia.trenerzy_id = trenerzy.id WHERE dzien = '$dzien' ORDER BY godzina;&quot;;
+$wynik = mysqli_query($polaczenie, $zapytanie);
+while ($wiersz = mysqli_fetch_row($wynik)) {
+    echo &quot;&lt;tr&gt;&lt;td&gt;$wiersz[0]&lt;/td&gt;&lt;td&gt;$wiersz[1]&lt;/td&gt;&lt;td&gt;$wiersz[2]&lt;/td&gt;&lt;td&gt;$wiersz[3] $wiersz[4]&lt;/td&gt;&quot;;
+    if ($wiersz[5] == 0) {
+        echo &quot;&lt;td class='pelne'&gt;brak miejsc&lt;/td&gt;&lt;/tr&gt;&quot;;
+    } else {
+        echo &quot;&lt;td&gt;$wiersz[5]&lt;/td&gt;&lt;/tr&gt;&quot;;
+    }
+}
+?&gt;
+                &lt;/tbody&gt;
+            &lt;/table&gt;
+        &lt;/section&gt;
+
+        &lt;section class=&quot;zapis&quot; id=&quot;zapis&quot;&gt;
+            &lt;h2&gt;Zapisz się&lt;/h2&gt;
+            &lt;form action=&quot;index.php&quot; method=&quot;post&quot;&gt;
+                &lt;label for=&quot;zajecia&quot;&gt;Zajęcia&lt;/label&gt;
+                &lt;select name=&quot;zajecia&quot; id=&quot;zajecia&quot;&gt;
+&lt;?php
+// skrypt 2 - zajęcia z wolnymi miejscami
+$zapytanie = &quot;SELECT id, nazwa, dzien, TIME_FORMAT(godzina, '%H:%i') AS godz FROM zajecia WHERE miejsca &gt; 0;&quot;;
+$wynik = mysqli_query($polaczenie, $zapytanie);
+while ($wiersz = mysqli_fetch_row($wynik)) {
+    echo &quot;&lt;option value='$wiersz[0]'&gt;$wiersz[1] – $wiersz[2] $wiersz[3]&lt;/option&gt;&quot;;
+}
+?&gt;
+                &lt;/select&gt;
+                &lt;label for=&quot;imie&quot;&gt;Imię&lt;/label&gt;
+                &lt;input type=&quot;text&quot; name=&quot;imie&quot; id=&quot;imie&quot; required&gt;
+                &lt;label for=&quot;email&quot;&gt;E-mail&lt;/label&gt;
+                &lt;input type=&quot;email&quot; name=&quot;email&quot; id=&quot;email&quot; required&gt;
+                &lt;button type=&quot;submit&quot;&gt;Zapisz mnie&lt;/button&gt;
+            &lt;/form&gt;
+&lt;?php
+if ($komunikat != '') {
+    echo &quot;&lt;p class='potwierdzenie'&gt;$komunikat&lt;/p&gt;&quot;;
+}
+?&gt;
+        &lt;/section&gt;
+
+        &lt;section class=&quot;bmi&quot; id=&quot;bmi&quot;&gt;
+            &lt;h2&gt;Kalkulator BMI&lt;/h2&gt;
+            &lt;label for=&quot;waga&quot;&gt;Waga [kg]&lt;/label&gt;
+            &lt;input type=&quot;number&quot; id=&quot;waga&quot;&gt;
+            &lt;label for=&quot;wzrost&quot;&gt;Wzrost [cm]&lt;/label&gt;
+            &lt;input type=&quot;number&quot; id=&quot;wzrost&quot;&gt;
+            &lt;button type=&quot;button&quot; onclick=&quot;obliczBmi()&quot;&gt;Oblicz&lt;/button&gt;
+            &lt;p id=&quot;wynik&quot;&gt;&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section class=&quot;trenerzy&quot; id=&quot;trenerzy&quot;&gt;
+            &lt;h2&gt;Nasi trenerzy&lt;/h2&gt;
+            &lt;div class=&quot;karty&quot;&gt;
+&lt;?php
+// skrypt 4 - trenerzy
+$zapytanie = &quot;SELECT imie, nazwisko, specjalizacja, COUNT(zajecia.id) AS liczba FROM trenerzy JOIN zajecia ON zajecia.trenerzy_id = trenerzy.id GROUP BY trenerzy.id ORDER BY liczba DESC, nazwisko;&quot;;
+$wynik = mysqli_query($polaczenie, $zapytanie);
+while ($wiersz = mysqli_fetch_row($wynik)) {
+    echo &quot;&lt;article class='trener'&gt;&quot;;
+    echo &quot;&lt;h3&gt;$wiersz[0] $wiersz[1]&lt;/h3&gt;&quot;;
+    echo &quot;&lt;p&gt;$wiersz[2]&lt;/p&gt;&quot;;
+    echo &quot;&lt;p class='liczba'&gt;Zajęć w tygodniu: $wiersz[3]&lt;/p&gt;&quot;;
+    echo &quot;&lt;/article&gt;&quot;;
+}
+?&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+    &lt;/main&gt;
+
+    &lt;footer class=&quot;stopka&quot;&gt;
+        &lt;p&gt;FitPoint, ul. Sportowa 7 · tel. 500 600 700&lt;/p&gt;
+        &lt;p&gt;Stronę wykonał: 00&lt;/p&gt;
+    &lt;/footer&gt;
+    &lt;script src=&quot;skrypt.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?php
+mysqli_close($polaczenie);
+?&gt;
+</pre><h4>styl.css</h4><pre>* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #F3F4F6;
+    color: #111827;
+    font-family: Verdana, Geneva, sans-serif;
+    line-height: 1.5;
+}
+
+h2 {
+    margin-bottom: 14px;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* baner i menu */
+.baner {
+    padding: 28px 5%;
+    background: linear-gradient(120deg, #111827, #4C1D95);
+    color: white;
+}
+
+.logo {
+    color: white;
+    font-size: 2.4rem;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 3px;
+}
+
+.logo span {
+    color: #FACC15;
+}
+
+.haslo {
+    color: #C4B5FD;
+    font-style: italic;
+}
+
+.menu {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px;
+    background-color: #7C3AED;
+}
+
+.menu a {
+    padding: 8px 18px;
+    border-radius: 20px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.menu a:hover {
+    background-color: #FACC15;
+    color: #111827;
+}
+
+/* układ */
+.uklad {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    grid-template-areas:
+        &quot;grafik zapis&quot;
+        &quot;grafik bmi&quot;
+        &quot;trenerzy trenerzy&quot;;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 0 20px;
+}
+
+.grafik { grid-area: grafik; }
+.zapis { grid-area: zapis; }
+.bmi { grid-area: bmi; }
+.trenerzy { grid-area: trenerzy; }
+
+.grafik,
+.zapis,
+.bmi {
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* formularze */
+label {
+    display: block;
+    margin: 10px 0 4px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 9px;
+    border: 2px solid #D1D5DB;
+    border-radius: 6px;
+    font: inherit;
+}
+
+input:focus,
+select:focus {
+    border-color: #7C3AED;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    margin-top: 14px;
+    padding: 10px;
+    background-color: #7C3AED;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #5B21B6;
+}
+
+.filtr {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.filtr label,
+.filtr button {
+    margin: 0;
+    width: auto;
+    white-space: nowrap;
+}
+
+.potwierdzenie {
+    margin-top: 14px;
+    padding: 10px;
+    background-color: #DCFCE7;
+    border-left: 5px solid #16A34A;
+    color: #14532D;
+}
+
+#wynik {
+    margin-top: 14px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #5B21B6;
+}
+
+/* tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    padding: 10px;
+    background-color: #111827;
+    color: white;
+    text-align: left;
+    font-size: 0.85rem;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #F5F3FF;
+}
+
+tbody tr:hover {
+    background-color: #FEF9C3;
+}
+
+.pelne {
+    color: #DC2626;
+    font-weight: bold;
+}
+
+/* trenerzy */
+.karty {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.trener {
+    flex: 1 1 220px;
+    padding: 18px;
+    background-color: white;
+    border-top: 6px solid #FACC15;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.trener:hover {
+    transform: translateY(-5px);
+}
+
+.trener h3 {
+    color: #4C1D95;
+}
+
+.liczba {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: #6B7280;
+}
+
+/* stopka */
+.stopka {
+    padding: 20px;
+    background-color: #111827;
+    color: #9CA3AF;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 900px) {
+    .uklad {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            &quot;grafik&quot;
+            &quot;zapis&quot;
+            &quot;bmi&quot;
+            &quot;trenerzy&quot;;
+    }
+
+    .filtr {
+        flex-wrap: wrap;
+    }
+
+    th,
+    td {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+}
+</pre><h4>skrypt.js</h4><pre>// skrypt 5 - kalkulator BMI
+function obliczBmi() {
+    let waga = Number(document.getElementById('waga').value);
+    let wzrost = Number(document.getElementById('wzrost').value) / 100;
+    let wynik = document.getElementById('wynik');
+    if (waga &lt;= 0 || wzrost &lt;= 0) {
+        wynik.innerHTML = 'Podaj wagę i wzrost';
+        return;
+    }
+    let bmi = waga / (wzrost * wzrost);
+    let opis;
+    if (bmi &lt; 18.5) {
+        opis = 'niedowaga';
+    } else if (bmi &lt; 25) {
+        opis = 'waga prawidłowa';
+    } else {
+        opis = 'nadwaga';
+    }
+    wynik.innerHTML = 'Twoje BMI: ' + bmi.toFixed(1) + ' – ' + opis;
+}
+</pre>
+</section>
+
+</body>
+</html>
