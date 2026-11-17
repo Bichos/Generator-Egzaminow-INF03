@@ -1,0 +1,15 @@
+-- Zapytanie 1
+SELECT tytul, rok, typ, gatunek, dopasowanie, opis FROM produkcje ORDER BY dopasowanie DESC LIMIT 1;
+
+-- Zapytanie 2
+SELECT id, nazwa FROM kategorie;
+
+-- Zapytanie 3
+SELECT tytul, kolor FROM produkcje WHERE kategorie_id = 2;
+
+-- Zapytanie 4
+SELECT nazwa, COUNT(produkcje.id) AS liczba FROM kategorie JOIN produkcje ON kategorie.id = produkcje.kategorie_id GROUP BY nazwa;
+
+-- Zapytanie 5
+CREATE USER 'widz'@'localhost' IDENTIFIED BY 'Str3am!B0x';
+GRANT SELECT ON streambox.produkcje TO 'widz'@'localhost';

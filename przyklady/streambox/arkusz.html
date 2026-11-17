@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INF.03-SB-SG – StreamBox – arkusz ćwiczeniowy</title>
+<style>
+:root { --ink: #111; --line: #333; --paper: #fff; }
+* { box-sizing: border-box; }
+html { background: #e9e9ec; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; padding: 16px 0; font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt; line-height: 1.38; color: var(--ink); }
+.page { background: var(--paper); width: 210mm; max-width: 100%; margin: 0 auto 16px; padding: 18mm 18mm 20mm; box-shadow: 0 1px 6px rgba(0,0,0,.18); }
+.title-page { min-height: 297mm; }
+h2.task-title { font-size: 13pt; margin: 0 0 8px; }
+h3 { font-size: 11pt; margin: 16px 0 6px; break-after: avoid; }
+p { margin: 5px 0; }
+ul.dash { list-style: none; padding-left: 20px; margin: 4px 0; }
+ul.dash > li { position: relative; margin: 2px 0; }
+ul.dash > li::before { content: '−'; position: absolute; left: -15px; }
+.notice { border: 2px solid #b00; color: #b00; padding: 6px 10px; text-align: center; font-weight: bold; margin-bottom: 14px; }
+.meta { font-size: 10.5pt; }
+.fill { border: 1px solid var(--line); padding: 10px; margin: 14px 0; }
+.fill-title { text-align: center; font-weight: bold; margin-bottom: 8px; }
+.pesel { display: flex; align-items: center; justify-content: space-between; margin: 6px 0; gap: 10px; flex-wrap: wrap; }
+.pesel .line { flex: 1; min-width: 200px; max-width: 60%; border-bottom: 1px solid var(--line); height: 22px; }
+.boxes { display: inline-flex; }
+.boxes i { width: 22px; height: 26px; border: 1px solid var(--line); margin-left: -1px; display: inline-block; }
+.row-between { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.code { font-weight: bold; border: 1px solid var(--line); padding: 2px 8px; }
+.big { text-align: center; font-weight: bold; font-size: 15pt; margin: 18px 0; }
+.big small { font-size: 10pt; font-weight: normal; }
+.instr li { margin: 4px 0; }
+.right { text-align: right; }
+.small { font-size: 9pt; color: #333; }
+.seed { margin-top: 30px; color: #555; }
+.mono { font-family: 'Courier New', monospace; }
+figure { margin: 10px 0; text-align: center; break-inside: avoid; }
+figcaption { font-size: 9.5pt; margin-top: 4px; }
+figure.schema svg { max-width: 100%; height: auto; }
+img.strip { max-width: 100%; border: 1px solid #999; }
+.frame-wrap { width: 100%; height: 420px; overflow: hidden; border: 1px solid #888; position: relative; background: #fff; }
+.frame-wrap.placeholder { display: flex; align-items: center; justify-content: center; color: #777; height: 160px; }
+iframe.site { border: 0; width: 161.3%; height: 680px; transform: scale(0.62); transform-origin: 0 0; position: absolute; left: 0; top: 0; }
+.with-layout { display: flex; gap: 14px; align-items: flex-start; }
+.with-layout > div { flex: 1; min-width: 0; }
+figure.layout { flex: 0 0 230px; margin-top: 30px; }
+figure.layout svg { width: 100%; height: auto; }
+.note { margin: 8px 0; }
+.script-name { font-weight: bold; margin-top: 8px; }
+.help-tables { margin-top: 14px; }
+table.help { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 9pt; break-inside: avoid; }
+table.help caption { text-align: left; font-weight: bold; margin-bottom: 3px; }
+table.help th, table.help td { border: 1px solid var(--line); padding: 3px 6px; text-align: left; vertical-align: top; }
+table.help th { background: #eee; }
+@media (max-width: 700px) {
+  .page { padding: 16px; }
+  .with-layout { flex-direction: column; }
+  figure.layout { flex: none; width: 100%; max-width: 300px; margin: 0 auto; }
+}
+@page { size: A4; margin: 14mm 14mm 16mm;
+  @bottom-center { content: "Strona " counter(page) " z " counter(pages); font: 9pt Arial, sans-serif; } }
+@media print {
+  html, body { background: #fff; padding: 0; }
+  .page { box-shadow: none; margin: 0; padding: 0; width: auto; min-height: 0; }
+  .title-page { break-after: page; }
+}
+
+.logo-demo { display: inline-block; padding: 14px 18px; background: repeating-conic-gradient(#ddd 0% 25%, #fff 0% 50%) 0 0 / 16px 16px; border: 1px solid #999; }
+.logo-demo img { display: block; height: 40px; }
+.swatch { display: inline-block; width: 90px; height: 22px; border-radius: 3px; vertical-align: middle; }
+figure.preview.mobile .frame-wrap { height: 520px; }
+</style>
+</head>
+<body>
+<section class="page title-page">
+  <div class="notice">Arkusz ćwiczeniowy przygotowany na zajęcia.<br>Nie jest oficjalnym arkuszem CKE.</div>
+  <p class="meta">Nazwa kwalifikacji: <b>Tworzenie i administrowanie stronami i aplikacjami internetowymi oraz bazami danych</b><br>
+  Symbol kwalifikacji: <b>INF.03</b><br>Zadanie: <b>StreamBox – serwis z filmami i serialami</b><br>Wersja arkusza: <b>SG</b></p>
+  <div class="fill"><div class="fill-title">Wypełnia zdający</div>
+    <div class="pesel"><span>Imię i nazwisko</span><span class="line"></span></div>
+    <div class="pesel"><span>Numer z dziennika</span><span class="boxes"><i></i><i></i></span></div>
+  </div>
+  <div class="row-between"><span>Czas trwania egzaminu: <b>150 minut</b></span><span class="code">INF.03-SB-SG</span></div>
+  <div class="big">EGZAMIN ZAWODOWY – ARKUSZ ĆWICZENIOWY<br><small>CZĘŚĆ PRAKTYCZNA · PODSTAWA PROGRAMOWA 2019</small></div>
+  <h3>Instrukcja dla zdającego</h3>
+  <ol class="instr">
+    <li>Na pierwszej stronie arkusza wpisz w oznaczonym miejscu swoje imię i nazwisko oraz numer z dziennika.</li>
+    <li>Sprawdź, czy arkusz egzaminacyjny zawiera wszystkie strony i nie zawiera błędów. Ewentualny brak stron lub inne usterki zgłoś przez podniesienie ręki nauczycielowi.</li>
+    <li>Zapoznaj się z treścią zadania oraz stanowiskiem egzaminacyjnym. Masz na to 10 minut. Czas ten nie jest wliczany do czasu trwania egzaminu.</li>
+    <li>Wykonaj samodzielnie zadanie egzaminacyjne. Przestrzegaj zasad bezpieczeństwa i organizacji pracy.</li>
+    <li>Po zakończeniu wykonania zadania pozostaw arkusz egzaminacyjny z rezultatami wykonania zadania na swoim stanowisku.</li>
+  </ol>
+  <p class="right"><b>Powodzenia!</b></p>
+</section>
+<section class="page task">
+  <h2 class="task-title">Zadanie egzaminacyjne</h2>
+  <p>UWAGA: numer z dziennika, którym został podpisany arkusz, jest w zadaniu nazywany numerem zdającego.</p>
+  <p>Wykonaj aplikację internetową serwisu z filmami i serialami StreamBox, wykorzystując edytor grafiki rastrowej, pakiet XAMPP oraz edytor zaznaczający składnię.</p>
+  <p>Aby wykonać zadanie, należy zalogować się na konto <b>Egzamin</b> bez hasła. Na pulpicie znajduje się archiwum 7z o nazwie <b>streambox</b> zabezpieczone hasłem: <b class="mono">Str3@mB0x!</b>. Archiwum należy rozpakować.</p>
+  <p>Na pulpicie konta Egzamin należy utworzyć folder. Jako nazwy folderu należy użyć numeru zdającego. Po skończonej pracy wszystkie wyniki należy zapisać w tym folderze.</p>
+
+  <h3>Operacje na bazie danych</h3>
+  <p>Baza danych zawiera połączone relacją tabele przedstawione na ilustracji 1. Tabela kategorie opisuje kategorie (rzędy) serwisu. Tabela produkcje opisuje filmy i seriale: pole typ przyjmuje wartości ‘film’ lub ‘serial’, pole dopasowanie zawiera procent dopasowania do upodobań widza, a pole kolor – nazwę klasy CSS kafelka (od ‘k1’ do ‘k6’). Wszystkie tytuły są wymyślone.</p>
+  <figure class="schema"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 257" width="460" height="257"><path d="M260 227.5 H230 V45.5 H200" fill="none" stroke="#555" stroke-width="1.5"/><circle cx="200" cy="45.5" r="3" fill="#555"/><g font-family="Arial, sans-serif"><rect x="10" y="10" width="190" height="64" fill="#fff" stroke="#333"/><rect x="10" y="10" width="190" height="26" fill="#d9e3ef" stroke="#333"/><text x="18" y="27" font-size="13" font-weight="bold">kategorie</text><text x="18" y="50" font-size="12">🔑 id</text><text x="192" y="50" font-size="10" fill="#666" text-anchor="end">int</text><text x="18" y="69" font-size="12">nazwa</text><text x="192" y="69" font-size="10" fill="#666" text-anchor="end">varchar(40)</text></g><g font-family="Arial, sans-serif"><rect x="260" y="40" width="190" height="197" fill="#fff" stroke="#333"/><rect x="260" y="40" width="190" height="26" fill="#d9e3ef" stroke="#333"/><text x="268" y="57" font-size="13" font-weight="bold">produkcje</text><text x="268" y="80" font-size="12">🔑 id</text><text x="442" y="80" font-size="10" fill="#666" text-anchor="end">int</text><text x="268" y="99" font-size="12">tytul</text><text x="442" y="99" font-size="10" fill="#666" text-anchor="end">varchar(60)</text><text x="268" y="118" font-size="12">rok</text><text x="442" y="118" font-size="10" fill="#666" text-anchor="end">int</text><text x="268" y="137" font-size="12">typ</text><text x="442" y="137" font-size="10" fill="#666" text-anchor="end">varchar(10)</text><text x="268" y="156" font-size="12">gatunek</text><text x="442" y="156" font-size="10" fill="#666" text-anchor="end">varchar(20)</text><text x="268" y="175" font-size="12">dopasowanie</text><text x="442" y="175" font-size="10" fill="#666" text-anchor="end">int</text><text x="268" y="194" font-size="12">opis</text><text x="442" y="194" font-size="10" fill="#666" text-anchor="end">text</text><text x="268" y="213" font-size="12">kolor</text><text x="442" y="213" font-size="10" fill="#666" text-anchor="end">varchar(2)</text><text x="268" y="232" font-size="12"># kategorie_id</text><text x="442" y="232" font-size="10" fill="#666" text-anchor="end">int</text></g></svg><figcaption>Ilustracja 1. Baza danych</figcaption></figure>
+  <p>Za pomocą narzędzia phpMyAdmin wykonaj następujące operacje na bazie danych:</p>
+  <ul class="dash">
+    <li>Utwórz bazę danych o nazwie <b>streambox</b>, z zestawem polskich znaków (np. utf8mb4_polish_ci)</li>
+    <li>Z rozpakowanego archiwum zaimportuj tabele z pliku streambox.sql do utworzonej bazy</li>
+    <li>Wykonaj zrzut ekranu po imporcie. Zapisz zrzut w formacie PNG pod nazwą import. Nie kadruj zrzutu. Powinien on obejmować cały ekran monitora, z widocznym paskiem zadań. Na zrzucie powinny być widoczne elementy wskazujące na poprawnie wykonany import tabel</li>
+    <li>Wykonaj zapytania SQL działające na bazie streambox. Zapytania zapisz w pliku kwerendy.txt. Wykonaj zrzuty ekranu przedstawiające wyniki działania kwerend. Zrzuty zapisz w formacie PNG i nadaj im nazwy kw1, kw2, kw3, kw4, kw5. Zrzuty powinny obejmować cały ekran monitora z widocznym paskiem zadań
+      <ul class="dash"><li>Zapytanie 1: wybierające jedynie tytuł, rok, typ, gatunek, dopasowanie i opis produkcji o najwyższym dopasowaniu. Należy wybrać jedynie jeden rekord</li><li>Zapytanie 2: wybierające jedynie identyfikatory i nazwy wszystkich kategorii</li><li>Zapytanie 3: wybierające jedynie tytuł i kolor produkcji należących do kategorii o identyfikatorze 2</li><li>Zapytanie 4: wybierające jedynie nazwę kategorii oraz liczbę produkcji w tej kategorii; kolumna z liczbą ma nazwę (alias) „liczba”. Należy posłużyć się relacją</li><li>Zapytanie 5: tworzące użytkownika widz na serwerze localhost z hasłem Str3am!B0x, a następnie nadające mu jedynie prawo do przeglądania danych (SELECT) w tabeli produkcje bazy streambox</li></ul></li>
+  </ul>
+
+  <h3>Grafika</h3>
+  <p>Wykonaj grafikę logo.png o cechach:</p>
+  <ul class="dash"><li>Zawartością jest napis STREAMBOX zapisany wielkimi literami, dowolną czcionką bezszeryfową, pogrubioną</li><li>Kolor napisu #E11D48</li><li>Tło przezroczyste</li><li>Wysokość grafiki 40 px; napis wypełnia w pionie całą grafikę, a w poziomie grafika jest przycięta do szerokości napisu</li><li>Grafika zapisana w formacie PNG</li></ul>
+  <figure><div class="logo-demo"><img src="data:image/png;base64,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" alt="logo StreamBox"></div><figcaption>Ilustracja 2. Grafika logo.png na tle przezroczystym (szachownica)</figcaption></figure>
+
+  <h3>Witryna internetowa</h3>
+  <figure class="preview"><div class="frame-wrap" style="width:640px;max-width:100%;margin:0 auto" data-scale="0.5"><iframe class="site" style="width:1280px;transform:scale(0.5)" srcdoc="<!DOCTYPE html>
+<html lang=&quot;pl&quot;>
+<head>
+    <meta charset=&quot;UTF-8&quot;>
+    <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+    <title>StreamBox – filmy i seriale</title>
+    <style>html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #141414;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+.pasek {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 16px 4%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent);
+}
+
+.logo {
+    height: 40px;
+}
+
+.pasek nav {
+    flex: 1;
+}
+
+.pasek nav ul {
+    display: flex;
+    gap: 20px;
+}
+
+.pasek nav a {
+    color: #E5E5E5;
+}
+
+.pasek nav a:hover {
+    color: white;
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.btn-czerwony {
+    background-color: #E11D48;
+}
+
+.btn-bialy {
+    background-color: white;
+    color: black;
+}
+
+.btn-szary {
+    background-color: rgba(109, 109, 110, 0.7);
+}
+
+.hero {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    padding: 0 4%;
+    background: linear-gradient(135deg, #1B2A49, #5C1A3A, #0B0B0B);
+}
+
+.hero-tresc {
+    max-width: 520px;
+    margin-top: 60px;
+}
+
+.hero h1 {
+    font-size: 300%;
+}
+
+.meta {
+    color: #46D369;
+    font-weight: bold;
+}
+
+.opis {
+    display: none;
+    color: #E5E5E5;
+}
+
+.przyciski {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+main {
+    padding: 20px 0 40px;
+}
+
+.rzad {
+    padding: 0 4%;
+    margin-bottom: 32px;
+}
+
+.kafelki {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 10px 0 20px;
+}
+
+.kafel {
+    flex: 0 0 220px;
+    height: 124px;
+    display: flex;
+    align-items: flex-end;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.25s;
+}
+
+.kafel span {
+    text-shadow: 0 1px 4px black;
+}
+
+.kafel:hover {
+    transform: scale(1.1);
+}
+
+.k1 { background: linear-gradient(135deg, #FF7E5F, #8E2DE2); }
+.k2 { background: linear-gradient(135deg, #00B4DB, #0B3D91); }
+.k3 { background: linear-gradient(135deg, #11998E, #1D4350); }
+.k4 { background: linear-gradient(135deg, #F7971E, #A8261C); }
+.k5 { background: linear-gradient(135deg, #8360C3, #2EBF91); }
+.k6 { background: linear-gradient(135deg, #CB2D3E, #1F1C2C); }
+
+.stopka {
+    padding: 40px 4%;
+    color: #8C8C8C;
+    border-top: 1px solid #333333;
+}
+
+.stopka ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    margin: 16px 0;
+}
+
+.stopka a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .pasek nav {
+        display: none;
+    }
+
+    .pasek {
+        justify-content: space-between;
+    }
+
+    .hero h1 {
+        font-size: 200%;
+    }
+
+    .przyciski {
+        flex-direction: column;
+    }
+}
+
+.hero{min-height:560px}</style>
+</head>
+<body>
+    <header class=&quot;pasek&quot;>
+        <img src=&quot;data:image/png;base64,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&quot; alt=&quot;StreamBox&quot; class=&quot;logo&quot;>
+        <nav>
+            <ul>
+                <li><a href=&quot;index.php&quot;>Strona główna</a></li>
+                <li><a href=&quot;#&quot;>Seriale</a></li>
+                <li><a href=&quot;#&quot;>Filmy</a></li>
+                <li><a href=&quot;#&quot;>Nowe i popularne</a></li>
+                <li><a href=&quot;#&quot;>Moja lista</a></li>
+            </ul>
+        </nav>
+        <a href=&quot;#&quot; class=&quot;btn btn-czerwony&quot;>Zaloguj się</a>
+    </header>
+
+    <section class=&quot;hero&quot;>
+        <div class=&quot;hero-tresc&quot;>
+            <h1>Noc nad Biebrzą</h1><p class='meta'>98% dopasowania · 2026 · serial · Thriller</p><p class='opis' id='opis'>Gdy w mglistych mokradłach znikają kolejni mieszkańcy, młoda policjantka odkrywa, że wszystkie tropy prowadzą do jej własnej rodziny.</p>            <div class=&quot;przyciski&quot;>
+                <a href=&quot;#&quot; class=&quot;btn btn-bialy&quot;>▶ Odtwórz</a>
+                <button class=&quot;btn btn-szary&quot; id=&quot;przyciskOpis&quot; onclick=&quot;pokazOpis()&quot;>ⓘ Więcej informacji</button>
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <section class='rzad'><h2>Popularne teraz</h2><div class='kafelki'><article class='kafel k6'><span>Noc nad Biebrzą</span></article><article class='kafel k1'><span>Ostatni autobus</span></article><article class='kafel k2'><span>Wilcze wzgórza</span></article><article class='kafel k3'><span>Cień nad Narwią</span></article><article class='kafel k4'><span>Kod Zero</span></article><article class='kafel k5'><span>Szkoła przetrwania</span></article><article class='kafel k6'><span>Zimowa baza</span></article></div></section><section class='rzad'><h2>Seriale kryminalne</h2><div class='kafelki'><article class='kafel k1'><span>Dossier 17</span></article><article class='kafel k2'><span>Mgła</span></article><article class='kafel k3'><span>Trzecia zmiana</span></article><article class='kafel k4'><span>Linia brzegowa</span></article><article class='kafel k5'><span>Sąsiedzi</span></article><article class='kafel k6'><span>Fałszywy trop</span></article></div></section><section class='rzad'><h2>Komedie na wieczór</h2><div class='kafelki'><article class='kafel k1'><span>Weekend u cioci</span></article><article class='kafel k2'><span>Zepsuty GPS</span></article><article class='kafel k3'><span>Wesele na dwa fronty</span></article><article class='kafel k4'><span>Biuro numer 5</span></article><article class='kafel k5'><span>Mistrz parkowania</span></article><article class='kafel k6'><span>Dwa lewe kapcie</span></article></div></section>    </main>
+
+    <footer class=&quot;stopka&quot;>
+        <p>Masz pytania? Zadzwoń: 800 000 000</p>
+        <ul>
+            <li><a href=&quot;#&quot;>Często zadawane pytania</a></li>
+            <li><a href=&quot;#&quot;>Centrum pomocy</a></li>
+            <li><a href=&quot;#&quot;>Warunki korzystania</a></li>
+            <li><a href=&quot;#&quot;>Prywatność</a></li>
+            <li><a href=&quot;#&quot;>Kontakt</a></li>
+        </ul>
+        <p>Stronę wykonał: 00</p>
+    </footer>
+
+    <script>// skrypt 3 - pokazywanie i ukrywanie opisu w banerze
+function pokazOpis() {
+    const opis = document.getElementById('opis');
+    const przycisk = document.getElementById('przyciskOpis');
+    if (opis.style.display === 'block') {
+        opis.style.display = 'none';
+        przycisk.innerHTML = 'ⓘ Więcej informacji';
+    } else {
+        opis.style.display = 'block';
+        przycisk.innerHTML = 'ⓘ Mniej informacji';
+    }
+}
+</script>
+</body>
+</html>
+" title="Podgląd witryny"></iframe></div><figcaption>Ilustracja 3. Wygląd witryny internetowej na ekranie o szerokości 1280 px; dane pochodzą z bazy</figcaption></figure>
+  <div class="with-layout"><div>
+  <figure class="preview mobile" data-click="przyciskOpis"><div class="frame-wrap" style="width:240px;max-width:100%;margin:0 auto" data-scale="0.6"><iframe class="site" style="width:400px;transform:scale(0.6)" srcdoc="<!DOCTYPE html>
+<html lang=&quot;pl&quot;>
+<head>
+    <meta charset=&quot;UTF-8&quot;>
+    <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+    <title>StreamBox – filmy i seriale</title>
+    <style>html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #141414;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+.pasek {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 16px 4%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent);
+}
+
+.logo {
+    height: 40px;
+}
+
+.pasek nav {
+    flex: 1;
+}
+
+.pasek nav ul {
+    display: flex;
+    gap: 20px;
+}
+
+.pasek nav a {
+    color: #E5E5E5;
+}
+
+.pasek nav a:hover {
+    color: white;
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.btn-czerwony {
+    background-color: #E11D48;
+}
+
+.btn-bialy {
+    background-color: white;
+    color: black;
+}
+
+.btn-szary {
+    background-color: rgba(109, 109, 110, 0.7);
+}
+
+.hero {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    padding: 0 4%;
+    background: linear-gradient(135deg, #1B2A49, #5C1A3A, #0B0B0B);
+}
+
+.hero-tresc {
+    max-width: 520px;
+    margin-top: 60px;
+}
+
+.hero h1 {
+    font-size: 300%;
+}
+
+.meta {
+    color: #46D369;
+    font-weight: bold;
+}
+
+.opis {
+    display: none;
+    color: #E5E5E5;
+}
+
+.przyciski {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+main {
+    padding: 20px 0 40px;
+}
+
+.rzad {
+    padding: 0 4%;
+    margin-bottom: 32px;
+}
+
+.kafelki {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 10px 0 20px;
+}
+
+.kafel {
+    flex: 0 0 220px;
+    height: 124px;
+    display: flex;
+    align-items: flex-end;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.25s;
+}
+
+.kafel span {
+    text-shadow: 0 1px 4px black;
+}
+
+.kafel:hover {
+    transform: scale(1.1);
+}
+
+.k1 { background: linear-gradient(135deg, #FF7E5F, #8E2DE2); }
+.k2 { background: linear-gradient(135deg, #00B4DB, #0B3D91); }
+.k3 { background: linear-gradient(135deg, #11998E, #1D4350); }
+.k4 { background: linear-gradient(135deg, #F7971E, #A8261C); }
+.k5 { background: linear-gradient(135deg, #8360C3, #2EBF91); }
+.k6 { background: linear-gradient(135deg, #CB2D3E, #1F1C2C); }
+
+.stopka {
+    padding: 40px 4%;
+    color: #8C8C8C;
+    border-top: 1px solid #333333;
+}
+
+.stopka ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    margin: 16px 0;
+}
+
+.stopka a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .pasek nav {
+        display: none;
+    }
+
+    .pasek {
+        justify-content: space-between;
+    }
+
+    .hero h1 {
+        font-size: 200%;
+    }
+
+    .przyciski {
+        flex-direction: column;
+    }
+}
+
+.hero{min-height:560px}</style>
+</head>
+<body>
+    <header class=&quot;pasek&quot;>
+        <img src=&quot;data:image/png;base64,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&quot; alt=&quot;StreamBox&quot; class=&quot;logo&quot;>
+        <nav>
+            <ul>
+                <li><a href=&quot;index.php&quot;>Strona główna</a></li>
+                <li><a href=&quot;#&quot;>Seriale</a></li>
+                <li><a href=&quot;#&quot;>Filmy</a></li>
+                <li><a href=&quot;#&quot;>Nowe i popularne</a></li>
+                <li><a href=&quot;#&quot;>Moja lista</a></li>
+            </ul>
+        </nav>
+        <a href=&quot;#&quot; class=&quot;btn btn-czerwony&quot;>Zaloguj się</a>
+    </header>
+
+    <section class=&quot;hero&quot;>
+        <div class=&quot;hero-tresc&quot;>
+            <h1>Noc nad Biebrzą</h1><p class='meta'>98% dopasowania · 2026 · serial · Thriller</p><p class='opis' id='opis'>Gdy w mglistych mokradłach znikają kolejni mieszkańcy, młoda policjantka odkrywa, że wszystkie tropy prowadzą do jej własnej rodziny.</p>            <div class=&quot;przyciski&quot;>
+                <a href=&quot;#&quot; class=&quot;btn btn-bialy&quot;>▶ Odtwórz</a>
+                <button class=&quot;btn btn-szary&quot; id=&quot;przyciskOpis&quot; onclick=&quot;pokazOpis()&quot;>ⓘ Więcej informacji</button>
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <section class='rzad'><h2>Popularne teraz</h2><div class='kafelki'><article class='kafel k6'><span>Noc nad Biebrzą</span></article><article class='kafel k1'><span>Ostatni autobus</span></article><article class='kafel k2'><span>Wilcze wzgórza</span></article><article class='kafel k3'><span>Cień nad Narwią</span></article><article class='kafel k4'><span>Kod Zero</span></article><article class='kafel k5'><span>Szkoła przetrwania</span></article><article class='kafel k6'><span>Zimowa baza</span></article></div></section><section class='rzad'><h2>Seriale kryminalne</h2><div class='kafelki'><article class='kafel k1'><span>Dossier 17</span></article><article class='kafel k2'><span>Mgła</span></article><article class='kafel k3'><span>Trzecia zmiana</span></article><article class='kafel k4'><span>Linia brzegowa</span></article><article class='kafel k5'><span>Sąsiedzi</span></article><article class='kafel k6'><span>Fałszywy trop</span></article></div></section><section class='rzad'><h2>Komedie na wieczór</h2><div class='kafelki'><article class='kafel k1'><span>Weekend u cioci</span></article><article class='kafel k2'><span>Zepsuty GPS</span></article><article class='kafel k3'><span>Wesele na dwa fronty</span></article><article class='kafel k4'><span>Biuro numer 5</span></article><article class='kafel k5'><span>Mistrz parkowania</span></article><article class='kafel k6'><span>Dwa lewe kapcie</span></article></div></section>    </main>
+
+    <footer class=&quot;stopka&quot;>
+        <p>Masz pytania? Zadzwoń: 800 000 000</p>
+        <ul>
+            <li><a href=&quot;#&quot;>Często zadawane pytania</a></li>
+            <li><a href=&quot;#&quot;>Centrum pomocy</a></li>
+            <li><a href=&quot;#&quot;>Warunki korzystania</a></li>
+            <li><a href=&quot;#&quot;>Prywatność</a></li>
+            <li><a href=&quot;#&quot;>Kontakt</a></li>
+        </ul>
+        <p>Stronę wykonał: 00</p>
+    </footer>
+
+    <script>// skrypt 3 - pokazywanie i ukrywanie opisu w banerze
+function pokazOpis() {
+    const opis = document.getElementById('opis');
+    const przycisk = document.getElementById('przyciskOpis');
+    if (opis.style.display === 'block') {
+        opis.style.display = 'none';
+        przycisk.innerHTML = 'ⓘ Więcej informacji';
+    } else {
+        opis.style.display = 'block';
+        przycisk.innerHTML = 'ⓘ Mniej informacji';
+    }
+}
+</script>
+</body>
+</html>
+" title="Podgląd witryny"></iframe></div><figcaption>Ilustracja 4. Wygląd witryny na ekranie o szerokości 400 px (po kliknięciu „ⓘ Więcej informacji”)</figcaption></figure>
+  </div><figure class="layout"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 300" width="340" height="300" font-family="Arial, sans-serif">
+    <rect x="4" y="4" width="332" height="34" fill="#fff" stroke="#222" stroke-width="1.5" stroke-dasharray="5 3"/><text x="170" y="25" font-size="12" text-anchor="middle">pasek nawigacyjny (header.pasek, przyklejony u góry)</text>
+    <rect x="4" y="42" width="332" height="110" fill="#fff" stroke="#222" stroke-width="1.5" /><text x="170" y="101" font-size="12" text-anchor="middle">baner (section.hero)</text>
+    <rect x="4" y="156" width="332" height="90" fill="#fff" stroke="#222" stroke-width="1.5" /><text x="170" y="205" font-size="12" text-anchor="middle">blok główny (main) – rzędy kafelków</text>
+    <rect x="4" y="250" width="332" height="44" fill="#fff" stroke="#222" stroke-width="1.5" /><text x="170" y="276" font-size="12" text-anchor="middle">stopka (footer.stopka)</text>
+  </svg><figcaption>Ilustracja 5. Układ bloków</figcaption></figure></div>
+  <p>Cechy witryny:</p>
+  <ul class="dash"><li>Składa się ze strony o nazwie index.php</li><li>Zapisana w języku HTML5</li><li>Zadeklarowany polski język zawartości witryny</li><li>Jawnie zastosowany właściwy standard kodowania polskich znaków</li><li>Znacznik meta ustawiający szerokość widoku strony na szerokość urządzenia (viewport: width=device-width, initial-scale=1.0)</li><li>Tytuł strony widoczny na karcie przeglądarki: „StreamBox – filmy i seriale”</li><li>Arkusz stylów w pliku o nazwie styl.css prawidłowo połączony z kodem strony</li><li>Podział strony na bloki zrealizowany za pomocą semantycznych znaczników HTML5 zgodnie z ilustracją 5: pasek nawigacyjny – header z klasą pasek, baner – section z klasą hero, blok główny – main, stopka – footer z klasą stopka</li><li>Zawartość paska nawigacyjnego, kolejno:<ul class="dash"><li>obraz logo.png z tekstem alternatywnym „StreamBox” i przypisaną klasą logo</li><li>blok nawigacyjny (nav), a w nim lista punktowana (nieuporządkowana) z pięcioma odnośnikami: „Strona główna” prowadzący do index.php oraz „Seriale”, „Filmy”, „Nowe i popularne”, „Moja lista” prowadzące do adresu #</li><li>odnośnik o treści „Zaloguj się” prowadzący do adresu #, z przypisanymi klasami btn i btn-czerwony</li></ul></li><li>Zawartość banera: blok div z klasą hero-tresc, a w nim:<ul class="dash"><li>efekt działania skryptu 1</li><li>blok div z klasą przyciski, zawierający odnośnik „▶ Odtwórz” (adres #, klasy btn i btn-bialy) oraz przycisk (znacznik button) „ⓘ Więcej informacji” z klasami btn i btn-szary oraz identyfikatorem przyciskOpis; kliknięcie przycisku uruchamia skrypt 3</li></ul></li><li>Zawartość bloku głównego: efekt działania skryptu 2</li><li>Zawartość stopki:<ul class="dash"><li>paragraf o treści „Masz pytania? Zadzwoń: 800 000 000”</li><li>lista punktowana z pięcioma odnośnikami prowadzącymi do adresu #: „Często zadawane pytania”, „Centrum pomocy”, „Warunki korzystania”, „Prywatność”, „Kontakt”</li><li>paragraf o treści „Stronę wykonał: ”, dalej wstawiony numer zdającego</li></ul></li></ul>
+
+  <h3>Styl CSS witryny internetowej</h3>
+  <p>Styl CSS zdefiniowany jest w całości w zewnętrznym pliku o nazwie styl.css. W tabeli 3 zamieszczono pomoc do niektórych właściwości CSS. Cechy formatowania CSS, działające na stronie:</p>
+  <ul class="dash"><li>Domyślnie dla wszystkich selektorów (*): marginesy zewnętrzne i wewnętrzne 0, model pudełkowy border-box (szerokość i wysokość obejmują marginesy wewnętrzne i obramowanie)</li><li>Dla selektora ciała strony: kolor tła #141414, biały kolor czcionki, krój czcionki Arial, w przypadku braku Helvetica, a następnie sans-serif, wysokość linii 1,5</li><li>Dla selektora odnośnika: kolor czcionki dziedziczony z elementu nadrzędnego (inherit), tekst bez podkreślenia; dla selektora listy punktowanej: brak punktora</li><li>Dla klasy pasek: pozycja stała, przyklejona do lewego górnego rogu okna (góra 0, lewo 0), szerokość 100%, kolejność warstw (z-index) 10, sposób wyświetlania elastyczny (flex), elementy wyśrodkowane w pionie, odstęp między elementami 32 px, marginesy wewnętrzne: górny i dolny 16 px, lewy i prawy 4%, tło – gradient pionowy od koloru czarnego o nieprzezroczystości 0,85 do koloru przezroczystego</li><li>Dla klasy logo: wysokość 40 px. Dla bloku nawigacyjnego w pasku: zajmuje całe pozostałe miejsce w pasku (flex: 1); lista w tym bloku: sposób wyświetlania elastyczny, odstęp między elementami 20 px</li><li>Dla odnośników w bloku nawigacyjnym paska: kolor czcionki #E5E5E5; gdy kursor znajdzie się na odnośniku, kolor czcionki zmienia się na biały</li><li>Dla klasy btn: sposób wyświetlania liniowo-blokowy, marginesy wewnętrzne: górny i dolny 8 px, lewy i prawy 18 px, brak obramowania, zaokrąglenie rogów 4 px, pogrubienie czcionki, rozmiar czcionki 16 px, biały kolor czcionki, kursor w kształcie wskazującej dłoni; gdy kursor znajdzie się na elemencie z klasą btn, jego nieprzezroczystość wynosi 0,8</li><li>Dla klas przycisków: btn-czerwony – kolor tła #E11D48; btn-bialy – biały kolor tła i czarny kolor czcionki; btn-szary – kolor tła rgba(109, 109, 110, 0.7)</li><li>Dla klasy hero: minimalna wysokość 80% wysokości okna (80vh), sposób wyświetlania elastyczny, zawartość wyśrodkowana w pionie, marginesy wewnętrzne: lewy i prawy 4%, górny i dolny 0, tło – gradient ukośny (135 stopni) przechodzący kolejno przez kolory #1B2A49, #5C1A3A, #0B0B0B</li><li>Dla klasy hero-tresc: maksymalna szerokość 520 px, górny margines zewnętrzny 60 px; dla nagłówka pierwszego stopnia w banerze: rozmiar czcionki 300%</li><li>Dla klasy meta: kolor czcionki #46D369, pogrubienie; dla klasy opis: kolor czcionki #E5E5E5, w stanie początkowym element jest ukryty (sposób wyświetlania none). Dla klasy przyciski: sposób wyświetlania elastyczny, odstęp między elementami 12 px, górny margines zewnętrzny 24 px</li><li>Dla bloku głównego: marginesy wewnętrzne: górny 20 px, dolny 40 px, lewy i prawy 0; dla klasy rzad: marginesy wewnętrzne: lewy i prawy 4%, dolny margines zewnętrzny 32 px. Dla klasy kafelki: sposób wyświetlania elastyczny, odstęp między elementami 8 px, poziomy pasek przewijania widoczny jedynie wtedy, gdy kafelki nie mieszczą się w bloku, marginesy wewnętrzne: górny 10 px, dolny 20 px</li><li>Dla klasy kafel: stała szerokość 220 px bez rozciągania i zwężania (flex: 0 0 220px), wysokość 124 px, sposób wyświetlania elastyczny z zawartością przy dolnej krawędzi (align-items: flex-end), marginesy wewnętrzne 10 px, zaokrąglenie rogów 4 px, pogrubienie czcionki, kursor w kształcie wskazującej dłoni, płynne przejście (transition) transformacji trwające 0,25 s</li><li>Dla tekstu (span) w kafelku: cień tekstu przesunięty o 0 px w poziomie i 1 px w pionie, rozmycie 4 px, kolor czarny; gdy kursor znajdzie się na kafelku, kafelek jest powiększany 1,1 raza (transformacja skali)</li><li>Dla klas k1–k6: tło – gradient ukośny (135 stopni) między kolorami podanymi w tabeli 2</li><li>Dla klasy stopka: marginesy wewnętrzne: górny i dolny 40 px, lewy i prawy 4%, kolor czcionki #8C8C8C, górne obramowanie linią ciągłą 1 px w kolorze #333333; lista w stopce: sposób wyświetlania elastyczny z zawijaniem do kolejnego wiersza (flex-wrap), odstępy między elementami 12 px w pionie i 32 px w poziomie, marginesy zewnętrzne: górny i dolny 16 px; gdy kursor znajdzie się na odnośniku w stopce, tekst jest podkreślony</li><li>W przypadku ekranów o szerokości do 768 px (ilustracja 4): blok nawigacyjny w pasku jest ukryty, elementy paska są rozsunięte do krawędzi (justify-content: space-between), nagłówek pierwszego stopnia w banerze ma rozmiar czcionki 200%, a elementy bloku przyciski są ułożone jeden pod drugim (flex-direction: column)</li></ul>
+  <p class="note">Uwaga: styl CSS ciała strony, odnośnika i listy punktowanej należy zdefiniować wyłącznie przy pomocy selektora tych znaczników. Jest to uwarunkowane projektem późniejszej rozbudowy witryny.</p>
+
+  <h3>Skrypty działające po stronie serwera (PHP)</h3>
+  <p>W tabeli 1 zamieszczono wybrane funkcje PHP do obsługi bazy danych. Wymagania dotyczące skryptów:</p>
+  <ul class="dash"><li>Napisane w języku PHP</li><li>Należy stosować znaczące nazewnictwo zmiennych i funkcji w języku polskim lub angielskim</li><li>Łączą się z serwerem bazodanowym na localhost, użytkownik root bez hasła, baza danych o nazwie streambox</li><li>Na końcu zamykane jest połączenie z serwerem</li></ul>
+  <p class="script-name">Skrypt 1 (baner):</p><ul class="dash"><li>Wysyła do bazy danych zapytanie 1</li><li>Wyświetla tytuł w nagłówku pierwszego stopnia</li><li>Wyświetla paragraf z klasą meta o treści „&lt;dopasowanie&gt;% dopasowania · &lt;rok&gt; · &lt;typ&gt; · &lt;gatunek&gt;”, gdzie w znakach &lt;&gt; zapisano pola zwrócone zapytaniem (separator to kropka środkowa „·” otoczona spacjami)</li><li>Wyświetla paragraf z klasą opis i identyfikatorem opis, zawierający pole opis</li></ul><p class="script-name">Skrypt 2 (rzędy kafelków):</p><ul class="dash"><li>Wysyła do bazy danych zapytanie 2</li><li>dla każdej zwróconej kategorii tworzy blok section z klasą rzad, a w nim:<ul class="dash"><li>nagłówek drugiego stopnia z nazwą kategorii</li><li>blok div z klasą kafelki wypełniony rekordami zwróconymi przez zmodyfikowane zapytanie 3 – wybierane są produkcje kategorii o identyfikatorze bieżącego rekordu kategorii</li></ul></li><li>Każda produkcja jest wyświetlana jako element article z dwiema klasami: kafel oraz klasą równą wartości pola kolor (np. „kafel k3”); w elemencie article znajduje się element span z tytułem produkcji</li></ul>
+  <h3>Skrypt działający po stronie klienta (JavaScript)</h3>
+  <p>W tabeli 4 zamieszczono wybrane pola i metody modelu DOM. Skrypt jest napisany w języku JavaScript (w pliku skrypt.js lub w znaczniku script), należy stosować znaczące nazewnictwo zmiennych i funkcji.</p>
+  <p class="script-name">Skrypt 3 (opis w banerze):</p><ul class="dash"><li>Wywoływany po kliknięciu przycisku „ⓘ Więcej informacji”</li><li>Gdy paragraf z identyfikatorem opis jest ukryty – wyświetla go (sposób wyświetlania blokowy) i zmienia napis na przycisku na „ⓘ Mniej informacji”</li><li>Gdy paragraf jest widoczny – ukrywa go i przywraca napis „ⓘ Więcej informacji”</li></ul>
+
+  <div class="help-tables">
+  <table class="help"><caption>Tabela 1. Wybór funkcji języka PHP do obsługi bazy MySQL i MariaDB</caption><tr><th>Funkcje biblioteki mysqli</th><th>Zwracana wartość</th></tr><tr><td>mysqli_connect(serwer, użytkownik, hasło, nazwa_bazy)</td><td>id połączenia lub FALSE, gdy niepowodzenie</td></tr><tr><td>mysqli_query(id_polaczenia, zapytanie)</td><td>Wynik zapytania</td></tr><tr><td>mysqli_fetch_row(wynik_zapytania)</td><td>Tablica numeryczna odpowiadająca wierszowi zapytania</td></tr><tr><td>mysqli_fetch_array(wynik_zapytania)</td><td>Tablica z kolejnym wierszem wyniku lub FALSE, gdy nie ma więcej wierszy</td></tr><tr><td>mysqli_num_rows(wynik_zapytania)</td><td>Liczba wierszy w wyniku zapytania</td></tr><tr><td>mysqli_close(id_polaczenia)</td><td>TRUE/FALSE w zależności od stanu operacji</td></tr></table>
+  <table class="help"><caption>Tabela 2. Gradienty kafelków (linear-gradient(135deg, kolor 1, kolor 2))</caption><tr><th>Klasa</th><th>Kolor 1</th><th>Kolor 2</th><th>Podgląd</th></tr><tr><td>k1</td><td>#FF7E5F</td><td>#8E2DE2</td><td><span class="swatch" style="background:linear-gradient(135deg, #FF7E5F, #8E2DE2)"></span></td></tr><tr><td>k2</td><td>#00B4DB</td><td>#0B3D91</td><td><span class="swatch" style="background:linear-gradient(135deg, #00B4DB, #0B3D91)"></span></td></tr><tr><td>k3</td><td>#11998E</td><td>#1D4350</td><td><span class="swatch" style="background:linear-gradient(135deg, #11998E, #1D4350)"></span></td></tr><tr><td>k4</td><td>#F7971E</td><td>#A8261C</td><td><span class="swatch" style="background:linear-gradient(135deg, #F7971E, #A8261C)"></span></td></tr><tr><td>k5</td><td>#8360C3</td><td>#2EBF91</td><td><span class="swatch" style="background:linear-gradient(135deg, #8360C3, #2EBF91)"></span></td></tr><tr><td>k6</td><td>#CB2D3E</td><td>#1F1C2C</td><td><span class="swatch" style="background:linear-gradient(135deg, #CB2D3E, #1F1C2C)"></span></td></tr></table>
+  <table class="help"><caption>Tabela 3. Wybrane właściwości CSS</caption><tr><th>Zapis</th><th>Znaczenie</th></tr><tr><td>display: flex</td><td>Elementy potomne układane są obok siebie (w wierszu)</td></tr><tr><td>gap: 20px</td><td>Odstęp między elementami układu flex lub grid</td></tr><tr><td>flex: 1</td><td>Element zajmuje całe pozostałe wolne miejsce</td></tr><tr><td>flex: 0 0 220px</td><td>Element ma stałą szerokość 220 px – nie rośnie i nie maleje</td></tr><tr><td>align-items: center | flex-end</td><td>Wyrównanie elementów w pionie (do środka / do dołu)</td></tr><tr><td>justify-content: space-between</td><td>Pierwszy i ostatni element przy krawędziach, reszta równomiernie</td></tr><tr><td>flex-wrap: wrap</td><td>Elementy przenoszone do kolejnego wiersza, gdy brakuje miejsca</td></tr><tr><td>flex-direction: column</td><td>Elementy układane jeden pod drugim</td></tr><tr><td>position: fixed; top: 0; left: 0</td><td>Element przyklejony do okna przeglądarki, nie przewija się ze stroną</td></tr><tr><td>overflow-x: auto</td><td>Poziomy pasek przewijania tylko wtedy, gdy zawartość się nie mieści</td></tr><tr><td>transform: scale(1.1)</td><td>Powiększenie elementu 1,1 raza</td></tr><tr><td>transition: transform 0.25s</td><td>Płynne przejście zmiany transformacji w czasie 0,25 s</td></tr><tr><td>linear-gradient(to bottom, kolor1, kolor2)</td><td>Gradient pionowy; dla gradientu ukośnego: linear-gradient(135deg, …)</td></tr><tr><td>@media (max-width: 768px) { … }</td><td>Reguły stosowane tylko dla okien o szerokości do 768 px</td></tr></table>
+  <table class="help"><caption>Tabela 4. Wybrane pola i metody modelu DOM języka JavaScript</caption><tr><th>Wyszukiwanie i zdarzenia</th><th>Zmiana elementów</th></tr><tr><td>document.getElementById(id)</td><td>element.innerHTML = &quot;wartość&quot;</td></tr><tr><td>element.style.display = &quot;block&quot; | &quot;none&quot;</td><td>element.style.właściwość = &quot;wartość&quot;</td></tr><tr><td>onclick</td><td>zdarzenie kliknięcia elementu</td></tr></table>
+  </div>
+
+  <p class="note">UWAGA: po zakończeniu pracy utwórz plik tekstowy o nazwie przeglądarka.txt. Zapisz w nim nazwę przeglądarki internetowej, w której weryfikowana była poprawność działania witryny. Umieść go w folderze z numerem zdającego.</p>
+  <p>W folderze z numerem zdającego powinny znajdować się pliki: import.png, index.php, kw1.png, kw2.png, kw3.png, kw4.png, kw5.png, kwerendy.txt, logo.png, przeglądarka.txt, skrypt.js, styl.css, ewentualnie inne przygotowane pliki. Spakuj folder do archiwum ZIP o nazwie równej numerowi zdającego i prześlij je w sposób wskazany przez nauczyciela.</p>
+  <p><b>Czas przeznaczony na wykonanie zadania wynosi 150 minut.</b></p>
+  <p>Ocenie podlegać będzie 5 rezultatów:</p>
+  <ul class="dash"><li>operacje na bazie danych,</li><li>zawartość witryny internetowej,</li><li>działanie witryny internetowej,</li><li>styl CSS witryny internetowej,</li><li>skrypty.</li></ul>
+</section>
+<script>
+function dopasuj() {
+  document.querySelectorAll('figure.preview').forEach(function (fig) {
+    var f = fig.querySelector('iframe.site');
+    var wrap = fig.querySelector('.frame-wrap');
+    var scale = Number(wrap.dataset.scale);
+    try {
+      var d = f.contentDocument;
+      if (!d || !d.body) return;
+      var hgt = Math.max(d.documentElement.scrollHeight, d.body.scrollHeight);
+      f.style.height = hgt + 'px';
+      wrap.style.height = Math.ceil(hgt * scale) + 'px';
+    } catch (e) {}
+  });
+}
+document.querySelectorAll('figure.preview').forEach(function (fig) {
+  var f = fig.querySelector('iframe.site');
+  f.addEventListener('load', function () {
+    var id = fig.dataset.click;
+    if (id) { try { f.contentDocument.getElementById(id).click(); } catch (e) {} }
+    dopasuj();
+  });
+});
+window.addEventListener('load', dopasuj);
+window.addEventListener('beforeprint', dopasuj);
+</script>
+</body>
+</html>

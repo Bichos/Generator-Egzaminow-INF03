@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INF.03-SB-SG – StreamBox – klucz</title>
+<style>
+* { box-sizing: border-box; }
+html { background: #eef0f3; }
+body { margin: 0; padding: 16px; font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt; color: #111; line-height: 1.4; }
+.page { background: #fff; max-width: 210mm; margin: 0 auto; padding: 16mm; box-shadow: 0 1px 6px rgba(0,0,0,.15); }
+h1 { font-size: 16pt; margin: 0 0 6px; } h2 { font-size: 13pt; border-bottom: 2px solid #333; padding-bottom: 3px; margin-top: 22px; }
+pre { background: #f5f5f7; border: 1px solid #ddd; padding: 8px; white-space: pre-wrap; word-break: break-word; font-size: 9pt; }
+table.zo { border-collapse: collapse; width: 100%; font-size: 9.5pt; }
+table.zo th, table.zo td { border: 1px solid #999; padding: 4px 6px; vertical-align: top; text-align: left; }
+table.zo td:first-child, table.zo td:last-child { white-space: nowrap; text-align: center; }
+table.zo tr.res-head td { background: #eef2f7; } table.zo tr.sum td { font-weight: bold; }
+table.zo .note { font-size: 8.5pt; color: #444; margin: 3px 0 0; } table.zo tr { break-inside: avoid; }
+.small { font-size: 9pt; color: #444; }
+@media print { html, body { background: #fff; padding: 0; } .page { box-shadow: none; padding: 0; } }
+@page { size: A4; margin: 14mm; }
+</style>
+</head>
+<body>
+<section class="page">
+  <h1>StreamBox – zasady oceniania i rozwiązanie</h1>
+  <p class="small">INF.03-SB-SG · baza streambox · archiwum streambox (hasło: <code>Str3@mB0x!</code>). Każde kryterium oceniane jest zero-jedynkowo (spełnione – 1 pkt).</p>
+  <h2>Zasady oceniania</h2><table class="zo"><tr><th>Lp.</th><th>Elementy podlegające ocenie / kryteria oceny</th><th>Pkt</th></tr><tr class="res-head"><td>R.1</td><td><b>Rezultat 1: Operacje na bazie danych</b><p class="note">Uwaga: W przypadku oceny zrzutów należy uznać za prawidłowe, jeżeli widoczny jest cały obszar ekranu z widocznym paskiem zadań, a zapytanie ma charakter uniwersalny dla każdego zestawu danych.</p></td><td>7</td></tr><tr><td>R.1.1</td><td><label><input type="checkbox"> Wykonany import tabel do bazy danych streambox, co jest udokumentowane w pliku import w formacie PNG</label></td><td>1</td></tr><tr><td>R.1.2</td><td><label><input type="checkbox"> Zapisany plik kwerendy.txt zawierający co najmniej jedno zapytanie SQL wynikające z treści zadania</label></td><td>1</td></tr><tr><td>R.1.3</td><td><label><input type="checkbox"> Wykonane zapytanie 1. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT tytul, rok, typ, gatunek, dopasowanie, opis FROM produkcje ORDER BY dopasowanie DESC LIMIT 1; oraz wynik działania udokumentowany zrzutem kw1, na którym widoczny jest dokładnie 1 wiersz: Noc nad Biebrzą, 2026, serial, Thriller, 98 oraz opis</label></td><td>1</td></tr><tr><td>R.1.4</td><td><label><input type="checkbox"> Wykonane zapytanie 2. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT id, nazwa FROM kategorie; oraz wynik działania udokumentowany zrzutem kw2, na którym widoczne są dokładnie 3 wiersze: 1 Popularne teraz, 2 Seriale kryminalne, 3 Komedie na wieczór</label></td><td>1</td></tr><tr><td>R.1.5</td><td><label><input type="checkbox"> Wykonane zapytanie 3. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT tytul, kolor FROM produkcje WHERE kategorie_id = 2; oraz wynik działania udokumentowany zrzutem kw3, na którym widocznych jest dokładnie 6 wierszy: Dossier 17 (k1), Mgła (k2), Trzecia zmiana (k3), Linia brzegowa (k4), Sąsiedzi (k5), Fałszywy trop (k6)</label></td><td>1</td></tr><tr><td>R.1.6</td><td><label><input type="checkbox"> Wykonane zapytanie 4. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT nazwa, COUNT(produkcje.id) AS liczba FROM kategorie JOIN produkcje ON kategorie.id = produkcje.kategorie_id GROUP BY nazwa; oraz wynik działania udokumentowany zrzutem kw4, na którym widoczne są dokładnie 3 wiersze: Popularne teraz – 7, Seriale kryminalne – 6, Komedie na wieczór – 6</label></td><td>1</td></tr><tr><td>R.1.7</td><td><label><input type="checkbox"> Wykonane zapytanie 5. W pliku z kwerendami lub na zrzucie istnieje zapis np. CREATE USER 'widz'@'localhost' IDENTIFIED BY 'Str3am!B0x'; GRANT SELECT ON streambox.produkcje TO 'widz'@'localhost'; oraz wynik działania udokumentowany zrzutem kw5, na którym widoczny jest komunikat o poprawnie wykonanych zapytaniach (utworzenie użytkownika i nadanie uprawnień)</label></td><td>1</td></tr><tr class="res-head"><td>R.2</td><td><b>Rezultat 2: Zawartość witryny internetowej</b><p class="note">Uwaga: W napisach widocznych na stronie dopuszcza się drobne błędy literowe, błędy wielkości liter i znaków diakrytycznych.</p></td><td>7</td></tr><tr><td>R.2.1</td><td><label><input type="checkbox"> Grafika logo.png: napis STREAMBOX wielkimi literami czcionką bezszeryfową pogrubioną, w kolorze #E11D48, tło przezroczyste, wysokość 40 px, szerokość przycięta do napisu</label></td><td>1</td></tr><tr><td>R.2.2</td><td><label><input type="checkbox"> Witryna zapisana w pliku index.php, jawnie zapisany standard kodowania polskich znaków, deklaracja &lt;!DOCTYPE html&gt;, język polski, tytuł „StreamBox – filmy i seriale”, znacznik meta viewport</label></td><td>1</td></tr><tr><td>R.2.3</td><td><label><input type="checkbox"> Bloki zdefiniowane znacznikami header (klasa pasek), section (klasa hero), main i footer (klasa stopka), w kolejności zgodnej z ilustracją 5</label></td><td>1</td></tr><tr><td>R.2.4</td><td><label><input type="checkbox"> W pasku: obraz logo.png z tekstem alternatywnym „StreamBox” i klasą logo, blok nav z listą ul/li pięciu odnośników o treściach z arkusza, odnośnik „Zaloguj się” z klasami btn i btn-czerwony</label></td><td>1</td></tr><tr><td>R.2.5</td><td><label><input type="checkbox"> W banerze: blok div z klasą hero-tresc, a w nim blok div z klasą przyciski z odnośnikiem „▶ Odtwórz” (klasy btn, btn-bialy) i przyciskiem button „ⓘ Więcej informacji” (klasy btn, btn-szary, id przyciskOpis) wywołującym skrypt</label></td><td>1</td></tr><tr><td>R.2.6</td><td><label><input type="checkbox"> Pierwszy odnośnik menu prowadzi do index.php, pozostałe odnośniki menu, przycisk logowania, „▶ Odtwórz” i odnośniki stopki prowadzą do adresu #</label></td><td>1</td></tr><tr><td>R.2.7</td><td><label><input type="checkbox"> W stopce: paragraf z numerem telefonu, lista punktowana z pięcioma odnośnikami o treściach z arkusza, paragraf „Stronę wykonał: ” z numerem zdającego</label></td><td>1</td></tr><tr class="res-head"><td>R.3</td><td><b>Rezultat 3: Działanie witryny internetowej</b><p class="note">Uwaga: Jeśli witryna nie uruchamia się z powodu błędów PHP – sprawdzić według kryteriów w kodzie źródłowym strony.</p></td><td>6</td></tr><tr><td>R.3.1</td><td><label><input type="checkbox"> Układ bloków po uruchomieniu w przeglądarce jest zgodny z ilustracjami 3 i 5; pasek nawigacyjny pozostaje u góry okna podczas przewijania strony</label></td><td>1</td></tr><tr><td>R.3.2</td><td><label><input type="checkbox"> Strona zawiera działające połączenie z zewnętrznym arkuszem stylów styl.css, formatowanie CSS pochodzi jedynie z tego arkusza</label></td><td>1</td></tr><tr><td>R.3.3</td><td><label><input type="checkbox"> W banerze wyświetla się produkcja „Noc nad Biebrzą” z wierszem „98% dopasowania · 2026 · serial · Thriller” (dane z bazy)</label></td><td>1</td></tr><tr><td>R.3.4</td><td><label><input type="checkbox"> W bloku głównym wyświetlają się trzy rzędy z nagłówkami kategorii i odpowiednio 7, 6 i 6 kafelkami w kolorach z bazy; rząd z większą liczbą kafelków da się przewijać poziomo</label></td><td>1</td></tr><tr><td>R.3.5</td><td><label><input type="checkbox"> Kliknięcie przycisku „ⓘ Więcej informacji” pokazuje opis i zmienia napis na „ⓘ Mniej informacji”, ponowne kliknięcie ukrywa opis i przywraca napis</label></td><td>1</td></tr><tr><td>R.3.6</td><td><label><input type="checkbox"> Przy szerokości okna do 768 px menu jest ukryte, a przyciski w banerze są ułożone jeden pod drugim (ilustracja 4)</label></td><td>1</td></tr><tr class="res-head"><td>R.4</td><td><b>Rezultat 4: Styl CSS witryny internetowej</b><p class="note">Uwaga: Kryteria muszą działać na stronie (sprawdzić w inspektorze). Kryteria dotyczące ciała strony, odnośnika i listy punktowanej są spełnione jedynie dla stylu zdefiniowanego selektorem znacznika.</p></td><td>17</td></tr><tr><td>R.4.1</td><td><label><input type="checkbox"> Ustawione domyślnie dla wszystkich selektorów (*): marginesy zewnętrzne i wewnętrzne 0, model pudełkowy border-box (szerokość i wysokość obejmują marginesy wewnętrzne i obramowanie)</label></td><td>1</td></tr><tr><td>R.4.2</td><td><label><input type="checkbox"> Ustawione dla selektora ciała strony: kolor tła #141414, biały kolor czcionki, krój czcionki Arial, w przypadku braku Helvetica, a następnie sans-serif, wysokość linii 1,5</label></td><td>1</td></tr><tr><td>R.4.3</td><td><label><input type="checkbox"> Ustawione dla selektora odnośnika: kolor czcionki dziedziczony z elementu nadrzędnego (inherit), tekst bez podkreślenia; dla selektora listy punktowanej: brak punktora</label></td><td>1</td></tr><tr><td>R.4.4</td><td><label><input type="checkbox"> Ustawione dla klasy pasek: pozycja stała, przyklejona do lewego górnego rogu okna (góra 0, lewo 0), szerokość 100%, kolejność warstw (z-index) 10, sposób wyświetlania elastyczny (flex), elementy wyśrodkowane w pionie, odstęp między elementami 32 px, marginesy wewnętrzne: górny i dolny 16 px, lewy i prawy 4%, tło – gradient pionowy od koloru czarnego o nieprzezroczystości 0,85 do koloru przezroczystego</label></td><td>1</td></tr><tr><td>R.4.5</td><td><label><input type="checkbox"> Ustawione dla klasy logo: wysokość 40 px. Dla bloku nawigacyjnego w pasku: zajmuje całe pozostałe miejsce w pasku (flex: 1); lista w tym bloku: sposób wyświetlania elastyczny, odstęp między elementami 20 px</label></td><td>1</td></tr><tr><td>R.4.6</td><td><label><input type="checkbox"> Ustawione dla odnośników w bloku nawigacyjnym paska: kolor czcionki #E5E5E5; gdy kursor znajdzie się na odnośniku, kolor czcionki zmienia się na biały</label></td><td>1</td></tr><tr><td>R.4.7</td><td><label><input type="checkbox"> Ustawione dla klasy btn: sposób wyświetlania liniowo-blokowy, marginesy wewnętrzne: górny i dolny 8 px, lewy i prawy 18 px, brak obramowania, zaokrąglenie rogów 4 px, pogrubienie czcionki, rozmiar czcionki 16 px, biały kolor czcionki, kursor w kształcie wskazującej dłoni; gdy kursor znajdzie się na elemencie z klasą btn, jego nieprzezroczystość wynosi 0,8</label></td><td>1</td></tr><tr><td>R.4.8</td><td><label><input type="checkbox"> Ustawione dla klas przycisków: btn-czerwony – kolor tła #E11D48; btn-bialy – biały kolor tła i czarny kolor czcionki; btn-szary – kolor tła rgba(109, 109, 110, 0.7)</label></td><td>1</td></tr><tr><td>R.4.9</td><td><label><input type="checkbox"> Ustawione dla klasy hero: minimalna wysokość 80% wysokości okna (80vh), sposób wyświetlania elastyczny, zawartość wyśrodkowana w pionie, marginesy wewnętrzne: lewy i prawy 4%, górny i dolny 0, tło – gradient ukośny (135 stopni) przechodzący kolejno przez kolory #1B2A49, #5C1A3A, #0B0B0B</label></td><td>1</td></tr><tr><td>R.4.10</td><td><label><input type="checkbox"> Ustawione dla klasy hero-tresc: maksymalna szerokość 520 px, górny margines zewnętrzny 60 px; dla nagłówka pierwszego stopnia w banerze: rozmiar czcionki 300%</label></td><td>1</td></tr><tr><td>R.4.11</td><td><label><input type="checkbox"> Ustawione dla klasy meta: kolor czcionki #46D369, pogrubienie; dla klasy opis: kolor czcionki #E5E5E5, w stanie początkowym element jest ukryty (sposób wyświetlania none). Dla klasy przyciski: sposób wyświetlania elastyczny, odstęp między elementami 12 px, górny margines zewnętrzny 24 px</label></td><td>1</td></tr><tr><td>R.4.12</td><td><label><input type="checkbox"> Ustawione dla bloku głównego: marginesy wewnętrzne: górny 20 px, dolny 40 px, lewy i prawy 0; dla klasy rzad: marginesy wewnętrzne: lewy i prawy 4%, dolny margines zewnętrzny 32 px. Dla klasy kafelki: sposób wyświetlania elastyczny, odstęp między elementami 8 px, poziomy pasek przewijania widoczny jedynie wtedy, gdy kafelki nie mieszczą się w bloku, marginesy wewnętrzne: górny 10 px, dolny 20 px</label></td><td>1</td></tr><tr><td>R.4.13</td><td><label><input type="checkbox"> Ustawione dla klasy kafel: stała szerokość 220 px bez rozciągania i zwężania (flex: 0 0 220px), wysokość 124 px, sposób wyświetlania elastyczny z zawartością przy dolnej krawędzi (align-items: flex-end), marginesy wewnętrzne 10 px, zaokrąglenie rogów 4 px, pogrubienie czcionki, kursor w kształcie wskazującej dłoni, płynne przejście (transition) transformacji trwające 0,25 s</label></td><td>1</td></tr><tr><td>R.4.14</td><td><label><input type="checkbox"> Ustawione dla tekstu (span) w kafelku: cień tekstu przesunięty o 0 px w poziomie i 1 px w pionie, rozmycie 4 px, kolor czarny; gdy kursor znajdzie się na kafelku, kafelek jest powiększany 1,1 raza (transformacja skali)</label></td><td>1</td></tr><tr><td>R.4.15</td><td><label><input type="checkbox"> Ustawione dla klas k1–k6: tło – gradient ukośny (135 stopni) między kolorami podanymi w tabeli 2</label></td><td>1</td></tr><tr><td>R.4.16</td><td><label><input type="checkbox"> Ustawione dla klasy stopka: marginesy wewnętrzne: górny i dolny 40 px, lewy i prawy 4%, kolor czcionki #8C8C8C, górne obramowanie linią ciągłą 1 px w kolorze #333333; lista w stopce: sposób wyświetlania elastyczny z zawijaniem do kolejnego wiersza (flex-wrap), odstępy między elementami 12 px w pionie i 32 px w poziomie, marginesy zewnętrzne: górny i dolny 16 px; gdy kursor znajdzie się na odnośniku w stopce, tekst jest podkreślony</label></td><td>1</td></tr><tr><td>R.4.17</td><td><label><input type="checkbox"> Ustawione w przypadku ekranów o szerokości do 768 px (ilustracja 4): blok nawigacyjny w pasku jest ukryty, elementy paska są rozsunięte do krawędzi (justify-content: space-between), nagłówek pierwszego stopnia w banerze ma rozmiar czcionki 200%, a elementy bloku przyciski są ułożone jeden pod drugim (flex-direction: column)</label></td><td>1</td></tr><tr class="res-head"><td>R.5</td><td><b>Rezultat 5: Skrypty</b><p class="note">Uwaga: Kryteria należy sprawdzić w kodzie źródłowym oraz na działającej stronie (XAMPP).</p></td><td>9</td></tr><tr><td>R.5.1</td><td><label><input type="checkbox"> Skrypt PHP łączy się z serwerem MySQL na localhost, użytkownik root bez hasła, baza streambox (np. mysqli_connect)</label></td><td>1</td></tr><tr><td>R.5.2</td><td><label><input type="checkbox"> Skrypt 1 wysyła zapytanie 1 i wyświetla tytuł w nagłówku h1, paragraf z klasą meta w formacie „&lt;dopasowanie&gt;% dopasowania · &lt;rok&gt; · &lt;typ&gt; · &lt;gatunek&gt;” oraz paragraf z klasą i identyfikatorem opis</label></td><td>1</td></tr><tr><td>R.5.3</td><td><label><input type="checkbox"> Skrypt 2 wysyła zapytanie 2 i dla każdej kategorii tworzy blok section z klasą rzad, nagłówek h2 z nazwą i blok div z klasą kafelki</label></td><td>1</td></tr><tr><td>R.5.4</td><td><label><input type="checkbox"> Skrypt 2 dla każdej kategorii wysyła zmodyfikowane zapytanie 3 z identyfikatorem bieżącej kategorii (zapytanie wykonywane w pętli)</label></td><td>1</td></tr><tr><td>R.5.5</td><td><label><input type="checkbox"> Każda produkcja jest wyświetlana jako element article z klasami „kafel &lt;kolor&gt;” i elementem span z tytułem</label></td><td>1</td></tr><tr><td>R.5.6</td><td><label><input type="checkbox"> Na końcu skryptu zamykane jest połączenie z serwerem (np. mysqli_close)</label></td><td>1</td></tr><tr><td>R.5.7</td><td><label><input type="checkbox"> Skrypt 3 jest napisany w języku JavaScript, pobiera element o identyfikatorze opis (np. getElementById) i zmienia jego sposób wyświetlania (style.display)</label></td><td>1</td></tr><tr><td>R.5.8</td><td><label><input type="checkbox"> Skrypt 3 zmienia napis na przycisku na „ⓘ Mniej informacji” i z powrotem na „ⓘ Więcej informacji”</label></td><td>1</td></tr><tr><td>R.5.9</td><td><label><input type="checkbox"> Zastosowano znaczące nazewnictwo zmiennych i funkcji</label></td><td>1</td></tr><tr class="sum"><td></td><td>Razem</td><td>46</td></tr></table>
+  <h2>Rozwiązanie wzorcowe</h2><h4>kwerendy.txt</h4><pre>-- Zapytanie 1
+SELECT tytul, rok, typ, gatunek, dopasowanie, opis FROM produkcje ORDER BY dopasowanie DESC LIMIT 1;
+
+-- Zapytanie 2
+SELECT id, nazwa FROM kategorie;
+
+-- Zapytanie 3
+SELECT tytul, kolor FROM produkcje WHERE kategorie_id = 2;
+
+-- Zapytanie 4
+SELECT nazwa, COUNT(produkcje.id) AS liczba FROM kategorie JOIN produkcje ON kategorie.id = produkcje.kategorie_id GROUP BY nazwa;
+
+-- Zapytanie 5
+CREATE USER 'widz'@'localhost' IDENTIFIED BY 'Str3am!B0x';
+GRANT SELECT ON streambox.produkcje TO 'widz'@'localhost';
+</pre><h4>index.php</h4><pre>&lt;?php
+$polaczenie = mysqli_connect('localhost', 'root', '', 'streambox');
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pl&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;StreamBox – filmy i seriale&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;styl.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header class=&quot;pasek&quot;&gt;
+        &lt;img src=&quot;logo.png&quot; alt=&quot;StreamBox&quot; class=&quot;logo&quot;&gt;
+        &lt;nav&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href=&quot;index.php&quot;&gt;Strona główna&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Seriale&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Filmy&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Nowe i popularne&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Moja lista&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/nav&gt;
+        &lt;a href=&quot;#&quot; class=&quot;btn btn-czerwony&quot;&gt;Zaloguj się&lt;/a&gt;
+    &lt;/header&gt;
+
+    &lt;section class=&quot;hero&quot;&gt;
+        &lt;div class=&quot;hero-tresc&quot;&gt;
+            &lt;?php
+            // skrypt 1 - baner z najlepiej dopasowaną produkcją
+            $zapytanie = &quot;SELECT tytul, rok, typ, gatunek, dopasowanie, opis FROM produkcje ORDER BY dopasowanie DESC LIMIT 1&quot;;
+            $wynik = mysqli_query($polaczenie, $zapytanie);
+            $wiersz = mysqli_fetch_row($wynik);
+            echo &quot;&lt;h1&gt;$wiersz[0]&lt;/h1&gt;&quot;;
+            echo &quot;&lt;p class='meta'&gt;$wiersz[4]% dopasowania · $wiersz[1] · $wiersz[2] · $wiersz[3]&lt;/p&gt;&quot;;
+            echo &quot;&lt;p class='opis' id='opis'&gt;$wiersz[5]&lt;/p&gt;&quot;;
+            ?&gt;
+            &lt;div class=&quot;przyciski&quot;&gt;
+                &lt;a href=&quot;#&quot; class=&quot;btn btn-bialy&quot;&gt;▶ Odtwórz&lt;/a&gt;
+                &lt;button class=&quot;btn btn-szary&quot; id=&quot;przyciskOpis&quot; onclick=&quot;pokazOpis()&quot;&gt;ⓘ Więcej informacji&lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;main&gt;
+        &lt;?php
+        // skrypt 2 - rzędy kafelków dla każdej kategorii
+        $zapytanie = &quot;SELECT id, nazwa FROM kategorie&quot;;
+        $kategorie = mysqli_query($polaczenie, $zapytanie);
+        while ($kategoria = mysqli_fetch_row($kategorie)) {
+            echo &quot;&lt;section class='rzad'&gt;&quot;;
+            echo &quot;&lt;h2&gt;$kategoria[1]&lt;/h2&gt;&quot;;
+            echo &quot;&lt;div class='kafelki'&gt;&quot;;
+            $zapytanie = &quot;SELECT tytul, kolor FROM produkcje WHERE kategorie_id = $kategoria[0]&quot;;
+            $produkcje = mysqli_query($polaczenie, $zapytanie);
+            while ($produkcja = mysqli_fetch_row($produkcje)) {
+                echo &quot;&lt;article class='kafel $produkcja[1]'&gt;&lt;span&gt;$produkcja[0]&lt;/span&gt;&lt;/article&gt;&quot;;
+            }
+            echo &quot;&lt;/div&gt;&quot;;
+            echo &quot;&lt;/section&gt;&quot;;
+        }
+        ?&gt;
+    &lt;/main&gt;
+
+    &lt;footer class=&quot;stopka&quot;&gt;
+        &lt;p&gt;Masz pytania? Zadzwoń: 800 000 000&lt;/p&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Często zadawane pytania&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Centrum pomocy&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Warunki korzystania&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Prywatność&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Kontakt&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;p&gt;Stronę wykonał: 00&lt;/p&gt;
+    &lt;/footer&gt;
+
+    &lt;script src=&quot;skrypt.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?php
+mysqli_close($polaczenie);
+?&gt;
+</pre><h4>styl.css</h4><pre>* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #141414;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+.pasek {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 16px 4%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent);
+}
+
+.logo {
+    height: 40px;
+}
+
+.pasek nav {
+    flex: 1;
+}
+
+.pasek nav ul {
+    display: flex;
+    gap: 20px;
+}
+
+.pasek nav a {
+    color: #E5E5E5;
+}
+
+.pasek nav a:hover {
+    color: white;
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.btn-czerwony {
+    background-color: #E11D48;
+}
+
+.btn-bialy {
+    background-color: white;
+    color: black;
+}
+
+.btn-szary {
+    background-color: rgba(109, 109, 110, 0.7);
+}
+
+.hero {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    padding: 0 4%;
+    background: linear-gradient(135deg, #1B2A49, #5C1A3A, #0B0B0B);
+}
+
+.hero-tresc {
+    max-width: 520px;
+    margin-top: 60px;
+}
+
+.hero h1 {
+    font-size: 300%;
+}
+
+.meta {
+    color: #46D369;
+    font-weight: bold;
+}
+
+.opis {
+    display: none;
+    color: #E5E5E5;
+}
+
+.przyciski {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+main {
+    padding: 20px 0 40px;
+}
+
+.rzad {
+    padding: 0 4%;
+    margin-bottom: 32px;
+}
+
+.kafelki {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 10px 0 20px;
+}
+
+.kafel {
+    flex: 0 0 220px;
+    height: 124px;
+    display: flex;
+    align-items: flex-end;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.25s;
+}
+
+.kafel span {
+    text-shadow: 0 1px 4px black;
+}
+
+.kafel:hover {
+    transform: scale(1.1);
+}
+
+.k1 { background: linear-gradient(135deg, #FF7E5F, #8E2DE2); }
+.k2 { background: linear-gradient(135deg, #00B4DB, #0B3D91); }
+.k3 { background: linear-gradient(135deg, #11998E, #1D4350); }
+.k4 { background: linear-gradient(135deg, #F7971E, #A8261C); }
+.k5 { background: linear-gradient(135deg, #8360C3, #2EBF91); }
+.k6 { background: linear-gradient(135deg, #CB2D3E, #1F1C2C); }
+
+.stopka {
+    padding: 40px 4%;
+    color: #8C8C8C;
+    border-top: 1px solid #333333;
+}
+
+.stopka ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    margin: 16px 0;
+}
+
+.stopka a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .pasek nav {
+        display: none;
+    }
+
+    .pasek {
+        justify-content: space-between;
+    }
+
+    .hero h1 {
+        font-size: 200%;
+    }
+
+    .przyciski {
+        flex-direction: column;
+    }
+}
+</pre><h4>skrypt.js</h4><pre>// skrypt 3 - pokazywanie i ukrywanie opisu w banerze
+function pokazOpis() {
+    const opis = document.getElementById('opis');
+    const przycisk = document.getElementById('przyciskOpis');
+    if (opis.style.display === 'block') {
+        opis.style.display = 'none';
+        przycisk.innerHTML = 'ⓘ Więcej informacji';
+    } else {
+        opis.style.display = 'block';
+        przycisk.innerHTML = 'ⓘ Mniej informacji';
+    }
+}
+</pre>
+</section>
+
+</body>
+</html>
