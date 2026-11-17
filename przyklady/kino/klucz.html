@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INF.03-KI-SG – Kino Orbita – klucz</title>
+<style>
+* { box-sizing: border-box; }
+html { background: #eef0f3; }
+body { margin: 0; padding: 16px; font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt; color: #111; line-height: 1.4; }
+.page { background: #fff; max-width: 210mm; margin: 0 auto; padding: 16mm; box-shadow: 0 1px 6px rgba(0,0,0,.15); }
+h1 { font-size: 16pt; margin: 0 0 6px; } h2 { font-size: 13pt; border-bottom: 2px solid #333; padding-bottom: 3px; margin-top: 22px; }
+pre { background: #f5f5f7; border: 1px solid #ddd; padding: 8px; white-space: pre-wrap; word-break: break-word; font-size: 9pt; }
+table.zo { border-collapse: collapse; width: 100%; font-size: 9.5pt; }
+table.zo th, table.zo td { border: 1px solid #999; padding: 4px 6px; vertical-align: top; text-align: left; }
+table.zo td:first-child, table.zo td:last-child { white-space: nowrap; text-align: center; }
+table.zo tr.res-head td { background: #eef2f7; } table.zo tr.sum td { font-weight: bold; }
+table.zo .note { font-size: 8.5pt; color: #444; margin: 3px 0 0; } table.zo tr { break-inside: avoid; }
+.small { font-size: 9pt; color: #444; }
+@media print { html, body { background: #fff; padding: 0; } .page { box-shadow: none; padding: 0; } }
+@page { size: A4; margin: 14mm; }
+</style>
+</head>
+<body>
+<section class="page">
+  <h1>Kino Orbita – zasady oceniania i rozwiązanie</h1>
+  <p class="small">INF.03-KI-SG · baza kino · archiwum kino (hasło: <code>Orb1ta#Kino</code>). Każde kryterium oceniane jest zero-jedynkowo (spełnione – 1 pkt).</p>
+  <h2>Zasady oceniania</h2><table class="zo"><tr><th>Lp.</th><th>Elementy podlegające ocenie / kryteria oceny</th><th>Pkt</th></tr><tr class="res-head"><td>R.1</td><td><b>Rezultat 1: Operacje na bazie danych</b><p class="note">Uwaga: W przypadku oceny zrzutów należy uznać za prawidłowe, jeżeli widoczny jest cały obszar ekranu z widocznym paskiem zadań, a zapytanie ma charakter uniwersalny dla każdego zestawu danych.</p></td><td>7</td></tr><tr><td>R.1.1</td><td><label><input type="checkbox"> Wykonany import tabel do bazy danych kino, co jest udokumentowane w pliku import w formacie PNG</label></td><td>1</td></tr><tr><td>R.1.2</td><td><label><input type="checkbox"> Zapisany plik kwerendy.txt zawierający co najmniej jedno zapytanie SQL wynikające z treści zadania</label></td><td>1</td></tr><tr><td>R.1.3</td><td><label><input type="checkbox"> Wykonane zapytanie 1. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT id, tytul, gatunek, czas_trwania, wiek FROM filmy ORDER BY tytul; oraz wynik działania udokumentowany zrzutem kw1, na którym widoczne są dokładnie 4 wiersze w kolejności: Cień nad miastem, Kosmiczne psy, Ostatni rejs, Szczyt</label></td><td>1</td></tr><tr><td>R.1.4</td><td><label><input type="checkbox"> Wykonane zapytanie 2. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT seanse.id, TIME_FORMAT(godzina, '%H:%i') AS godz, 40 - COUNT(rezerwacje.id) AS wolne FROM seanse LEFT JOIN rezerwacje ON rezerwacje.seanse_id = seanse.id WHERE seanse.filmy_id = 1 GROUP BY seanse.id ORDER BY godzina; oraz wynik działania udokumentowany zrzutem kw2, na którym widoczne są dokładnie 2 wiersze: 17:00 – 36 wolnych, 20:15 – 28 wolnych (przed wykonaniem zapytania 5; po nim 27)</label></td><td>1</td></tr><tr><td>R.1.5</td><td><label><input type="checkbox"> Wykonane zapytanie 3. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT tytul, DATE_FORMAT(data, '%d.%m.%Y') AS dzien, TIME_FORMAT(godzina, '%H:%i') AS godz, sala, cena FROM seanse JOIN filmy ON seanse.filmy_id = filmy.id WHERE seanse.id = 2; oraz wynik działania udokumentowany zrzutem kw3, na którym widoczny jest jeden wiersz: Ostatni rejs, 20.11.2026, 20:15, sala 2, cena 28.00</label></td><td>1</td></tr><tr><td>R.1.6</td><td><label><input type="checkbox"> Wykonane zapytanie 4. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT rzad, miejsce FROM rezerwacje WHERE seanse_id = 2; oraz wynik działania udokumentowany zrzutem kw4, na którym widocznych jest 12 wierszy (od A1 do E1; 13 wierszy z E8, jeżeli zapytanie 5 zostało już wykonane)</label></td><td>1</td></tr><tr><td>R.1.7</td><td><label><input type="checkbox"> Wykonane zapytanie 5. W pliku z kwerendami lub na zrzucie istnieje zapis np. INSERT INTO rezerwacje (seanse_id, rzad, miejsce) VALUES (2, 'E', 8); oraz wynik działania udokumentowany zrzutem kw5, na którym widoczny jest komunikat o dodaniu 1 wiersza</label></td><td>1</td></tr><tr class="res-head"><td>R.2</td><td><b>Rezultat 2: Zawartość witryny internetowej</b><p class="note">Uwaga: W napisach widocznych na stronie dopuszcza się drobne błędy literowe, błędy wielkości liter i znaków diakrytycznych.</p></td><td>5</td></tr><tr><td>R.2.1</td><td><label><input type="checkbox"> Witryna zapisana w pliku index.php, jawnie zapisany standard kodowania polskich znaków, deklaracja &lt;!DOCTYPE html&gt;, język polski, meta viewport, tytuł „Kino Orbita – repertuar i rezerwacje”</label></td><td>1</td></tr><tr><td>R.2.2</td><td><label><input type="checkbox"> Bloki zdefiniowane znacznikami semantycznymi zgodnie z ilustracją 3: header naglowek, main uklad z section repertuar i aside rezerwacja, footer stopka</label></td><td>1</td></tr><tr><td>R.2.3</td><td><label><input type="checkbox"> Nagłówek: odnośnik logo do index.php z „ORBITA” w span, nav z listą trzech odnośników (Repertuar do index.php)</label></td><td>1</td></tr><tr><td>R.2.4</td><td><label><input type="checkbox"> Sekcja repertuar: nagłówek h1 „Repertuar – piątek 20.11.2026” i blok filmy</label></td><td>1</td></tr><tr><td>R.2.5</td><td><label><input type="checkbox"> Stopka z dwoma paragrafami, w drugim „Stronę wykonał: ” z numerem zdającego</label></td><td>1</td></tr><tr class="res-head"><td>R.3</td><td><b>Rezultat 3: Działanie witryny internetowej</b><p class="note">Uwaga: Jeśli witryna nie uruchamia się z powodu błędów PHP – sprawdzić według kryteriów w kodzie źródłowym strony.</p></td><td>9</td></tr><tr><td>R.3.1</td><td><label><input type="checkbox"> Układ bloków po uruchomieniu w przeglądarce jest zgodny z ilustracjami 2 i 3: repertuar po lewej, panel rezerwacji 380 px po prawej</label></td><td>1</td></tr><tr><td>R.3.2</td><td><label><input type="checkbox"> Strona zawiera działające połączenie z zewnętrznym arkuszem stylów styl.css, formatowanie CSS pochodzi jedynie z tego arkusza</label></td><td>1</td></tr><tr><td>R.3.3</td><td><label><input type="checkbox"> Wyświetlają się 4 filmy w kolejności alfabetycznej z plakatami w różnych gradientach i oznaczeniami wieku (Kosmiczne psy: b.o., Cień nad miastem: 16+)</label></td><td>1</td></tr><tr><td>R.3.4</td><td><label><input type="checkbox"> Godziny seansów każdego filmu są posortowane i pokazują liczbę wolnych miejsc; 21:00 (wolne: 4) ma czerwoną ramkę, 18:45 jest przekreślona z napisem „brak miejsc” i nie jest odnośnikiem; 12:00 ma 40 wolnych (seans bez rezerwacji)</label></td><td>1</td></tr><tr><td>R.3.5</td><td><label><input type="checkbox"> Po otwarciu index.php bez parametru panel zawiera tylko wskazówkę; kliknięcie godziny 20:15 otwiera index.php?seans=2 z tytułem Ostatni rejs, datą, salą 2 i ceną 28.00 zł</label></td><td>1</td></tr><tr><td>R.3.6</td><td><label><input type="checkbox"> Plan sali ma 5 rzędów po 8 miejsc pod łukowym ekranem; miejsca zajęte (13 po wykonaniu zapytania 5, w tym E8) są czerwone i nie dają się kliknąć</label></td><td>1</td></tr><tr><td>R.3.7</td><td><label><input type="checkbox"> Kliknięcie wolnego miejsca zaznacza je na turkusowo, a podsumowanie pokazuje listę miejsc i kwotę (np. C4, C5 – 56.00 zł); ponowne kliknięcie odznacza miejsce</label></td><td>1</td></tr><tr><td>R.3.8</td><td><label><input type="checkbox"> Nie można wybrać piątego miejsca – pojawia się komunikat o limicie 4 miejsc; po odznaczeniu wszystkich wraca „Nie wybrano miejsc”</label></td><td>1</td></tr><tr><td>R.3.9</td><td><label><input type="checkbox"> Przy szerokości do 860 px panel rezerwacji jest wyświetlany nad repertuarem, w jednej kolumnie; liczba kolumn filmów dopasowuje się do szerokości</label></td><td>1</td></tr><tr class="res-head"><td>R.4</td><td><b>Rezultat 4: Styl CSS witryny internetowej</b><p class="note">Uwaga: Kryteria muszą działać na stronie (sprawdzić w inspektorze). Kryteria dotyczące selektorów znaczników są spełnione jedynie dla stylu zdefiniowanego selektorem znacznika.</p></td><td>19</td></tr><tr><td>R.4.1</td><td><label><input type="checkbox"> Ustawione domyślnie dla wszystkich selektorów (*): marginesy zewnętrzne i wewnętrzne 0, model pudełkowy border-box. Dla selektora ciała strony: kolor tła #0F0F14, kolor czcionki #E5E7EB, krój Tahoma, w przypadku braku Arial, a następnie sans-serif</label></td><td>1</td></tr><tr><td>R.4.2</td><td><label><input type="checkbox"> Ustawione dla selektora odnośnika: kolor dziedziczony, bez podkreślenia. Dla selektora listy punktowanej: brak punktorów</label></td><td>1</td></tr><tr><td>R.4.3</td><td><label><input type="checkbox"> Ustawione dla klasy naglowek: układ elastyczny, elementy rozsunięte do krawędzi i wyśrodkowane w pionie, marginesy wewnętrzne: górny i dolny 16 px, lewy i prawy 5%, czarne tło, dolne obramowanie 3 px linią ciągłą #F59E0B. Lista w nagłówku: układ elastyczny, odstęp 24 px; gdy kursor znajdzie się na odnośniku menu, kolor czcionki zmienia się na #F59E0B</label></td><td>1</td></tr><tr><td>R.4.4</td><td><label><input type="checkbox"> Ustawione dla klasy logo: rozmiar 1,8 rem, pogrubienie, odstęp między literami 4 px; element span w logo ma kolor #F59E0B</label></td><td>1</td></tr><tr><td>R.4.5</td><td><label><input type="checkbox"> Ustawione dla klasy uklad: siatka z kolumnami 1fr i 380 px, odstęp 28 px, elementy wyrównane do góry, maksymalna szerokość 1240 px, blok wyśrodkowany, marginesy wewnętrzne: górny i dolny 28 px, lewy i prawy 20 px. Dla selektora nagłówka pierwszego stopnia: dolny margines 20 px, rozmiar 1,6 rem</label></td><td>1</td></tr><tr><td>R.4.6</td><td><label><input type="checkbox"> Ustawione dla klasy filmy: siatka z kolumnami o szerokości co najmniej 180 px, w liczbie mieszczącej się w bloku (repeat(auto-fill, minmax(180px, 1fr))), odstęp 20 px. Dla klasy film: marginesy wewnętrzne 12 px, tło #1C1C24, zaokrąglenie 10 px</label></td><td>1</td></tr><tr><td>R.4.7</td><td><label><input type="checkbox"> Ustawione dla klasy plakat: pozycjonowanie względne, proporcje 2 : 3 (aspect-ratio), dolny margines 10 px, zaokrąglenie 8 px. Tło plakatów – gradient liniowy pod kątem 160 stopni: p1 od #1E3A8A do #0EA5E9, p2 od #7C3AED do #F472B6, p3 od #111827 do #B91C1C, p4 od #065F46 do #FCD34D</label></td><td>1</td></tr><tr><td>R.4.8</td><td><label><input type="checkbox"> Ustawione dla klasy wiek: pozycjonowanie bezwzględne 8 px od górnej i prawej krawędzi plakatu, marginesy wewnętrzne 2 px / 8 px, tło #F59E0B, czarny pogrubiony tekst 0,8 rem, zaokrąglenie 4 px</label></td><td>1</td></tr><tr><td>R.4.9</td><td><label><input type="checkbox"> Ustawione dla nagłówka drugiego stopnia w klasie film: 1,05 rem. Dla klasy info: marginesy: górny 4 px, dolny 10 px, kolor #9CA3AF, 0,85 rem. Dla klasy godziny: układ elastyczny z zawijaniem, odstęp 6 px</label></td><td>1</td></tr><tr><td>R.4.10</td><td><label><input type="checkbox"> Ustawione dla klasy godzina: marginesy wewnętrzne 6 px / 10 px, obramowanie 1 px linią ciągłą #F59E0B, zaokrąglenie 6 px, pogrubienie, 0,9 rem; element small w niej: wyświetlanie blokowe, bez pogrubienia, 0,7 rem, kolor #9CA3AF</label></td><td>1</td></tr><tr><td>R.4.11</td><td><label><input type="checkbox"> Ustawione gdy kursor znajdzie się na odnośniku z klasą godzina: tło #F59E0B, kolor tekstu czarny (również w elemencie small). Klasa ostatnie: kolor obramowania #EF4444. Klasa pelny: kolor obramowania #4B5563, kolor tekstu #6B7280, tekst przekreślony</label></td><td>1</td></tr><tr><td>R.4.12</td><td><label><input type="checkbox"> Ustawione dla klasy rezerwacja: przyklejona 20 px od górnej krawędzi okna (sticky), marginesy wewnętrzne 20 px, tło #1C1C24, zaokrąglenie 10 px; jej nagłówek ma kolor #F59E0B, a paragrafy górny margines 6 px. Dla klasy wskazowka: kolor #9CA3AF, kursywa</label></td><td>1</td></tr><tr><td>R.4.13</td><td><label><input type="checkbox"> Ustawione dla klasy ekran: marginesy: górny 22 px, dolny 16 px, marginesy wewnętrzne 6 px, tło – gradient od góry do dołu od #E5E7EB do #374151, kolor tekstu #111827, zaokrąglenie górnej krawędzi w kształcie łuku (border-radius: 50% 50% 0 0 / 100% 100% 0 0), tekst wyśrodkowany, 0,75 rem, odstęp między literami 6 px</label></td><td>1</td></tr><tr><td>R.4.14</td><td><label><input type="checkbox"> Ustawione dla klasy sala: siatka z ośmioma równymi kolumnami, odstęp 6 px</label></td><td>1</td></tr><tr><td>R.4.15</td><td><label><input type="checkbox"> Ustawione dla klasy miejsce: marginesy wewnętrzne: górny i dolny 8 px, tło #374151, kolor tekstu #E5E7EB, bez obramowania, zaokrąglenie: górne rogi 6 px, dolne 2 px, 0,72 rem, kursor w kształcie dłoni; gdy kursor znajdzie się na miejscu – tło #4B5563</label></td><td>1</td></tr><tr><td>R.4.16</td><td><label><input type="checkbox"> Ustawione miejsce z klasą wybrane: tło #22D3EE, czarny pogrubiony tekst. Miejsce z klasą zajete: tło #7F1D1D, kolor tekstu #FCA5A5, kursor „niedozwolone” (not-allowed)</label></td><td>1</td></tr><tr><td>R.4.17</td><td><label><input type="checkbox"> Ustawione dla identyfikatora podsumowanie: górny margines 16 px, marginesy wewnętrzne 10 px, obramowanie 1 px linią przerywaną #F59E0B, zaokrąglenie 6 px, wysokość linii 1,6</label></td><td>1</td></tr><tr><td>R.4.18</td><td><label><input type="checkbox"> Ustawione dla klasy stopka: marginesy wewnętrzne 18 px, czarne tło, kolor #6B7280, tekst wyśrodkowany, 0,85 rem</label></td><td>1</td></tr><tr><td>R.4.19</td><td><label><input type="checkbox"> Ustawione w przypadku ekranów o szerokości do 860 px (ilustracja 5): siatka klasy uklad ma jedną kolumnę, panel rezerwacja ma zwykłe pozycjonowanie (static) i jest wyświetlany przed repertuarem (order: -1), a nagłówek układa elementy jeden pod drugim z odstępem 10 px</label></td><td>1</td></tr><tr class="res-head"><td>R.5</td><td><b>Rezultat 5: Skrypty</b><p class="note">Uwaga: Kryteria należy sprawdzić w kodzie źródłowym oraz na działającej stronie (XAMPP).</p></td><td>15</td></tr><tr><td>R.5.1</td><td><label><input type="checkbox"> Skrypt PHP łączy się z serwerem MySQL na localhost, użytkownik root bez hasła, baza kino (np. mysqli_connect)</label></td><td>1</td></tr><tr><td>R.5.2</td><td><label><input type="checkbox"> Skrypt 1 wysyła zapytanie 1 i tworzy element article film z blokiem plakat i klasą p + id filmu</label></td><td>1</td></tr><tr><td>R.5.3</td><td><label><input type="checkbox"> Skrypt 1 wyświetla „b.o.” dla wieku 0, a w pozostałych przypadkach wiek ze znakiem +; tytuł w h2 i paragraf info „gatunek · czas min”</label></td><td>1</td></tr><tr><td>R.5.4</td><td><label><input type="checkbox"> Skrypt 2 jest wywoływany w pętli dla każdego filmu z identyfikatorem bieżącego filmu w zapytaniu (LEFT JOIN, COUNT)</label></td><td>1</td></tr><tr><td>R.5.5</td><td><label><input type="checkbox"> Skrypt 2 tworzy odnośnik index.php?seans=&lt;id&gt; z godziną i liczbą wolnych miejsc; klasa ostatnie dla 5 lub mniej wolnych miejsc</label></td><td>1</td></tr><tr><td>R.5.6</td><td><label><input type="checkbox"> Skrypt 2 dla 0 wolnych miejsc tworzy element span z klasą pelny i tekstem „brak miejsc” zamiast odnośnika</label></td><td>1</td></tr><tr><td>R.5.7</td><td><label><input type="checkbox"> Skrypt 3 sprawdza parametr seans (isset na $_GET) i bez niego wyświetla wskazówkę</label></td><td>1</td></tr><tr><td>R.5.8</td><td><label><input type="checkbox"> Skrypt 3 wyświetla dane seansu z zapytania 3 i cenę w span o id cena</label></td><td>1</td></tr><tr><td>R.5.9</td><td><label><input type="checkbox"> Skrypt 3 zapisuje zajęte miejsca z zapytania 4 w tablicy i generuje 40 przycisków w dwóch zagnieżdżonych pętlach (rzędy A–E, miejsca 1–8)</label></td><td>1</td></tr><tr><td>R.5.10</td><td><label><input type="checkbox"> Skrypt 3 nadaje zajętym miejscom klasę zajete i atrybut disabled (np. in_array), a wolnym obsługę kliknięcia uruchamiającą skrypt 4</label></td><td>1</td></tr><tr><td>R.5.11</td><td><label><input type="checkbox"> Na końcu skryptu zamykane jest połączenie z serwerem (np. mysqli_close)</label></td><td>1</td></tr><tr><td>R.5.12</td><td><label><input type="checkbox"> Skrypt 4 jest napisany w języku JavaScript i przełącza klasę wybrane klikniętego przycisku</label></td><td>1</td></tr><tr><td>R.5.13</td><td><label><input type="checkbox"> Skrypt 4 ogranicza wybór do 4 miejsc i wyświetla komunikat o limicie</label></td><td>1</td></tr><tr><td>R.5.14</td><td><label><input type="checkbox"> Skrypt 4 tworzy listę oznaczeń wybranych miejsc rozdzieloną przecinkami i oblicza kwotę jako cena × liczba miejsc z dwoma miejscami po przecinku</label></td><td>1</td></tr><tr><td>R.5.15</td><td><label><input type="checkbox"> Zastosowano znaczące nazewnictwo zmiennych i funkcji</label></td><td>1</td></tr><tr class="sum"><td></td><td>Razem</td><td>55</td></tr></table>
+  <h2>Rozwiązanie wzorcowe</h2><h4>kwerendy.txt</h4><pre>-- Zapytanie 1
+SELECT id, tytul, gatunek, czas_trwania, wiek FROM filmy ORDER BY tytul;
+-- Zapytanie 2
+SELECT seanse.id, TIME_FORMAT(godzina, '%H:%i') AS godz, 40 - COUNT(rezerwacje.id) AS wolne FROM seanse LEFT JOIN rezerwacje ON rezerwacje.seanse_id = seanse.id WHERE seanse.filmy_id = 1 GROUP BY seanse.id ORDER BY godzina;
+-- Zapytanie 3
+SELECT tytul, DATE_FORMAT(data, '%d.%m.%Y') AS dzien, TIME_FORMAT(godzina, '%H:%i') AS godz, sala, cena FROM seanse JOIN filmy ON seanse.filmy_id = filmy.id WHERE seanse.id = 2;
+-- Zapytanie 4
+SELECT rzad, miejsce FROM rezerwacje WHERE seanse_id = 2;
+-- Zapytanie 5
+INSERT INTO rezerwacje (seanse_id, rzad, miejsce) VALUES (2, 'E', 8);
+</pre><h4>index.php</h4><pre>&lt;?php
+$polaczenie = mysqli_connect('localhost', 'root', '', 'kino');
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pl&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Kino Orbita – repertuar i rezerwacje&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;styl.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header class=&quot;naglowek&quot;&gt;
+        &lt;a href=&quot;index.php&quot; class=&quot;logo&quot;&gt;KINO &lt;span&gt;ORBITA&lt;/span&gt;&lt;/a&gt;
+        &lt;nav&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href=&quot;index.php&quot;&gt;Repertuar&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Cennik&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Kontakt&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main class=&quot;uklad&quot;&gt;
+        &lt;section class=&quot;repertuar&quot;&gt;
+            &lt;h1&gt;Repertuar – piątek 20.11.2026&lt;/h1&gt;
+            &lt;div class=&quot;filmy&quot;&gt;
+&lt;?php
+// skrypt 1 - filmy
+$zapytanie = &quot;SELECT id, tytul, gatunek, czas_trwania, wiek FROM filmy ORDER BY tytul;&quot;;
+$wynik = mysqli_query($polaczenie, $zapytanie);
+while ($film = mysqli_fetch_row($wynik)) {
+    if ($film[4] == 0) {
+        $wiek = 'b.o.';
+    } else {
+        $wiek = $film[4] . '+';
+    }
+    echo &quot;&lt;article class='film'&gt;&quot;;
+    echo &quot;&lt;div class='plakat p$film[0]'&gt;&lt;span class='wiek'&gt;$wiek&lt;/span&gt;&lt;/div&gt;&quot;;
+    echo &quot;&lt;h2&gt;$film[1]&lt;/h2&gt;&quot;;
+    echo &quot;&lt;p class='info'&gt;$film[2] · $film[3] min&lt;/p&gt;&quot;;
+    echo &quot;&lt;div class='godziny'&gt;&quot;;
+    // skrypt 2 - seanse filmu
+    $zapytanie2 = &quot;SELECT seanse.id, TIME_FORMAT(godzina, '%H:%i') AS godz, 40 - COUNT(rezerwacje.id) AS wolne FROM seanse LEFT JOIN rezerwacje ON rezerwacje.seanse_id = seanse.id WHERE seanse.filmy_id = $film[0] GROUP BY seanse.id ORDER BY godzina;&quot;;
+    $wynik2 = mysqli_query($polaczenie, $zapytanie2);
+    while ($seans = mysqli_fetch_row($wynik2)) {
+        if ($seans[2] == 0) {
+            echo &quot;&lt;span class='godzina pelny'&gt;$seans[1] &lt;small&gt;brak miejsc&lt;/small&gt;&lt;/span&gt;&quot;;
+        } elseif ($seans[2] &lt;= 5) {
+            echo &quot;&lt;a href='index.php?seans=$seans[0]' class='godzina ostatnie'&gt;$seans[1] &lt;small&gt;wolne: $seans[2]&lt;/small&gt;&lt;/a&gt;&quot;;
+        } else {
+            echo &quot;&lt;a href='index.php?seans=$seans[0]' class='godzina'&gt;$seans[1] &lt;small&gt;wolne: $seans[2]&lt;/small&gt;&lt;/a&gt;&quot;;
+        }
+    }
+    echo &quot;&lt;/div&gt;&quot;;
+    echo &quot;&lt;/article&gt;&quot;;
+}
+?&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;aside class=&quot;rezerwacja&quot;&gt;
+&lt;?php
+// skrypt 3 - plan sali wybranego seansu
+if (isset($_GET['seans'])) {
+    $seans = $_GET['seans'];
+    $zapytanie = &quot;SELECT tytul, DATE_FORMAT(data, '%d.%m.%Y') AS dzien, TIME_FORMAT(godzina, '%H:%i') AS godz, sala, cena FROM seanse JOIN filmy ON seanse.filmy_id = filmy.id WHERE seanse.id = $seans;&quot;;
+    $wynik = mysqli_query($polaczenie, $zapytanie);
+    $dane = mysqli_fetch_row($wynik);
+    echo &quot;&lt;h2&gt;$dane[0]&lt;/h2&gt;&quot;;
+    echo &quot;&lt;p&gt;$dane[1], godz. $dane[2] · Sala $dane[3]&lt;/p&gt;&quot;;
+    echo &quot;&lt;p&gt;Cena biletu: &lt;span id='cena'&gt;$dane[4]&lt;/span&gt; zł&lt;/p&gt;&quot;;
+
+    $zajete = array();
+    $zapytanie = &quot;SELECT rzad, miejsce FROM rezerwacje WHERE seanse_id = $seans;&quot;;
+    $wynik = mysqli_query($polaczenie, $zapytanie);
+    while ($miejsce = mysqli_fetch_row($wynik)) {
+        $zajete[] = $miejsce[0] . $miejsce[1];
+    }
+
+    echo &quot;&lt;div class='ekran'&gt;EKRAN&lt;/div&gt;&quot;;
+    echo &quot;&lt;div class='sala'&gt;&quot;;
+    $rzedy = array('A', 'B', 'C', 'D', 'E');
+    foreach ($rzedy as $rzad) {
+        for ($nr = 1; $nr &lt;= 8; $nr++) {
+            $oznaczenie = $rzad . $nr;
+            if (in_array($oznaczenie, $zajete)) {
+                echo &quot;&lt;button type='button' class='miejsce zajete' disabled&gt;$oznaczenie&lt;/button&gt;&quot;;
+            } else {
+                echo &quot;&lt;button type='button' class='miejsce' onclick='wybierz(this)'&gt;$oznaczenie&lt;/button&gt;&quot;;
+            }
+        }
+    }
+    echo &quot;&lt;/div&gt;&quot;;
+    echo &quot;&lt;p id='podsumowanie'&gt;Nie wybrano miejsc&lt;/p&gt;&quot;;
+} else {
+    echo &quot;&lt;p class='wskazowka'&gt;Wybierz godzinę seansu z repertuaru, aby zobaczyć plan sali.&lt;/p&gt;&quot;;
+}
+?&gt;
+        &lt;/aside&gt;
+    &lt;/main&gt;
+
+    &lt;footer class=&quot;stopka&quot;&gt;
+        &lt;p&gt;Kino Orbita · ul. Filmowa 12 · bilety: 500 100 200&lt;/p&gt;
+        &lt;p&gt;Stronę wykonał: 00&lt;/p&gt;
+    &lt;/footer&gt;
+    &lt;script src=&quot;skrypt.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?php
+mysqli_close($polaczenie);
+?&gt;
+</pre><h4>styl.css</h4><pre>* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #0F0F14;
+    color: #E5E7EB;
+    font-family: Tahoma, Arial, sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+/* nagłówek */
+.naglowek {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 5%;
+    background-color: #000000;
+    border-bottom: 3px solid #F59E0B;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: 4px;
+}
+
+.logo span {
+    color: #F59E0B;
+}
+
+.naglowek ul {
+    display: flex;
+    gap: 24px;
+}
+
+.naglowek nav a:hover {
+    color: #F59E0B;
+}
+
+/* układ */
+.uklad {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 28px;
+    align-items: start;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 28px 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 1.6rem;
+}
+
+/* repertuar */
+.filmy {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.film {
+    padding: 12px;
+    background-color: #1C1C24;
+    border-radius: 10px;
+}
+
+.plakat {
+    position: relative;
+    aspect-ratio: 2 / 3;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.p1 { background: linear-gradient(160deg, #1E3A8A, #0EA5E9); }
+.p2 { background: linear-gradient(160deg, #7C3AED, #F472B6); }
+.p3 { background: linear-gradient(160deg, #111827, #B91C1C); }
+.p4 { background: linear-gradient(160deg, #065F46, #FCD34D); }
+
+.wiek {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 2px 8px;
+    background-color: #F59E0B;
+    color: #000000;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.film h2 {
+    font-size: 1.05rem;
+}
+
+.info {
+    margin: 4px 0 10px;
+    color: #9CA3AF;
+    font-size: 0.85rem;
+}
+
+.godziny {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.godzina {
+    padding: 6px 10px;
+    border: 1px solid #F59E0B;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.godzina small {
+    display: block;
+    font-weight: normal;
+    font-size: 0.7rem;
+    color: #9CA3AF;
+}
+
+a.godzina:hover {
+    background-color: #F59E0B;
+    color: #000000;
+}
+
+a.godzina:hover small {
+    color: #000000;
+}
+
+.ostatnie {
+    border-color: #EF4444;
+}
+
+.pelny {
+    border-color: #4B5563;
+    color: #6B7280;
+    text-decoration: line-through;
+}
+
+/* rezerwacja */
+.rezerwacja {
+    position: sticky;
+    top: 20px;
+    padding: 20px;
+    background-color: #1C1C24;
+    border-radius: 10px;
+}
+
+.rezerwacja h2 {
+    color: #F59E0B;
+}
+
+.rezerwacja p {
+    margin-top: 6px;
+}
+
+.ekran {
+    margin: 22px 0 16px;
+    padding: 6px;
+    background: linear-gradient(to bottom, #E5E7EB, #374151);
+    color: #111827;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    text-align: center;
+    font-size: 0.75rem;
+    letter-spacing: 6px;
+}
+
+.sala {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+}
+
+.miejsce {
+    padding: 8px 0;
+    background-color: #374151;
+    color: #E5E7EB;
+    border: none;
+    border-radius: 6px 6px 2px 2px;
+    font-size: 0.72rem;
+    cursor: pointer;
+}
+
+.miejsce:hover {
+    background-color: #4B5563;
+}
+
+.miejsce.wybrane {
+    background-color: #22D3EE;
+    color: #000000;
+    font-weight: bold;
+}
+
+.miejsce.zajete {
+    background-color: #7F1D1D;
+    color: #FCA5A5;
+    cursor: not-allowed;
+}
+
+#podsumowanie {
+    margin-top: 16px;
+    padding: 10px;
+    border: 1px dashed #F59E0B;
+    border-radius: 6px;
+    line-height: 1.6;
+}
+
+.wskazowka {
+    color: #9CA3AF;
+    font-style: italic;
+}
+
+/* stopka */
+.stopka {
+    padding: 18px;
+    background-color: #000000;
+    color: #6B7280;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 860px) {
+    .uklad {
+        grid-template-columns: 1fr;
+    }
+
+    .rezerwacja {
+        position: static;
+        order: -1;
+    }
+
+    .naglowek {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+</pre><h4>skrypt.js</h4><pre>// skrypt 4 - wybór miejsc na sali
+const LIMIT_MIEJSC = 4;
+
+function wybierz(przycisk) {
+    let wybrane = document.querySelectorAll('.wybrane');
+    let podsumowanie = document.getElementById('podsumowanie');
+    if (!przycisk.classList.contains('wybrane') &amp;&amp; wybrane.length &gt;= LIMIT_MIEJSC) {
+        podsumowanie.innerHTML = 'Można wybrać najwyżej ' + LIMIT_MIEJSC + ' miejsca';
+        return;
+    }
+    przycisk.classList.toggle('wybrane');
+
+    wybrane = document.querySelectorAll('.wybrane');
+    if (wybrane.length == 0) {
+        podsumowanie.innerHTML = 'Nie wybrano miejsc';
+        return;
+    }
+    let lista = [];
+    for (let i = 0; i &lt; wybrane.length; i++) {
+        lista.push(wybrane[i].innerHTML);
+    }
+    let cena = Number(document.getElementById('cena').innerHTML);
+    let suma = cena * wybrane.length;
+    podsumowanie.innerHTML = 'Wybrane miejsca: ' + lista.join(', ') + '&lt;br&gt;Do zapłaty: ' + suma.toFixed(2) + ' zł';
+}
+</pre>
+</section>
+
+</body>
+</html>

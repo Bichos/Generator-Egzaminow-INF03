@@ -1,0 +1,10 @@
+-- Zapytanie 1
+SELECT id, tytul, gatunek, czas_trwania, wiek FROM filmy ORDER BY tytul;
+-- Zapytanie 2
+SELECT seanse.id, TIME_FORMAT(godzina, '%H:%i') AS godz, 40 - COUNT(rezerwacje.id) AS wolne FROM seanse LEFT JOIN rezerwacje ON rezerwacje.seanse_id = seanse.id WHERE seanse.filmy_id = 1 GROUP BY seanse.id ORDER BY godzina;
+-- Zapytanie 3
+SELECT tytul, DATE_FORMAT(data, '%d.%m.%Y') AS dzien, TIME_FORMAT(godzina, '%H:%i') AS godz, sala, cena FROM seanse JOIN filmy ON seanse.filmy_id = filmy.id WHERE seanse.id = 2;
+-- Zapytanie 4
+SELECT rzad, miejsce FROM rezerwacje WHERE seanse_id = 2;
+-- Zapytanie 5
+INSERT INTO rezerwacje (seanse_id, rzad, miejsce) VALUES (2, 'E', 8);

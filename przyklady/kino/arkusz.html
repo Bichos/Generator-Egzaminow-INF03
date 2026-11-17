@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INF.03-KI-SG – Kino Orbita – arkusz ćwiczeniowy</title>
+<style>
+:root { --ink: #111; --line: #333; --paper: #fff; }
+* { box-sizing: border-box; }
+html { background: #e9e9ec; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; padding: 16px 0; font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt; line-height: 1.38; color: var(--ink); }
+.page { background: var(--paper); width: 210mm; max-width: 100%; margin: 0 auto 16px; padding: 18mm 18mm 20mm; box-shadow: 0 1px 6px rgba(0,0,0,.18); }
+.title-page { min-height: 297mm; }
+h2.task-title { font-size: 13pt; margin: 0 0 8px; }
+h3 { font-size: 11pt; margin: 16px 0 6px; break-after: avoid; }
+p { margin: 5px 0; }
+ul.dash { list-style: none; padding-left: 20px; margin: 4px 0; }
+ul.dash > li { position: relative; margin: 2px 0; }
+ul.dash > li::before { content: '−'; position: absolute; left: -15px; }
+.notice { border: 2px solid #b00; color: #b00; padding: 6px 10px; text-align: center; font-weight: bold; margin-bottom: 14px; }
+.meta { font-size: 10.5pt; }
+.fill { border: 1px solid var(--line); padding: 10px; margin: 14px 0; }
+.fill-title { text-align: center; font-weight: bold; margin-bottom: 8px; }
+.pesel { display: flex; align-items: center; justify-content: space-between; margin: 6px 0; gap: 10px; flex-wrap: wrap; }
+.pesel .line { flex: 1; min-width: 200px; max-width: 60%; border-bottom: 1px solid var(--line); height: 22px; }
+.boxes { display: inline-flex; }
+.boxes i { width: 22px; height: 26px; border: 1px solid var(--line); margin-left: -1px; display: inline-block; }
+.row-between { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.code { font-weight: bold; border: 1px solid var(--line); padding: 2px 8px; }
+.big { text-align: center; font-weight: bold; font-size: 15pt; margin: 18px 0; }
+.big small { font-size: 10pt; font-weight: normal; }
+.instr li { margin: 4px 0; }
+.right { text-align: right; }
+.small { font-size: 9pt; color: #333; }
+.seed { margin-top: 30px; color: #555; }
+.mono { font-family: 'Courier New', monospace; }
+figure { margin: 10px 0; text-align: center; break-inside: avoid; }
+figcaption { font-size: 9.5pt; margin-top: 4px; }
+figure.schema svg { max-width: 100%; height: auto; }
+img.strip { max-width: 100%; border: 1px solid #999; }
+.frame-wrap { width: 100%; height: 420px; overflow: hidden; border: 1px solid #888; position: relative; background: #fff; }
+.frame-wrap.placeholder { display: flex; align-items: center; justify-content: center; color: #777; height: 160px; }
+iframe.site { border: 0; width: 161.3%; height: 680px; transform: scale(0.62); transform-origin: 0 0; position: absolute; left: 0; top: 0; }
+.with-layout { display: flex; gap: 14px; align-items: flex-start; }
+.with-layout > div { flex: 1; min-width: 0; }
+figure.layout { flex: 0 0 230px; margin-top: 30px; }
+figure.layout svg { width: 100%; height: auto; }
+.note { margin: 8px 0; }
+.script-name { font-weight: bold; margin-top: 8px; }
+.help-tables { margin-top: 14px; }
+table.help { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 9pt; break-inside: avoid; }
+table.help caption { text-align: left; font-weight: bold; margin-bottom: 3px; }
+table.help th, table.help td { border: 1px solid var(--line); padding: 3px 6px; text-align: left; vertical-align: top; }
+table.help th { background: #eee; }
+@media (max-width: 700px) {
+  .page { padding: 16px; }
+  .with-layout { flex-direction: column; }
+  figure.layout { flex: none; width: 100%; max-width: 300px; margin: 0 auto; }
+}
+@page { size: A4; margin: 14mm 14mm 16mm;
+  @bottom-center { content: "Strona " counter(page) " z " counter(pages); font: 9pt Arial, sans-serif; } }
+@media print {
+  html, body { background: #fff; padding: 0; }
+  .page { box-shadow: none; margin: 0; padding: 0; width: auto; min-height: 0; }
+  .title-page { break-after: page; }
+}
+
+.logo-demo { display: inline-block; padding: 14px 18px; background: repeating-conic-gradient(#ddd 0% 25%, #fff 0% 50%) 0 0 / 16px 16px; border: 1px solid #999; }
+.logo-demo img { display: block; height: 40px; }
+.swatch { display: inline-block; width: 90px; height: 22px; border-radius: 3px; vertical-align: middle; }
+
+figure.preview.mobile .frame-wrap { height: 900px !important; overflow: hidden; }
+figure.preview.start .frame-wrap { height: 62px !important; overflow: hidden; }
+</style>
+</head>
+<body>
+<section class="page title-page">
+  <div class="notice">Arkusz ćwiczeniowy przygotowany na zajęcia.<br>Nie jest oficjalnym arkuszem CKE.</div>
+  <p class="meta">Nazwa kwalifikacji: <b>Tworzenie i administrowanie stronami i aplikacjami internetowymi oraz bazami danych</b><br>
+  Symbol kwalifikacji: <b>INF.03</b><br>Zadanie: <b>Kino Orbita – repertuar i rezerwacje</b><br>Wersja arkusza: <b>SG</b></p>
+  <div class="fill"><div class="fill-title">Wypełnia zdający</div>
+    <div class="pesel"><span>Imię i nazwisko</span><span class="line"></span></div>
+    <div class="pesel"><span>Numer z dziennika</span><span class="boxes"><i></i><i></i></span></div>
+  </div>
+  <div class="row-between"><span>Czas trwania egzaminu: <b>150 minut</b></span><span class="code">INF.03-KI-SG</span></div>
+  <div class="big">EGZAMIN ZAWODOWY – ARKUSZ ĆWICZENIOWY<br><small>CZĘŚĆ PRAKTYCZNA · PODSTAWA PROGRAMOWA 2019</small></div>
+  <h3>Instrukcja dla zdającego</h3>
+  <ol class="instr">
+    <li>Na pierwszej stronie arkusza wpisz w oznaczonym miejscu swoje imię i nazwisko oraz numer z dziennika.</li>
+    <li>Sprawdź, czy arkusz egzaminacyjny zawiera wszystkie strony i nie zawiera błędów. Ewentualny brak stron lub inne usterki zgłoś przez podniesienie ręki nauczycielowi.</li>
+    <li>Zapoznaj się z treścią zadania oraz stanowiskiem egzaminacyjnym. Masz na to 10 minut. Czas ten nie jest wliczany do czasu trwania egzaminu.</li>
+    <li>Wykonaj samodzielnie zadanie egzaminacyjne. Przestrzegaj zasad bezpieczeństwa i organizacji pracy.</li>
+    <li>Po zakończeniu wykonania zadania pozostaw arkusz egzaminacyjny z rezultatami wykonania zadania na swoim stanowisku.</li>
+  </ol>
+  <p class="right"><b>Powodzenia!</b></p>
+</section>
+<section class="page task">
+  <h2 class="task-title">Zadanie egzaminacyjne</h2>
+  <p>UWAGA: numer z dziennika, którym został podpisany arkusz, jest w zadaniu nazywany numerem zdającego.</p>
+  <p>Wykonaj aplikację internetową kina z repertuarem i wyborem miejsc na sali, wykorzystując pakiet XAMPP oraz edytor zaznaczający składnię.</p>
+  <p>Aby wykonać zadanie, należy zalogować się na konto <b>Egzamin</b> bez hasła. Na pulpicie znajduje się archiwum 7z o nazwie <b>kino</b> zabezpieczone hasłem: <b class="mono">Orb1ta#Kino</b>. Archiwum należy rozpakować.</p>
+  <p>Na pulpicie konta Egzamin należy utworzyć folder. Jako nazwy folderu należy użyć numeru zdającego. Po skończonej pracy wszystkie wyniki należy zapisać w tym folderze.</p>
+
+  <h3>Operacje na bazie danych</h3>
+  <p>Baza danych zawiera trzy tabele połączone relacjami, przedstawione na ilustracji 1. Pole wiek w tabeli filmy to ograniczenie wiekowe (0 – bez ograniczeń). Każda sala ma 40 miejsc: rzędy A–E po 8 miejsc. Każdy rekord tabeli rezerwacje to jedno zajęte miejsce. Nazwa kina i filmy są wymyślone.</p>
+  <figure class="schema"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 710 200" width="710" height="200"><path d="M260 94.5 H230 V45.5 H200" fill="none" stroke="#555" stroke-width="1.5"/><circle cx="200" cy="45.5" r="3" fill="#555"/><path d="M510 64.5 H480 V75.5 H450" fill="none" stroke="#555" stroke-width="1.5"/><circle cx="450" cy="75.5" r="3" fill="#555"/><g font-family="Arial, sans-serif"><rect x="10" y="10" width="190" height="121" fill="#fff" stroke="#333"/><rect x="10" y="10" width="190" height="26" fill="#d9e3ef" stroke="#333"/><text x="18" y="27" font-size="13" font-weight="bold">filmy</text><text x="18" y="50" font-size="12">🔑 id</text><text x="192" y="50" font-size="10" fill="#666" text-anchor="end">int</text><text x="18" y="69" font-size="12">tytul</text><text x="192" y="69" font-size="10" fill="#666" text-anchor="end">varchar(50)</text><text x="18" y="88" font-size="12">gatunek</text><text x="192" y="88" font-size="10" fill="#666" text-anchor="end">varchar(30)</text><text x="18" y="107" font-size="12">czas_trwania</text><text x="192" y="107" font-size="10" fill="#666" text-anchor="end">int</text><text x="18" y="126" font-size="12">wiek</text><text x="192" y="126" font-size="10" fill="#666" text-anchor="end">int</text></g><g font-family="Arial, sans-serif"><rect x="260" y="40" width="190" height="140" fill="#fff" stroke="#333"/><rect x="260" y="40" width="190" height="26" fill="#d9e3ef" stroke="#333"/><text x="268" y="57" font-size="13" font-weight="bold">seanse</text><text x="268" y="80" font-size="12">🔑 id</text><text x="442" y="80" font-size="10" fill="#666" text-anchor="end">int</text><text x="268" y="99" font-size="12"># filmy_id</text><text x="442" y="99" font-size="10" fill="#666" text-anchor="end">int</text><text x="268" y="118" font-size="12">data</text><text x="442" y="118" font-size="10" fill="#666" text-anchor="end">date</text><text x="268" y="137" font-size="12">godzina</text><text x="442" y="137" font-size="10" fill="#666" text-anchor="end">time</text><text x="268" y="156" font-size="12">sala</text><text x="442" y="156" font-size="10" fill="#666" text-anchor="end">int</text><text x="268" y="175" font-size="12">cena</text><text x="442" y="175" font-size="10" fill="#666" text-anchor="end">decimal(5,2)</text></g><g font-family="Arial, sans-serif"><rect x="510" y="10" width="190" height="102" fill="#fff" stroke="#333"/><rect x="510" y="10" width="190" height="26" fill="#d9e3ef" stroke="#333"/><text x="518" y="27" font-size="13" font-weight="bold">rezerwacje</text><text x="518" y="50" font-size="12">🔑 id</text><text x="692" y="50" font-size="10" fill="#666" text-anchor="end">int</text><text x="518" y="69" font-size="12"># seanse_id</text><text x="692" y="69" font-size="10" fill="#666" text-anchor="end">int</text><text x="518" y="88" font-size="12">rzad</text><text x="692" y="88" font-size="10" fill="#666" text-anchor="end">char(1)</text><text x="518" y="107" font-size="12">miejsce</text><text x="692" y="107" font-size="10" fill="#666" text-anchor="end">int</text></g></svg><figcaption>Ilustracja 1. Baza danych</figcaption></figure>
+  <p>Za pomocą narzędzia phpMyAdmin wykonaj następujące operacje na bazie danych:</p>
+  <ul class="dash">
+    <li>Utwórz bazę danych o nazwie <b>kino</b>, z zestawem polskich znaków (np. utf8mb4_polish_ci)</li>
+    <li>Z rozpakowanego archiwum zaimportuj tabele z pliku kino.sql do utworzonej bazy</li>
+    <li>Wykonaj zrzut ekranu po imporcie. Zapisz zrzut w formacie PNG pod nazwą import. Nie kadruj zrzutu. Powinien on obejmować cały ekran monitora, z widocznym paskiem zadań. Na zrzucie powinny być widoczne elementy wskazujące na poprawnie wykonany import tabel</li>
+    <li>Wykonaj zapytania SQL działające na bazie kino (zapytanie 5 dokładnie jeden raz). Zapytania zapisz w pliku kwerendy.txt. Wykonaj zrzuty ekranu przedstawiające wyniki działania kwerend. Zrzuty zapisz w formacie PNG i nadaj im nazwy kw1, kw2, kw3, kw4, kw5. Zrzuty powinny obejmować cały ekran monitora z widocznym paskiem zadań
+      <ul class="dash"><li>Zapytanie 1: wybierające jedynie identyfikator, tytuł, gatunek, czas trwania i ograniczenie wiekowe wszystkich filmów, posortowane alfabetycznie według tytułu</li><li>Zapytanie 2: wybierające identyfikator seansu, godzinę w formacie GG:MM (kolumna „godz”) oraz liczbę wolnych miejsc (kolumna „wolne”) seansów filmu o identyfikatorze 1, posortowane według godziny. Sala ma 40 miejsc; liczba wolnych miejsc to 40 minus liczba rezerwacji danego seansu. Należy użyć złączenia LEFT JOIN z tabelą rezerwacje, aby uwzględnić także seanse bez rezerwacji</li><li>Zapytanie 3: wybierające jedynie tytuł filmu, datę w formacie DD.MM.RRRR (kolumna „dzien”), godzinę w formacie GG:MM (kolumna „godz”), numer sali i cenę biletu dla seansu o identyfikatorze 2. Należy posłużyć się relacją</li><li>Zapytanie 4: wybierające jedynie rząd i numer miejsca wszystkich rezerwacji seansu o identyfikatorze 2</li><li>Zapytanie 5: dodające rezerwację miejsca 8 w rzędzie E na seans o identyfikatorze 2</li></ul></li>
+  </ul>
+  <p>W tabeli 1 zamieszczono wybrane elementy języka SQL.</p>
+
+  <h3>Witryna internetowa</h3>
+  <figure class="preview "><div class="frame-wrap" style="width:640px;max-width:100%;margin:0 auto" data-scale="0.5"><iframe class="site" style="width:1280px;transform:scale(0.5)" srcdoc="<!DOCTYPE html>
+<html lang=&quot;pl&quot;>
+<head>
+    <meta charset=&quot;UTF-8&quot;>
+    <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+    <title>Kino Orbita – repertuar i rezerwacje</title>
+    <style>html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #0F0F14;
+    color: #E5E7EB;
+    font-family: Tahoma, Arial, sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+/* nagłówek */
+.naglowek {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 5%;
+    background-color: #000000;
+    border-bottom: 3px solid #F59E0B;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: 4px;
+}
+
+.logo span {
+    color: #F59E0B;
+}
+
+.naglowek ul {
+    display: flex;
+    gap: 24px;
+}
+
+.naglowek nav a:hover {
+    color: #F59E0B;
+}
+
+/* układ */
+.uklad {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 28px;
+    align-items: start;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 28px 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 1.6rem;
+}
+
+/* repertuar */
+.filmy {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.film {
+    padding: 12px;
+    background-color: #1C1C24;
+    border-radius: 10px;
+}
+
+.plakat {
+    position: relative;
+    aspect-ratio: 2 / 3;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.p1 { background: linear-gradient(160deg, #1E3A8A, #0EA5E9); }
+.p2 { background: linear-gradient(160deg, #7C3AED, #F472B6); }
+.p3 { background: linear-gradient(160deg, #111827, #B91C1C); }
+.p4 { background: linear-gradient(160deg, #065F46, #FCD34D); }
+
+.wiek {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 2px 8px;
+    background-color: #F59E0B;
+    color: #000000;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.film h2 {
+    font-size: 1.05rem;
+}
+
+.info {
+    margin: 4px 0 10px;
+    color: #9CA3AF;
+    font-size: 0.85rem;
+}
+
+.godziny {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.godzina {
+    padding: 6px 10px;
+    border: 1px solid #F59E0B;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.godzina small {
+    display: block;
+    font-weight: normal;
+    font-size: 0.7rem;
+    color: #9CA3AF;
+}
+
+a.godzina:hover {
+    background-color: #F59E0B;
+    color: #000000;
+}
+
+a.godzina:hover small {
+    color: #000000;
+}
+
+.ostatnie {
+    border-color: #EF4444;
+}
+
+.pelny {
+    border-color: #4B5563;
+    color: #6B7280;
+    text-decoration: line-through;
+}
+
+/* rezerwacja */
+.rezerwacja {
+    position: sticky;
+    top: 20px;
+    padding: 20px;
+    background-color: #1C1C24;
+    border-radius: 10px;
+}
+
+.rezerwacja h2 {
+    color: #F59E0B;
+}
+
+.rezerwacja p {
+    margin-top: 6px;
+}
+
+.ekran {
+    margin: 22px 0 16px;
+    padding: 6px;
+    background: linear-gradient(to bottom, #E5E7EB, #374151);
+    color: #111827;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    text-align: center;
+    font-size: 0.75rem;
+    letter-spacing: 6px;
+}
+
+.sala {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+}
+
+.miejsce {
+    padding: 8px 0;
+    background-color: #374151;
+    color: #E5E7EB;
+    border: none;
+    border-radius: 6px 6px 2px 2px;
+    font-size: 0.72rem;
+    cursor: pointer;
+}
+
+.miejsce:hover {
+    background-color: #4B5563;
+}
+
+.miejsce.wybrane {
+    background-color: #22D3EE;
+    color: #000000;
+    font-weight: bold;
+}
+
+.miejsce.zajete {
+    background-color: #7F1D1D;
+    color: #FCA5A5;
+    cursor: not-allowed;
+}
+
+#podsumowanie {
+    margin-top: 16px;
+    padding: 10px;
+    border: 1px dashed #F59E0B;
+    border-radius: 6px;
+    line-height: 1.6;
+}
+
+.wskazowka {
+    color: #9CA3AF;
+    font-style: italic;
+}
+
+/* stopka */
+.stopka {
+    padding: 18px;
+    background-color: #000000;
+    color: #6B7280;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 860px) {
+    .uklad {
+        grid-template-columns: 1fr;
+    }
+
+    .rezerwacja {
+        position: static;
+        order: -1;
+    }
+
+    .naglowek {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+</style>
+</head>
+<body>
+    <header class=&quot;naglowek&quot;>
+        <a href=&quot;index.php&quot; class=&quot;logo&quot;>KINO <span>ORBITA</span></a>
+        <nav>
+            <ul>
+                <li><a href=&quot;index.php&quot;>Repertuar</a></li>
+                <li><a href=&quot;#&quot;>Cennik</a></li>
+                <li><a href=&quot;#&quot;>Kontakt</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class=&quot;uklad&quot;>
+        <section class=&quot;repertuar&quot;>
+            <h1>Repertuar – piątek 20.11.2026</h1>
+            <div class=&quot;filmy&quot;>
+<article class='film'><div class='plakat p3'><span class='wiek'>16+</span></div><h2>Cień nad miastem</h2><p class='info'>kryminał · 126 min</p><div class='godziny'><a href='index.php?seans=5' class='godzina ostatnie'>21:00 <small>wolne: 4</small></a></div></article><article class='film'><div class='plakat p2'><span class='wiek'>b.o.</span></div><h2>Kosmiczne psy</h2><p class='info'>animacja · 92 min</p><div class='godziny'><a href='index.php?seans=4' class='godzina'>12:00 <small>wolne: 40</small></a><a href='index.php?seans=3' class='godzina'>14:30 <small>wolne: 34</small></a></div></article><article class='film'><div class='plakat p1'><span class='wiek'>12+</span></div><h2>Ostatni rejs</h2><p class='info'>dramat · 118 min</p><div class='godziny'><a href='index.php?seans=1' class='godzina'>17:00 <small>wolne: 36</small></a><a href='index.php?seans=2' class='godzina'>20:15 <small>wolne: 27</small></a></div></article><article class='film'><div class='plakat p4'><span class='wiek'>12+</span></div><h2>Szczyt</h2><p class='info'>przygodowy · 104 min</p><div class='godziny'><a href='index.php?seans=6' class='godzina'>16:00 <small>wolne: 31</small></a><span class='godzina pelny'>18:45 <small>brak miejsc</small></span></div></article>            </div>
+        </section>
+
+        <aside class=&quot;rezerwacja&quot;>
+<h2>Ostatni rejs</h2><p>20.11.2026, godz. 20:15 · Sala 2</p><p>Cena biletu: <span id='cena'>28.00</span> zł</p><div class='ekran'>EKRAN</div><div class='sala'><button type='button' class='miejsce zajete' disabled>A1</button><button type='button' class='miejsce zajete' disabled>A2</button><button type='button' class='miejsce' onclick='wybierz(this)'>A3</button><button type='button' class='miejsce' onclick='wybierz(this)'>A4</button><button type='button' class='miejsce' onclick='wybierz(this)'>A5</button><button type='button' class='miejsce' onclick='wybierz(this)'>A6</button><button type='button' class='miejsce' onclick='wybierz(this)'>A7</button><button type='button' class='miejsce' onclick='wybierz(this)'>A8</button><button type='button' class='miejsce' onclick='wybierz(this)'>B1</button><button type='button' class='miejsce' onclick='wybierz(this)'>B2</button><button type='button' class='miejsce' onclick='wybierz(this)'>B3</button><button type='button' class='miejsce zajete' disabled>B4</button><button type='button' class='miejsce zajete' disabled>B5</button><button type='button' class='miejsce zajete' disabled>B6</button><button type='button' class='miejsce' onclick='wybierz(this)'>B7</button><button type='button' class='miejsce' onclick='wybierz(this)'>B8</button><button type='button' class='miejsce' onclick='wybierz(this)'>C1</button><button type='button' class='miejsce zajete' disabled>C2</button><button type='button' class='miejsce zajete' disabled>C3</button><button type='button' class='miejsce' onclick='wybierz(this)'>C4</button><button type='button' class='miejsce' onclick='wybierz(this)'>C5</button><button type='button' class='miejsce' onclick='wybierz(this)'>C6</button><button type='button' class='miejsce' onclick='wybierz(this)'>C7</button><button type='button' class='miejsce' onclick='wybierz(this)'>C8</button><button type='button' class='miejsce' onclick='wybierz(this)'>D1</button><button type='button' class='miejsce' onclick='wybierz(this)'>D2</button><button type='button' class='miejsce' onclick='wybierz(this)'>D3</button><button type='button' class='miejsce zajete' disabled>D4</button><button type='button' class='miejsce zajete' disabled>D5</button><button type='button' class='miejsce zajete' disabled>D6</button><button type='button' class='miejsce zajete' disabled>D7</button><button type='button' class='miejsce' onclick='wybierz(this)'>D8</button><button type='button' class='miejsce zajete' disabled>E1</button><button type='button' class='miejsce' onclick='wybierz(this)'>E2</button><button type='button' class='miejsce' onclick='wybierz(this)'>E3</button><button type='button' class='miejsce' onclick='wybierz(this)'>E4</button><button type='button' class='miejsce' onclick='wybierz(this)'>E5</button><button type='button' class='miejsce' onclick='wybierz(this)'>E6</button><button type='button' class='miejsce' onclick='wybierz(this)'>E7</button><button type='button' class='miejsce zajete' disabled>E8</button></div><p id='podsumowanie'>Nie wybrano miejsc</p>        </aside>
+    </main>
+
+    <footer class=&quot;stopka&quot;>
+        <p>Kino Orbita · ul. Filmowa 12 · bilety: 500 100 200</p>
+        <p>Stronę wykonał: 00</p>
+    </footer>
+    <script>// skrypt 4 - wybór miejsc na sali
+const LIMIT_MIEJSC = 4;
+
+function wybierz(przycisk) {
+    let wybrane = document.querySelectorAll('.wybrane');
+    let podsumowanie = document.getElementById('podsumowanie');
+    if (!przycisk.classList.contains('wybrane') &amp;&amp; wybrane.length >= LIMIT_MIEJSC) {
+        podsumowanie.innerHTML = 'Można wybrać najwyżej ' + LIMIT_MIEJSC + ' miejsca';
+        return;
+    }
+    przycisk.classList.toggle('wybrane');
+
+    wybrane = document.querySelectorAll('.wybrane');
+    if (wybrane.length == 0) {
+        podsumowanie.innerHTML = 'Nie wybrano miejsc';
+        return;
+    }
+    let lista = [];
+    for (let i = 0; i < wybrane.length; i++) {
+        lista.push(wybrane[i].innerHTML);
+    }
+    let cena = Number(document.getElementById('cena').innerHTML);
+    let suma = cena * wybrane.length;
+    podsumowanie.innerHTML = 'Wybrane miejsca: ' + lista.join(', ') + '<br>Do zapłaty: ' + suma.toFixed(2) + ' zł';
+}
+</script>
+</body>
+</html>
+" title="Podgląd witryny"></iframe></div><figcaption>Ilustracja 2. Wygląd witryny na ekranie o szerokości 1280 px: adres index.php?seans=2 po wykonaniu zapytania 5, wybrane miejsca C4 i C5, kursor na godzinie 16:00; dane pochodzą z bazy</figcaption></figure>
+  <div class="with-layout"><div>
+  <figure class="preview start"><div class="frame-wrap" style="width:206px;max-width:100%;margin:0 auto" data-scale="0.6"><iframe class="site" style="width:344px;transform:scale(0.6)" srcdoc="<!DOCTYPE html>
+<html lang=&quot;pl&quot;>
+<head>
+    <meta charset=&quot;UTF-8&quot;>
+    <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+    <title>Kino Orbita – repertuar i rezerwacje</title>
+    <style>html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #0F0F14;
+    color: #E5E7EB;
+    font-family: Tahoma, Arial, sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+/* nagłówek */
+.naglowek {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 5%;
+    background-color: #000000;
+    border-bottom: 3px solid #F59E0B;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: 4px;
+}
+
+.logo span {
+    color: #F59E0B;
+}
+
+.naglowek ul {
+    display: flex;
+    gap: 24px;
+}
+
+.naglowek nav a:hover {
+    color: #F59E0B;
+}
+
+/* układ */
+.uklad {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 28px;
+    align-items: start;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 28px 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 1.6rem;
+}
+
+/* repertuar */
+.filmy {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.film {
+    padding: 12px;
+    background-color: #1C1C24;
+    border-radius: 10px;
+}
+
+.plakat {
+    position: relative;
+    aspect-ratio: 2 / 3;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.p1 { background: linear-gradient(160deg, #1E3A8A, #0EA5E9); }
+.p2 { background: linear-gradient(160deg, #7C3AED, #F472B6); }
+.p3 { background: linear-gradient(160deg, #111827, #B91C1C); }
+.p4 { background: linear-gradient(160deg, #065F46, #FCD34D); }
+
+.wiek {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 2px 8px;
+    background-color: #F59E0B;
+    color: #000000;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.film h2 {
+    font-size: 1.05rem;
+}
+
+.info {
+    margin: 4px 0 10px;
+    color: #9CA3AF;
+    font-size: 0.85rem;
+}
+
+.godziny {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.godzina {
+    padding: 6px 10px;
+    border: 1px solid #F59E0B;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.godzina small {
+    display: block;
+    font-weight: normal;
+    font-size: 0.7rem;
+    color: #9CA3AF;
+}
+
+a.godzina:hover {
+    background-color: #F59E0B;
+    color: #000000;
+}
+
+a.godzina:hover small {
+    color: #000000;
+}
+
+.ostatnie {
+    border-color: #EF4444;
+}
+
+.pelny {
+    border-color: #4B5563;
+    color: #6B7280;
+    text-decoration: line-through;
+}
+
+/* rezerwacja */
+.rezerwacja {
+    position: sticky;
+    top: 20px;
+    padding: 20px;
+    background-color: #1C1C24;
+    border-radius: 10px;
+}
+
+.rezerwacja h2 {
+    color: #F59E0B;
+}
+
+.rezerwacja p {
+    margin-top: 6px;
+}
+
+.ekran {
+    margin: 22px 0 16px;
+    padding: 6px;
+    background: linear-gradient(to bottom, #E5E7EB, #374151);
+    color: #111827;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    text-align: center;
+    font-size: 0.75rem;
+    letter-spacing: 6px;
+}
+
+.sala {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+}
+
+.miejsce {
+    padding: 8px 0;
+    background-color: #374151;
+    color: #E5E7EB;
+    border: none;
+    border-radius: 6px 6px 2px 2px;
+    font-size: 0.72rem;
+    cursor: pointer;
+}
+
+.miejsce:hover {
+    background-color: #4B5563;
+}
+
+.miejsce.wybrane {
+    background-color: #22D3EE;
+    color: #000000;
+    font-weight: bold;
+}
+
+.miejsce.zajete {
+    background-color: #7F1D1D;
+    color: #FCA5A5;
+    cursor: not-allowed;
+}
+
+#podsumowanie {
+    margin-top: 16px;
+    padding: 10px;
+    border: 1px dashed #F59E0B;
+    border-radius: 6px;
+    line-height: 1.6;
+}
+
+.wskazowka {
+    color: #9CA3AF;
+    font-style: italic;
+}
+
+/* stopka */
+.stopka {
+    padding: 18px;
+    background-color: #000000;
+    color: #6B7280;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 860px) {
+    .uklad {
+        grid-template-columns: 1fr;
+    }
+
+    .rezerwacja {
+        position: static;
+        order: -1;
+    }
+
+    .naglowek {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+.naglowek,.repertuar,.stopka{display:none}.uklad{grid-template-columns:1fr;padding:12px}</style>
+</head>
+<body>
+    <header class=&quot;naglowek&quot;>
+        <a href=&quot;index.php&quot; class=&quot;logo&quot;>KINO <span>ORBITA</span></a>
+        <nav>
+            <ul>
+                <li><a href=&quot;index.php&quot;>Repertuar</a></li>
+                <li><a href=&quot;#&quot;>Cennik</a></li>
+                <li><a href=&quot;#&quot;>Kontakt</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class=&quot;uklad&quot;>
+        <section class=&quot;repertuar&quot;>
+            <h1>Repertuar – piątek 20.11.2026</h1>
+            <div class=&quot;filmy&quot;>
+<article class='film'><div class='plakat p3'><span class='wiek'>16+</span></div><h2>Cień nad miastem</h2><p class='info'>kryminał · 126 min</p><div class='godziny'><a href='index.php?seans=5' class='godzina ostatnie'>21:00 <small>wolne: 4</small></a></div></article><article class='film'><div class='plakat p2'><span class='wiek'>b.o.</span></div><h2>Kosmiczne psy</h2><p class='info'>animacja · 92 min</p><div class='godziny'><a href='index.php?seans=4' class='godzina'>12:00 <small>wolne: 40</small></a><a href='index.php?seans=3' class='godzina'>14:30 <small>wolne: 34</small></a></div></article><article class='film'><div class='plakat p1'><span class='wiek'>12+</span></div><h2>Ostatni rejs</h2><p class='info'>dramat · 118 min</p><div class='godziny'><a href='index.php?seans=1' class='godzina'>17:00 <small>wolne: 36</small></a><a href='index.php?seans=2' class='godzina'>20:15 <small>wolne: 27</small></a></div></article><article class='film'><div class='plakat p4'><span class='wiek'>12+</span></div><h2>Szczyt</h2><p class='info'>przygodowy · 104 min</p><div class='godziny'><a href='index.php?seans=6' class='godzina'>16:00 <small>wolne: 31</small></a><span class='godzina pelny'>18:45 <small>brak miejsc</small></span></div></article>            </div>
+        </section>
+
+        <aside class=&quot;rezerwacja&quot;>
+<p class='wskazowka'>Wybierz godzinę seansu z repertuaru, aby zobaczyć plan sali.</p>        </aside>
+    </main>
+
+    <footer class=&quot;stopka&quot;>
+        <p>Kino Orbita · ul. Filmowa 12 · bilety: 500 100 200</p>
+        <p>Stronę wykonał: 00</p>
+    </footer>
+    <script>// skrypt 4 - wybór miejsc na sali
+const LIMIT_MIEJSC = 4;
+
+function wybierz(przycisk) {
+    let wybrane = document.querySelectorAll('.wybrane');
+    let podsumowanie = document.getElementById('podsumowanie');
+    if (!przycisk.classList.contains('wybrane') &amp;&amp; wybrane.length >= LIMIT_MIEJSC) {
+        podsumowanie.innerHTML = 'Można wybrać najwyżej ' + LIMIT_MIEJSC + ' miejsca';
+        return;
+    }
+    przycisk.classList.toggle('wybrane');
+
+    wybrane = document.querySelectorAll('.wybrane');
+    if (wybrane.length == 0) {
+        podsumowanie.innerHTML = 'Nie wybrano miejsc';
+        return;
+    }
+    let lista = [];
+    for (let i = 0; i < wybrane.length; i++) {
+        lista.push(wybrane[i].innerHTML);
+    }
+    let cena = Number(document.getElementById('cena').innerHTML);
+    let suma = cena * wybrane.length;
+    podsumowanie.innerHTML = 'Wybrane miejsca: ' + lista.join(', ') + '<br>Do zapłaty: ' + suma.toFixed(2) + ' zł';
+}
+</script>
+</body>
+</html>
+" title="Podgląd witryny"></iframe></div><figcaption>Ilustracja 4. Panel rezerwacja bez wybranego seansu (adres index.php)</figcaption></figure>
+  </div><figure class="layout"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 200" width="340" height="200" font-family="Arial, sans-serif"><rect x="4" y="4" width="332" height="30" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="23" font-size="12" text-anchor="middle">nagłówek (header.naglowek): logo | menu</text><rect x="4" y="38" width="332" height="130" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="107" font-size="12" text-anchor="middle">main.uklad: repertuar (section) | rezerwacja (aside, 380 px)</text><rect x="4" y="172" width="332" height="24" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="188" font-size="12" text-anchor="middle">stopka (footer.stopka)</text></svg><figcaption>Ilustracja 3. Układ bloków</figcaption></figure></div>
+  <figure class="preview mobile"><div class="frame-wrap" style="width:252px;max-width:100%;margin:0 auto" data-scale="0.6"><iframe class="site" style="width:420px;transform:scale(0.6)" srcdoc="<!DOCTYPE html>
+<html lang=&quot;pl&quot;>
+<head>
+    <meta charset=&quot;UTF-8&quot;>
+    <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+    <title>Kino Orbita – repertuar i rezerwacje</title>
+    <style>html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #0F0F14;
+    color: #E5E7EB;
+    font-family: Tahoma, Arial, sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+/* nagłówek */
+.naglowek {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 5%;
+    background-color: #000000;
+    border-bottom: 3px solid #F59E0B;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: 4px;
+}
+
+.logo span {
+    color: #F59E0B;
+}
+
+.naglowek ul {
+    display: flex;
+    gap: 24px;
+}
+
+.naglowek nav a:hover {
+    color: #F59E0B;
+}
+
+/* układ */
+.uklad {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 28px;
+    align-items: start;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 28px 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 1.6rem;
+}
+
+/* repertuar */
+.filmy {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.film {
+    padding: 12px;
+    background-color: #1C1C24;
+    border-radius: 10px;
+}
+
+.plakat {
+    position: relative;
+    aspect-ratio: 2 / 3;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.p1 { background: linear-gradient(160deg, #1E3A8A, #0EA5E9); }
+.p2 { background: linear-gradient(160deg, #7C3AED, #F472B6); }
+.p3 { background: linear-gradient(160deg, #111827, #B91C1C); }
+.p4 { background: linear-gradient(160deg, #065F46, #FCD34D); }
+
+.wiek {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 2px 8px;
+    background-color: #F59E0B;
+    color: #000000;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.film h2 {
+    font-size: 1.05rem;
+}
+
+.info {
+    margin: 4px 0 10px;
+    color: #9CA3AF;
+    font-size: 0.85rem;
+}
+
+.godziny {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.godzina {
+    padding: 6px 10px;
+    border: 1px solid #F59E0B;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.godzina small {
+    display: block;
+    font-weight: normal;
+    font-size: 0.7rem;
+    color: #9CA3AF;
+}
+
+a.godzina:hover {
+    background-color: #F59E0B;
+    color: #000000;
+}
+
+a.godzina:hover small {
+    color: #000000;
+}
+
+.ostatnie {
+    border-color: #EF4444;
+}
+
+.pelny {
+    border-color: #4B5563;
+    color: #6B7280;
+    text-decoration: line-through;
+}
+
+/* rezerwacja */
+.rezerwacja {
+    position: sticky;
+    top: 20px;
+    padding: 20px;
+    background-color: #1C1C24;
+    border-radius: 10px;
+}
+
+.rezerwacja h2 {
+    color: #F59E0B;
+}
+
+.rezerwacja p {
+    margin-top: 6px;
+}
+
+.ekran {
+    margin: 22px 0 16px;
+    padding: 6px;
+    background: linear-gradient(to bottom, #E5E7EB, #374151);
+    color: #111827;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    text-align: center;
+    font-size: 0.75rem;
+    letter-spacing: 6px;
+}
+
+.sala {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+}
+
+.miejsce {
+    padding: 8px 0;
+    background-color: #374151;
+    color: #E5E7EB;
+    border: none;
+    border-radius: 6px 6px 2px 2px;
+    font-size: 0.72rem;
+    cursor: pointer;
+}
+
+.miejsce:hover {
+    background-color: #4B5563;
+}
+
+.miejsce.wybrane {
+    background-color: #22D3EE;
+    color: #000000;
+    font-weight: bold;
+}
+
+.miejsce.zajete {
+    background-color: #7F1D1D;
+    color: #FCA5A5;
+    cursor: not-allowed;
+}
+
+#podsumowanie {
+    margin-top: 16px;
+    padding: 10px;
+    border: 1px dashed #F59E0B;
+    border-radius: 6px;
+    line-height: 1.6;
+}
+
+.wskazowka {
+    color: #9CA3AF;
+    font-style: italic;
+}
+
+/* stopka */
+.stopka {
+    padding: 18px;
+    background-color: #000000;
+    color: #6B7280;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 860px) {
+    .uklad {
+        grid-template-columns: 1fr;
+    }
+
+    .rezerwacja {
+        position: static;
+        order: -1;
+    }
+
+    .naglowek {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+</style>
+</head>
+<body>
+    <header class=&quot;naglowek&quot;>
+        <a href=&quot;index.php&quot; class=&quot;logo&quot;>KINO <span>ORBITA</span></a>
+        <nav>
+            <ul>
+                <li><a href=&quot;index.php&quot;>Repertuar</a></li>
+                <li><a href=&quot;#&quot;>Cennik</a></li>
+                <li><a href=&quot;#&quot;>Kontakt</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class=&quot;uklad&quot;>
+        <section class=&quot;repertuar&quot;>
+            <h1>Repertuar – piątek 20.11.2026</h1>
+            <div class=&quot;filmy&quot;>
+<article class='film'><div class='plakat p3'><span class='wiek'>16+</span></div><h2>Cień nad miastem</h2><p class='info'>kryminał · 126 min</p><div class='godziny'><a href='index.php?seans=5' class='godzina ostatnie'>21:00 <small>wolne: 4</small></a></div></article><article class='film'><div class='plakat p2'><span class='wiek'>b.o.</span></div><h2>Kosmiczne psy</h2><p class='info'>animacja · 92 min</p><div class='godziny'><a href='index.php?seans=4' class='godzina'>12:00 <small>wolne: 40</small></a><a href='index.php?seans=3' class='godzina'>14:30 <small>wolne: 34</small></a></div></article><article class='film'><div class='plakat p1'><span class='wiek'>12+</span></div><h2>Ostatni rejs</h2><p class='info'>dramat · 118 min</p><div class='godziny'><a href='index.php?seans=1' class='godzina'>17:00 <small>wolne: 36</small></a><a href='index.php?seans=2' class='godzina'>20:15 <small>wolne: 27</small></a></div></article><article class='film'><div class='plakat p4'><span class='wiek'>12+</span></div><h2>Szczyt</h2><p class='info'>przygodowy · 104 min</p><div class='godziny'><a href='index.php?seans=6' class='godzina'>16:00 <small>wolne: 31</small></a><span class='godzina pelny'>18:45 <small>brak miejsc</small></span></div></article>            </div>
+        </section>
+
+        <aside class=&quot;rezerwacja&quot;>
+<h2>Ostatni rejs</h2><p>20.11.2026, godz. 20:15 · Sala 2</p><p>Cena biletu: <span id='cena'>28.00</span> zł</p><div class='ekran'>EKRAN</div><div class='sala'><button type='button' class='miejsce zajete' disabled>A1</button><button type='button' class='miejsce zajete' disabled>A2</button><button type='button' class='miejsce' onclick='wybierz(this)'>A3</button><button type='button' class='miejsce' onclick='wybierz(this)'>A4</button><button type='button' class='miejsce' onclick='wybierz(this)'>A5</button><button type='button' class='miejsce' onclick='wybierz(this)'>A6</button><button type='button' class='miejsce' onclick='wybierz(this)'>A7</button><button type='button' class='miejsce' onclick='wybierz(this)'>A8</button><button type='button' class='miejsce' onclick='wybierz(this)'>B1</button><button type='button' class='miejsce' onclick='wybierz(this)'>B2</button><button type='button' class='miejsce' onclick='wybierz(this)'>B3</button><button type='button' class='miejsce zajete' disabled>B4</button><button type='button' class='miejsce zajete' disabled>B5</button><button type='button' class='miejsce zajete' disabled>B6</button><button type='button' class='miejsce' onclick='wybierz(this)'>B7</button><button type='button' class='miejsce' onclick='wybierz(this)'>B8</button><button type='button' class='miejsce' onclick='wybierz(this)'>C1</button><button type='button' class='miejsce zajete' disabled>C2</button><button type='button' class='miejsce zajete' disabled>C3</button><button type='button' class='miejsce' onclick='wybierz(this)'>C4</button><button type='button' class='miejsce' onclick='wybierz(this)'>C5</button><button type='button' class='miejsce' onclick='wybierz(this)'>C6</button><button type='button' class='miejsce' onclick='wybierz(this)'>C7</button><button type='button' class='miejsce' onclick='wybierz(this)'>C8</button><button type='button' class='miejsce' onclick='wybierz(this)'>D1</button><button type='button' class='miejsce' onclick='wybierz(this)'>D2</button><button type='button' class='miejsce' onclick='wybierz(this)'>D3</button><button type='button' class='miejsce zajete' disabled>D4</button><button type='button' class='miejsce zajete' disabled>D5</button><button type='button' class='miejsce zajete' disabled>D6</button><button type='button' class='miejsce zajete' disabled>D7</button><button type='button' class='miejsce' onclick='wybierz(this)'>D8</button><button type='button' class='miejsce zajete' disabled>E1</button><button type='button' class='miejsce' onclick='wybierz(this)'>E2</button><button type='button' class='miejsce' onclick='wybierz(this)'>E3</button><button type='button' class='miejsce' onclick='wybierz(this)'>E4</button><button type='button' class='miejsce' onclick='wybierz(this)'>E5</button><button type='button' class='miejsce' onclick='wybierz(this)'>E6</button><button type='button' class='miejsce' onclick='wybierz(this)'>E7</button><button type='button' class='miejsce zajete' disabled>E8</button></div><p id='podsumowanie'>Nie wybrano miejsc</p>        </aside>
+    </main>
+
+    <footer class=&quot;stopka&quot;>
+        <p>Kino Orbita · ul. Filmowa 12 · bilety: 500 100 200</p>
+        <p>Stronę wykonał: 00</p>
+    </footer>
+    <script>// skrypt 4 - wybór miejsc na sali
+const LIMIT_MIEJSC = 4;
+
+function wybierz(przycisk) {
+    let wybrane = document.querySelectorAll('.wybrane');
+    let podsumowanie = document.getElementById('podsumowanie');
+    if (!przycisk.classList.contains('wybrane') &amp;&amp; wybrane.length >= LIMIT_MIEJSC) {
+        podsumowanie.innerHTML = 'Można wybrać najwyżej ' + LIMIT_MIEJSC + ' miejsca';
+        return;
+    }
+    przycisk.classList.toggle('wybrane');
+
+    wybrane = document.querySelectorAll('.wybrane');
+    if (wybrane.length == 0) {
+        podsumowanie.innerHTML = 'Nie wybrano miejsc';
+        return;
+    }
+    let lista = [];
+    for (let i = 0; i < wybrane.length; i++) {
+        lista.push(wybrane[i].innerHTML);
+    }
+    let cena = Number(document.getElementById('cena').innerHTML);
+    let suma = cena * wybrane.length;
+    podsumowanie.innerHTML = 'Wybrane miejsca: ' + lista.join(', ') + '<br>Do zapłaty: ' + suma.toFixed(2) + ' zł';
+}
+</script>
+</body>
+</html>
+" title="Podgląd witryny"></iframe></div><figcaption>Ilustracja 5. Wygląd witryny na ekranie o szerokości 420 px (adres index.php?seans=2, początek strony)</figcaption></figure>
+  <p>Cechy witryny:</p>
+  <ul class="dash"><li>Składa się ze strony o nazwie index.php</li><li>Zapisana w języku HTML5, zadeklarowany polski język zawartości witryny, jawnie zastosowany standard kodowania polskich znaków, znacznik meta viewport</li><li>Tytuł strony widoczny na karcie przeglądarki: „Kino Orbita – repertuar i rezerwacje”</li><li>Arkusz stylów w pliku o nazwie styl.css prawidłowo połączony z kodem strony; wygląd w całości w CSS, bez stylów w atrybutach</li><li>Podział strony na bloki zrealizowany za pomocą znaczników semantycznych HTML5 zgodnie z ilustracją 3</li><li>Nagłówek (header z klasą naglowek): odnośnik z klasą logo do index.php o treści „KINO ORBITA”, w którym „ORBITA” jest w osobnym elemencie span, oraz blok nawigacyjny z listą punktowaną trzech odnośników: „Repertuar” (index.php), „Cennik” (#), „Kontakt” (#)</li><li>Blok główny (main z klasą uklad) zawiera sekcję z klasą repertuar oraz panel (aside) z klasą rezerwacja</li><li>Sekcja repertuar: nagłówek pierwszego stopnia „Repertuar – piątek 20.11.2026” oraz blok div z klasą filmy, wypełniony przez skrypty 1 i 2</li><li>Panel rezerwacja: zawartość generowana przez skrypt 3; po wybraniu seansu zawiera tytuł, dane seansu, cenę biletu w elemencie span o identyfikatorze cena, blok div z klasą ekran o treści „EKRAN”, blok div z klasą sala z 40 przyciskami miejsc oraz paragraf o identyfikatorze podsumowanie o początkowej treści „Nie wybrano miejsc”</li><li>Stopka (footer z klasą stopka): paragraf „Kino Orbita · ul. Filmowa 12 · bilety: 500 100 200” i paragraf „Stronę wykonał: ”, dalej wstawiony numer zdającego</li></ul>
+
+  <h3>Styl CSS witryny internetowej</h3>
+  <p>Styl CSS zdefiniowany jest w całości w zewnętrznym pliku o nazwie styl.css. W tabeli 3 zamieszczono pomoc do niektórych właściwości CSS. Cechy formatowania CSS, działające na stronie:</p>
+  <ul class="dash"><li>Domyślnie dla wszystkich selektorów (*): marginesy zewnętrzne i wewnętrzne 0, model pudełkowy border-box. Dla selektora ciała strony: kolor tła #0F0F14, kolor czcionki #E5E7EB, krój Tahoma, w przypadku braku Arial, a następnie sans-serif</li><li>Dla selektora odnośnika: kolor dziedziczony, bez podkreślenia. Dla selektora listy punktowanej: brak punktorów</li><li>Dla klasy naglowek: układ elastyczny, elementy rozsunięte do krawędzi i wyśrodkowane w pionie, marginesy wewnętrzne: górny i dolny 16 px, lewy i prawy 5%, czarne tło, dolne obramowanie 3 px linią ciągłą #F59E0B. Lista w nagłówku: układ elastyczny, odstęp 24 px; gdy kursor znajdzie się na odnośniku menu, kolor czcionki zmienia się na #F59E0B</li><li>Dla klasy logo: rozmiar 1,8 rem, pogrubienie, odstęp między literami 4 px; element span w logo ma kolor #F59E0B</li><li>Dla klasy uklad: siatka z kolumnami 1fr i 380 px, odstęp 28 px, elementy wyrównane do góry, maksymalna szerokość 1240 px, blok wyśrodkowany, marginesy wewnętrzne: górny i dolny 28 px, lewy i prawy 20 px. Dla selektora nagłówka pierwszego stopnia: dolny margines 20 px, rozmiar 1,6 rem</li><li>Dla klasy filmy: siatka z kolumnami o szerokości co najmniej 180 px, w liczbie mieszczącej się w bloku (repeat(auto-fill, minmax(180px, 1fr))), odstęp 20 px. Dla klasy film: marginesy wewnętrzne 12 px, tło #1C1C24, zaokrąglenie 10 px</li><li>Dla klasy plakat: pozycjonowanie względne, proporcje 2 : 3 (aspect-ratio), dolny margines 10 px, zaokrąglenie 8 px. Tło plakatów – gradient liniowy pod kątem 160 stopni: p1 od #1E3A8A do #0EA5E9, p2 od #7C3AED do #F472B6, p3 od #111827 do #B91C1C, p4 od #065F46 do #FCD34D</li><li>Dla klasy wiek: pozycjonowanie bezwzględne 8 px od górnej i prawej krawędzi plakatu, marginesy wewnętrzne 2 px / 8 px, tło #F59E0B, czarny pogrubiony tekst 0,8 rem, zaokrąglenie 4 px</li><li>Dla nagłówka drugiego stopnia w klasie film: 1,05 rem. Dla klasy info: marginesy: górny 4 px, dolny 10 px, kolor #9CA3AF, 0,85 rem. Dla klasy godziny: układ elastyczny z zawijaniem, odstęp 6 px</li><li>Dla klasy godzina: marginesy wewnętrzne 6 px / 10 px, obramowanie 1 px linią ciągłą #F59E0B, zaokrąglenie 6 px, pogrubienie, 0,9 rem; element small w niej: wyświetlanie blokowe, bez pogrubienia, 0,7 rem, kolor #9CA3AF</li><li>Gdy kursor znajdzie się na odnośniku z klasą godzina: tło #F59E0B, kolor tekstu czarny (również w elemencie small). Klasa ostatnie: kolor obramowania #EF4444. Klasa pelny: kolor obramowania #4B5563, kolor tekstu #6B7280, tekst przekreślony</li><li>Dla klasy rezerwacja: przyklejona 20 px od górnej krawędzi okna (sticky), marginesy wewnętrzne 20 px, tło #1C1C24, zaokrąglenie 10 px; jej nagłówek ma kolor #F59E0B, a paragrafy górny margines 6 px. Dla klasy wskazowka: kolor #9CA3AF, kursywa</li><li>Dla klasy ekran: marginesy: górny 22 px, dolny 16 px, marginesy wewnętrzne 6 px, tło – gradient od góry do dołu od #E5E7EB do #374151, kolor tekstu #111827, zaokrąglenie górnej krawędzi w kształcie łuku (border-radius: 50% 50% 0 0 / 100% 100% 0 0), tekst wyśrodkowany, 0,75 rem, odstęp między literami 6 px</li><li>Dla klasy sala: siatka z ośmioma równymi kolumnami, odstęp 6 px</li><li>Dla klasy miejsce: marginesy wewnętrzne: górny i dolny 8 px, tło #374151, kolor tekstu #E5E7EB, bez obramowania, zaokrąglenie: górne rogi 6 px, dolne 2 px, 0,72 rem, kursor w kształcie dłoni; gdy kursor znajdzie się na miejscu – tło #4B5563</li><li>Miejsce z klasą wybrane: tło #22D3EE, czarny pogrubiony tekst. Miejsce z klasą zajete: tło #7F1D1D, kolor tekstu #FCA5A5, kursor „niedozwolone” (not-allowed)</li><li>Dla identyfikatora podsumowanie: górny margines 16 px, marginesy wewnętrzne 10 px, obramowanie 1 px linią przerywaną #F59E0B, zaokrąglenie 6 px, wysokość linii 1,6</li><li>Dla klasy stopka: marginesy wewnętrzne 18 px, czarne tło, kolor #6B7280, tekst wyśrodkowany, 0,85 rem</li><li>W przypadku ekranów o szerokości do 860 px (ilustracja 5): siatka klasy uklad ma jedną kolumnę, panel rezerwacja ma zwykłe pozycjonowanie (static) i jest wyświetlany przed repertuarem (order: -1), a nagłówek układa elementy jeden pod drugim z odstępem 10 px</li></ul>
+  <p class="note">Uwaga: styl CSS ciała strony, odnośnika, listy punktowanej i nagłówka pierwszego stopnia należy zdefiniować wyłącznie przy pomocy selektora tych znaczników. Jest to uwarunkowane projektem późniejszej rozbudowy witryny.</p>
+
+  <h3>Skrypty działające po stronie serwera (PHP)</h3>
+  <p>W tabeli 2 zamieszczono wybrane funkcje i zmienne PHP. Wymagania dotyczące skryptów:</p>
+  <ul class="dash"><li>Napisane w języku PHP</li><li>Należy stosować znaczące nazewnictwo zmiennych i funkcji w języku polskim lub angielskim</li><li>Łączą się z serwerem bazodanowym na localhost, użytkownik root bez hasła, baza danych o nazwie kino</li><li>Na końcu zamykane jest połączenie z serwerem</li></ul>
+  <p class="script-name">Skrypt 1 (filmy):</p><ul class="dash"><li>Wysyła do bazy danych zapytanie 1</li><li>Dla każdego filmu tworzy element article z klasą film, zawierający:<ul class="dash"><li>blok div z klasami plakat oraz p + identyfikator filmu (np. p3), a w nim element span z klasą wiek: dla ograniczenia 0 tekst „b.o.”, w pozostałych przypadkach wartość ze znakiem +, np. „12+”</li><li>nagłówek drugiego stopnia z tytułem i paragraf z klasą info: „&lt;gatunek&gt; · &lt;czas trwania&gt; min”</li><li>blok div z klasą godziny wypełniony przez skrypt 2</li></ul></li></ul><p class="script-name">Skrypt 2 (seanse filmu):</p><ul class="dash"><li>Umieszczony wewnątrz pętli skryptu 1; dla każdego filmu wysyła do bazy zapytanie 2, w którym zamiast identyfikatora 1 użyty jest identyfikator bieżącego filmu</li><li>Dla każdego seansu tworzy element z klasą godzina zawierający godzinę oraz element small:<ul class="dash"><li>gdy wolnych miejsc jest 0: element span z dodatkową klasą pelny i tekstem small „brak miejsc” (nie jest odnośnikiem)</li><li>w pozostałych przypadkach: odnośnik do index.php?seans=&lt;id seansu&gt; z tekstem small „wolne: &lt;liczba&gt;”; gdy wolnych miejsc jest 5 lub mniej, odnośnik ma dodatkową klasę ostatnie</li></ul></li></ul><p class="script-name">Skrypt 3 (plan sali):</p><ul class="dash"><li>Jeżeli w adresie strony nie ma parametru seans, wyświetla paragraf z klasą wskazowka „Wybierz godzinę seansu z repertuaru, aby zobaczyć plan sali.” (ilustracja 4)</li><li>W przeciwnym razie wysyła zapytanie 3 dla wybranego seansu i wyświetla: nagłówek drugiego stopnia z tytułem, paragraf „&lt;data&gt;, godz. &lt;godzina&gt; · Sala &lt;numer&gt;” oraz paragraf „Cena biletu: &lt;cena&gt; zł”, w którym cena jest w elemencie span o identyfikatorze cena</li><li>Wysyła zapytanie 4 dla wybranego seansu i zapisuje zajęte miejsca w tablicy jako napisy złożone z rzędu i numeru, np. „A1”</li><li>Wyświetla blok ekran, a pod nim blok sala z przyciskami miejsc dla rzędów A–E i miejsc 1–8 (dwie zagnieżdżone pętle) – w kolejności A1…A8, B1…B8 itd.; treścią przycisku jest oznaczenie miejsca</li><li>Przycisk miejsca zajętego (znajdującego się w tablicy) ma klasy miejsce i zajete oraz atrybut disabled; przycisk miejsca wolnego ma klasę miejsce, a jego kliknięcie uruchamia skrypt 4</li><li>Pod salą wyświetla paragraf o identyfikatorze podsumowanie z tekstem „Nie wybrano miejsc”</li></ul>
+  <h3>Skrypt działający po stronie klienta (JavaScript)</h3>
+  <p>W tabeli 4 zamieszczono wybrane elementy języka JavaScript. Skrypt jest napisany w języku JavaScript (w pliku skrypt.js lub w znaczniku script), należy stosować znaczące nazewnictwo zmiennych i funkcji.</p>
+  <p class="script-name">Skrypt 4 (wybór miejsc):</p><ul class="dash"><li>Wywoływany po kliknięciu przycisku wolnego miejsca</li><li>Jeżeli kliknięte miejsce nie jest wybrane, a wybrane są już 4 miejsca, wyświetla w paragrafie podsumowanie tekst „Można wybrać najwyżej 4 miejsca” i nie zmienia wyboru</li><li>W przeciwnym razie przełącza klasę wybrane klikniętego przycisku (dodaje, gdy jej nie ma; usuwa, gdy jest)</li><li>Gdy żadne miejsce nie jest wybrane, wyświetla w paragrafie podsumowanie tekst „Nie wybrano miejsc”; w przeciwnym razie tekst „Wybrane miejsca: &lt;lista&gt;”, a w nowej linii „Do zapłaty: &lt;kwota&gt; zł”, gdzie &lt;lista&gt; to oznaczenia wybranych miejsc rozdzielone przecinkiem i spacją, a &lt;kwota&gt; to cena biletu (odczytana z elementu cena) pomnożona przez liczbę wybranych miejsc, z dwoma miejscami po przecinku (ilustracja 2)</li></ul>
+
+  <div class="help-tables">
+  <table class="help"><caption>Tabela 1. Wybrane elementy języka SQL (MySQL)</caption><tr><th>Zapis</th><th>Znaczenie</th></tr><tr><td>LEFT JOIN</td><td>Złączenie zwracające wszystkie wiersze z lewej tabeli, także bez pasujących wierszy w prawej</td></tr><tr><td>COUNT(kolumna)</td><td>Liczba wartości różnych od NULL w grupie</td></tr><tr><td>TIME_FORMAT(czas, '%H:%i')</td><td>Godzina i minuty, np. 20:15</td></tr><tr><td>DATE_FORMAT(data, '%d.%m.%Y')</td><td>Data, np. 20.11.2026</td></tr></table>
+  <table class="help"><caption>Tabela 2. Wybrane funkcje i zmienne języka PHP</caption><tr><th>Funkcja</th><th>Zwracana wartość</th></tr><tr><td>mysqli_connect(serwer, użytkownik, hasło, nazwa_bazy)</td><td>id połączenia lub FALSE, gdy niepowodzenie</td></tr><tr><td>mysqli_query(id_polaczenia, zapytanie)</td><td>Wynik zapytania</td></tr><tr><td>mysqli_fetch_row(wynik_zapytania)</td><td>Tablica numeryczna odpowiadająca wierszowi zapytania</td></tr><tr><td>mysqli_fetch_array(wynik_zapytania)</td><td>Tablica z kolejnym wierszem wyniku lub FALSE, gdy nie ma więcej wierszy</td></tr><tr><td>mysqli_num_rows(wynik_zapytania)</td><td>Liczba wierszy w wyniku zapytania</td></tr><tr><td>mysqli_close(id_polaczenia)</td><td>TRUE/FALSE w zależności od stanu operacji</td></tr><tr><td>isset($_GET['nazwa'])</td><td>TRUE, gdy w adresie strony jest parametr, np. index.php?nazwa=2</td></tr><tr><td>in_array(wartość, tablica)</td><td>TRUE, gdy wartość znajduje się w tablicy</td></tr><tr><td>$tablica[] = wartość</td><td>Dodanie elementu na koniec tablicy</td></tr></table>
+  <table class="help"><caption>Tabela 3. Wybrane właściwości CSS</caption><tr><th>Zapis</th><th>Znaczenie</th></tr><tr><td>repeat(auto-fill, minmax(180px, 1fr))</td><td>Tyle kolumn, ile się zmieści, każda co najmniej 180 px</td></tr><tr><td>aspect-ratio: 2 / 3</td><td>Proporcje szerokości do wysokości</td></tr><tr><td>border-radius: 50% 50% 0 0 / 100% 100% 0 0</td><td>Promienie poziome / pionowe rogów – górna krawędź w kształcie łuku</td></tr><tr><td>order: -1</td><td>Element wyświetlany przed pozostałymi elementami siatki</td></tr><tr><td>cursor: not-allowed</td><td>Kursor oznaczający niedostępną akcję</td></tr><tr><td>a.godzina:hover small</td><td>Element small w odnośniku z klasą godzina wskazanym kursorem</td></tr></table>
+  <table class="help"><caption>Tabela 4. Wybrane elementy języka JavaScript</caption><tr><th>Zapis</th><th>Znaczenie</th></tr><tr><td>document.querySelectorAll('.klasa')</td><td>Lista elementów z klasą; liczba elementów: lista.length</td></tr><tr><td>element.classList.toggle('klasa')</td><td>Dodaje klasę, gdy jej nie ma, lub usuwa, gdy jest</td></tr><tr><td>element.classList.contains('klasa')</td><td>true, gdy element ma klasę</td></tr><tr><td>tablica.push(x), tablica.join(', ')</td><td>Dodanie elementu; połączenie elementów w napis</td></tr><tr><td>liczba.toFixed(2)</td><td>Napis z liczbą z dwoma miejscami po przecinku</td></tr></table>
+  </div>
+
+  <p class="note">UWAGA: po zakończeniu pracy utwórz plik tekstowy o nazwie przeglądarka.txt. Zapisz w nim nazwę przeglądarki internetowej, w której weryfikowana była poprawność działania witryny. Umieść go w folderze z numerem zdającego.</p>
+  <p>W folderze z numerem zdającego powinny znajdować się pliki: import.png, index.php, kw1.png, kw2.png, kw3.png, kw4.png, kw5.png, kwerendy.txt, przeglądarka.txt, skrypt.js, styl.css, ewentualnie inne przygotowane pliki. Spakuj folder do archiwum ZIP o nazwie równej numerowi zdającego i prześlij je w sposób wskazany przez nauczyciela.</p>
+  <p><b>Czas przeznaczony na wykonanie zadania wynosi 150 minut.</b></p>
+  <p>Ocenie podlegać będzie 5 rezultatów:</p>
+  <ul class="dash"><li>operacje na bazie danych,</li><li>zawartość witryny internetowej,</li><li>działanie witryny internetowej,</li><li>styl CSS witryny internetowej,</li><li>skrypty.</li></ul>
+</section>
+<script>
+function dopasuj() {
+  document.querySelectorAll('figure.preview').forEach(function (fig) {
+    var f = fig.querySelector('iframe.site');
+    var wrap = fig.querySelector('.frame-wrap');
+    var scale = Number(wrap.dataset.scale);
+    try {
+      var d = f.contentDocument;
+      if (!d || !d.body) return;
+      var hgt = Math.max(d.documentElement.scrollHeight, d.body.scrollHeight);
+      f.style.height = hgt + 'px';
+      wrap.style.height = Math.ceil(hgt * scale) + 'px';
+    } catch (e) {}
+  });
+}
+document.querySelectorAll('figure.preview').forEach(function (fig) {
+  var f = fig.querySelector('iframe.site');
+  f.addEventListener('load', function () {
+    var id = fig.dataset.click;
+    if (id) { try { f.contentDocument.getElementById(id).click(); } catch (e) {} }
+    dopasuj();
+  });
+});
+window.addEventListener('load', dopasuj);
+window.addEventListener('beforeprint', dopasuj);
+
+document.querySelectorAll('figure.preview:not(.start) iframe.site').forEach(function (f) {
+  f.addEventListener('load', function () {
+    try {
+      var d = f.contentDocument;
+      d.querySelectorAll('.miejsce').forEach(function (b) { if (b.innerHTML === 'C4' || b.innerHTML === 'C5') b.click(); });
+      if (!f.closest('.mobile')) {
+        d.querySelectorAll('a.godzina').forEach(function (a) {
+          if (a.textContent.indexOf('16:00') === 0) { a.style.backgroundColor = '#F59E0B'; a.style.color = '#000'; a.querySelector('small').style.color = '#000'; }
+        });
+      }
+      dopasuj();
+    } catch (e) {}
+  });
+});
+</script>
+</body>
+</html>
