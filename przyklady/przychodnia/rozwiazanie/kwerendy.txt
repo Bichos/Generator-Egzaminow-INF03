@@ -1,0 +1,10 @@
+-- Zapytanie 1
+SELECT DISTINCT specjalizacja FROM lekarze ORDER BY specjalizacja;
+-- Zapytanie 2
+SELECT imie, nazwisko, gabinet, GROUP_CONCAT(CONCAT(dzien, ' ', godziny) ORDER BY dzien_nr SEPARATOR ', ') AS dyzury FROM lekarze JOIN dyzury ON dyzury.lekarze_id = lekarze.id WHERE specjalizacja = 'pediatra' GROUP BY lekarze.id ORDER BY nazwisko;
+-- Zapytanie 3
+SELECT nazwisko, COUNT(wizyty.id) AS liczba FROM lekarze JOIN wizyty ON wizyty.lekarze_id = lekarze.id WHERE data BETWEEN '2026-11-23' AND '2026-11-27' GROUP BY lekarze.id HAVING liczba >= 2;
+-- Zapytanie 4
+SELECT imie, nazwisko, specjalizacja FROM lekarze WHERE nazwisko LIKE 'K%';
+-- Zapytanie 5
+UPDATE wizyty SET potwierdzona = 1 WHERE data = '2026-11-23';

@@ -1,0 +1,275 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #F0FDFA;
+    color: #134E4A;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    line-height: 1.5;
+}
+
+h2 {
+    margin-bottom: 14px;
+    color: #0F766E;
+    font-size: 1.3rem;
+}
+
+/* nagłówek i menu */
+.naglowek {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 6%;
+    background-color: white;
+}
+
+.naglowek img {
+    width: 80px;
+    height: 80px;
+}
+
+.naglowek h1 {
+    font-size: 2rem;
+    color: #0F766E;
+}
+
+.naglowek p {
+    color: #5F7D7A;
+}
+
+.menu {
+    display: flex;
+    gap: 4px;
+    padding: 0 6%;
+    background-color: #0F766E;
+}
+
+.menu a {
+    padding: 12px 20px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.menu a:hover {
+    background-color: #115E59;
+    box-shadow: inset 0 -4px 0 #86EFAC;
+}
+
+/* układ */
+.uklad {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 24px;
+    align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 20px;
+}
+
+/* lekarze */
+.filtr {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.karty {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+}
+
+.lekarz {
+    padding: 16px;
+    background-color: white;
+    border-left: 6px solid #14B8A6;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(15, 118, 110, 0.15);
+}
+
+.lekarz h3 {
+    font-size: 1.05rem;
+}
+
+.specjalizacja {
+    color: #0D9488;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.dyzury {
+    margin-top: 8px;
+    padding: 6px 10px;
+    background-color: #CCFBF1;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+.dyzury::before {
+    content: "🕘 ";
+}
+
+.brak {
+    padding: 14px;
+    background-color: #FEF3C7;
+    border-radius: 8px;
+}
+
+/* panel boczny */
+.rejestracja,
+.porady {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+label {
+    display: block;
+    margin: 10px 0 4px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #99F6E4;
+    border-radius: 6px;
+    font: inherit;
+}
+
+input:focus,
+select:focus {
+    outline: 2px solid #14B8A6;
+}
+
+.filtr label,
+.filtr select,
+.filtr button {
+    width: auto;
+    margin: 0;
+}
+
+.zgoda {
+    display: flex;
+    gap: 8px;
+    font-weight: normal;
+}
+
+.zgoda input {
+    width: auto;
+}
+
+button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px 18px;
+    background-color: #0F766E;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #115E59;
+}
+
+#bledy {
+    color: #DC2626;
+    font-size: 0.85rem;
+}
+
+.potwierdzenie {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #DCFCE7;
+    border: 1px solid #16A34A;
+    border-radius: 6px;
+}
+
+/* lista kroków z licznikiem CSS */
+.kroki {
+    list-style: none;
+    counter-reset: krok;
+}
+
+.kroki li {
+    position: relative;
+    margin-bottom: 10px;
+    padding-left: 40px;
+    counter-increment: krok;
+}
+
+.kroki li::before {
+    content: counter(krok);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 28px;
+    height: 28px;
+    background-color: #14B8A6;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    font-weight: bold;
+}
+
+.kroki li:last-child {
+    margin-bottom: 0;
+}
+
+/* stopka */
+.stopka {
+    padding: 18px;
+    background-color: #134E4A;
+    color: #CCFBF1;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 860px) {
+    .uklad {
+        grid-template-columns: 1fr;
+    }
+
+    .naglowek {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .menu {
+        justify-content: center;
+    }
+}
+
+@media print {
+    .menu,
+    .filtr,
+    .boczna {
+        display: none;
+    }
+
+    body {
+        background-color: white;
+    }
+
+    .uklad {
+        grid-template-columns: 1fr;
+    }
+
+    .lekarz {
+        box-shadow: none;
+        border: 1px solid black;
+    }
+}

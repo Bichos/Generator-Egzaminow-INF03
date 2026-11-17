@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INF.03-PM-SG – Przychodnia Pod Lipami – klucz</title>
+<style>
+* { box-sizing: border-box; }
+html { background: #eef0f3; }
+body { margin: 0; padding: 16px; font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt; color: #111; line-height: 1.4; }
+.page { background: #fff; max-width: 210mm; margin: 0 auto; padding: 16mm; box-shadow: 0 1px 6px rgba(0,0,0,.15); }
+h1 { font-size: 16pt; margin: 0 0 6px; } h2 { font-size: 13pt; border-bottom: 2px solid #333; padding-bottom: 3px; margin-top: 22px; }
+pre { background: #f5f5f7; border: 1px solid #ddd; padding: 8px; white-space: pre-wrap; word-break: break-word; font-size: 9pt; }
+table.zo { border-collapse: collapse; width: 100%; font-size: 9.5pt; }
+table.zo th, table.zo td { border: 1px solid #999; padding: 4px 6px; vertical-align: top; text-align: left; }
+table.zo td:first-child, table.zo td:last-child { white-space: nowrap; text-align: center; }
+table.zo tr.res-head td { background: #eef2f7; } table.zo tr.sum td { font-weight: bold; }
+table.zo .note { font-size: 8.5pt; color: #444; margin: 3px 0 0; } table.zo tr { break-inside: avoid; }
+.small { font-size: 9pt; color: #444; }
+@media print { html, body { background: #fff; padding: 0; } .page { box-shadow: none; padding: 0; } }
+@page { size: A4; margin: 14mm; }
+</style>
+</head>
+<body>
+<section class="page">
+  <h1>Przychodnia Pod Lipami – zasady oceniania i rozwiązanie</h1>
+  <p class="small">INF.03-PM-SG · baza przychodnia · archiwum przychodnia (hasło: <code>L1pa+Zdrowie</code>, zawiera przychodnia.sql i logo.png). Każde kryterium oceniane jest zero-jedynkowo (spełnione – 1 pkt).</p>
+  <h2>Zasady oceniania</h2><table class="zo"><tr><th>Lp.</th><th>Elementy podlegające ocenie / kryteria oceny</th><th>Pkt</th></tr><tr class="res-head"><td>R.1</td><td><b>Rezultat 1: Operacje na bazie danych</b><p class="note">Uwaga: W przypadku oceny zrzutów należy uznać za prawidłowe, jeżeli widoczny jest cały obszar ekranu z widocznym paskiem zadań, a zapytanie ma charakter uniwersalny dla każdego zestawu danych.</p></td><td>7</td></tr><tr><td>R.1.1</td><td><label><input type="checkbox"> Wykonany import tabel do bazy danych przychodnia, co jest udokumentowane w pliku import w formacie PNG</label></td><td>1</td></tr><tr><td>R.1.2</td><td><label><input type="checkbox"> Zapisany plik kwerendy.txt zawierający co najmniej jedno zapytanie SQL wynikające z treści zadania</label></td><td>1</td></tr><tr><td>R.1.3</td><td><label><input type="checkbox"> Wykonane zapytanie 1. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT DISTINCT specjalizacja FROM lekarze ORDER BY specjalizacja; oraz wynik działania udokumentowany zrzutem kw1, na którym widocznych jest dokładnie 5 wierszy: dermatolog, internista, kardiolog, okulista, pediatra</label></td><td>1</td></tr><tr><td>R.1.4</td><td><label><input type="checkbox"> Wykonane zapytanie 2. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT imie, nazwisko, gabinet, GROUP_CONCAT(CONCAT(dzien, ' ', godziny) ORDER BY dzien_nr SEPARATOR ', ') AS dyzury FROM lekarze JOIN dyzury ON dyzury.lekarze_id = lekarze.id WHERE specjalizacja = 'pediatra' GROUP BY lekarze.id ORDER BY nazwisko; oraz wynik działania udokumentowany zrzutem kw2, na którym widoczne są 2 wiersze: Anna Kowalczyk, 12, „Pn 8–14, Śr 8–14, Pt 12–18”; Marta Zając, 14, „Wt 12–18, Cz 12–18”</label></td><td>1</td></tr><tr><td>R.1.5</td><td><label><input type="checkbox"> Wykonane zapytanie 3. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT nazwisko, COUNT(wizyty.id) AS liczba FROM lekarze JOIN wizyty ON wizyty.lekarze_id = lekarze.id WHERE data BETWEEN '2026-11-23' AND '2026-11-27' GROUP BY lekarze.id HAVING liczba &gt;= 2; oraz wynik działania udokumentowany zrzutem kw3, na którym widoczne są dokładnie 2 wiersze: Kowalczyk 3, Lis 3 (Kwiatkowski ma w tym tygodniu tylko 1 wizytę)</label></td><td>1</td></tr><tr><td>R.1.6</td><td><label><input type="checkbox"> Wykonane zapytanie 4. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT imie, nazwisko, specjalizacja FROM lekarze WHERE nazwisko LIKE 'K%'; oraz wynik działania udokumentowany zrzutem kw4, na którym widoczne są dokładnie 2 wiersze: Anna Kowalczyk (pediatra), Piotr Kwiatkowski (kardiolog)</label></td><td>1</td></tr><tr><td>R.1.7</td><td><label><input type="checkbox"> Wykonane zapytanie 5. W pliku z kwerendami lub na zrzucie istnieje zapis np. UPDATE wizyty SET potwierdzona = 1 WHERE data = '2026-11-23'; oraz wynik działania udokumentowany zrzutem kw5, na którym widoczny jest komunikat o zmianie 2 wierszy (trzecia wizyta z 23.11 była już potwierdzona; uznać także 3, jeśli serwer zlicza dopasowane wiersze)</label></td><td>1</td></tr><tr class="res-head"><td>R.2</td><td><b>Rezultat 2: Zawartość witryny internetowej</b><p class="note">Uwaga: W napisach widocznych na stronie dopuszcza się drobne błędy literowe, błędy wielkości liter i znaków diakrytycznych.</p></td><td>7</td></tr><tr><td>R.2.1</td><td><label><input type="checkbox"> Witryna zapisana w pliku index.php, jawnie zapisany standard kodowania polskich znaków, deklaracja &lt;!DOCTYPE html&gt;, język polski, meta viewport, tytuł „Przychodnia Pod Lipami”</label></td><td>1</td></tr><tr><td>R.2.2</td><td><label><input type="checkbox"> Bloki zdefiniowane znacznikami semantycznymi zgodnie z ilustracją 3: header naglowek, nav menu, main uklad z section lekarze i aside boczna (dwie sekcje), footer stopka</label></td><td>1</td></tr><tr><td>R.2.3</td><td><label><input type="checkbox"> W nagłówku obraz logo.png z tekstem alternatywnym, nagłówek h1 i paragraf z numerem rejestracji; menu z trzema odnośnikami do #lekarze, #rejestracja, #porady</label></td><td>1</td></tr><tr><td>R.2.4</td><td><label><input type="checkbox"> Formularz filtr: metoda get, lista specjalizacja z pierwszą opcją „wszystkie” o pustej wartości, etykieta powiązana z listą, przycisk „Filtruj”</label></td><td>1</td></tr><tr><td>R.2.5</td><td><label><input type="checkbox"> Formularz rejestracji: metoda post, atrybut onsubmit z return, lista lekarz, pola pacjent i telefon, pole typu date z required, etykiety powiązane z polami (for/id)</label></td><td>1</td></tr><tr><td>R.2.6</td><td><label><input type="checkbox"> Pole wyboru zgoda wewnątrz etykiety z klasą zgoda, paragraf bledy, przycisk „Zarejestruj” typu submit</label></td><td>1</td></tr><tr><td>R.2.7</td><td><label><input type="checkbox"> Lista numerowana ol z klasą kroki z czterema punktami; stopka z dwoma paragrafami, w tym „Stronę wykonał: ” z numerem zdającego</label></td><td>1</td></tr><tr class="res-head"><td>R.3</td><td><b>Rezultat 3: Działanie witryny internetowej</b><p class="note">Uwaga: Jeśli witryna nie uruchamia się z powodu błędów PHP – sprawdzić według kryteriów w kodzie źródłowym strony.</p></td><td>9</td></tr><tr><td>R.3.1</td><td><label><input type="checkbox"> Układ bloków po uruchomieniu w przeglądarce jest zgodny z ilustracjami 2 i 3; logo widoczne w nagłówku</label></td><td>1</td></tr><tr><td>R.3.2</td><td><label><input type="checkbox"> Strona zawiera działające połączenie z zewnętrznym arkuszem stylów styl.css, formatowanie CSS pochodzi jedynie z tego arkusza</label></td><td>1</td></tr><tr><td>R.3.3</td><td><label><input type="checkbox"> Bez filtru wyświetla się 6 kart lekarzy posortowanych według nazwiska (bez okulistki Karoliny Bąk, która nie ma dyżurów), z dyżurami w kolejności dni tygodnia</label></td><td>1</td></tr><tr><td>R.3.4</td><td><label><input type="checkbox"> Lista specjalizacji zawiera „wszystkie” i 5 specjalizacji bez powtórzeń; wybór „pediatra” pokazuje 2 karty, a „okulista” – komunikat o braku lekarzy</label></td><td>1</td></tr><tr><td>R.3.5</td><td><label><input type="checkbox"> Lista lekarzy w formularzu rejestracji zawiera 7 lekarzy z identyfikatorami jako wartościami opcji</label></td><td>1</td></tr><tr><td>R.3.6</td><td><label><input type="checkbox"> Wysłanie formularza z błędnymi danymi wyświetla czerwone komunikaty (każdy w nowej linii) i nie przeładowuje strony; poprawne dane wysyłają formularz</label></td><td>1</td></tr><tr><td>R.3.7</td><td><label><input type="checkbox"> Po wysłaniu poprawnego formularza w tabeli wizyty pojawia się nowy rekord z potwierdzona = 0, a nad formularzem komunikat z nazwiskiem lekarza i datą w formacie DD.MM.RRRR</label></td><td>1</td></tr><tr><td>R.3.8</td><td><label><input type="checkbox"> Kroki w sekcji „Przed wizytą” mają numery 1–4 w kołach generowane przez CSS</label></td><td>1</td></tr><tr><td>R.3.9</td><td><label><input type="checkbox"> W podglądzie wydruku (Ctrl+P) nie ma menu, filtru ani panelu bocznego; przy szerokości do 860 px układ ma jedną kolumnę</label></td><td>1</td></tr><tr class="res-head"><td>R.4</td><td><b>Rezultat 4: Styl CSS witryny internetowej</b><p class="note">Uwaga: Kryteria muszą działać na stronie (sprawdzić w inspektorze). Kryteria dotyczące selektorów znaczników są spełnione jedynie dla stylu zdefiniowanego selektorem znacznika.</p></td><td>20</td></tr><tr><td>R.4.1</td><td><label><input type="checkbox"> Ustawione domyślnie dla wszystkich selektorów (*): marginesy zewnętrzne i wewnętrzne 0, model pudełkowy border-box. Dla selektora ciała strony: kolor tła #F0FDFA, kolor czcionki #134E4A, krój Trebuchet MS, w przypadku braku Arial, a następnie sans-serif, wysokość linii 1,5</label></td><td>1</td></tr><tr><td>R.4.2</td><td><label><input type="checkbox"> Ustawione dla selektora nagłówka drugiego stopnia: dolny margines 14 px, kolor #0F766E, rozmiar 1,3 rem</label></td><td>1</td></tr><tr><td>R.4.3</td><td><label><input type="checkbox"> Ustawione dla klasy naglowek: układ elastyczny, elementy wyśrodkowane w pionie, odstęp 20 px, marginesy wewnętrzne: górny i dolny 20 px, lewy i prawy 6%, białe tło. Obraz w nagłówku: szerokość i wysokość 80 px. Nagłówek pierwszego stopnia: 2 rem, kolor #0F766E; paragraf: kolor #5F7D7A</label></td><td>1</td></tr><tr><td>R.4.4</td><td><label><input type="checkbox"> Ustawione dla klasy menu: układ elastyczny, odstęp 4 px, marginesy wewnętrzne: lewy i prawy 6%, tło #0F766E. Odnośniki menu: marginesy wewnętrzne 12 px / 20 px, biały pogrubiony tekst bez podkreślenia; gdy kursor znajdzie się na odnośniku – tło #115E59 i wewnętrzny cień przy dolnej krawędzi (box-shadow: inset 0 -4px 0 #86EFAC)</label></td><td>1</td></tr><tr><td>R.4.5</td><td><label><input type="checkbox"> Ustawione dla klasy uklad: siatka z kolumnami 1fr i 360 px, odstęp 24 px, elementy wyrównane do góry, maksymalna szerokość 1200 px, blok wyśrodkowany, marginesy wewnętrzne: górny i dolny 24 px, lewy i prawy 20 px</label></td><td>1</td></tr><tr><td>R.4.6</td><td><label><input type="checkbox"> Ustawione dla klasy filtr: układ elastyczny, elementy wyśrodkowane w pionie, odstęp 10 px, dolny margines 18 px; etykieta, lista i przycisk w tym formularzu mają automatyczną szerokość i marginesy 0</label></td><td>1</td></tr><tr><td>R.4.7</td><td><label><input type="checkbox"> Ustawione dla klasy karty: siatka z kolumnami o szerokości co najmniej 230 px wypełniającymi wiersz (repeat(auto-fit, minmax(230px, 1fr))), odstęp 16 px</label></td><td>1</td></tr><tr><td>R.4.8</td><td><label><input type="checkbox"> Ustawione dla klasy lekarz: marginesy wewnętrzne 16 px, białe tło, lewe obramowanie 6 px linią ciągłą #14B8A6, zaokrąglenie 8 px, cień 0 2px 6px w kolorze rgba(15, 118, 110, 0.15); nagłówek trzeciego stopnia w karcie: 1,05 rem</label></td><td>1</td></tr><tr><td>R.4.9</td><td><label><input type="checkbox"> Ustawione dla klasy specjalizacja: kolor #0D9488, pogrubienie, pierwsza litera wielka uzyskana za pomocą CSS (text-transform: capitalize). Dla klasy brak: marginesy wewnętrzne 14 px, tło #FEF3C7, zaokrąglenie 8 px</label></td><td>1</td></tr><tr><td>R.4.10</td><td><label><input type="checkbox"> Ustawione dla klasy dyzury: górny margines 8 px, marginesy wewnętrzne 6 px / 10 px, tło #CCFBF1, zaokrąglenie 6 px, 0,85 rem; przed treścią wstawiany jest pseudoelementem ::before znak „🕘” i spacja</label></td><td>1</td></tr><tr><td>R.4.11</td><td><label><input type="checkbox"> Ustawione dla klas rejestracja i porady: dolny margines 20 px, marginesy wewnętrzne 20 px, białe tło, zaokrąglenie 10 px</label></td><td>1</td></tr><tr><td>R.4.12</td><td><label><input type="checkbox"> Ustawione dla selektora etykiety: wyświetlanie blokowe, marginesy: górny 10 px, dolny 4 px, 0,9 rem, pogrubienie. Dla selektorów input i select: szerokość 100%, marginesy wewnętrzne 8 px, obramowanie 1 px linią ciągłą #99F6E4, zaokrąglenie 6 px, czcionka dziedziczona; aktywne pole (:focus) ma obrys 2 px linią ciągłą #14B8A6</label></td><td>1</td></tr><tr><td>R.4.13</td><td><label><input type="checkbox"> Ustawione dla klasy zgoda: układ elastyczny, odstęp 8 px, bez pogrubienia; pole wyboru w niej ma automatyczną szerokość</label></td><td>1</td></tr><tr><td>R.4.14</td><td><label><input type="checkbox"> Ustawione dla selektora przycisku: szerokość 100%, górny margines 12 px, marginesy wewnętrzne 10 px / 18 px, tło #0F766E, biały pogrubiony tekst, bez obramowania, zaokrąglenie 6 px, czcionka dziedziczona, kursor w kształcie dłoni; gdy kursor znajdzie się na przycisku – tło #115E59</label></td><td>1</td></tr><tr><td>R.4.15</td><td><label><input type="checkbox"> Ustawione dla identyfikatora bledy: kolor #DC2626, 0,85 rem. Dla klasy potwierdzenie: dolny margines 10 px, marginesy wewnętrzne 10 px, tło #DCFCE7, obramowanie 1 px linią ciągłą #16A34A, zaokrąglenie 6 px</label></td><td>1</td></tr><tr><td>R.4.16</td><td><label><input type="checkbox"> Ustawione dla klasy kroki: brak numeracji listy oraz licznik CSS o nazwie krok, zerowany na liście (counter-reset). Elementy listy: pozycjonowanie względne, dolny margines 10 px (ostatni element – pseudoklasa :last-child – 0), lewy margines wewnętrzny 40 px, każdy zwiększa licznik krok (counter-increment)</label></td><td>1</td></tr><tr><td>R.4.17</td><td><label><input type="checkbox"> Ustawione przed każdym elementem listy kroki pseudoelement ::before z wartością licznika (content: counter(krok)), pozycjonowany bezwzględnie przy lewej i górnej krawędzi, 28 × 28 px, tło #14B8A6, biały pogrubiony tekst wyśrodkowany w poziomie, wysokość linii 28 px, kształt koła</label></td><td>1</td></tr><tr><td>R.4.18</td><td><label><input type="checkbox"> Ustawione dla klasy stopka: marginesy wewnętrzne 18 px, tło #134E4A, kolor #CCFBF1, tekst wyśrodkowany, 0,85 rem</label></td><td>1</td></tr><tr><td>R.4.19</td><td><label><input type="checkbox"> Ustawione w przypadku ekranów o szerokości do 860 px: siatka klasy uklad ma jedną kolumnę, nagłówek układa elementy jeden pod drugim z tekstem wyśrodkowanym, a menu jest wyśrodkowane</label></td><td>1</td></tr><tr><td>R.4.20</td><td><label><input type="checkbox"> Ustawione podczas drukowania (reguła @media print, ilustracja 5): ukryte są menu, formularz filtr i panel boczny, tło strony jest białe, siatka uklad ma jedną kolumnę, a karty lekarzy nie mają cienia i mają czarne obramowanie 1 px</label></td><td>1</td></tr><tr class="res-head"><td>R.5</td><td><b>Rezultat 5: Skrypty</b><p class="note">Uwaga: Kryteria należy sprawdzić w kodzie źródłowym oraz na działającej stronie (XAMPP).</p></td><td>13</td></tr><tr><td>R.5.1</td><td><label><input type="checkbox"> Skrypt PHP łączy się z serwerem MySQL na localhost, użytkownik root bez hasła, baza przychodnia (np. mysqli_connect)</label></td><td>1</td></tr><tr><td>R.5.2</td><td><label><input type="checkbox"> Skrypt 1 wysyła zapytanie 1 (DISTINCT) i tworzy opcje listy specjalizacji</label></td><td>1</td></tr><tr><td>R.5.3</td><td><label><input type="checkbox"> Skrypt 2 dodaje warunek specjalizacji do zapytania tylko wtedy, gdy parametr został wysłany i nie jest pusty</label></td><td>1</td></tr><tr><td>R.5.4</td><td><label><input type="checkbox"> Skrypt 2 wyświetla komunikat brak, gdy zapytanie nie zwróciło wierszy (np. mysqli_num_rows)</label></td><td>1</td></tr><tr><td>R.5.5</td><td><label><input type="checkbox"> Skrypt 2 tworzy karty article lekarz z h3 „lek. imię nazwisko”, specjalizacją, gabinetem i dyżurami</label></td><td>1</td></tr><tr><td>R.5.6</td><td><label><input type="checkbox"> Skrypt 3 tworzy opcje z identyfikatorem lekarza w value i treścią „nazwisko imię (specjalizacja)”</label></td><td>1</td></tr><tr><td>R.5.7</td><td><label><input type="checkbox"> Skrypt 4 sprawdza wysłanie formularza POST i dodaje wizytę zapytaniem INSERT z potwierdzona = 0</label></td><td>1</td></tr><tr><td>R.5.8</td><td><label><input type="checkbox"> Skrypt 4 wyświetla komunikat z imieniem i nazwiskiem lekarza odczytanym z bazy oraz datą w formacie DD.MM.RRRR</label></td><td>1</td></tr><tr><td>R.5.9</td><td><label><input type="checkbox"> Na końcu skryptu zamykane jest połączenie z serwerem (np. mysqli_close)</label></td><td>1</td></tr><tr><td>R.5.10</td><td><label><input type="checkbox"> Skrypt 5 jest napisany w języku JavaScript i sprawdza długość pola pacjent oraz telefon (9 znaków, liczba)</label></td><td>1</td></tr><tr><td>R.5.11</td><td><label><input type="checkbox"> Skrypt 5 sprawdza zaznaczenie zgody (checked) i wyświetla wszystkie błędy w paragrafie bledy</label></td><td>1</td></tr><tr><td>R.5.12</td><td><label><input type="checkbox"> Skrypt 5 zwraca false przy błędach, a formularz używa wyniku (onsubmit=&quot;return …&quot;)</label></td><td>1</td></tr><tr><td>R.5.13</td><td><label><input type="checkbox"> Zastosowano znaczące nazewnictwo zmiennych i funkcji</label></td><td>1</td></tr><tr class="sum"><td></td><td>Razem</td><td>56</td></tr></table>
+  <h2>Rozwiązanie wzorcowe</h2><h4>kwerendy.txt</h4><pre>-- Zapytanie 1
+SELECT DISTINCT specjalizacja FROM lekarze ORDER BY specjalizacja;
+-- Zapytanie 2
+SELECT imie, nazwisko, gabinet, GROUP_CONCAT(CONCAT(dzien, ' ', godziny) ORDER BY dzien_nr SEPARATOR ', ') AS dyzury FROM lekarze JOIN dyzury ON dyzury.lekarze_id = lekarze.id WHERE specjalizacja = 'pediatra' GROUP BY lekarze.id ORDER BY nazwisko;
+-- Zapytanie 3
+SELECT nazwisko, COUNT(wizyty.id) AS liczba FROM lekarze JOIN wizyty ON wizyty.lekarze_id = lekarze.id WHERE data BETWEEN '2026-11-23' AND '2026-11-27' GROUP BY lekarze.id HAVING liczba &gt;= 2;
+-- Zapytanie 4
+SELECT imie, nazwisko, specjalizacja FROM lekarze WHERE nazwisko LIKE 'K%';
+-- Zapytanie 5
+UPDATE wizyty SET potwierdzona = 1 WHERE data = '2026-11-23';
+</pre><h4>index.php</h4><pre>&lt;?php
+$polaczenie = mysqli_connect('localhost', 'root', '', 'przychodnia');
+
+// skrypt 4 - zapis wizyty
+$komunikat = '';
+if (isset($_POST['lekarz'])) {
+    $lekarz = $_POST['lekarz'];
+    $pacjent = $_POST['pacjent'];
+    $telefon = $_POST['telefon'];
+    $data = $_POST['data'];
+    mysqli_query($polaczenie, &quot;INSERT INTO wizyty (lekarze_id, pacjent, telefon, data, potwierdzona) VALUES ($lekarz, '$pacjent', '$telefon', '$data', 0);&quot;);
+    $wynik = mysqli_query($polaczenie, &quot;SELECT imie, nazwisko FROM lekarze WHERE id = $lekarz;&quot;);
+    $dane = mysqli_fetch_row($wynik);
+    $komunikat = &quot;Zarejestrowano wizytę u lek. $dane[0] $dane[1] w dniu &quot; . date('d.m.Y', strtotime($data)) . &quot;. Potwierdzimy ją telefonicznie.&quot;;
+}
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pl&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Przychodnia Pod Lipami&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;styl.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header class=&quot;naglowek&quot;&gt;
+        &lt;img src=&quot;logo.png&quot; alt=&quot;Logo przychodni Pod Lipami&quot;&gt;
+        &lt;div&gt;
+            &lt;h1&gt;Przychodnia Pod Lipami&lt;/h1&gt;
+            &lt;p&gt;Rejestracja: 85 123 45 67 · pon.–pt. 8:00–19:00&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/header&gt;
+
+    &lt;nav class=&quot;menu&quot;&gt;
+        &lt;a href=&quot;#lekarze&quot;&gt;Lekarze&lt;/a&gt;
+        &lt;a href=&quot;#rejestracja&quot;&gt;Rejestracja&lt;/a&gt;
+        &lt;a href=&quot;#porady&quot;&gt;Przed wizytą&lt;/a&gt;
+    &lt;/nav&gt;
+
+    &lt;main class=&quot;uklad&quot;&gt;
+        &lt;section class=&quot;lekarze&quot; id=&quot;lekarze&quot;&gt;
+            &lt;h2&gt;Nasi lekarze&lt;/h2&gt;
+            &lt;form class=&quot;filtr&quot; action=&quot;index.php&quot; method=&quot;get&quot;&gt;
+                &lt;label for=&quot;specjalizacja&quot;&gt;Specjalizacja&lt;/label&gt;
+                &lt;select name=&quot;specjalizacja&quot; id=&quot;specjalizacja&quot;&gt;
+                    &lt;option value=&quot;&quot;&gt;wszystkie&lt;/option&gt;
+&lt;?php
+// skrypt 1 - specjalizacje
+$zapytanie = &quot;SELECT DISTINCT specjalizacja FROM lekarze ORDER BY specjalizacja;&quot;;
+$wynik = mysqli_query($polaczenie, $zapytanie);
+while ($wiersz = mysqli_fetch_row($wynik)) {
+    echo &quot;&lt;option&gt;$wiersz[0]&lt;/option&gt;&quot;;
+}
+?&gt;
+                &lt;/select&gt;
+                &lt;button type=&quot;submit&quot;&gt;Filtruj&lt;/button&gt;
+            &lt;/form&gt;
+            &lt;div class=&quot;karty&quot;&gt;
+&lt;?php
+// skrypt 2 - lekarze z dyżurami
+$warunek = '';
+if (isset($_GET['specjalizacja']) &amp;&amp; $_GET['specjalizacja'] != '') {
+    $specjalizacja = $_GET['specjalizacja'];
+    $warunek = &quot;WHERE specjalizacja = '$specjalizacja'&quot;;
+}
+$zapytanie = &quot;SELECT imie, nazwisko, specjalizacja, gabinet, GROUP_CONCAT(CONCAT(dzien, ' ', godziny) ORDER BY dzien_nr SEPARATOR ', ') AS dyzury FROM lekarze JOIN dyzury ON dyzury.lekarze_id = lekarze.id $warunek GROUP BY lekarze.id ORDER BY nazwisko;&quot;;
+$wynik = mysqli_query($polaczenie, $zapytanie);
+if (mysqli_num_rows($wynik) == 0) {
+    echo &quot;&lt;p class='brak'&gt;Brak lekarzy przyjmujących w tej specjalizacji.&lt;/p&gt;&quot;;
+}
+while ($wiersz = mysqli_fetch_row($wynik)) {
+    echo &quot;&lt;article class='lekarz'&gt;&quot;;
+    echo &quot;&lt;h3&gt;lek. $wiersz[0] $wiersz[1]&lt;/h3&gt;&quot;;
+    echo &quot;&lt;p class='specjalizacja'&gt;$wiersz[2]&lt;/p&gt;&quot;;
+    echo &quot;&lt;p&gt;Gabinet nr $wiersz[3]&lt;/p&gt;&quot;;
+    echo &quot;&lt;p class='dyzury'&gt;$wiersz[4]&lt;/p&gt;&quot;;
+    echo &quot;&lt;/article&gt;&quot;;
+}
+?&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;aside class=&quot;boczna&quot;&gt;
+            &lt;section class=&quot;rejestracja&quot; id=&quot;rejestracja&quot;&gt;
+                &lt;h2&gt;Rejestracja na wizytę&lt;/h2&gt;
+&lt;?php
+if ($komunikat != '') {
+    echo &quot;&lt;p class='potwierdzenie'&gt;$komunikat&lt;/p&gt;&quot;;
+}
+?&gt;
+                &lt;form action=&quot;index.php&quot; method=&quot;post&quot; onsubmit=&quot;return sprawdzFormularz()&quot;&gt;
+                    &lt;label for=&quot;lekarz&quot;&gt;Lekarz&lt;/label&gt;
+                    &lt;select name=&quot;lekarz&quot; id=&quot;lekarz&quot;&gt;
+&lt;?php
+// skrypt 3 - lista lekarzy
+$zapytanie = &quot;SELECT id, imie, nazwisko, specjalizacja FROM lekarze ORDER BY nazwisko;&quot;;
+$wynik = mysqli_query($polaczenie, $zapytanie);
+while ($wiersz = mysqli_fetch_row($wynik)) {
+    echo &quot;&lt;option value='$wiersz[0]'&gt;$wiersz[2] $wiersz[1] ($wiersz[3])&lt;/option&gt;&quot;;
+}
+?&gt;
+                    &lt;/select&gt;
+                    &lt;label for=&quot;pacjent&quot;&gt;Imię i nazwisko&lt;/label&gt;
+                    &lt;input type=&quot;text&quot; name=&quot;pacjent&quot; id=&quot;pacjent&quot;&gt;
+                    &lt;label for=&quot;telefon&quot;&gt;Telefon (9 cyfr)&lt;/label&gt;
+                    &lt;input type=&quot;text&quot; name=&quot;telefon&quot; id=&quot;telefon&quot;&gt;
+                    &lt;label for=&quot;data&quot;&gt;Data wizyty&lt;/label&gt;
+                    &lt;input type=&quot;date&quot; name=&quot;data&quot; id=&quot;data&quot; required&gt;
+                    &lt;label class=&quot;zgoda&quot;&gt;&lt;input type=&quot;checkbox&quot; id=&quot;zgoda&quot;&gt; Wyrażam zgodę na przetwarzanie danych osobowych&lt;/label&gt;
+                    &lt;p id=&quot;bledy&quot;&gt;&lt;/p&gt;
+                    &lt;button type=&quot;submit&quot;&gt;Zarejestruj&lt;/button&gt;
+                &lt;/form&gt;
+            &lt;/section&gt;
+
+            &lt;section class=&quot;porady&quot; id=&quot;porady&quot;&gt;
+                &lt;h2&gt;Przed wizytą&lt;/h2&gt;
+                &lt;ol class=&quot;kroki&quot;&gt;
+                    &lt;li&gt;Przyjdź 10 minut przed godziną wizyty.&lt;/li&gt;
+                    &lt;li&gt;Weź dokument tożsamości.&lt;/li&gt;
+                    &lt;li&gt;Przygotuj listę przyjmowanych leków.&lt;/li&gt;
+                    &lt;li&gt;Zabierz wyniki wcześniejszych badań.&lt;/li&gt;
+                &lt;/ol&gt;
+            &lt;/section&gt;
+        &lt;/aside&gt;
+    &lt;/main&gt;
+
+    &lt;footer class=&quot;stopka&quot;&gt;
+        &lt;p&gt;Przychodnia Pod Lipami, ul. Lipowa 4 · W nagłych przypadkach dzwoń pod numer 112&lt;/p&gt;
+        &lt;p&gt;Stronę wykonał: 00&lt;/p&gt;
+    &lt;/footer&gt;
+    &lt;script src=&quot;skrypt.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?php
+mysqli_close($polaczenie);
+?&gt;
+</pre><h4>styl.css</h4><pre>* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #F0FDFA;
+    color: #134E4A;
+    font-family: &quot;Trebuchet MS&quot;, Arial, sans-serif;
+    line-height: 1.5;
+}
+
+h2 {
+    margin-bottom: 14px;
+    color: #0F766E;
+    font-size: 1.3rem;
+}
+
+/* nagłówek i menu */
+.naglowek {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 6%;
+    background-color: white;
+}
+
+.naglowek img {
+    width: 80px;
+    height: 80px;
+}
+
+.naglowek h1 {
+    font-size: 2rem;
+    color: #0F766E;
+}
+
+.naglowek p {
+    color: #5F7D7A;
+}
+
+.menu {
+    display: flex;
+    gap: 4px;
+    padding: 0 6%;
+    background-color: #0F766E;
+}
+
+.menu a {
+    padding: 12px 20px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.menu a:hover {
+    background-color: #115E59;
+    box-shadow: inset 0 -4px 0 #86EFAC;
+}
+
+/* układ */
+.uklad {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 24px;
+    align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 20px;
+}
+
+/* lekarze */
+.filtr {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.karty {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+}
+
+.lekarz {
+    padding: 16px;
+    background-color: white;
+    border-left: 6px solid #14B8A6;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(15, 118, 110, 0.15);
+}
+
+.lekarz h3 {
+    font-size: 1.05rem;
+}
+
+.specjalizacja {
+    color: #0D9488;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.dyzury {
+    margin-top: 8px;
+    padding: 6px 10px;
+    background-color: #CCFBF1;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+.dyzury::before {
+    content: &quot;🕘 &quot;;
+}
+
+.brak {
+    padding: 14px;
+    background-color: #FEF3C7;
+    border-radius: 8px;
+}
+
+/* panel boczny */
+.rejestracja,
+.porady {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+label {
+    display: block;
+    margin: 10px 0 4px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #99F6E4;
+    border-radius: 6px;
+    font: inherit;
+}
+
+input:focus,
+select:focus {
+    outline: 2px solid #14B8A6;
+}
+
+.filtr label,
+.filtr select,
+.filtr button {
+    width: auto;
+    margin: 0;
+}
+
+.zgoda {
+    display: flex;
+    gap: 8px;
+    font-weight: normal;
+}
+
+.zgoda input {
+    width: auto;
+}
+
+button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px 18px;
+    background-color: #0F766E;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #115E59;
+}
+
+#bledy {
+    color: #DC2626;
+    font-size: 0.85rem;
+}
+
+.potwierdzenie {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #DCFCE7;
+    border: 1px solid #16A34A;
+    border-radius: 6px;
+}
+
+/* lista kroków z licznikiem CSS */
+.kroki {
+    list-style: none;
+    counter-reset: krok;
+}
+
+.kroki li {
+    position: relative;
+    margin-bottom: 10px;
+    padding-left: 40px;
+    counter-increment: krok;
+}
+
+.kroki li::before {
+    content: counter(krok);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 28px;
+    height: 28px;
+    background-color: #14B8A6;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    font-weight: bold;
+}
+
+.kroki li:last-child {
+    margin-bottom: 0;
+}
+
+/* stopka */
+.stopka {
+    padding: 18px;
+    background-color: #134E4A;
+    color: #CCFBF1;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 860px) {
+    .uklad {
+        grid-template-columns: 1fr;
+    }
+
+    .naglowek {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .menu {
+        justify-content: center;
+    }
+}
+
+@media print {
+    .menu,
+    .filtr,
+    .boczna {
+        display: none;
+    }
+
+    body {
+        background-color: white;
+    }
+
+    .uklad {
+        grid-template-columns: 1fr;
+    }
+
+    .lekarz {
+        box-shadow: none;
+        border: 1px solid black;
+    }
+}
+</pre><h4>skrypt.js</h4><pre>// skrypt 5 - sprawdzenie formularza rejestracji
+function sprawdzFormularz() {
+    let pacjent = document.getElementById('pacjent').value;
+    let telefon = document.getElementById('telefon').value;
+    let zgoda = document.getElementById('zgoda').checked;
+    let bledy = [];
+
+    if (pacjent.length &lt; 5) {
+        bledy.push('Podaj imię i nazwisko');
+    }
+    if (telefon.length != 9 || isNaN(telefon)) {
+        bledy.push('Numer telefonu musi mieć 9 cyfr');
+    }
+    if (!zgoda) {
+        bledy.push('Zaznacz zgodę na przetwarzanie danych');
+    }
+
+    document.getElementById('bledy').innerHTML = bledy.join('&lt;br&gt;');
+    return bledy.length == 0;
+}
+</pre>
+</section>
+
+</body>
+</html>
