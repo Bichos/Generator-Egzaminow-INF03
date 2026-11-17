@@ -1,0 +1,2117 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INF.03-KU-SG – Kurier24 – arkusz ćwiczeniowy</title>
+<style>
+:root { --ink: #111; --line: #333; --paper: #fff; }
+* { box-sizing: border-box; }
+html { background: #e9e9ec; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; padding: 16px 0; font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt; line-height: 1.38; color: var(--ink); }
+.page { background: var(--paper); width: 210mm; max-width: 100%; margin: 0 auto 16px; padding: 18mm 18mm 20mm; box-shadow: 0 1px 6px rgba(0,0,0,.18); }
+.title-page { min-height: 297mm; }
+h2.task-title { font-size: 13pt; margin: 0 0 8px; }
+h3 { font-size: 11pt; margin: 16px 0 6px; break-after: avoid; }
+p { margin: 5px 0; }
+ul.dash { list-style: none; padding-left: 20px; margin: 4px 0; }
+ul.dash > li { position: relative; margin: 2px 0; }
+ul.dash > li::before { content: '−'; position: absolute; left: -15px; }
+.notice { border: 2px solid #b00; color: #b00; padding: 6px 10px; text-align: center; font-weight: bold; margin-bottom: 14px; }
+.meta { font-size: 10.5pt; }
+.fill { border: 1px solid var(--line); padding: 10px; margin: 14px 0; }
+.fill-title { text-align: center; font-weight: bold; margin-bottom: 8px; }
+.pesel { display: flex; align-items: center; justify-content: space-between; margin: 6px 0; gap: 10px; flex-wrap: wrap; }
+.pesel .line { flex: 1; min-width: 200px; max-width: 60%; border-bottom: 1px solid var(--line); height: 22px; }
+.boxes { display: inline-flex; }
+.boxes i { width: 22px; height: 26px; border: 1px solid var(--line); margin-left: -1px; display: inline-block; }
+.row-between { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.code { font-weight: bold; border: 1px solid var(--line); padding: 2px 8px; }
+.big { text-align: center; font-weight: bold; font-size: 15pt; margin: 18px 0; }
+.big small { font-size: 10pt; font-weight: normal; }
+.instr li { margin: 4px 0; }
+.right { text-align: right; }
+.small { font-size: 9pt; color: #333; }
+.seed { margin-top: 30px; color: #555; }
+.mono { font-family: 'Courier New', monospace; }
+figure { margin: 10px 0; text-align: center; break-inside: avoid; }
+figcaption { font-size: 9.5pt; margin-top: 4px; }
+figure.schema svg { max-width: 100%; height: auto; }
+img.strip { max-width: 100%; border: 1px solid #999; }
+.frame-wrap { width: 100%; height: 420px; overflow: hidden; border: 1px solid #888; position: relative; background: #fff; }
+.frame-wrap.placeholder { display: flex; align-items: center; justify-content: center; color: #777; height: 160px; }
+iframe.site { border: 0; width: 161.3%; height: 680px; transform: scale(0.62); transform-origin: 0 0; position: absolute; left: 0; top: 0; }
+.with-layout { display: flex; gap: 14px; align-items: flex-start; }
+.with-layout > div { flex: 1; min-width: 0; }
+figure.layout { flex: 0 0 230px; margin-top: 30px; }
+figure.layout svg { width: 100%; height: auto; }
+.note { margin: 8px 0; }
+.script-name { font-weight: bold; margin-top: 8px; }
+.help-tables { margin-top: 14px; }
+table.help { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 9pt; break-inside: avoid; }
+table.help caption { text-align: left; font-weight: bold; margin-bottom: 3px; }
+table.help th, table.help td { border: 1px solid var(--line); padding: 3px 6px; text-align: left; vertical-align: top; }
+table.help th { background: #eee; }
+@media (max-width: 700px) {
+  .page { padding: 16px; }
+  .with-layout { flex-direction: column; }
+  figure.layout { flex: none; width: 100%; max-width: 300px; margin: 0 auto; }
+}
+@page { size: A4; margin: 14mm 14mm 16mm;
+  @bottom-center { content: "Strona " counter(page) " z " counter(pages); font: 9pt Arial, sans-serif; } }
+@media print {
+  html, body { background: #fff; padding: 0; }
+  .page { box-shadow: none; margin: 0; padding: 0; width: auto; min-height: 0; }
+  .title-page { break-after: page; }
+}
+
+.logo-demo { display: inline-block; padding: 14px 18px; background: repeating-conic-gradient(#ddd 0% 25%, #fff 0% 50%) 0 0 / 16px 16px; border: 1px solid #999; }
+.logo-demo img { display: block; height: 40px; }
+.swatch { display: inline-block; width: 90px; height: 22px; border-radius: 3px; vertical-align: middle; }
+
+figure.preview.mobile .frame-wrap { height: 900px !important; overflow: hidden; }
+</style>
+</head>
+<body>
+<section class="page title-page">
+  <div class="notice">Arkusz ćwiczeniowy przygotowany na zajęcia.<br>Nie jest oficjalnym arkuszem CKE.</div>
+  <p class="meta">Nazwa kwalifikacji: <b>Tworzenie i administrowanie stronami i aplikacjami internetowymi oraz bazami danych</b><br>
+  Symbol kwalifikacji: <b>INF.03</b><br>Zadanie: <b>Kurier24 – portal informacyjny</b><br>Wersja arkusza: <b>SG</b></p>
+  <div class="fill"><div class="fill-title">Wypełnia zdający</div>
+    <div class="pesel"><span>Imię i nazwisko</span><span class="line"></span></div>
+    <div class="pesel"><span>Numer z dziennika</span><span class="boxes"><i></i><i></i></span></div>
+  </div>
+  <div class="row-between"><span>Czas trwania egzaminu: <b>150 minut</b></span><span class="code">INF.03-KU-SG</span></div>
+  <div class="big">EGZAMIN ZAWODOWY – ARKUSZ ĆWICZENIOWY<br><small>CZĘŚĆ PRAKTYCZNA · PODSTAWA PROGRAMOWA 2019</small></div>
+  <h3>Instrukcja dla zdającego</h3>
+  <ol class="instr">
+    <li>Na pierwszej stronie arkusza wpisz w oznaczonym miejscu swoje imię i nazwisko oraz numer z dziennika.</li>
+    <li>Sprawdź, czy arkusz egzaminacyjny zawiera wszystkie strony i nie zawiera błędów. Ewentualny brak stron lub inne usterki zgłoś przez podniesienie ręki nauczycielowi.</li>
+    <li>Zapoznaj się z treścią zadania oraz stanowiskiem egzaminacyjnym. Masz na to 10 minut. Czas ten nie jest wliczany do czasu trwania egzaminu.</li>
+    <li>Wykonaj samodzielnie zadanie egzaminacyjne. Przestrzegaj zasad bezpieczeństwa i organizacji pracy.</li>
+    <li>Po zakończeniu wykonania zadania pozostaw arkusz egzaminacyjny z rezultatami wykonania zadania na swoim stanowisku.</li>
+  </ol>
+  <p class="right"><b>Powodzenia!</b></p>
+</section>
+<section class="page task">
+  <h2 class="task-title">Zadanie egzaminacyjne</h2>
+  <p>UWAGA: numer z dziennika, którym został podpisany arkusz, jest w zadaniu nazywany numerem zdającego.</p>
+  <p>Wykonaj aplikację internetową portalu informacyjnego Kurier24, wykorzystując pakiet XAMPP oraz edytor zaznaczający składnię.</p>
+  <p>Aby wykonać zadanie, należy zalogować się na konto <b>Egzamin</b> bez hasła. Na pulpicie znajduje się archiwum 7z o nazwie <b>kurier</b> zabezpieczone hasłem: <b class="mono">Kur!er24#News</b>. Archiwum należy rozpakować.</p>
+  <p>Na pulpicie konta Egzamin należy utworzyć folder. Jako nazwy folderu należy użyć numeru zdającego. Po skończonej pracy wszystkie wyniki należy zapisać w tym folderze.</p>
+
+  <h3>Operacje na bazie danych</h3>
+  <p>Baza danych zawiera połączone relacją tabele przedstawione na ilustracji 1. Tabela kategorie zawiera działy portalu, tabela artykuly – artykuły z datą i godziną publikacji oraz liczbą wyświetleń. Nazwa serwisu, artykuły i dane są wymyślone.</p>
+  <figure class="schema"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 200" width="460" height="200"><path d="M260 170.5 H230 V45.5 H200" fill="none" stroke="#555" stroke-width="1.5"/><circle cx="200" cy="45.5" r="3" fill="#555"/><g font-family="Arial, sans-serif"><rect x="10" y="10" width="190" height="64" fill="#fff" stroke="#333"/><rect x="10" y="10" width="190" height="26" fill="#d9e3ef" stroke="#333"/><text x="18" y="27" font-size="13" font-weight="bold">kategorie</text><text x="18" y="50" font-size="12">🔑 id</text><text x="192" y="50" font-size="10" fill="#666" text-anchor="end">int</text><text x="18" y="69" font-size="12">nazwa</text><text x="192" y="69" font-size="10" fill="#666" text-anchor="end">varchar(30)</text></g><g font-family="Arial, sans-serif"><rect x="260" y="40" width="190" height="140" fill="#fff" stroke="#333"/><rect x="260" y="40" width="190" height="26" fill="#d9e3ef" stroke="#333"/><text x="268" y="57" font-size="13" font-weight="bold">artykuly</text><text x="268" y="80" font-size="12">🔑 id</text><text x="442" y="80" font-size="10" fill="#666" text-anchor="end">int</text><text x="268" y="99" font-size="12">tytul</text><text x="442" y="99" font-size="10" fill="#666" text-anchor="end">varchar(100)</text><text x="268" y="118" font-size="12">zajawka</text><text x="442" y="118" font-size="10" fill="#666" text-anchor="end">varchar(200)</text><text x="268" y="137" font-size="12">opublikowano</text><text x="442" y="137" font-size="10" fill="#666" text-anchor="end">datetime</text><text x="268" y="156" font-size="12">wyswietlenia</text><text x="442" y="156" font-size="10" fill="#666" text-anchor="end">int</text><text x="268" y="175" font-size="12"># kategorie_id</text><text x="442" y="175" font-size="10" fill="#666" text-anchor="end">int</text></g></svg><figcaption>Ilustracja 1. Baza danych</figcaption></figure>
+  <p>Za pomocą narzędzia phpMyAdmin wykonaj następujące operacje na bazie danych:</p>
+  <ul class="dash">
+    <li>Utwórz bazę danych o nazwie <b>kurier</b>, z zestawem polskich znaków (np. utf8mb4_polish_ci)</li>
+    <li>Z rozpakowanego archiwum zaimportuj tabele z pliku kurier.sql do utworzonej bazy</li>
+    <li>Wykonaj zrzut ekranu po imporcie. Zapisz zrzut w formacie PNG pod nazwą import. Nie kadruj zrzutu. Powinien on obejmować cały ekran monitora, z widocznym paskiem zadań. Na zrzucie powinny być widoczne elementy wskazujące na poprawnie wykonany import tabel</li>
+    <li>Wykonaj zapytania SQL działające na bazie kurier. Zapytania zapisz w pliku kwerendy.txt. Wykonaj zrzuty ekranu przedstawiające wyniki działania kwerend. Zrzuty zapisz w formacie PNG i nadaj im nazwy kw1, kw2, kw3, kw4, kw5. Zrzuty powinny obejmować cały ekran monitora z widocznym paskiem zadań
+      <ul class="dash"><li>Zapytanie 1: wybierające jedynie godzinę publikacji w formacie GG:MM (np. 10:42, kolumna o nazwie „godzina”) oraz tytuł sześciu najnowszych artykułów, posortowane malejąco według daty publikacji</li><li>Zapytanie 2: wybierające jedynie tytuł, zajawkę oraz datę publikacji w formacie DD.MM.RRRR GG:MM (kolumna o nazwie „data”) trzech najnowszych artykułów z kategorii o nazwie Biznes. Należy posłużyć się relacją, a nie wpisywać identyfikatora kategorii</li><li>Zapytanie 3: wybierające jedynie tytuły pięciu artykułów o największej liczbie wyświetleń, posortowane malejąco według liczby wyświetleń</li><li>Zapytanie 4: wybierające nazwę kategorii oraz liczbę artykułów w tej kategorii (kolumna o nazwie „liczba”) – tylko dla kategorii, które mają artykuły. Należy posłużyć się relacją i grupowaniem</li><li>Zapytanie 5: zwiększające o 1 liczbę wyświetleń artykułu o identyfikatorze 3</li></ul></li>
+  </ul>
+  <p>W tabeli 1 zamieszczono wybrane elementy języka SQL.</p>
+
+  <h3>Witryna internetowa</h3>
+  <figure class="preview "><div class="frame-wrap" style="width:640px;max-width:100%;margin:0 auto" data-scale="0.5"><iframe class="site" style="width:1280px;transform:scale(0.5)" srcdoc="<!DOCTYPE html>
+<html lang=&quot;pl&quot;>
+<head>
+    <meta charset=&quot;UTF-8&quot;>
+    <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+    <title>Kurier24 – wiadomości z kraju i ze świata</title>
+    <style>html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #F4F4F4;
+    color: #1A1A1A;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.45;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+/* górny pasek */
+.gorny-pasek {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 4%;
+    background: #E9E9E9;
+    color: #555;
+    font-size: 0.8rem;
+}
+
+.gorny-prawa {
+    display: flex;
+    gap: 18px;
+}
+
+.gorny-prawa a:hover {
+    color: #0B5FD8;
+    text-decoration: underline;
+}
+
+/* nagłówek z menu (przyklejony) */
+.glowa {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 0 4%;
+    background: #0A2540;
+    color: #FFF;
+}
+
+.logo {
+    padding: 12px 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+}
+
+.logo span {
+    color: #FF4D5E;
+}
+
+.glowne {
+    overflow-x: auto;
+}
+
+.glowne ul {
+    display: flex;
+}
+
+.glowne a {
+    display: block;
+    padding: 18px 12px;
+    font-size: 0.92rem;
+    white-space: nowrap;
+}
+
+.glowne a:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* pasek „pilne” */
+.pilne {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 4%;
+    background: #FFF;
+    border-bottom: 1px solid #DDD;
+    font-size: 0.95rem;
+}
+
+.pilne strong {
+    padding: 3px 10px;
+    background: #D7263D;
+    color: #FFF;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.pilne a:hover {
+    text-decoration: underline;
+}
+
+/* kontener strony */
+.strona {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 4% 40px;
+}
+
+/* sekcja główna: duży artykuł + dwa małe */
+.hero {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+    height: 460px;
+}
+
+.hero article {
+    position: relative;
+    overflow: hidden;
+    border-radius: 6px;
+    color: #FFF;
+}
+
+.hero .glowny {
+    grid-row: 1 / 3;
+}
+
+.t1 { background: linear-gradient(135deg, #3A6073, #16222A); }
+.t2 { background: linear-gradient(135deg, #5B247A, #1BCEDF); }
+.t3 { background: linear-gradient(135deg, #134E5E, #71B280); }
+
+.podpis {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 40px 20px 18px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+}
+
+.etykieta {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 2px 8px;
+    background: #D7263D;
+    border-radius: 2px;
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.hero h2 {
+    font-size: 1.2rem;
+    line-height: 1.25;
+}
+
+.hero .glowny h2 {
+    font-size: 2rem;
+}
+
+.hero a:hover h2 {
+    text-decoration: underline;
+}
+
+.meta {
+    margin-top: 6px;
+    color: #AAA;
+    font-size: 0.8rem;
+}
+
+/* dwie kolumny treści */
+.tresc {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 24px;
+    align-items: start;
+}
+
+.naglowek-sekcji {
+    margin: 28px 0 14px;
+    padding-left: 10px;
+    border-left: 5px solid #D7263D;
+    font-size: 1.3rem;
+}
+
+.najnowsze li {
+    display: flex;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid #DDD;
+}
+
+.najnowsze time {
+    min-width: 48px;
+    color: #D7263D;
+    font-weight: bold;
+}
+
+.najnowsze a:hover {
+    color: #0B5FD8;
+}
+
+/* karty artykułów */
+.karty {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.karta {
+    overflow: hidden;
+    background: #FFF;
+    border-radius: 6px;
+    transition: box-shadow 0.2s;
+}
+
+.karta:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.obraz {
+    aspect-ratio: 16 / 9;
+}
+
+.o1 { background: linear-gradient(135deg, #614385, #516395); }
+.o2 { background: linear-gradient(135deg, #2193B0, #6DD5ED); }
+.o3 { background: linear-gradient(135deg, #EE9CA7, #FFDDE1); }
+
+.karta .tekst {
+    padding: 12px;
+}
+
+.kat {
+    color: #D7263D;
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.karta h3 {
+    margin: 4px 0 6px;
+    font-size: 1rem;
+    line-height: 1.3;
+}
+
+.karta h3 a:hover {
+    color: #0B5FD8;
+}
+
+.karta p {
+    color: #555;
+    font-size: 0.88rem;
+}
+
+.karta .meta {
+    color: #888;
+    font-size: 0.78rem;
+}
+
+/* kolumna boczna */
+.box {
+    margin-bottom: 16px;
+    padding: 16px;
+    background: #FFF;
+    border-radius: 6px;
+}
+
+.box h2 {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.popularne li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #EEE;
+    font-size: 0.92rem;
+}
+
+.popularne a:hover {
+    color: #0B5FD8;
+}
+
+.nr {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    background: #0A2540;
+    color: #FFF;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.nr.top {
+    background: #D7263D;
+}
+
+.pogoda {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.temp {
+    font-size: 2.4rem;
+    font-weight: bold;
+}
+
+.pogoda p {
+    color: #666;
+    font-size: 0.88rem;
+}
+
+.box form label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 0.88rem;
+}
+
+.box form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+}
+
+.box form button {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    background: #0A2540;
+    color: #FFF;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.box form button:hover {
+    background: #0B5FD8;
+}
+
+#komunikat {
+    margin-top: 8px;
+    font-size: 0.85rem;
+}
+
+.sukces {
+    color: #2E8B57;
+}
+
+.blad {
+    color: #D7263D;
+    font-weight: bold;
+}
+
+/* stopka */
+.stopka {
+    padding: 32px 4%;
+    background: #0A2540;
+    color: #B8C4D6;
+}
+
+.stopka-kolumny {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.stopka h4 {
+    margin-bottom: 8px;
+    color: #FFF;
+}
+
+.stopka li {
+    margin: 4px 0;
+    font-size: 0.9rem;
+}
+
+.stopka a:hover {
+    color: #FFF;
+    text-decoration: underline;
+}
+
+.prawa {
+    margin-top: 24px;
+    font-size: 0.82rem;
+    text-align: center;
+}
+
+/* mniejsze ekrany */
+@media (max-width: 900px) {
+    .hero {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        height: auto;
+    }
+
+    .hero article {
+        min-height: 200px;
+    }
+
+    .hero .glowny {
+        grid-row: auto;
+        min-height: 320px;
+    }
+
+    .hero .glowny h2 {
+        font-size: 1.5rem;
+    }
+
+    .tresc {
+        grid-template-columns: 1fr;
+    }
+
+    .stopka-kolumny {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .pogoda-mala {
+        display: none;
+    }
+
+    .pilne {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .karty {
+        grid-template-columns: 1fr;
+    }
+
+    .glowa {
+        gap: 12px;
+    }
+}
+
+</style>
+</head>
+<body>
+    <div class=&quot;gorny-pasek&quot;>
+        <span>wtorek, 17 listopada 2026</span>
+        <div class=&quot;gorny-prawa&quot;>
+            <span class=&quot;pogoda-mala&quot;>Białystok 4°C</span>
+            <a href=&quot;#&quot;>Newsletter</a>
+            <a href=&quot;#&quot;>Zaloguj się</a>
+        </div>
+    </div>
+
+    <header class=&quot;glowa&quot;>
+        <a href=&quot;index.php&quot; class=&quot;logo&quot;>KURIER<span>24</span></a>
+        <nav class=&quot;glowne&quot;>
+            <ul>
+                <li><a href=&quot;#&quot;>Wiadomości</a></li>
+                <li><a href=&quot;#&quot;>Polska</a></li>
+                <li><a href=&quot;#&quot;>Świat</a></li>
+                <li><a href=&quot;#&quot;>Biznes</a></li>
+                <li><a href=&quot;#&quot;>Sport</a></li>
+                <li><a href=&quot;#&quot;>Kultura</a></li>
+                <li><a href=&quot;#&quot;>Technologia</a></li>
+                <li><a href=&quot;#&quot;>Lifestyle</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class=&quot;pilne&quot;>
+        <strong>Pilne</strong>
+        <a href=&quot;#&quot;>Zmiany w rozkładach pociągów od grudnia. Sprawdź, które połączenia znikną</a>
+    </div>
+
+    <div class=&quot;strona&quot;>
+        <section class=&quot;hero&quot;>
+            <article class=&quot;glowny t1&quot;>
+                <a href=&quot;#&quot; class=&quot;podpis&quot;>
+                    <span class=&quot;etykieta&quot;>Polska</span>
+                    <h2>Pierwszy śnieg paraliżuje drogi na wschodzie kraju</h2>
+                    <p class=&quot;meta&quot;>12 min temu · 4 komentarze</p>
+                </a>
+            </article>
+            <article class=&quot;t2&quot;>
+                <a href=&quot;#&quot; class=&quot;podpis&quot;>
+                    <span class=&quot;etykieta&quot;>Świat</span>
+                    <h2>Szczyt klimatyczny zakończony kompromisem</h2>
+                </a>
+            </article>
+            <article class=&quot;t3&quot;>
+                <a href=&quot;#&quot; class=&quot;podpis&quot;>
+                    <span class=&quot;etykieta&quot;>Sport</span>
+                    <h2>Biało-czerwoni wygrywają po dramatycznej końcówce</h2>
+                </a>
+            </article>
+        </section>
+
+        <div class=&quot;tresc&quot;>
+            <main>
+                <h2 class=&quot;naglowek-sekcji&quot;>Najnowsze</h2>
+                <ul class=&quot;najnowsze&quot;>
+<li><time>10:42</time><a href='#'>Wojewoda ostrzega przed gołoledzią na drogach regionu</a></li><li><time>10:31</time><a href='#'>Ceny paliw spadły po raz trzeci z rzędu</a></li><li><time>10:15</time><a href='#'>Nowy rekord wypożyczeń w bibliotekach miejskich</a></li><li><time>09:58</time><a href='#'>Remont głównego dworca zakończy się wcześniej niż planowano</a></li><li><time>09:40</time><a href='#'>Naukowcy opisali nowy gatunek motyla w Puszczy Białowieskiej</a></li><li><time>09:22</time><a href='#'>Szkoły wprowadzają zajęcia z cyberbezpieczeństwa</a></li>                </ul>
+
+                <h2 class=&quot;naglowek-sekcji&quot;>Biznes</h2>
+                <section class=&quot;karty&quot;>
+<article class='karta'><div class='obraz o1'></div><div class='tekst'><span class='kat'>Biznes</span><h3><a href='#'>Inflacja w listopadzie niższa od prognoz</a></h3><p>Analitycy zwracają uwagę na spadek cen żywności i energii.</p><p class='meta'>17.11.2026 08:40</p></div></article><article class='karta'><div class='obraz o2'></div><div class='tekst'><span class='kat'>Biznes</span><h3><a href='#'>Polskie startupy z rekordowym finansowaniem</a></h3><p>Inwestorzy coraz chętniej wspierają firmy z sektora zielonych technologii.</p><p class='meta'>17.11.2026 07:35</p></div></article><article class='karta'><div class='obraz o3'></div><div class='tekst'><span class='kat'>Biznes</span><h3><a href='#'>Eksport rolno-spożywczy rośnie drugi rok z rzędu</a></h3><p>Największy wzrost odnotowano w produktach mlecznych i przetworach.</p><p class='meta'>17.11.2026 05:30</p></div></article>                </section>
+
+                <h2 class=&quot;naglowek-sekcji&quot;>Sport</h2>
+                <section class=&quot;karty&quot;>
+                    <article class=&quot;karta&quot;>
+                        <div class=&quot;obraz o1&quot;></div>
+                        <div class=&quot;tekst&quot;>
+                            <span class=&quot;kat&quot;>Sport</span>
+                            <h3><a href=&quot;#&quot;>Siatkarze awansują do półfinału turnieju</a></h3>
+                            <p>Po zaciętym meczu rozstrzygnął dopiero piąty set.</p>
+                            <p class=&quot;meta&quot;>1 godz. temu</p>
+                        </div>
+                    </article>
+                    <article class=&quot;karta&quot;>
+                        <div class=&quot;obraz o2&quot;></div>
+                        <div class=&quot;tekst&quot;>
+                            <span class=&quot;kat&quot;>Sport</span>
+                            <h3><a href=&quot;#&quot;>Rekord życiowy młodej lekkoatletki</a></h3>
+                            <p>Zawodniczka poprawiła swój wynik o prawie sekundę.</p>
+                            <p class=&quot;meta&quot;>4 godz. temu</p>
+                        </div>
+                    </article>
+                    <article class=&quot;karta&quot;>
+                        <div class=&quot;obraz o3&quot;></div>
+                        <div class=&quot;tekst&quot;>
+                            <span class=&quot;kat&quot;>Sport</span>
+                            <h3><a href=&quot;#&quot;>Szachowy turniej przyciągnął ponad 300 uczestników</a></h3>
+                            <p>Najmłodszy z zawodników miał dopiero siedem lat.</p>
+                            <p class=&quot;meta&quot;>6 godz. temu</p>
+                        </div>
+                    </article>
+                </section>
+            </main>
+
+            <aside class=&quot;boczna&quot;>
+                <section class=&quot;box&quot;>
+                    <h2>Najczęściej czytane</h2>
+                    <ol class=&quot;popularne&quot;>
+<li><span class='nr top'>1</span><a href='#'>Jak przygotować dom na pierwsze mrozy</a></li><li><span class='nr top'>2</span><a href='#'>Pięć błędów przy zakupie używanego auta</a></li><li><span class='nr top'>3</span><a href='#'>Prognoza pogody na weekend: wraca słońce</a></li><li><span class='nr'>4</span><a href='#'>Test: który smartfon wybrać do 1500 zł</a></li><li><span class='nr'>5</span><a href='#'>Przepis na rozgrzewającą zupę dyniową</a></li>                    </ol>
+                </section>
+
+                <section class=&quot;box&quot;>
+                    <h2>Pogoda</h2>
+                    <div class=&quot;pogoda&quot;>
+                        <span class=&quot;temp&quot;>4°C</span>
+                        <div>
+                            <strong>Białystok</strong>
+                            <p>Pochmurno, wiatr 12 km/h</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class=&quot;box&quot;>
+                    <h2>Newsletter</h2>
+                    <form action=&quot;#&quot;>
+                        <label for=&quot;email&quot;>Codzienne podsumowanie na e-mail</label>
+                        <input type=&quot;email&quot; id=&quot;email&quot; placeholder=&quot;Twój adres e-mail&quot;>
+                        <button type=&quot;button&quot; onclick=&quot;zapiszNewsletter()&quot;>Zapisz się</button>
+                    </form>
+                    <p id=&quot;komunikat&quot;></p>
+                </section>
+            </aside>
+        </div>
+    </div>
+
+    <footer class=&quot;stopka&quot;>
+        <div class=&quot;stopka-kolumny&quot;>
+            <div>
+                <h4>Serwisy</h4>
+                <ul>
+                    <li><a href=&quot;#&quot;>Wiadomości</a></li>
+                    <li><a href=&quot;#&quot;>Sport</a></li>
+                    <li><a href=&quot;#&quot;>Biznes</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Redakcja</h4>
+                <ul>
+                    <li><a href=&quot;#&quot;>O nas</a></li>
+                    <li><a href=&quot;#&quot;>Zespół</a></li>
+                    <li><a href=&quot;#&quot;>Kontakt</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Reklama</h4>
+                <ul>
+                    <li><a href=&quot;#&quot;>Oferta</a></li>
+                    <li><a href=&quot;#&quot;>Cennik</a></li>
+                    <li><a href=&quot;#&quot;>Media kit</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Pomoc</h4>
+                <ul>
+                    <li><a href=&quot;#&quot;>Regulamin</a></li>
+                    <li><a href=&quot;#&quot;>Prywatność</a></li>
+                    <li><a href=&quot;#&quot;>Ustawienia cookies</a></li>
+                </ul>
+            </div>
+        </div>
+        <p class=&quot;prawa&quot;>Stronę wykonał: 00</p>
+    </footer>
+    <script>// skrypt 4 - zapis do newslettera
+function zapiszNewsletter() {
+    let adres = document.getElementById('email').value;
+    let komunikat = document.getElementById('komunikat');
+    if (adres.includes('@')) {
+        komunikat.innerHTML = 'Dziękujemy! Podsumowanie wyślemy na adres ' + adres;
+        komunikat.className = 'sukces';
+    } else {
+        komunikat.innerHTML = 'Podaj poprawny adres e-mail';
+        komunikat.className = 'blad';
+    }
+}
+</script>
+</body>
+</html>
+" title="Podgląd witryny"></iframe></div><figcaption>Ilustracja 2. Wygląd witryny internetowej na ekranie o szerokości 1280 px, kursor na pierwszej karcie działu Biznes; dane pochodzą z bazy</figcaption></figure>
+  <div class="with-layout"><div>
+  <figure class="preview newsletter"><div class="frame-wrap" style="width:206px;max-width:100%;margin:0 auto" data-scale="0.6"><iframe class="site" style="width:344px;transform:scale(0.6)" srcdoc="<!DOCTYPE html>
+<html lang=&quot;pl&quot;>
+<head>
+    <meta charset=&quot;UTF-8&quot;>
+    <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+    <title>Kurier24 – wiadomości z kraju i ze świata</title>
+    <style>html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #F4F4F4;
+    color: #1A1A1A;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.45;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+/* górny pasek */
+.gorny-pasek {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 4%;
+    background: #E9E9E9;
+    color: #555;
+    font-size: 0.8rem;
+}
+
+.gorny-prawa {
+    display: flex;
+    gap: 18px;
+}
+
+.gorny-prawa a:hover {
+    color: #0B5FD8;
+    text-decoration: underline;
+}
+
+/* nagłówek z menu (przyklejony) */
+.glowa {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 0 4%;
+    background: #0A2540;
+    color: #FFF;
+}
+
+.logo {
+    padding: 12px 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+}
+
+.logo span {
+    color: #FF4D5E;
+}
+
+.glowne {
+    overflow-x: auto;
+}
+
+.glowne ul {
+    display: flex;
+}
+
+.glowne a {
+    display: block;
+    padding: 18px 12px;
+    font-size: 0.92rem;
+    white-space: nowrap;
+}
+
+.glowne a:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* pasek „pilne” */
+.pilne {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 4%;
+    background: #FFF;
+    border-bottom: 1px solid #DDD;
+    font-size: 0.95rem;
+}
+
+.pilne strong {
+    padding: 3px 10px;
+    background: #D7263D;
+    color: #FFF;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.pilne a:hover {
+    text-decoration: underline;
+}
+
+/* kontener strony */
+.strona {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 4% 40px;
+}
+
+/* sekcja główna: duży artykuł + dwa małe */
+.hero {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+    height: 460px;
+}
+
+.hero article {
+    position: relative;
+    overflow: hidden;
+    border-radius: 6px;
+    color: #FFF;
+}
+
+.hero .glowny {
+    grid-row: 1 / 3;
+}
+
+.t1 { background: linear-gradient(135deg, #3A6073, #16222A); }
+.t2 { background: linear-gradient(135deg, #5B247A, #1BCEDF); }
+.t3 { background: linear-gradient(135deg, #134E5E, #71B280); }
+
+.podpis {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 40px 20px 18px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+}
+
+.etykieta {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 2px 8px;
+    background: #D7263D;
+    border-radius: 2px;
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.hero h2 {
+    font-size: 1.2rem;
+    line-height: 1.25;
+}
+
+.hero .glowny h2 {
+    font-size: 2rem;
+}
+
+.hero a:hover h2 {
+    text-decoration: underline;
+}
+
+.meta {
+    margin-top: 6px;
+    color: #AAA;
+    font-size: 0.8rem;
+}
+
+/* dwie kolumny treści */
+.tresc {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 24px;
+    align-items: start;
+}
+
+.naglowek-sekcji {
+    margin: 28px 0 14px;
+    padding-left: 10px;
+    border-left: 5px solid #D7263D;
+    font-size: 1.3rem;
+}
+
+.najnowsze li {
+    display: flex;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid #DDD;
+}
+
+.najnowsze time {
+    min-width: 48px;
+    color: #D7263D;
+    font-weight: bold;
+}
+
+.najnowsze a:hover {
+    color: #0B5FD8;
+}
+
+/* karty artykułów */
+.karty {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.karta {
+    overflow: hidden;
+    background: #FFF;
+    border-radius: 6px;
+    transition: box-shadow 0.2s;
+}
+
+.karta:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.obraz {
+    aspect-ratio: 16 / 9;
+}
+
+.o1 { background: linear-gradient(135deg, #614385, #516395); }
+.o2 { background: linear-gradient(135deg, #2193B0, #6DD5ED); }
+.o3 { background: linear-gradient(135deg, #EE9CA7, #FFDDE1); }
+
+.karta .tekst {
+    padding: 12px;
+}
+
+.kat {
+    color: #D7263D;
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.karta h3 {
+    margin: 4px 0 6px;
+    font-size: 1rem;
+    line-height: 1.3;
+}
+
+.karta h3 a:hover {
+    color: #0B5FD8;
+}
+
+.karta p {
+    color: #555;
+    font-size: 0.88rem;
+}
+
+.karta .meta {
+    color: #888;
+    font-size: 0.78rem;
+}
+
+/* kolumna boczna */
+.box {
+    margin-bottom: 16px;
+    padding: 16px;
+    background: #FFF;
+    border-radius: 6px;
+}
+
+.box h2 {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.popularne li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #EEE;
+    font-size: 0.92rem;
+}
+
+.popularne a:hover {
+    color: #0B5FD8;
+}
+
+.nr {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    background: #0A2540;
+    color: #FFF;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.nr.top {
+    background: #D7263D;
+}
+
+.pogoda {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.temp {
+    font-size: 2.4rem;
+    font-weight: bold;
+}
+
+.pogoda p {
+    color: #666;
+    font-size: 0.88rem;
+}
+
+.box form label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 0.88rem;
+}
+
+.box form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+}
+
+.box form button {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    background: #0A2540;
+    color: #FFF;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.box form button:hover {
+    background: #0B5FD8;
+}
+
+#komunikat {
+    margin-top: 8px;
+    font-size: 0.85rem;
+}
+
+.sukces {
+    color: #2E8B57;
+}
+
+.blad {
+    color: #D7263D;
+    font-weight: bold;
+}
+
+/* stopka */
+.stopka {
+    padding: 32px 4%;
+    background: #0A2540;
+    color: #B8C4D6;
+}
+
+.stopka-kolumny {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.stopka h4 {
+    margin-bottom: 8px;
+    color: #FFF;
+}
+
+.stopka li {
+    margin: 4px 0;
+    font-size: 0.9rem;
+}
+
+.stopka a:hover {
+    color: #FFF;
+    text-decoration: underline;
+}
+
+.prawa {
+    margin-top: 24px;
+    font-size: 0.82rem;
+    text-align: center;
+}
+
+/* mniejsze ekrany */
+@media (max-width: 900px) {
+    .hero {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        height: auto;
+    }
+
+    .hero article {
+        min-height: 200px;
+    }
+
+    .hero .glowny {
+        grid-row: auto;
+        min-height: 320px;
+    }
+
+    .hero .glowny h2 {
+        font-size: 1.5rem;
+    }
+
+    .tresc {
+        grid-template-columns: 1fr;
+    }
+
+    .stopka-kolumny {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .pogoda-mala {
+        display: none;
+    }
+
+    .pilne {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .karty {
+        grid-template-columns: 1fr;
+    }
+
+    .glowa {
+        gap: 12px;
+    }
+}
+
+.gorny-pasek,.glowa,.pilne,.hero,main,.stopka{display:none}.strona{padding:12px}.tresc{grid-template-columns:1fr}</style>
+</head>
+<body>
+    <div class=&quot;gorny-pasek&quot;>
+        <span>wtorek, 17 listopada 2026</span>
+        <div class=&quot;gorny-prawa&quot;>
+            <span class=&quot;pogoda-mala&quot;>Białystok 4°C</span>
+            <a href=&quot;#&quot;>Newsletter</a>
+            <a href=&quot;#&quot;>Zaloguj się</a>
+        </div>
+    </div>
+
+    <header class=&quot;glowa&quot;>
+        <a href=&quot;index.php&quot; class=&quot;logo&quot;>KURIER<span>24</span></a>
+        <nav class=&quot;glowne&quot;>
+            <ul>
+                <li><a href=&quot;#&quot;>Wiadomości</a></li>
+                <li><a href=&quot;#&quot;>Polska</a></li>
+                <li><a href=&quot;#&quot;>Świat</a></li>
+                <li><a href=&quot;#&quot;>Biznes</a></li>
+                <li><a href=&quot;#&quot;>Sport</a></li>
+                <li><a href=&quot;#&quot;>Kultura</a></li>
+                <li><a href=&quot;#&quot;>Technologia</a></li>
+                <li><a href=&quot;#&quot;>Lifestyle</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class=&quot;pilne&quot;>
+        <strong>Pilne</strong>
+        <a href=&quot;#&quot;>Zmiany w rozkładach pociągów od grudnia. Sprawdź, które połączenia znikną</a>
+    </div>
+
+    <div class=&quot;strona&quot;>
+        <section class=&quot;hero&quot;>
+            <article class=&quot;glowny t1&quot;>
+                <a href=&quot;#&quot; class=&quot;podpis&quot;>
+                    <span class=&quot;etykieta&quot;>Polska</span>
+                    <h2>Pierwszy śnieg paraliżuje drogi na wschodzie kraju</h2>
+                    <p class=&quot;meta&quot;>12 min temu · 4 komentarze</p>
+                </a>
+            </article>
+            <article class=&quot;t2&quot;>
+                <a href=&quot;#&quot; class=&quot;podpis&quot;>
+                    <span class=&quot;etykieta&quot;>Świat</span>
+                    <h2>Szczyt klimatyczny zakończony kompromisem</h2>
+                </a>
+            </article>
+            <article class=&quot;t3&quot;>
+                <a href=&quot;#&quot; class=&quot;podpis&quot;>
+                    <span class=&quot;etykieta&quot;>Sport</span>
+                    <h2>Biało-czerwoni wygrywają po dramatycznej końcówce</h2>
+                </a>
+            </article>
+        </section>
+
+        <div class=&quot;tresc&quot;>
+            <main>
+                <h2 class=&quot;naglowek-sekcji&quot;>Najnowsze</h2>
+                <ul class=&quot;najnowsze&quot;>
+<li><time>10:42</time><a href='#'>Wojewoda ostrzega przed gołoledzią na drogach regionu</a></li><li><time>10:31</time><a href='#'>Ceny paliw spadły po raz trzeci z rzędu</a></li><li><time>10:15</time><a href='#'>Nowy rekord wypożyczeń w bibliotekach miejskich</a></li><li><time>09:58</time><a href='#'>Remont głównego dworca zakończy się wcześniej niż planowano</a></li><li><time>09:40</time><a href='#'>Naukowcy opisali nowy gatunek motyla w Puszczy Białowieskiej</a></li><li><time>09:22</time><a href='#'>Szkoły wprowadzają zajęcia z cyberbezpieczeństwa</a></li>                </ul>
+
+                <h2 class=&quot;naglowek-sekcji&quot;>Biznes</h2>
+                <section class=&quot;karty&quot;>
+<article class='karta'><div class='obraz o1'></div><div class='tekst'><span class='kat'>Biznes</span><h3><a href='#'>Inflacja w listopadzie niższa od prognoz</a></h3><p>Analitycy zwracają uwagę na spadek cen żywności i energii.</p><p class='meta'>17.11.2026 08:40</p></div></article><article class='karta'><div class='obraz o2'></div><div class='tekst'><span class='kat'>Biznes</span><h3><a href='#'>Polskie startupy z rekordowym finansowaniem</a></h3><p>Inwestorzy coraz chętniej wspierają firmy z sektora zielonych technologii.</p><p class='meta'>17.11.2026 07:35</p></div></article><article class='karta'><div class='obraz o3'></div><div class='tekst'><span class='kat'>Biznes</span><h3><a href='#'>Eksport rolno-spożywczy rośnie drugi rok z rzędu</a></h3><p>Największy wzrost odnotowano w produktach mlecznych i przetworach.</p><p class='meta'>17.11.2026 05:30</p></div></article>                </section>
+
+                <h2 class=&quot;naglowek-sekcji&quot;>Sport</h2>
+                <section class=&quot;karty&quot;>
+                    <article class=&quot;karta&quot;>
+                        <div class=&quot;obraz o1&quot;></div>
+                        <div class=&quot;tekst&quot;>
+                            <span class=&quot;kat&quot;>Sport</span>
+                            <h3><a href=&quot;#&quot;>Siatkarze awansują do półfinału turnieju</a></h3>
+                            <p>Po zaciętym meczu rozstrzygnął dopiero piąty set.</p>
+                            <p class=&quot;meta&quot;>1 godz. temu</p>
+                        </div>
+                    </article>
+                    <article class=&quot;karta&quot;>
+                        <div class=&quot;obraz o2&quot;></div>
+                        <div class=&quot;tekst&quot;>
+                            <span class=&quot;kat&quot;>Sport</span>
+                            <h3><a href=&quot;#&quot;>Rekord życiowy młodej lekkoatletki</a></h3>
+                            <p>Zawodniczka poprawiła swój wynik o prawie sekundę.</p>
+                            <p class=&quot;meta&quot;>4 godz. temu</p>
+                        </div>
+                    </article>
+                    <article class=&quot;karta&quot;>
+                        <div class=&quot;obraz o3&quot;></div>
+                        <div class=&quot;tekst&quot;>
+                            <span class=&quot;kat&quot;>Sport</span>
+                            <h3><a href=&quot;#&quot;>Szachowy turniej przyciągnął ponad 300 uczestników</a></h3>
+                            <p>Najmłodszy z zawodników miał dopiero siedem lat.</p>
+                            <p class=&quot;meta&quot;>6 godz. temu</p>
+                        </div>
+                    </article>
+                </section>
+            </main>
+
+            <aside class=&quot;boczna&quot;>
+                <section class=&quot;box&quot;>
+                    <h2>Najczęściej czytane</h2>
+                    <ol class=&quot;popularne&quot;>
+<li><span class='nr top'>1</span><a href='#'>Jak przygotować dom na pierwsze mrozy</a></li><li><span class='nr top'>2</span><a href='#'>Pięć błędów przy zakupie używanego auta</a></li><li><span class='nr top'>3</span><a href='#'>Prognoza pogody na weekend: wraca słońce</a></li><li><span class='nr'>4</span><a href='#'>Test: który smartfon wybrać do 1500 zł</a></li><li><span class='nr'>5</span><a href='#'>Przepis na rozgrzewającą zupę dyniową</a></li>                    </ol>
+                </section>
+
+                <section class=&quot;box&quot;>
+                    <h2>Pogoda</h2>
+                    <div class=&quot;pogoda&quot;>
+                        <span class=&quot;temp&quot;>4°C</span>
+                        <div>
+                            <strong>Białystok</strong>
+                            <p>Pochmurno, wiatr 12 km/h</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class=&quot;box&quot;>
+                    <h2>Newsletter</h2>
+                    <form action=&quot;#&quot;>
+                        <label for=&quot;email&quot;>Codzienne podsumowanie na e-mail</label>
+                        <input type=&quot;email&quot; id=&quot;email&quot; placeholder=&quot;Twój adres e-mail&quot; value=&quot;jan.kowalski@example.com&quot;>
+                        <button type=&quot;button&quot; onclick=&quot;zapiszNewsletter()&quot;>Zapisz się</button>
+                    </form>
+                    <p id=&quot;komunikat&quot;></p>
+                </section>
+            </aside>
+        </div>
+    </div>
+
+    <footer class=&quot;stopka&quot;>
+        <div class=&quot;stopka-kolumny&quot;>
+            <div>
+                <h4>Serwisy</h4>
+                <ul>
+                    <li><a href=&quot;#&quot;>Wiadomości</a></li>
+                    <li><a href=&quot;#&quot;>Sport</a></li>
+                    <li><a href=&quot;#&quot;>Biznes</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Redakcja</h4>
+                <ul>
+                    <li><a href=&quot;#&quot;>O nas</a></li>
+                    <li><a href=&quot;#&quot;>Zespół</a></li>
+                    <li><a href=&quot;#&quot;>Kontakt</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Reklama</h4>
+                <ul>
+                    <li><a href=&quot;#&quot;>Oferta</a></li>
+                    <li><a href=&quot;#&quot;>Cennik</a></li>
+                    <li><a href=&quot;#&quot;>Media kit</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Pomoc</h4>
+                <ul>
+                    <li><a href=&quot;#&quot;>Regulamin</a></li>
+                    <li><a href=&quot;#&quot;>Prywatność</a></li>
+                    <li><a href=&quot;#&quot;>Ustawienia cookies</a></li>
+                </ul>
+            </div>
+        </div>
+        <p class=&quot;prawa&quot;>Stronę wykonał: 00</p>
+    </footer>
+    <script>// skrypt 4 - zapis do newslettera
+function zapiszNewsletter() {
+    let adres = document.getElementById('email').value;
+    let komunikat = document.getElementById('komunikat');
+    if (adres.includes('@')) {
+        komunikat.innerHTML = 'Dziękujemy! Podsumowanie wyślemy na adres ' + adres;
+        komunikat.className = 'sukces';
+    } else {
+        komunikat.innerHTML = 'Podaj poprawny adres e-mail';
+        komunikat.className = 'blad';
+    }
+}
+</script>
+</body>
+</html>
+" title="Podgląd witryny"></iframe></div><figcaption>Ilustracja 4. Panel boczny po wpisaniu adresu i kliknięciu „Zapisz się”</figcaption></figure>
+  </div><figure class="layout"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 316" width="340" height="316" font-family="Arial, sans-serif"><rect x="4" y="4" width="332" height="20" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="18" font-size="12" text-anchor="middle">górny pasek (div.gorny-pasek)</text><rect x="4" y="28" width="332" height="28" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="46" font-size="12" text-anchor="middle">nagłówek z menu (header.glowa) – przyklejony</text><rect x="4" y="60" width="332" height="20" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="74" font-size="12" text-anchor="middle">pasek „Pilne” (div.pilne)</text><rect x="4" y="84" width="332" height="70" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="123" font-size="12" text-anchor="middle">sekcja główna (section.hero): duży | dwa małe</text><rect x="4" y="158" width="332" height="110" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="217" font-size="12" text-anchor="middle">treść (div.tresc): main | aside.boczna (320 px)</text><rect x="4" y="272" width="332" height="40" fill="#fff" stroke="#222" stroke-width="1.5"/><text x="170" y="296" font-size="12" text-anchor="middle">stopka (footer.stopka): cztery kolumny</text></svg><figcaption>Ilustracja 3. Układ bloków</figcaption></figure></div>
+  <figure class="preview mobile"><div class="frame-wrap" style="width:240px;max-width:100%;margin:0 auto" data-scale="0.6"><iframe class="site" style="width:400px;transform:scale(0.6)" srcdoc="<!DOCTYPE html>
+<html lang=&quot;pl&quot;>
+<head>
+    <meta charset=&quot;UTF-8&quot;>
+    <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+    <title>Kurier24 – wiadomości z kraju i ze świata</title>
+    <style>html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #F4F4F4;
+    color: #1A1A1A;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.45;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+/* górny pasek */
+.gorny-pasek {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 4%;
+    background: #E9E9E9;
+    color: #555;
+    font-size: 0.8rem;
+}
+
+.gorny-prawa {
+    display: flex;
+    gap: 18px;
+}
+
+.gorny-prawa a:hover {
+    color: #0B5FD8;
+    text-decoration: underline;
+}
+
+/* nagłówek z menu (przyklejony) */
+.glowa {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 0 4%;
+    background: #0A2540;
+    color: #FFF;
+}
+
+.logo {
+    padding: 12px 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+}
+
+.logo span {
+    color: #FF4D5E;
+}
+
+.glowne {
+    overflow-x: auto;
+}
+
+.glowne ul {
+    display: flex;
+}
+
+.glowne a {
+    display: block;
+    padding: 18px 12px;
+    font-size: 0.92rem;
+    white-space: nowrap;
+}
+
+.glowne a:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* pasek „pilne” */
+.pilne {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 4%;
+    background: #FFF;
+    border-bottom: 1px solid #DDD;
+    font-size: 0.95rem;
+}
+
+.pilne strong {
+    padding: 3px 10px;
+    background: #D7263D;
+    color: #FFF;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.pilne a:hover {
+    text-decoration: underline;
+}
+
+/* kontener strony */
+.strona {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 4% 40px;
+}
+
+/* sekcja główna: duży artykuł + dwa małe */
+.hero {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+    height: 460px;
+}
+
+.hero article {
+    position: relative;
+    overflow: hidden;
+    border-radius: 6px;
+    color: #FFF;
+}
+
+.hero .glowny {
+    grid-row: 1 / 3;
+}
+
+.t1 { background: linear-gradient(135deg, #3A6073, #16222A); }
+.t2 { background: linear-gradient(135deg, #5B247A, #1BCEDF); }
+.t3 { background: linear-gradient(135deg, #134E5E, #71B280); }
+
+.podpis {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 40px 20px 18px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+}
+
+.etykieta {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 2px 8px;
+    background: #D7263D;
+    border-radius: 2px;
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.hero h2 {
+    font-size: 1.2rem;
+    line-height: 1.25;
+}
+
+.hero .glowny h2 {
+    font-size: 2rem;
+}
+
+.hero a:hover h2 {
+    text-decoration: underline;
+}
+
+.meta {
+    margin-top: 6px;
+    color: #AAA;
+    font-size: 0.8rem;
+}
+
+/* dwie kolumny treści */
+.tresc {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 24px;
+    align-items: start;
+}
+
+.naglowek-sekcji {
+    margin: 28px 0 14px;
+    padding-left: 10px;
+    border-left: 5px solid #D7263D;
+    font-size: 1.3rem;
+}
+
+.najnowsze li {
+    display: flex;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid #DDD;
+}
+
+.najnowsze time {
+    min-width: 48px;
+    color: #D7263D;
+    font-weight: bold;
+}
+
+.najnowsze a:hover {
+    color: #0B5FD8;
+}
+
+/* karty artykułów */
+.karty {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.karta {
+    overflow: hidden;
+    background: #FFF;
+    border-radius: 6px;
+    transition: box-shadow 0.2s;
+}
+
+.karta:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.obraz {
+    aspect-ratio: 16 / 9;
+}
+
+.o1 { background: linear-gradient(135deg, #614385, #516395); }
+.o2 { background: linear-gradient(135deg, #2193B0, #6DD5ED); }
+.o3 { background: linear-gradient(135deg, #EE9CA7, #FFDDE1); }
+
+.karta .tekst {
+    padding: 12px;
+}
+
+.kat {
+    color: #D7263D;
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.karta h3 {
+    margin: 4px 0 6px;
+    font-size: 1rem;
+    line-height: 1.3;
+}
+
+.karta h3 a:hover {
+    color: #0B5FD8;
+}
+
+.karta p {
+    color: #555;
+    font-size: 0.88rem;
+}
+
+.karta .meta {
+    color: #888;
+    font-size: 0.78rem;
+}
+
+/* kolumna boczna */
+.box {
+    margin-bottom: 16px;
+    padding: 16px;
+    background: #FFF;
+    border-radius: 6px;
+}
+
+.box h2 {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.popularne li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #EEE;
+    font-size: 0.92rem;
+}
+
+.popularne a:hover {
+    color: #0B5FD8;
+}
+
+.nr {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    background: #0A2540;
+    color: #FFF;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.nr.top {
+    background: #D7263D;
+}
+
+.pogoda {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.temp {
+    font-size: 2.4rem;
+    font-weight: bold;
+}
+
+.pogoda p {
+    color: #666;
+    font-size: 0.88rem;
+}
+
+.box form label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 0.88rem;
+}
+
+.box form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+}
+
+.box form button {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    background: #0A2540;
+    color: #FFF;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.box form button:hover {
+    background: #0B5FD8;
+}
+
+#komunikat {
+    margin-top: 8px;
+    font-size: 0.85rem;
+}
+
+.sukces {
+    color: #2E8B57;
+}
+
+.blad {
+    color: #D7263D;
+    font-weight: bold;
+}
+
+/* stopka */
+.stopka {
+    padding: 32px 4%;
+    background: #0A2540;
+    color: #B8C4D6;
+}
+
+.stopka-kolumny {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.stopka h4 {
+    margin-bottom: 8px;
+    color: #FFF;
+}
+
+.stopka li {
+    margin: 4px 0;
+    font-size: 0.9rem;
+}
+
+.stopka a:hover {
+    color: #FFF;
+    text-decoration: underline;
+}
+
+.prawa {
+    margin-top: 24px;
+    font-size: 0.82rem;
+    text-align: center;
+}
+
+/* mniejsze ekrany */
+@media (max-width: 900px) {
+    .hero {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        height: auto;
+    }
+
+    .hero article {
+        min-height: 200px;
+    }
+
+    .hero .glowny {
+        grid-row: auto;
+        min-height: 320px;
+    }
+
+    .hero .glowny h2 {
+        font-size: 1.5rem;
+    }
+
+    .tresc {
+        grid-template-columns: 1fr;
+    }
+
+    .stopka-kolumny {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .pogoda-mala {
+        display: none;
+    }
+
+    .pilne {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .karty {
+        grid-template-columns: 1fr;
+    }
+
+    .glowa {
+        gap: 12px;
+    }
+}
+
+</style>
+</head>
+<body>
+    <div class=&quot;gorny-pasek&quot;>
+        <span>wtorek, 17 listopada 2026</span>
+        <div class=&quot;gorny-prawa&quot;>
+            <span class=&quot;pogoda-mala&quot;>Białystok 4°C</span>
+            <a href=&quot;#&quot;>Newsletter</a>
+            <a href=&quot;#&quot;>Zaloguj się</a>
+        </div>
+    </div>
+
+    <header class=&quot;glowa&quot;>
+        <a href=&quot;index.php&quot; class=&quot;logo&quot;>KURIER<span>24</span></a>
+        <nav class=&quot;glowne&quot;>
+            <ul>
+                <li><a href=&quot;#&quot;>Wiadomości</a></li>
+                <li><a href=&quot;#&quot;>Polska</a></li>
+                <li><a href=&quot;#&quot;>Świat</a></li>
+                <li><a href=&quot;#&quot;>Biznes</a></li>
+                <li><a href=&quot;#&quot;>Sport</a></li>
+                <li><a href=&quot;#&quot;>Kultura</a></li>
+                <li><a href=&quot;#&quot;>Technologia</a></li>
+                <li><a href=&quot;#&quot;>Lifestyle</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class=&quot;pilne&quot;>
+        <strong>Pilne</strong>
+        <a href=&quot;#&quot;>Zmiany w rozkładach pociągów od grudnia. Sprawdź, które połączenia znikną</a>
+    </div>
+
+    <div class=&quot;strona&quot;>
+        <section class=&quot;hero&quot;>
+            <article class=&quot;glowny t1&quot;>
+                <a href=&quot;#&quot; class=&quot;podpis&quot;>
+                    <span class=&quot;etykieta&quot;>Polska</span>
+                    <h2>Pierwszy śnieg paraliżuje drogi na wschodzie kraju</h2>
+                    <p class=&quot;meta&quot;>12 min temu · 4 komentarze</p>
+                </a>
+            </article>
+            <article class=&quot;t2&quot;>
+                <a href=&quot;#&quot; class=&quot;podpis&quot;>
+                    <span class=&quot;etykieta&quot;>Świat</span>
+                    <h2>Szczyt klimatyczny zakończony kompromisem</h2>
+                </a>
+            </article>
+            <article class=&quot;t3&quot;>
+                <a href=&quot;#&quot; class=&quot;podpis&quot;>
+                    <span class=&quot;etykieta&quot;>Sport</span>
+                    <h2>Biało-czerwoni wygrywają po dramatycznej końcówce</h2>
+                </a>
+            </article>
+        </section>
+
+        <div class=&quot;tresc&quot;>
+            <main>
+                <h2 class=&quot;naglowek-sekcji&quot;>Najnowsze</h2>
+                <ul class=&quot;najnowsze&quot;>
+<li><time>10:42</time><a href='#'>Wojewoda ostrzega przed gołoledzią na drogach regionu</a></li><li><time>10:31</time><a href='#'>Ceny paliw spadły po raz trzeci z rzędu</a></li><li><time>10:15</time><a href='#'>Nowy rekord wypożyczeń w bibliotekach miejskich</a></li><li><time>09:58</time><a href='#'>Remont głównego dworca zakończy się wcześniej niż planowano</a></li><li><time>09:40</time><a href='#'>Naukowcy opisali nowy gatunek motyla w Puszczy Białowieskiej</a></li><li><time>09:22</time><a href='#'>Szkoły wprowadzają zajęcia z cyberbezpieczeństwa</a></li>                </ul>
+
+                <h2 class=&quot;naglowek-sekcji&quot;>Biznes</h2>
+                <section class=&quot;karty&quot;>
+<article class='karta'><div class='obraz o1'></div><div class='tekst'><span class='kat'>Biznes</span><h3><a href='#'>Inflacja w listopadzie niższa od prognoz</a></h3><p>Analitycy zwracają uwagę na spadek cen żywności i energii.</p><p class='meta'>17.11.2026 08:40</p></div></article><article class='karta'><div class='obraz o2'></div><div class='tekst'><span class='kat'>Biznes</span><h3><a href='#'>Polskie startupy z rekordowym finansowaniem</a></h3><p>Inwestorzy coraz chętniej wspierają firmy z sektora zielonych technologii.</p><p class='meta'>17.11.2026 07:35</p></div></article><article class='karta'><div class='obraz o3'></div><div class='tekst'><span class='kat'>Biznes</span><h3><a href='#'>Eksport rolno-spożywczy rośnie drugi rok z rzędu</a></h3><p>Największy wzrost odnotowano w produktach mlecznych i przetworach.</p><p class='meta'>17.11.2026 05:30</p></div></article>                </section>
+
+                <h2 class=&quot;naglowek-sekcji&quot;>Sport</h2>
+                <section class=&quot;karty&quot;>
+                    <article class=&quot;karta&quot;>
+                        <div class=&quot;obraz o1&quot;></div>
+                        <div class=&quot;tekst&quot;>
+                            <span class=&quot;kat&quot;>Sport</span>
+                            <h3><a href=&quot;#&quot;>Siatkarze awansują do półfinału turnieju</a></h3>
+                            <p>Po zaciętym meczu rozstrzygnął dopiero piąty set.</p>
+                            <p class=&quot;meta&quot;>1 godz. temu</p>
+                        </div>
+                    </article>
+                    <article class=&quot;karta&quot;>
+                        <div class=&quot;obraz o2&quot;></div>
+                        <div class=&quot;tekst&quot;>
+                            <span class=&quot;kat&quot;>Sport</span>
+                            <h3><a href=&quot;#&quot;>Rekord życiowy młodej lekkoatletki</a></h3>
+                            <p>Zawodniczka poprawiła swój wynik o prawie sekundę.</p>
+                            <p class=&quot;meta&quot;>4 godz. temu</p>
+                        </div>
+                    </article>
+                    <article class=&quot;karta&quot;>
+                        <div class=&quot;obraz o3&quot;></div>
+                        <div class=&quot;tekst&quot;>
+                            <span class=&quot;kat&quot;>Sport</span>
+                            <h3><a href=&quot;#&quot;>Szachowy turniej przyciągnął ponad 300 uczestników</a></h3>
+                            <p>Najmłodszy z zawodników miał dopiero siedem lat.</p>
+                            <p class=&quot;meta&quot;>6 godz. temu</p>
+                        </div>
+                    </article>
+                </section>
+            </main>
+
+            <aside class=&quot;boczna&quot;>
+                <section class=&quot;box&quot;>
+                    <h2>Najczęściej czytane</h2>
+                    <ol class=&quot;popularne&quot;>
+<li><span class='nr top'>1</span><a href='#'>Jak przygotować dom na pierwsze mrozy</a></li><li><span class='nr top'>2</span><a href='#'>Pięć błędów przy zakupie używanego auta</a></li><li><span class='nr top'>3</span><a href='#'>Prognoza pogody na weekend: wraca słońce</a></li><li><span class='nr'>4</span><a href='#'>Test: który smartfon wybrać do 1500 zł</a></li><li><span class='nr'>5</span><a href='#'>Przepis na rozgrzewającą zupę dyniową</a></li>                    </ol>
+                </section>
+
+                <section class=&quot;box&quot;>
+                    <h2>Pogoda</h2>
+                    <div class=&quot;pogoda&quot;>
+                        <span class=&quot;temp&quot;>4°C</span>
+                        <div>
+                            <strong>Białystok</strong>
+                            <p>Pochmurno, wiatr 12 km/h</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class=&quot;box&quot;>
+                    <h2>Newsletter</h2>
+                    <form action=&quot;#&quot;>
+                        <label for=&quot;email&quot;>Codzienne podsumowanie na e-mail</label>
+                        <input type=&quot;email&quot; id=&quot;email&quot; placeholder=&quot;Twój adres e-mail&quot;>
+                        <button type=&quot;button&quot; onclick=&quot;zapiszNewsletter()&quot;>Zapisz się</button>
+                    </form>
+                    <p id=&quot;komunikat&quot;></p>
+                </section>
+            </aside>
+        </div>
+    </div>
+
+    <footer class=&quot;stopka&quot;>
+        <div class=&quot;stopka-kolumny&quot;>
+            <div>
+                <h4>Serwisy</h4>
+                <ul>
+                    <li><a href=&quot;#&quot;>Wiadomości</a></li>
+                    <li><a href=&quot;#&quot;>Sport</a></li>
+                    <li><a href=&quot;#&quot;>Biznes</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Redakcja</h4>
+                <ul>
+                    <li><a href=&quot;#&quot;>O nas</a></li>
+                    <li><a href=&quot;#&quot;>Zespół</a></li>
+                    <li><a href=&quot;#&quot;>Kontakt</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Reklama</h4>
+                <ul>
+                    <li><a href=&quot;#&quot;>Oferta</a></li>
+                    <li><a href=&quot;#&quot;>Cennik</a></li>
+                    <li><a href=&quot;#&quot;>Media kit</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Pomoc</h4>
+                <ul>
+                    <li><a href=&quot;#&quot;>Regulamin</a></li>
+                    <li><a href=&quot;#&quot;>Prywatność</a></li>
+                    <li><a href=&quot;#&quot;>Ustawienia cookies</a></li>
+                </ul>
+            </div>
+        </div>
+        <p class=&quot;prawa&quot;>Stronę wykonał: 00</p>
+    </footer>
+    <script>// skrypt 4 - zapis do newslettera
+function zapiszNewsletter() {
+    let adres = document.getElementById('email').value;
+    let komunikat = document.getElementById('komunikat');
+    if (adres.includes('@')) {
+        komunikat.innerHTML = 'Dziękujemy! Podsumowanie wyślemy na adres ' + adres;
+        komunikat.className = 'sukces';
+    } else {
+        komunikat.innerHTML = 'Podaj poprawny adres e-mail';
+        komunikat.className = 'blad';
+    }
+}
+</script>
+</body>
+</html>
+" title="Podgląd witryny"></iframe></div><figcaption>Ilustracja 5. Wygląd witryny na ekranie o szerokości 400 px (początek strony)</figcaption></figure>
+  <p>Cechy witryny:</p>
+  <ul class="dash"><li>Składa się ze strony o nazwie index.php</li><li>Zapisana w języku HTML5, zadeklarowany polski język zawartości witryny, jawnie zastosowany standard kodowania polskich znaków, znacznik meta viewport</li><li>Tytuł strony widoczny na karcie przeglądarki: „Kurier24 – wiadomości z kraju i ze świata”</li><li>Arkusz stylów w pliku o nazwie styl.css prawidłowo połączony z kodem strony; wygląd w całości w CSS, bez stylów w atrybutach</li><li>Podział strony na bloki zrealizowany za pomocą znaczników semantycznych HTML5 zgodnie z ilustracją 3</li><li>Górny pasek (div z klasą gorny-pasek): po lewej element span z datą „wtorek, 17 listopada 2026”, po prawej blok div z klasą gorny-prawa zawierający element span z klasą pogoda-mala o treści „Białystok 4°C” oraz odnośniki „Newsletter” i „Zaloguj się”</li><li>Nagłówek (header z klasą glowa): odnośnik z klasą logo prowadzący do index.php o treści „KURIER24”, w którym „24” jest zapisane w osobnym elemencie span, oraz blok nawigacyjny (nav) z klasą glowne z listą punktowaną ośmiu odnośników: „Wiadomości”, „Polska”, „Świat”, „Biznes”, „Sport”, „Kultura”, „Technologia”, „Lifestyle”</li><li>Pasek „Pilne” (div z klasą pilne): tekst „Pilne” zapisany znacznikiem oznaczającym tekst ważny (strong) i odnośnik „Zmiany w rozkładach pociągów od grudnia. Sprawdź, które połączenia znikną”</li><li>Blok div z klasą strona, a w nim sekcja (section) z klasą hero z trzema artykułami (article). Każdy artykuł zawiera jeden odnośnik z klasą podpis, a w nim element span z klasą etykieta, nagłówek drugiego stopnia i – tylko w pierwszym artykule – paragraf z klasą meta:<ul class="dash"><li>pierwszy artykuł, klasy glowny i t1: „Polska”, „Pierwszy śnieg paraliżuje drogi na wschodzie kraju”, „12 min temu · 4 komentarze”</li><li>drugi artykuł, klasa t2: „Świat”, „Szczyt klimatyczny zakończony kompromisem”</li><li>trzeci artykuł, klasa t3: „Sport”, „Biało-czerwoni wygrywają po dramatycznej końcówce”</li></ul></li><li>Pod sekcją hero, w bloku strona, blok div z klasą tresc zawierający blok główny (main) i panel boczny (aside z klasą boczna). W bloku głównym kolejno:<ul class="dash"><li>nagłówek drugiego stopnia z klasą naglowek-sekcji „Najnowsze” i lista punktowana z klasą najnowsze, wypełniona przez skrypt 1</li><li>nagłówek „Biznes” (klasa naglowek-sekcji) i sekcja z klasą karty, wypełniona przez skrypt 2</li><li>nagłówek „Sport” (klasa naglowek-sekcji) i sekcja z klasą karty z trzema kartami o budowie takiej jak w skrypcie 2 (kategoria „Sport”), z danymi: „Siatkarze awansują do półfinału turnieju” / „Po zaciętym meczu rozstrzygnął dopiero piąty set.” / „1 godz. temu”; „Rekord życiowy młodej lekkoatletki” / „Zawodniczka poprawiła swój wynik o prawie sekundę.” / „4 godz. temu”; „Szachowy turniej przyciągnął ponad 300 uczestników” / „Najmłodszy z zawodników miał dopiero siedem lat.” / „6 godz. temu”</li></ul></li><li>W panelu bocznym trzy sekcje z klasą box, każda z nagłówkiem drugiego stopnia:<ul class="dash"><li>„Najczęściej czytane”: lista numerowana (ol) z klasą popularne, wypełniona przez skrypt 3</li><li>„Pogoda”: blok div z klasą pogoda, a w nim element span z klasą temp o treści „4°C” i blok div z pogrubionym (strong) tekstem „Białystok” oraz paragrafem „Pochmurno, wiatr 12 km/h”</li><li>„Newsletter”: formularz z etykietą „Codzienne podsumowanie na e-mail” powiązaną z polem (atrybuty for i id = email), polem typu email z podpowiedzią „Twój adres e-mail” i przyciskiem „Zapisz się”, którego kliknięcie uruchamia skrypt 4; pod formularzem pusty paragraf z identyfikatorem komunikat</li></ul></li><li>Stopka (footer z klasą stopka): blok div z klasą stopka-kolumny z czterema blokami div; w każdym nagłówek czwartego stopnia i lista punktowana z trzema odnośnikami: „Serwisy” (Wiadomości, Sport, Biznes), „Redakcja” (O nas, Zespół, Kontakt), „Reklama” (Oferta, Cennik, Media kit), „Pomoc” (Regulamin, Prywatność, Ustawienia cookies); pod nimi paragraf z klasą prawa o treści „Stronę wykonał: ”, dalej wstawiony numer zdającego</li><li>Wszystkie odnośniki poza logo prowadzą do adresu #</li></ul>
+
+  <h3>Styl CSS witryny internetowej</h3>
+  <p>Styl CSS zdefiniowany jest w całości w zewnętrznym pliku o nazwie styl.css. W tabeli 3 zamieszczono pomoc do niektórych właściwości CSS. Cechy formatowania CSS, działające na stronie:</p>
+  <ul class="dash"><li>Domyślnie dla wszystkich selektorów (*): marginesy zewnętrzne i wewnętrzne 0, model pudełkowy border-box</li><li>Dla selektora ciała strony: kolor tła #F4F4F4, kolor czcionki #1A1A1A, krój czcionki Arial, w przypadku braku Helvetica, a następnie sans-serif, wysokość linii 1,45. Dla selektora odnośnika: kolor dziedziczony, tekst bez podkreślenia. Dla selektorów listy punktowanej i numerowanej (ul, ol): brak punktorów i numeracji</li><li>Dla klasy gorny-pasek: sposób wyświetlania elastyczny, lewa i prawa część rozsunięte do krawędzi (justify-content: space-between), marginesy wewnętrzne: górny i dolny 6 px, lewy i prawy 4%, kolor tła #E9E9E9, kolor czcionki #555, rozmiar czcionki 0,8 rem. Dla klasy gorny-prawa: sposób wyświetlania elastyczny, odstęp 18 px; gdy kursor znajdzie się na odnośniku w tym bloku, kolor czcionki zmienia się na #0B5FD8, a tekst jest podkreślony</li><li>Dla klasy glowa: przyklejona do górnej krawędzi okna podczas przewijania (position: sticky, top: 0), leżąca nad treścią (z-index: 20), sposób wyświetlania elastyczny, elementy wyśrodkowane w pionie, odstęp 28 px, marginesy wewnętrzne: lewy i prawy 4%, górny i dolny 0, kolor tła #0A2540, biały kolor czcionki</li><li>Dla klasy logo: marginesy wewnętrzne: górny i dolny 12 px, rozmiar czcionki 1,8 rem, pogrubienie, odstęp między literami -0,5 px; element span w logo ma kolor #FF4D5E</li><li>Dla klasy glowne: poziomy pasek przewijania widoczny jedynie wtedy, gdy pozycje się nie mieszczą (overflow-x: auto); lista w menu: sposób wyświetlania elastyczny (pozycje w rzędzie, bez odstępów)</li><li>Dla odnośników w menu: sposób wyświetlania blokowy, marginesy wewnętrzne: górny i dolny 18 px, lewy i prawy 12 px, rozmiar czcionki 0,92 rem, tekst bez łamania wierszy; gdy kursor znajdzie się na odnośniku, kolor tła zmienia się na biały o nieprzezroczystości 0,12 (rgba(255, 255, 255, 0.12))</li><li>Dla klasy pilne: sposób wyświetlania elastyczny, elementy wyśrodkowane w pionie, odstęp 14 px, marginesy wewnętrzne: górny i dolny 10 px, lewy i prawy 4%, biały kolor tła, dolne obramowanie linią ciągłą 1 px w kolorze #DDD, rozmiar czcionki 0,95 rem; gdy kursor znajdzie się na odnośniku w tym bloku, tekst jest podkreślony</li><li>Dla tekstu ważnego (strong) w klasie pilne: marginesy wewnętrzne: górny i dolny 3 px, lewy i prawy 10 px, kolor tła #D7263D, biały kolor czcionki, rozmiar czcionki 0,8 rem, wszystkie litery wielkie uzyskane za pomocą CSS (text-transform)</li><li>Dla klasy strona: maksymalna szerokość 1200 px, blok wyśrodkowany w poziomie (marginesy lewy i prawy auto), marginesy wewnętrzne: górny 20 px, lewy i prawy 4%, dolny 40 px</li><li>Dla klasy hero: sposób wyświetlania w postaci siatki (grid) z dwiema kolumnami w proporcji 2 : 1 (2fr 1fr) i dwoma równymi wierszami (1fr 1fr), odstęp 12 px, wysokość 460 px. Pierwszy artykuł (klasa glowny) zajmuje oba wiersze (grid-row: 1 / 3)</li><li>Dla artykułów w sekcji hero: pozycjonowanie względne, ukryta zawartość wychodząca poza element (overflow: hidden), zaokrąglenie rogów 6 px, biały kolor czcionki. Tło artykułów – gradient liniowy ukośny (135 stopni): klasa t1 od #3A6073 do #16222A, klasa t2 od #5B247A do #1BCEDF, klasa t3 od #134E5E do #71B280</li><li>Dla klasy podpis: pozycjonowanie bezwzględne przy lewej, prawej i dolnej krawędzi artykułu (left, right, bottom: 0), marginesy wewnętrzne: górny 40 px, lewy i prawy 20 px, dolny 18 px, tło – gradient liniowy od dołu (to top) od czarnego o nieprzezroczystości 0,85 do przezroczystego</li><li>Dla klasy etykieta: sposób wyświetlania inline-block, dolny margines 8 px, marginesy wewnętrzne: górny i dolny 2 px, lewy i prawy 8 px, kolor tła #D7263D, zaokrąglenie rogów 2 px, rozmiar czcionki 0,72 rem, pogrubienie, wielkie litery uzyskane za pomocą CSS</li><li>Dla nagłówków w sekcji hero: rozmiar czcionki 1,2 rem, wysokość linii 1,25; w artykule glowny rozmiar 2 rem; gdy kursor znajdzie się na odnośniku w sekcji hero, nagłówek jest podkreślony. Dla klasy meta: górny margines 6 px, kolor #AAA, rozmiar czcionki 0,8 rem</li><li>Dla klasy tresc: siatka z dwiema kolumnami: lewa zajmuje pozostałe miejsce (1fr), prawa ma 320 px, odstęp 24 px, elementy wyrównane do góry (align-items: start)</li><li>Dla klasy naglowek-sekcji: marginesy zewnętrzne: górny 28 px, dolny 14 px, lewy i prawy 0, lewy margines wewnętrzny 10 px, lewe obramowanie linią ciągłą 5 px w kolorze #D7263D, rozmiar czcionki 1,3 rem</li><li>Dla elementów listy najnowsze: sposób wyświetlania elastyczny, odstęp 14 px, marginesy wewnętrzne: górny i dolny 10 px, dolne obramowanie 1 px #DDD. Dla znacznika time w tej liście: minimalna szerokość 48 px, kolor #D7263D, pogrubienie; gdy kursor znajdzie się na odnośniku listy, kolor czcionki zmienia się na #0B5FD8</li><li>Dla klasy karty: siatka z trzema równymi kolumnami (repeat(3, 1fr)), odstęp 16 px</li><li>Dla klasy karta: ukryta zawartość wychodząca poza element, biały kolor tła, zaokrąglenie rogów 6 px, płynne przejście cienia w czasie 0,2 s; gdy kursor znajdzie się na karcie, pojawia się cień 0 6px 18px w kolorze czarnym o nieprzezroczystości 0,15</li><li>Dla klasy obraz: proporcje 16 : 9 (aspect-ratio). Tło – gradient ukośny (135 stopni): klasa o1 od #614385 do #516395, klasa o2 od #2193B0 do #6DD5ED, klasa o3 od #EE9CA7 do #FFDDE1</li><li>Dla bloku tekst w karcie: marginesy wewnętrzne 12 px. Dla klasy kat: kolor #D7263D, rozmiar czcionki 0,72 rem, pogrubienie, wielkie litery uzyskane za pomocą CSS</li><li>Dla nagłówka trzeciego stopnia w karcie: marginesy zewnętrzne: górny 4 px, lewy i prawy 0, dolny 6 px, rozmiar czcionki 1 rem, wysokość linii 1,3; gdy kursor znajdzie się na odnośniku w nagłówku, kolor czcionki zmienia się na #0B5FD8. Paragrafy w karcie: kolor #555, rozmiar 0,88 rem; paragraf meta w karcie: kolor #888, rozmiar 0,78 rem</li><li>Dla klasy box: dolny margines 16 px, marginesy wewnętrzne 16 px, biały kolor tła, zaokrąglenie rogów 6 px; nagłówek drugiego stopnia w boksie: dolny margines 10 px, rozmiar czcionki 1,1 rem</li><li>Dla elementów listy popularne: sposób wyświetlania elastyczny, elementy wyśrodkowane w pionie, odstęp 12 px, marginesy wewnętrzne: górny i dolny 8 px, dolne obramowanie 1 px #EEE, rozmiar czcionki 0,92 rem; gdy kursor znajdzie się na odnośniku, kolor czcionki zmienia się na #0B5FD8</li><li>Dla klasy nr: element nie zmienia rozmiaru w układzie elastycznym (flex: none), siatka z zawartością wyśrodkowaną w obu kierunkach (place-items: center), szerokość i wysokość 28 px, kolor tła #0A2540, biały kolor czcionki, kształt koła (zaokrąglenie 50%), rozmiar czcionki 0,85 rem, pogrubienie. Element z klasami nr i top ma kolor tła #D7263D</li><li>Dla klasy pogoda: sposób wyświetlania elastyczny, elementy wyśrodkowane w pionie, odstęp 14 px. Dla klasy temp: rozmiar czcionki 2,4 rem, pogrubienie. Paragraf w bloku pogoda: kolor #666, rozmiar czcionki 0,88 rem</li><li>Dla etykiety formularza w boksie: sposób wyświetlania blokowy, dolny margines 8 px, kolor #555, rozmiar czcionki 0,88 rem. Dla pola formularza: szerokość 100%, marginesy wewnętrzne 10 px, obramowanie 1 px linią ciągłą #CCC, zaokrąglenie rogów 4 px</li><li>Dla przycisku formularza: szerokość 100%, górny margines 8 px, marginesy wewnętrzne 10 px, kolor tła #0A2540, biały pogrubiony tekst, brak obramowania, zaokrąglenie rogów 4 px, kursor w kształcie wskazującej dłoni; gdy kursor znajdzie się na przycisku, kolor tła zmienia się na #0B5FD8</li><li>Dla identyfikatora komunikat: górny margines 8 px, rozmiar czcionki 0,85 rem. Dla klasy sukces: kolor #2E8B57. Dla klasy blad: kolor #D7263D, pogrubienie</li><li>Dla klasy stopka: marginesy wewnętrzne: górny i dolny 32 px, lewy i prawy 4%, kolor tła #0A2540, kolor czcionki #B8C4D6. Dla klasy stopka-kolumny: siatka z czterema równymi kolumnami, odstęp 24 px. Nagłówki w stopce: dolny margines 8 px, biały kolor czcionki; elementy list: marginesy zewnętrzne górny i dolny 4 px, rozmiar czcionki 0,9 rem; gdy kursor znajdzie się na odnośniku w stopce: biały kolor i podkreślenie. Dla klasy prawa: górny margines 24 px, rozmiar 0,82 rem, tekst wyśrodkowany</li><li>W przypadku ekranów o szerokości do 900 px: sekcja hero ma jedną kolumnę, automatyczne wiersze i automatyczną wysokość; artykuły hero mają minimalną wysokość 200 px, artykuł glowny zajmuje zwykły wiersz (grid-row: auto), ma minimalną wysokość 320 px i nagłówek 1,5 rem; klasa tresc ma jedną kolumnę (panel boczny pod treścią), a stopka-kolumny dwie kolumny</li><li>W przypadku ekranów o szerokości do 560 px (ilustracja 5): temperatura w górnym pasku (pogoda-mala) jest ukryta, pasek pilne układa elementy jeden pod drugim (flex-direction: column), wyrównane do lewej, z odstępem 6 px, karty są w jednej kolumnie, a odstęp w nagłówku glowa wynosi 12 px</li></ul>
+  <p class="note">Uwaga: styl CSS ciała strony, odnośnika oraz list należy zdefiniować wyłącznie przy pomocy selektora tych znaczników. Jest to uwarunkowane projektem późniejszej rozbudowy witryny.</p>
+
+  <h3>Skrypty działające po stronie serwera (PHP)</h3>
+  <p>W tabeli 2 zamieszczono wybrane funkcje PHP. Wymagania dotyczące skryptów:</p>
+  <ul class="dash"><li>Napisane w języku PHP</li><li>Należy stosować znaczące nazewnictwo zmiennych i funkcji w języku polskim lub angielskim</li><li>Łączą się z serwerem bazodanowym na localhost, użytkownik root bez hasła, baza danych o nazwie kurier</li><li>Na końcu zamykane jest połączenie z serwerem</li></ul>
+  <p class="script-name">Skrypt 1 (najnowsze):</p><ul class="dash"><li>Wysyła do bazy danych zapytanie 1</li><li>Dla każdego zwróconego rekordu tworzy element listy, w którym godzina jest zapisana w znaczniku time, a za nią tytuł jako odnośnik prowadzący do #</li></ul><p class="script-name">Skrypt 2 (karty działu Biznes):</p><ul class="dash"><li>Wysyła do bazy danych zapytanie 2</li><li>Dla każdego zwróconego rekordu tworzy element article z klasą karta, zawierający:<ul class="dash"><li>blok div z klasami obraz oraz o1, o2 lub o3 – numer klasy jest numerem kolejnej karty (pierwsza karta o1, druga o2, trzecia o3)</li><li>blok div z klasą tekst, a w nim: element span z klasą kat o treści „Biznes”, nagłówek trzeciego stopnia z odnośnikiem (#), którego treścią jest tytuł, paragraf z zajawką i paragraf z klasą meta z datą publikacji</li></ul></li></ul><p class="script-name">Skrypt 3 (najczęściej czytane):</p><ul class="dash"><li>Wysyła do bazy danych zapytanie 3</li><li>Dla każdego zwróconego tytułu tworzy element listy zawierający element span z klasą nr i numerem pozycji (od 1 do 5) oraz odnośnik (#) z tytułem</li><li>Elementy span trzech pierwszych pozycji mają dodatkowo klasę top</li></ul>
+  <h3>Skrypt działający po stronie klienta (JavaScript)</h3>
+  <p>W tabeli 4 zamieszczono wybrane pola i metody języka JavaScript. Skrypt jest napisany w języku JavaScript (w pliku skrypt.js lub w znaczniku script), należy stosować znaczące nazewnictwo zmiennych i funkcji.</p>
+  <p class="script-name">Skrypt 4 (newsletter):</p><ul class="dash"><li>Wywoływany po kliknięciu przycisku „Zapisz się”</li><li>Pobiera wartość z pola o identyfikatorze email</li><li>Jeżeli wartość zawiera znak @: w paragrafie o identyfikatorze komunikat wyświetla tekst „Dziękujemy! Podsumowanie wyślemy na adres &lt;adres&gt;”, gdzie &lt;adres&gt; to wpisana wartość, i nadaje paragrafowi klasę sukces (ilustracja 4)</li><li>W przeciwnym razie wyświetla w tym paragrafie tekst „Podaj poprawny adres e-mail” i nadaje mu klasę blad</li></ul>
+
+  <div class="help-tables">
+  <table class="help"><caption>Tabela 1. Wybrane elementy języka SQL (MySQL)</caption><tr><th>Zapis</th><th>Znaczenie</th></tr><tr><td>DATE_FORMAT(data, '%H:%i')</td><td>Godzina i minuty, np. 10:42</td></tr><tr><td>DATE_FORMAT(data, '%d.%m.%Y %H:%i')</td><td>Data i godzina, np. 17.11.2026 08:40</td></tr><tr><td>LIMIT n</td><td>Ogranicza wynik do n pierwszych wierszy</td></tr></table>
+  <table class="help"><caption>Tabela 2. Wybrane funkcje języka PHP</caption><tr><th>Funkcja</th><th>Zwracana wartość</th></tr><tr><td>mysqli_connect(serwer, użytkownik, hasło, nazwa_bazy)</td><td>id połączenia lub FALSE, gdy niepowodzenie</td></tr><tr><td>mysqli_query(id_polaczenia, zapytanie)</td><td>Wynik zapytania</td></tr><tr><td>mysqli_fetch_row(wynik_zapytania)</td><td>Tablica numeryczna odpowiadająca wierszowi zapytania</td></tr><tr><td>mysqli_fetch_array(wynik_zapytania)</td><td>Tablica z kolejnym wierszem wyniku lub FALSE, gdy nie ma więcej wierszy</td></tr><tr><td>mysqli_num_rows(wynik_zapytania)</td><td>Liczba wierszy w wyniku zapytania</td></tr><tr><td>mysqli_close(id_polaczenia)</td><td>TRUE/FALSE w zależności od stanu operacji</td></tr></table>
+  <table class="help"><caption>Tabela 3. Wybrane właściwości CSS</caption><tr><th>Zapis</th><th>Znaczenie</th></tr><tr><td>position: sticky; top: 0</td><td>Element przewija się z treścią, a po dojściu do górnej krawędzi okna zostaje do niej przyklejony</td></tr><tr><td>grid-template-columns: 2fr 1fr</td><td>Dwie kolumny, pierwsza dwa razy szersza od drugiej</td></tr><tr><td>grid-row: 1 / 3</td><td>Element zajmuje wiersze od linii 1 do linii 3 (dwa wiersze)</td></tr><tr><td>repeat(3, 1fr)</td><td>Trzy równe kolumny</td></tr><tr><td>aspect-ratio: 16 / 9</td><td>Wysokość elementu wynika z jego szerokości w proporcji 16 : 9</td></tr><tr><td>linear-gradient(135deg, #614385, #516395)</td><td>Gradient ukośny między dwoma kolorami</td></tr><tr><td>linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent)</td><td>Gradient od dołu: od czarnego półprzezroczystego do przezroczystości</td></tr><tr><td>text-transform: uppercase</td><td>Wszystkie litery wielkie</td></tr><tr><td>letter-spacing: -0.5px</td><td>Zmniejszenie odstępów między literami</td></tr><tr><td>flex: none</td><td>Element nie rozciąga się i nie zwęża w układzie flex</td></tr><tr><td>place-items: center</td><td>Zawartość siatki wyśrodkowana w obu kierunkach</td></tr><tr><td>overflow-x: auto</td><td>Poziomy pasek przewijania, gdy zawartość się nie mieści</td></tr></table>
+  <table class="help"><caption>Tabela 4. Wybrane pola i metody języka JavaScript</caption><tr><th>Wyszukiwanie i odczyt</th><th>Zmiana elementów</th></tr><tr><td>document.getElementById(id)</td><td>element.innerHTML = &quot;wartość&quot;</td></tr><tr><td>element.value</td><td>element.className = &quot;klasa&quot;</td></tr><tr><td>napis.includes('@')</td><td>true, gdy napis zawiera podany znak</td></tr></table>
+  </div>
+
+  <p class="note">UWAGA: po zakończeniu pracy utwórz plik tekstowy o nazwie przeglądarka.txt. Zapisz w nim nazwę przeglądarki internetowej, w której weryfikowana była poprawność działania witryny. Umieść go w folderze z numerem zdającego.</p>
+  <p>W folderze z numerem zdającego powinny znajdować się pliki: import.png, index.php, kw1.png, kw2.png, kw3.png, kw4.png, kw5.png, kwerendy.txt, przeglądarka.txt, skrypt.js, styl.css, ewentualnie inne przygotowane pliki. Spakuj folder do archiwum ZIP o nazwie równej numerowi zdającego i prześlij je w sposób wskazany przez nauczyciela.</p>
+  <p><b>Czas przeznaczony na wykonanie zadania wynosi 150 minut.</b></p>
+  <p>Ocenie podlegać będzie 5 rezultatów:</p>
+  <ul class="dash"><li>operacje na bazie danych,</li><li>zawartość witryny internetowej,</li><li>działanie witryny internetowej,</li><li>styl CSS witryny internetowej,</li><li>skrypty.</li></ul>
+</section>
+<script>
+function dopasuj() {
+  document.querySelectorAll('figure.preview').forEach(function (fig) {
+    var f = fig.querySelector('iframe.site');
+    var wrap = fig.querySelector('.frame-wrap');
+    var scale = Number(wrap.dataset.scale);
+    try {
+      var d = f.contentDocument;
+      if (!d || !d.body) return;
+      var hgt = Math.max(d.documentElement.scrollHeight, d.body.scrollHeight);
+      f.style.height = hgt + 'px';
+      wrap.style.height = Math.ceil(hgt * scale) + 'px';
+    } catch (e) {}
+  });
+}
+document.querySelectorAll('figure.preview').forEach(function (fig) {
+  var f = fig.querySelector('iframe.site');
+  f.addEventListener('load', function () {
+    var id = fig.dataset.click;
+    if (id) { try { f.contentDocument.getElementById(id).click(); } catch (e) {} }
+    dopasuj();
+  });
+});
+window.addEventListener('load', dopasuj);
+window.addEventListener('beforeprint', dopasuj);
+
+document.querySelectorAll('figure.preview iframe.site').forEach(function (f, i) {
+  f.addEventListener('load', function () {
+    try {
+      var d = f.contentDocument;
+      if (i === 0) d.querySelector('.karta').style.boxShadow = '0 6px 18px rgba(0, 0, 0, 0.15)';
+      if (f.closest('.newsletter')) { d.querySelector('.box form button').click(); dopasuj(); }
+    } catch (e) {}
+  });
+});
+</script>
+</body>
+</html>

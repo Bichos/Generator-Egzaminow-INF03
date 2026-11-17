@@ -117,8 +117,9 @@ window.addEventListener('load', dopasuj);
 window.addEventListener('beforeprint', dopasuj);
 `;
 
-export function sheetDocument(title, body, extraCss = '') {
-  return wrapDocument(title, body, SHEET_CSS + EXTRA_CSS + extraCss, AUTOSIZE);
+// extraJs: kod wykonywany w dokumencie arkusza (np. efekty :hover na ilustracjach) - po AUTOSIZE.
+export function sheetDocument(title, body, extraCss = '', extraJs = '') {
+  return wrapDocument(title, body, SHEET_CSS + EXTRA_CSS + extraCss, AUTOSIZE + extraJs);
 }
 
 const KEY_CSS = `

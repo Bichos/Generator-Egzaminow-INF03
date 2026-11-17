@@ -1,0 +1,454 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #F4F4F4;
+    color: #1A1A1A;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.45;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+/* górny pasek */
+.gorny-pasek {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 4%;
+    background: #E9E9E9;
+    color: #555;
+    font-size: 0.8rem;
+}
+
+.gorny-prawa {
+    display: flex;
+    gap: 18px;
+}
+
+.gorny-prawa a:hover {
+    color: #0B5FD8;
+    text-decoration: underline;
+}
+
+/* nagłówek z menu (przyklejony) */
+.glowa {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 0 4%;
+    background: #0A2540;
+    color: #FFF;
+}
+
+.logo {
+    padding: 12px 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+}
+
+.logo span {
+    color: #FF4D5E;
+}
+
+.glowne {
+    overflow-x: auto;
+}
+
+.glowne ul {
+    display: flex;
+}
+
+.glowne a {
+    display: block;
+    padding: 18px 12px;
+    font-size: 0.92rem;
+    white-space: nowrap;
+}
+
+.glowne a:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* pasek „pilne” */
+.pilne {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 4%;
+    background: #FFF;
+    border-bottom: 1px solid #DDD;
+    font-size: 0.95rem;
+}
+
+.pilne strong {
+    padding: 3px 10px;
+    background: #D7263D;
+    color: #FFF;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.pilne a:hover {
+    text-decoration: underline;
+}
+
+/* kontener strony */
+.strona {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 4% 40px;
+}
+
+/* sekcja główna: duży artykuł + dwa małe */
+.hero {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+    height: 460px;
+}
+
+.hero article {
+    position: relative;
+    overflow: hidden;
+    border-radius: 6px;
+    color: #FFF;
+}
+
+.hero .glowny {
+    grid-row: 1 / 3;
+}
+
+.t1 { background: linear-gradient(135deg, #3A6073, #16222A); }
+.t2 { background: linear-gradient(135deg, #5B247A, #1BCEDF); }
+.t3 { background: linear-gradient(135deg, #134E5E, #71B280); }
+
+.podpis {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 40px 20px 18px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+}
+
+.etykieta {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 2px 8px;
+    background: #D7263D;
+    border-radius: 2px;
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.hero h2 {
+    font-size: 1.2rem;
+    line-height: 1.25;
+}
+
+.hero .glowny h2 {
+    font-size: 2rem;
+}
+
+.hero a:hover h2 {
+    text-decoration: underline;
+}
+
+.meta {
+    margin-top: 6px;
+    color: #AAA;
+    font-size: 0.8rem;
+}
+
+/* dwie kolumny treści */
+.tresc {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 24px;
+    align-items: start;
+}
+
+.naglowek-sekcji {
+    margin: 28px 0 14px;
+    padding-left: 10px;
+    border-left: 5px solid #D7263D;
+    font-size: 1.3rem;
+}
+
+.najnowsze li {
+    display: flex;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid #DDD;
+}
+
+.najnowsze time {
+    min-width: 48px;
+    color: #D7263D;
+    font-weight: bold;
+}
+
+.najnowsze a:hover {
+    color: #0B5FD8;
+}
+
+/* karty artykułów */
+.karty {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.karta {
+    overflow: hidden;
+    background: #FFF;
+    border-radius: 6px;
+    transition: box-shadow 0.2s;
+}
+
+.karta:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.obraz {
+    aspect-ratio: 16 / 9;
+}
+
+.o1 { background: linear-gradient(135deg, #614385, #516395); }
+.o2 { background: linear-gradient(135deg, #2193B0, #6DD5ED); }
+.o3 { background: linear-gradient(135deg, #EE9CA7, #FFDDE1); }
+
+.karta .tekst {
+    padding: 12px;
+}
+
+.kat {
+    color: #D7263D;
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.karta h3 {
+    margin: 4px 0 6px;
+    font-size: 1rem;
+    line-height: 1.3;
+}
+
+.karta h3 a:hover {
+    color: #0B5FD8;
+}
+
+.karta p {
+    color: #555;
+    font-size: 0.88rem;
+}
+
+.karta .meta {
+    color: #888;
+    font-size: 0.78rem;
+}
+
+/* kolumna boczna */
+.box {
+    margin-bottom: 16px;
+    padding: 16px;
+    background: #FFF;
+    border-radius: 6px;
+}
+
+.box h2 {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.popularne li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #EEE;
+    font-size: 0.92rem;
+}
+
+.popularne a:hover {
+    color: #0B5FD8;
+}
+
+.nr {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    background: #0A2540;
+    color: #FFF;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.nr.top {
+    background: #D7263D;
+}
+
+.pogoda {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.temp {
+    font-size: 2.4rem;
+    font-weight: bold;
+}
+
+.pogoda p {
+    color: #666;
+    font-size: 0.88rem;
+}
+
+.box form label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 0.88rem;
+}
+
+.box form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+}
+
+.box form button {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    background: #0A2540;
+    color: #FFF;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.box form button:hover {
+    background: #0B5FD8;
+}
+
+#komunikat {
+    margin-top: 8px;
+    font-size: 0.85rem;
+}
+
+.sukces {
+    color: #2E8B57;
+}
+
+.blad {
+    color: #D7263D;
+    font-weight: bold;
+}
+
+/* stopka */
+.stopka {
+    padding: 32px 4%;
+    background: #0A2540;
+    color: #B8C4D6;
+}
+
+.stopka-kolumny {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.stopka h4 {
+    margin-bottom: 8px;
+    color: #FFF;
+}
+
+.stopka li {
+    margin: 4px 0;
+    font-size: 0.9rem;
+}
+
+.stopka a:hover {
+    color: #FFF;
+    text-decoration: underline;
+}
+
+.prawa {
+    margin-top: 24px;
+    font-size: 0.82rem;
+    text-align: center;
+}
+
+/* mniejsze ekrany */
+@media (max-width: 900px) {
+    .hero {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        height: auto;
+    }
+
+    .hero article {
+        min-height: 200px;
+    }
+
+    .hero .glowny {
+        grid-row: auto;
+        min-height: 320px;
+    }
+
+    .hero .glowny h2 {
+        font-size: 1.5rem;
+    }
+
+    .tresc {
+        grid-template-columns: 1fr;
+    }
+
+    .stopka-kolumny {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .pogoda-mala {
+        display: none;
+    }
+
+    .pilne {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .karty {
+        grid-template-columns: 1fr;
+    }
+
+    .glowa {
+        gap: 12px;
+    }
+}

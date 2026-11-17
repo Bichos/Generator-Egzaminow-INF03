@@ -667,16 +667,6 @@ function dodajDoKoszyka(przycisk) {
     przycisk.innerHTML = 'W koszyku ✓';
     przycisk.disabled = true;
 }
-
-document.querySelectorAll('figure.preview:not(.mobile) iframe.site').forEach(function (f) {
-  f.addEventListener('load', function () {
-    try {
-      var karta = f.contentDocument.querySelectorAll('.oferta')[2];
-      karta.style.boxShadow = '0 6px 18px rgba(0, 0, 0, 0.15)';
-      karta.style.transform = 'translateY(-3px)';
-    } catch (e) {}
-  });
-});
 </script>
 </body>
 </html>
@@ -1294,6 +1284,16 @@ document.querySelectorAll('figure.preview').forEach(function (fig) {
 });
 window.addEventListener('load', dopasuj);
 window.addEventListener('beforeprint', dopasuj);
+
+document.querySelectorAll('figure.preview:not(.mobile) iframe.site').forEach(function (f) {
+  f.addEventListener('load', function () {
+    try {
+      var karta = f.contentDocument.querySelectorAll('.oferta')[2];
+      karta.style.boxShadow = '0 6px 18px rgba(0, 0, 0, 0.15)';
+      karta.style.transform = 'translateY(-3px)';
+    } catch (e) {}
+  });
+});
 </script>
 </body>
 </html>

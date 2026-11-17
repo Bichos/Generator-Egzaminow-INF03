@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INF.03-KU-SG – Kurier24 – klucz</title>
+<style>
+* { box-sizing: border-box; }
+html { background: #eef0f3; }
+body { margin: 0; padding: 16px; font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt; color: #111; line-height: 1.4; }
+.page { background: #fff; max-width: 210mm; margin: 0 auto; padding: 16mm; box-shadow: 0 1px 6px rgba(0,0,0,.15); }
+h1 { font-size: 16pt; margin: 0 0 6px; } h2 { font-size: 13pt; border-bottom: 2px solid #333; padding-bottom: 3px; margin-top: 22px; }
+pre { background: #f5f5f7; border: 1px solid #ddd; padding: 8px; white-space: pre-wrap; word-break: break-word; font-size: 9pt; }
+table.zo { border-collapse: collapse; width: 100%; font-size: 9.5pt; }
+table.zo th, table.zo td { border: 1px solid #999; padding: 4px 6px; vertical-align: top; text-align: left; }
+table.zo td:first-child, table.zo td:last-child { white-space: nowrap; text-align: center; }
+table.zo tr.res-head td { background: #eef2f7; } table.zo tr.sum td { font-weight: bold; }
+table.zo .note { font-size: 8.5pt; color: #444; margin: 3px 0 0; } table.zo tr { break-inside: avoid; }
+.small { font-size: 9pt; color: #444; }
+@media print { html, body { background: #fff; padding: 0; } .page { box-shadow: none; padding: 0; } }
+@page { size: A4; margin: 14mm; }
+</style>
+</head>
+<body>
+<section class="page">
+  <h1>Kurier24 – zasady oceniania i rozwiązanie</h1>
+  <p class="small">INF.03-KU-SG · baza kurier · archiwum kurier (hasło: <code>Kur!er24#News</code>). Każde kryterium oceniane jest zero-jedynkowo (spełnione – 1 pkt).</p>
+  <h2>Zasady oceniania</h2><table class="zo"><tr><th>Lp.</th><th>Elementy podlegające ocenie / kryteria oceny</th><th>Pkt</th></tr><tr class="res-head"><td>R.1</td><td><b>Rezultat 1: Operacje na bazie danych</b><p class="note">Uwaga: W przypadku oceny zrzutów należy uznać za prawidłowe, jeżeli widoczny jest cały obszar ekranu z widocznym paskiem zadań, a zapytanie ma charakter uniwersalny dla każdego zestawu danych.</p></td><td>7</td></tr><tr><td>R.1.1</td><td><label><input type="checkbox"> Wykonany import tabel do bazy danych kurier, co jest udokumentowane w pliku import w formacie PNG</label></td><td>1</td></tr><tr><td>R.1.2</td><td><label><input type="checkbox"> Zapisany plik kwerendy.txt zawierający co najmniej jedno zapytanie SQL wynikające z treści zadania</label></td><td>1</td></tr><tr><td>R.1.3</td><td><label><input type="checkbox"> Wykonane zapytanie 1. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT DATE_FORMAT(opublikowano, '%H:%i') AS godzina, tytul FROM artykuly ORDER BY opublikowano DESC LIMIT 6; oraz wynik działania udokumentowany zrzutem kw1, na którym widocznych jest dokładnie 6 wierszy od 10:42 „Wojewoda ostrzega…” do 09:22 „Szkoły wprowadzają…”, godziny w formacie GG:MM</label></td><td>1</td></tr><tr><td>R.1.4</td><td><label><input type="checkbox"> Wykonane zapytanie 2. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT tytul, zajawka, DATE_FORMAT(opublikowano, '%d.%m.%Y %H:%i') AS data FROM artykuly JOIN kategorie ON artykuly.kategorie_id = kategorie.id WHERE kategorie.nazwa = 'Biznes' ORDER BY opublikowano DESC LIMIT 3; oraz wynik działania udokumentowany zrzutem kw2, na którym widoczne są dokładnie 3 wiersze: „Inflacja w listopadzie…” (17.11.2026 08:40), „Polskie startupy…” (07:35), „Eksport rolno-spożywczy…” (05:30)</label></td><td>1</td></tr><tr><td>R.1.5</td><td><label><input type="checkbox"> Wykonane zapytanie 3. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT tytul FROM artykuly ORDER BY wyswietlenia DESC LIMIT 5; oraz wynik działania udokumentowany zrzutem kw3, na którym widocznych jest dokładnie 5 tytułów w kolejności: „Jak przygotować dom…”, „Pięć błędów…”, „Prognoza pogody…”, „Test: który smartfon…”, „Przepis na… zupę dyniową”</label></td><td>1</td></tr><tr><td>R.1.6</td><td><label><input type="checkbox"> Wykonane zapytanie 4. W pliku z kwerendami lub na zrzucie istnieje zapis np. SELECT kategorie.nazwa, COUNT(artykuly.id) AS liczba FROM kategorie JOIN artykuly ON artykuly.kategorie_id = kategorie.id GROUP BY kategorie.nazwa; oraz wynik działania udokumentowany zrzutem kw4, na którym widocznych jest 5 wierszy: Biznes 4, Kultura 1, Lifestyle 3, Polska 5, Technologia 2 (kolejność dowolna)</label></td><td>1</td></tr><tr><td>R.1.7</td><td><label><input type="checkbox"> Wykonane zapytanie 5. W pliku z kwerendami lub na zrzucie istnieje zapis np. UPDATE artykuly SET wyswietlenia = wyswietlenia + 1 WHERE id = 3; oraz wynik działania udokumentowany zrzutem kw5, na którym widoczny jest komunikat o zmianie 1 wiersza</label></td><td>1</td></tr><tr class="res-head"><td>R.2</td><td><b>Rezultat 2: Zawartość witryny internetowej</b><p class="note">Uwaga: W napisach widocznych na stronie dopuszcza się drobne błędy literowe, błędy wielkości liter i znaków diakrytycznych.</p></td><td>11</td></tr><tr><td>R.2.1</td><td><label><input type="checkbox"> Witryna zapisana w pliku index.php, jawnie zapisany standard kodowania polskich znaków, deklaracja &lt;!DOCTYPE html&gt;, język polski, meta viewport, tytuł „Kurier24 – wiadomości z kraju i ze świata”</label></td><td>1</td></tr><tr><td>R.2.2</td><td><label><input type="checkbox"> Bloki zdefiniowane zgodnie z ilustracją 3: div gorny-pasek, header glowa, div pilne, div strona z section hero i div tresc (main, aside boczna), footer stopka</label></td><td>1</td></tr><tr><td>R.2.3</td><td><label><input type="checkbox"> Górny pasek: data w span, blok gorny-prawa ze span pogoda-mala i dwoma odnośnikami</label></td><td>1</td></tr><tr><td>R.2.4</td><td><label><input type="checkbox"> Nagłówek: odnośnik logo do index.php z „24” w osobnym span, nav glowne z listą ośmiu odnośników</label></td><td>1</td></tr><tr><td>R.2.5</td><td><label><input type="checkbox"> Pasek pilne: tekst „Pilne” w znaczniku strong i odnośnik z treścią komunikatu</label></td><td>1</td></tr><tr><td>R.2.6</td><td><label><input type="checkbox"> Sekcja hero: trzy elementy article (klasy glowny t1, t2, t3), w każdym odnośnik podpis z etykietą (span) i nagłówkiem h2; paragraf meta tylko w pierwszym</label></td><td>1</td></tr><tr><td>R.2.7</td><td><label><input type="checkbox"> W main: trzy nagłówki h2 z klasą naglowek-sekcji („Najnowsze”, „Biznes”, „Sport”), lista ul najnowsze i dwie sekcje karty</label></td><td>1</td></tr><tr><td>R.2.8</td><td><label><input type="checkbox"> Sekcja Sport: trzy karty article z blokami obraz o1–o3, kategorią w span kat, nagłówkiem h3 z odnośnikiem, zajawką i paragrafem meta</label></td><td>1</td></tr><tr><td>R.2.9</td><td><label><input type="checkbox"> Panel boczny: trzy sekcje box z nagłówkami h2; lista ol popularne; blok pogoda ze span temp i strong „Białystok”</label></td><td>1</td></tr><tr><td>R.2.10</td><td><label><input type="checkbox"> Formularz newslettera: etykieta powiązana z polem przez for/id, pole typu email z podpowiedzią, przycisk „Zapisz się”, paragraf z id komunikat</label></td><td>1</td></tr><tr><td>R.2.11</td><td><label><input type="checkbox"> Stopka: stopka-kolumny z czterema blokami (h4 i lista trzech odnośników) oraz paragraf prawa „Stronę wykonał: ” z numerem zdającego</label></td><td>1</td></tr><tr class="res-head"><td>R.3</td><td><b>Rezultat 3: Działanie witryny internetowej</b><p class="note">Uwaga: Jeśli witryna nie uruchamia się z powodu błędów PHP – sprawdzić według kryteriów w kodzie źródłowym strony.</p></td><td>8</td></tr><tr><td>R.3.1</td><td><label><input type="checkbox"> Układ bloków po uruchomieniu w przeglądarce jest zgodny z ilustracjami 2 i 3; panel boczny ma 320 px szerokości</label></td><td>1</td></tr><tr><td>R.3.2</td><td><label><input type="checkbox"> Strona zawiera działające połączenie z zewnętrznym arkuszem stylów styl.css, formatowanie CSS pochodzi jedynie z tego arkusza</label></td><td>1</td></tr><tr><td>R.3.3</td><td><label><input type="checkbox"> Nagłówek z menu pozostaje przyklejony do górnej krawędzi okna podczas przewijania strony i leży nad treścią</label></td><td>1</td></tr><tr><td>R.3.4</td><td><label><input type="checkbox"> Lista „Najnowsze” zawiera 6 pozycji z godzinami od 10:42 do 09:22 (dane z bazy)</label></td><td>1</td></tr><tr><td>R.3.5</td><td><label><input type="checkbox"> Sekcja Biznes zawiera 3 karty z bazy (Inflacja…, Polskie startupy…, Eksport…) z kolejnymi gradientami o1, o2, o3 i datą publikacji</label></td><td>1</td></tr><tr><td>R.3.6</td><td><label><input type="checkbox"> „Najczęściej czytane” zawiera 5 tytułów z bazy; numery 1–3 są czerwone, 4–5 granatowe</label></td><td>1</td></tr><tr><td>R.3.7</td><td><label><input type="checkbox"> Kliknięcie „Zapisz się” z adresem zawierającym @ wyświetla zielony komunikat z wpisanym adresem; bez @ – czerwony pogrubiony komunikat o błędzie</label></td><td>1</td></tr><tr><td>R.3.8</td><td><label><input type="checkbox"> Przy szerokości do 900 px sekcja hero i treść są w jednej kolumnie, stopka w dwóch; do 560 px karty są jedna pod drugą, temperatura w górnym pasku ukryta, pasek „Pilne” w kolumnie</label></td><td>1</td></tr><tr class="res-head"><td>R.4</td><td><b>Rezultat 4: Styl CSS witryny internetowej</b><p class="note">Uwaga: Kryteria muszą działać na stronie (sprawdzić w inspektorze). Kryteria dotyczące selektorów znaczników są spełnione jedynie dla stylu zdefiniowanego selektorem znacznika.</p></td><td>33</td></tr><tr><td>R.4.1</td><td><label><input type="checkbox"> Ustawione domyślnie dla wszystkich selektorów (*): marginesy zewnętrzne i wewnętrzne 0, model pudełkowy border-box</label></td><td>1</td></tr><tr><td>R.4.2</td><td><label><input type="checkbox"> Ustawione dla selektora ciała strony: kolor tła #F4F4F4, kolor czcionki #1A1A1A, krój czcionki Arial, w przypadku braku Helvetica, a następnie sans-serif, wysokość linii 1,45. Dla selektora odnośnika: kolor dziedziczony, tekst bez podkreślenia. Dla selektorów listy punktowanej i numerowanej (ul, ol): brak punktorów i numeracji</label></td><td>1</td></tr><tr><td>R.4.3</td><td><label><input type="checkbox"> Ustawione dla klasy gorny-pasek: sposób wyświetlania elastyczny, lewa i prawa część rozsunięte do krawędzi (justify-content: space-between), marginesy wewnętrzne: górny i dolny 6 px, lewy i prawy 4%, kolor tła #E9E9E9, kolor czcionki #555, rozmiar czcionki 0,8 rem. Dla klasy gorny-prawa: sposób wyświetlania elastyczny, odstęp 18 px; gdy kursor znajdzie się na odnośniku w tym bloku, kolor czcionki zmienia się na #0B5FD8, a tekst jest podkreślony</label></td><td>1</td></tr><tr><td>R.4.4</td><td><label><input type="checkbox"> Ustawione dla klasy glowa: przyklejona do górnej krawędzi okna podczas przewijania (position: sticky, top: 0), leżąca nad treścią (z-index: 20), sposób wyświetlania elastyczny, elementy wyśrodkowane w pionie, odstęp 28 px, marginesy wewnętrzne: lewy i prawy 4%, górny i dolny 0, kolor tła #0A2540, biały kolor czcionki</label></td><td>1</td></tr><tr><td>R.4.5</td><td><label><input type="checkbox"> Ustawione dla klasy logo: marginesy wewnętrzne: górny i dolny 12 px, rozmiar czcionki 1,8 rem, pogrubienie, odstęp między literami -0,5 px; element span w logo ma kolor #FF4D5E</label></td><td>1</td></tr><tr><td>R.4.6</td><td><label><input type="checkbox"> Ustawione dla klasy glowne: poziomy pasek przewijania widoczny jedynie wtedy, gdy pozycje się nie mieszczą (overflow-x: auto); lista w menu: sposób wyświetlania elastyczny (pozycje w rzędzie, bez odstępów)</label></td><td>1</td></tr><tr><td>R.4.7</td><td><label><input type="checkbox"> Ustawione dla odnośników w menu: sposób wyświetlania blokowy, marginesy wewnętrzne: górny i dolny 18 px, lewy i prawy 12 px, rozmiar czcionki 0,92 rem, tekst bez łamania wierszy; gdy kursor znajdzie się na odnośniku, kolor tła zmienia się na biały o nieprzezroczystości 0,12 (rgba(255, 255, 255, 0.12))</label></td><td>1</td></tr><tr><td>R.4.8</td><td><label><input type="checkbox"> Ustawione dla klasy pilne: sposób wyświetlania elastyczny, elementy wyśrodkowane w pionie, odstęp 14 px, marginesy wewnętrzne: górny i dolny 10 px, lewy i prawy 4%, biały kolor tła, dolne obramowanie linią ciągłą 1 px w kolorze #DDD, rozmiar czcionki 0,95 rem; gdy kursor znajdzie się na odnośniku w tym bloku, tekst jest podkreślony</label></td><td>1</td></tr><tr><td>R.4.9</td><td><label><input type="checkbox"> Ustawione dla tekstu ważnego (strong) w klasie pilne: marginesy wewnętrzne: górny i dolny 3 px, lewy i prawy 10 px, kolor tła #D7263D, biały kolor czcionki, rozmiar czcionki 0,8 rem, wszystkie litery wielkie uzyskane za pomocą CSS (text-transform)</label></td><td>1</td></tr><tr><td>R.4.10</td><td><label><input type="checkbox"> Ustawione dla klasy strona: maksymalna szerokość 1200 px, blok wyśrodkowany w poziomie (marginesy lewy i prawy auto), marginesy wewnętrzne: górny 20 px, lewy i prawy 4%, dolny 40 px</label></td><td>1</td></tr><tr><td>R.4.11</td><td><label><input type="checkbox"> Ustawione dla klasy hero: sposób wyświetlania w postaci siatki (grid) z dwiema kolumnami w proporcji 2 : 1 (2fr 1fr) i dwoma równymi wierszami (1fr 1fr), odstęp 12 px, wysokość 460 px. Pierwszy artykuł (klasa glowny) zajmuje oba wiersze (grid-row: 1 / 3)</label></td><td>1</td></tr><tr><td>R.4.12</td><td><label><input type="checkbox"> Ustawione dla artykułów w sekcji hero: pozycjonowanie względne, ukryta zawartość wychodząca poza element (overflow: hidden), zaokrąglenie rogów 6 px, biały kolor czcionki. Tło artykułów – gradient liniowy ukośny (135 stopni): klasa t1 od #3A6073 do #16222A, klasa t2 od #5B247A do #1BCEDF, klasa t3 od #134E5E do #71B280</label></td><td>1</td></tr><tr><td>R.4.13</td><td><label><input type="checkbox"> Ustawione dla klasy podpis: pozycjonowanie bezwzględne przy lewej, prawej i dolnej krawędzi artykułu (left, right, bottom: 0), marginesy wewnętrzne: górny 40 px, lewy i prawy 20 px, dolny 18 px, tło – gradient liniowy od dołu (to top) od czarnego o nieprzezroczystości 0,85 do przezroczystego</label></td><td>1</td></tr><tr><td>R.4.14</td><td><label><input type="checkbox"> Ustawione dla klasy etykieta: sposób wyświetlania inline-block, dolny margines 8 px, marginesy wewnętrzne: górny i dolny 2 px, lewy i prawy 8 px, kolor tła #D7263D, zaokrąglenie rogów 2 px, rozmiar czcionki 0,72 rem, pogrubienie, wielkie litery uzyskane za pomocą CSS</label></td><td>1</td></tr><tr><td>R.4.15</td><td><label><input type="checkbox"> Ustawione dla nagłówków w sekcji hero: rozmiar czcionki 1,2 rem, wysokość linii 1,25; w artykule glowny rozmiar 2 rem; gdy kursor znajdzie się na odnośniku w sekcji hero, nagłówek jest podkreślony. Dla klasy meta: górny margines 6 px, kolor #AAA, rozmiar czcionki 0,8 rem</label></td><td>1</td></tr><tr><td>R.4.16</td><td><label><input type="checkbox"> Ustawione dla klasy tresc: siatka z dwiema kolumnami: lewa zajmuje pozostałe miejsce (1fr), prawa ma 320 px, odstęp 24 px, elementy wyrównane do góry (align-items: start)</label></td><td>1</td></tr><tr><td>R.4.17</td><td><label><input type="checkbox"> Ustawione dla klasy naglowek-sekcji: marginesy zewnętrzne: górny 28 px, dolny 14 px, lewy i prawy 0, lewy margines wewnętrzny 10 px, lewe obramowanie linią ciągłą 5 px w kolorze #D7263D, rozmiar czcionki 1,3 rem</label></td><td>1</td></tr><tr><td>R.4.18</td><td><label><input type="checkbox"> Ustawione dla elementów listy najnowsze: sposób wyświetlania elastyczny, odstęp 14 px, marginesy wewnętrzne: górny i dolny 10 px, dolne obramowanie 1 px #DDD. Dla znacznika time w tej liście: minimalna szerokość 48 px, kolor #D7263D, pogrubienie; gdy kursor znajdzie się na odnośniku listy, kolor czcionki zmienia się na #0B5FD8</label></td><td>1</td></tr><tr><td>R.4.19</td><td><label><input type="checkbox"> Ustawione dla klasy karty: siatka z trzema równymi kolumnami (repeat(3, 1fr)), odstęp 16 px</label></td><td>1</td></tr><tr><td>R.4.20</td><td><label><input type="checkbox"> Ustawione dla klasy karta: ukryta zawartość wychodząca poza element, biały kolor tła, zaokrąglenie rogów 6 px, płynne przejście cienia w czasie 0,2 s; gdy kursor znajdzie się na karcie, pojawia się cień 0 6px 18px w kolorze czarnym o nieprzezroczystości 0,15</label></td><td>1</td></tr><tr><td>R.4.21</td><td><label><input type="checkbox"> Ustawione dla klasy obraz: proporcje 16 : 9 (aspect-ratio). Tło – gradient ukośny (135 stopni): klasa o1 od #614385 do #516395, klasa o2 od #2193B0 do #6DD5ED, klasa o3 od #EE9CA7 do #FFDDE1</label></td><td>1</td></tr><tr><td>R.4.22</td><td><label><input type="checkbox"> Ustawione dla bloku tekst w karcie: marginesy wewnętrzne 12 px. Dla klasy kat: kolor #D7263D, rozmiar czcionki 0,72 rem, pogrubienie, wielkie litery uzyskane za pomocą CSS</label></td><td>1</td></tr><tr><td>R.4.23</td><td><label><input type="checkbox"> Ustawione dla nagłówka trzeciego stopnia w karcie: marginesy zewnętrzne: górny 4 px, lewy i prawy 0, dolny 6 px, rozmiar czcionki 1 rem, wysokość linii 1,3; gdy kursor znajdzie się na odnośniku w nagłówku, kolor czcionki zmienia się na #0B5FD8. Paragrafy w karcie: kolor #555, rozmiar 0,88 rem; paragraf meta w karcie: kolor #888, rozmiar 0,78 rem</label></td><td>1</td></tr><tr><td>R.4.24</td><td><label><input type="checkbox"> Ustawione dla klasy box: dolny margines 16 px, marginesy wewnętrzne 16 px, biały kolor tła, zaokrąglenie rogów 6 px; nagłówek drugiego stopnia w boksie: dolny margines 10 px, rozmiar czcionki 1,1 rem</label></td><td>1</td></tr><tr><td>R.4.25</td><td><label><input type="checkbox"> Ustawione dla elementów listy popularne: sposób wyświetlania elastyczny, elementy wyśrodkowane w pionie, odstęp 12 px, marginesy wewnętrzne: górny i dolny 8 px, dolne obramowanie 1 px #EEE, rozmiar czcionki 0,92 rem; gdy kursor znajdzie się na odnośniku, kolor czcionki zmienia się na #0B5FD8</label></td><td>1</td></tr><tr><td>R.4.26</td><td><label><input type="checkbox"> Ustawione dla klasy nr: element nie zmienia rozmiaru w układzie elastycznym (flex: none), siatka z zawartością wyśrodkowaną w obu kierunkach (place-items: center), szerokość i wysokość 28 px, kolor tła #0A2540, biały kolor czcionki, kształt koła (zaokrąglenie 50%), rozmiar czcionki 0,85 rem, pogrubienie. Element z klasami nr i top ma kolor tła #D7263D</label></td><td>1</td></tr><tr><td>R.4.27</td><td><label><input type="checkbox"> Ustawione dla klasy pogoda: sposób wyświetlania elastyczny, elementy wyśrodkowane w pionie, odstęp 14 px. Dla klasy temp: rozmiar czcionki 2,4 rem, pogrubienie. Paragraf w bloku pogoda: kolor #666, rozmiar czcionki 0,88 rem</label></td><td>1</td></tr><tr><td>R.4.28</td><td><label><input type="checkbox"> Ustawione dla etykiety formularza w boksie: sposób wyświetlania blokowy, dolny margines 8 px, kolor #555, rozmiar czcionki 0,88 rem. Dla pola formularza: szerokość 100%, marginesy wewnętrzne 10 px, obramowanie 1 px linią ciągłą #CCC, zaokrąglenie rogów 4 px</label></td><td>1</td></tr><tr><td>R.4.29</td><td><label><input type="checkbox"> Ustawione dla przycisku formularza: szerokość 100%, górny margines 8 px, marginesy wewnętrzne 10 px, kolor tła #0A2540, biały pogrubiony tekst, brak obramowania, zaokrąglenie rogów 4 px, kursor w kształcie wskazującej dłoni; gdy kursor znajdzie się na przycisku, kolor tła zmienia się na #0B5FD8</label></td><td>1</td></tr><tr><td>R.4.30</td><td><label><input type="checkbox"> Ustawione dla identyfikatora komunikat: górny margines 8 px, rozmiar czcionki 0,85 rem. Dla klasy sukces: kolor #2E8B57. Dla klasy blad: kolor #D7263D, pogrubienie</label></td><td>1</td></tr><tr><td>R.4.31</td><td><label><input type="checkbox"> Ustawione dla klasy stopka: marginesy wewnętrzne: górny i dolny 32 px, lewy i prawy 4%, kolor tła #0A2540, kolor czcionki #B8C4D6. Dla klasy stopka-kolumny: siatka z czterema równymi kolumnami, odstęp 24 px. Nagłówki w stopce: dolny margines 8 px, biały kolor czcionki; elementy list: marginesy zewnętrzne górny i dolny 4 px, rozmiar czcionki 0,9 rem; gdy kursor znajdzie się na odnośniku w stopce: biały kolor i podkreślenie. Dla klasy prawa: górny margines 24 px, rozmiar 0,82 rem, tekst wyśrodkowany</label></td><td>1</td></tr><tr><td>R.4.32</td><td><label><input type="checkbox"> Ustawione w przypadku ekranów o szerokości do 900 px: sekcja hero ma jedną kolumnę, automatyczne wiersze i automatyczną wysokość; artykuły hero mają minimalną wysokość 200 px, artykuł glowny zajmuje zwykły wiersz (grid-row: auto), ma minimalną wysokość 320 px i nagłówek 1,5 rem; klasa tresc ma jedną kolumnę (panel boczny pod treścią), a stopka-kolumny dwie kolumny</label></td><td>1</td></tr><tr><td>R.4.33</td><td><label><input type="checkbox"> Ustawione w przypadku ekranów o szerokości do 560 px (ilustracja 5): temperatura w górnym pasku (pogoda-mala) jest ukryta, pasek pilne układa elementy jeden pod drugim (flex-direction: column), wyrównane do lewej, z odstępem 6 px, karty są w jednej kolumnie, a odstęp w nagłówku glowa wynosi 12 px</label></td><td>1</td></tr><tr class="res-head"><td>R.5</td><td><b>Rezultat 5: Skrypty</b><p class="note">Uwaga: Kryteria należy sprawdzić w kodzie źródłowym oraz na działającej stronie (XAMPP).</p></td><td>11</td></tr><tr><td>R.5.1</td><td><label><input type="checkbox"> Skrypt PHP łączy się z serwerem MySQL na localhost, użytkownik root bez hasła, baza kurier (np. mysqli_connect)</label></td><td>1</td></tr><tr><td>R.5.2</td><td><label><input type="checkbox"> Skrypt 1 wysyła zapytanie 1 i dla każdego rekordu tworzy element li z godziną w znaczniku time i tytułem w odnośniku</label></td><td>1</td></tr><tr><td>R.5.3</td><td><label><input type="checkbox"> Skrypt 2 wysyła zapytanie 2 i dla każdego rekordu tworzy element article z klasą karta, blokiem obraz i blokiem tekst z kategorią, nagłówkiem h3 z odnośnikiem, zajawką i datą w paragrafie meta</label></td><td>1</td></tr><tr><td>R.5.4</td><td><label><input type="checkbox"> Skrypt 2 nadaje kolejnym kartom klasy o1, o2, o3 (licznik w pętli)</label></td><td>1</td></tr><tr><td>R.5.5</td><td><label><input type="checkbox"> Skrypt 3 wysyła zapytanie 3 i dla każdego tytułu tworzy element li ze span nr z numerem pozycji i odnośnikiem</label></td><td>1</td></tr><tr><td>R.5.6</td><td><label><input type="checkbox"> Skrypt 3 dodaje klasę top tylko trzem pierwszym pozycjom</label></td><td>1</td></tr><tr><td>R.5.7</td><td><label><input type="checkbox"> Na końcu skryptu zamykane jest połączenie z serwerem (np. mysqli_close)</label></td><td>1</td></tr><tr><td>R.5.8</td><td><label><input type="checkbox"> Skrypt 4 jest napisany w języku JavaScript, uruchamiany kliknięciem przycisku „Zapisz się”, odczytuje wartość pola email</label></td><td>1</td></tr><tr><td>R.5.9</td><td><label><input type="checkbox"> Skrypt 4 sprawdza obecność znaku @ i wyświetla odpowiedni komunikat w paragrafie komunikat</label></td><td>1</td></tr><tr><td>R.5.10</td><td><label><input type="checkbox"> Skrypt 4 nadaje paragrafowi klasę sukces lub blad zależnie od wyniku sprawdzenia</label></td><td>1</td></tr><tr><td>R.5.11</td><td><label><input type="checkbox"> Zastosowano znaczące nazewnictwo zmiennych i funkcji</label></td><td>1</td></tr><tr class="sum"><td></td><td>Razem</td><td>70</td></tr></table>
+  <h2>Rozwiązanie wzorcowe</h2><h4>kwerendy.txt</h4><pre>-- Zapytanie 1
+SELECT DATE_FORMAT(opublikowano, '%H:%i') AS godzina, tytul FROM artykuly ORDER BY opublikowano DESC LIMIT 6;
+-- Zapytanie 2
+SELECT tytul, zajawka, DATE_FORMAT(opublikowano, '%d.%m.%Y %H:%i') AS data FROM artykuly JOIN kategorie ON artykuly.kategorie_id = kategorie.id WHERE kategorie.nazwa = 'Biznes' ORDER BY opublikowano DESC LIMIT 3;
+-- Zapytanie 3
+SELECT tytul FROM artykuly ORDER BY wyswietlenia DESC LIMIT 5;
+-- Zapytanie 4
+SELECT kategorie.nazwa, COUNT(artykuly.id) AS liczba FROM kategorie JOIN artykuly ON artykuly.kategorie_id = kategorie.id GROUP BY kategorie.nazwa;
+-- Zapytanie 5
+UPDATE artykuly SET wyswietlenia = wyswietlenia + 1 WHERE id = 3;
+</pre><h4>index.php</h4><pre>&lt;?php
+$polaczenie = mysqli_connect('localhost', 'root', '', 'kurier');
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pl&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Kurier24 – wiadomości z kraju i ze świata&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;styl.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;gorny-pasek&quot;&gt;
+        &lt;span&gt;wtorek, 17 listopada 2026&lt;/span&gt;
+        &lt;div class=&quot;gorny-prawa&quot;&gt;
+            &lt;span class=&quot;pogoda-mala&quot;&gt;Białystok 4°C&lt;/span&gt;
+            &lt;a href=&quot;#&quot;&gt;Newsletter&lt;/a&gt;
+            &lt;a href=&quot;#&quot;&gt;Zaloguj się&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;header class=&quot;glowa&quot;&gt;
+        &lt;a href=&quot;index.php&quot; class=&quot;logo&quot;&gt;KURIER&lt;span&gt;24&lt;/span&gt;&lt;/a&gt;
+        &lt;nav class=&quot;glowne&quot;&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Wiadomości&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Polska&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Świat&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Biznes&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Sport&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Kultura&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Technologia&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Lifestyle&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;div class=&quot;pilne&quot;&gt;
+        &lt;strong&gt;Pilne&lt;/strong&gt;
+        &lt;a href=&quot;#&quot;&gt;Zmiany w rozkładach pociągów od grudnia. Sprawdź, które połączenia znikną&lt;/a&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;strona&quot;&gt;
+        &lt;section class=&quot;hero&quot;&gt;
+            &lt;article class=&quot;glowny t1&quot;&gt;
+                &lt;a href=&quot;#&quot; class=&quot;podpis&quot;&gt;
+                    &lt;span class=&quot;etykieta&quot;&gt;Polska&lt;/span&gt;
+                    &lt;h2&gt;Pierwszy śnieg paraliżuje drogi na wschodzie kraju&lt;/h2&gt;
+                    &lt;p class=&quot;meta&quot;&gt;12 min temu · 4 komentarze&lt;/p&gt;
+                &lt;/a&gt;
+            &lt;/article&gt;
+            &lt;article class=&quot;t2&quot;&gt;
+                &lt;a href=&quot;#&quot; class=&quot;podpis&quot;&gt;
+                    &lt;span class=&quot;etykieta&quot;&gt;Świat&lt;/span&gt;
+                    &lt;h2&gt;Szczyt klimatyczny zakończony kompromisem&lt;/h2&gt;
+                &lt;/a&gt;
+            &lt;/article&gt;
+            &lt;article class=&quot;t3&quot;&gt;
+                &lt;a href=&quot;#&quot; class=&quot;podpis&quot;&gt;
+                    &lt;span class=&quot;etykieta&quot;&gt;Sport&lt;/span&gt;
+                    &lt;h2&gt;Biało-czerwoni wygrywają po dramatycznej końcówce&lt;/h2&gt;
+                &lt;/a&gt;
+            &lt;/article&gt;
+        &lt;/section&gt;
+
+        &lt;div class=&quot;tresc&quot;&gt;
+            &lt;main&gt;
+                &lt;h2 class=&quot;naglowek-sekcji&quot;&gt;Najnowsze&lt;/h2&gt;
+                &lt;ul class=&quot;najnowsze&quot;&gt;
+&lt;?php
+// skrypt 1 - najnowsze wiadomości
+$zapytanie = &quot;SELECT DATE_FORMAT(opublikowano, '%H:%i') AS godzina, tytul FROM artykuly ORDER BY opublikowano DESC LIMIT 6;&quot;;
+$wynik = mysqli_query($polaczenie, $zapytanie);
+while ($wiersz = mysqli_fetch_row($wynik)) {
+    echo &quot;&lt;li&gt;&lt;time&gt;$wiersz[0]&lt;/time&gt;&lt;a href='#'&gt;$wiersz[1]&lt;/a&gt;&lt;/li&gt;&quot;;
+}
+?&gt;
+                &lt;/ul&gt;
+
+                &lt;h2 class=&quot;naglowek-sekcji&quot;&gt;Biznes&lt;/h2&gt;
+                &lt;section class=&quot;karty&quot;&gt;
+&lt;?php
+// skrypt 2 - karty działu Biznes
+$zapytanie = &quot;SELECT tytul, zajawka, DATE_FORMAT(opublikowano, '%d.%m.%Y %H:%i') AS data FROM artykuly JOIN kategorie ON artykuly.kategorie_id = kategorie.id WHERE kategorie.nazwa = 'Biznes' ORDER BY opublikowano DESC LIMIT 3;&quot;;
+$wynik = mysqli_query($polaczenie, $zapytanie);
+$numer = 1;
+while ($wiersz = mysqli_fetch_row($wynik)) {
+    echo &quot;&lt;article class='karta'&gt;&quot;;
+    echo &quot;&lt;div class='obraz o$numer'&gt;&lt;/div&gt;&quot;;
+    echo &quot;&lt;div class='tekst'&gt;&quot;;
+    echo &quot;&lt;span class='kat'&gt;Biznes&lt;/span&gt;&quot;;
+    echo &quot;&lt;h3&gt;&lt;a href='#'&gt;$wiersz[0]&lt;/a&gt;&lt;/h3&gt;&quot;;
+    echo &quot;&lt;p&gt;$wiersz[1]&lt;/p&gt;&quot;;
+    echo &quot;&lt;p class='meta'&gt;$wiersz[2]&lt;/p&gt;&quot;;
+    echo &quot;&lt;/div&gt;&lt;/article&gt;&quot;;
+    $numer++;
+}
+?&gt;
+                &lt;/section&gt;
+
+                &lt;h2 class=&quot;naglowek-sekcji&quot;&gt;Sport&lt;/h2&gt;
+                &lt;section class=&quot;karty&quot;&gt;
+                    &lt;article class=&quot;karta&quot;&gt;
+                        &lt;div class=&quot;obraz o1&quot;&gt;&lt;/div&gt;
+                        &lt;div class=&quot;tekst&quot;&gt;
+                            &lt;span class=&quot;kat&quot;&gt;Sport&lt;/span&gt;
+                            &lt;h3&gt;&lt;a href=&quot;#&quot;&gt;Siatkarze awansują do półfinału turnieju&lt;/a&gt;&lt;/h3&gt;
+                            &lt;p&gt;Po zaciętym meczu rozstrzygnął dopiero piąty set.&lt;/p&gt;
+                            &lt;p class=&quot;meta&quot;&gt;1 godz. temu&lt;/p&gt;
+                        &lt;/div&gt;
+                    &lt;/article&gt;
+                    &lt;article class=&quot;karta&quot;&gt;
+                        &lt;div class=&quot;obraz o2&quot;&gt;&lt;/div&gt;
+                        &lt;div class=&quot;tekst&quot;&gt;
+                            &lt;span class=&quot;kat&quot;&gt;Sport&lt;/span&gt;
+                            &lt;h3&gt;&lt;a href=&quot;#&quot;&gt;Rekord życiowy młodej lekkoatletki&lt;/a&gt;&lt;/h3&gt;
+                            &lt;p&gt;Zawodniczka poprawiła swój wynik o prawie sekundę.&lt;/p&gt;
+                            &lt;p class=&quot;meta&quot;&gt;4 godz. temu&lt;/p&gt;
+                        &lt;/div&gt;
+                    &lt;/article&gt;
+                    &lt;article class=&quot;karta&quot;&gt;
+                        &lt;div class=&quot;obraz o3&quot;&gt;&lt;/div&gt;
+                        &lt;div class=&quot;tekst&quot;&gt;
+                            &lt;span class=&quot;kat&quot;&gt;Sport&lt;/span&gt;
+                            &lt;h3&gt;&lt;a href=&quot;#&quot;&gt;Szachowy turniej przyciągnął ponad 300 uczestników&lt;/a&gt;&lt;/h3&gt;
+                            &lt;p&gt;Najmłodszy z zawodników miał dopiero siedem lat.&lt;/p&gt;
+                            &lt;p class=&quot;meta&quot;&gt;6 godz. temu&lt;/p&gt;
+                        &lt;/div&gt;
+                    &lt;/article&gt;
+                &lt;/section&gt;
+            &lt;/main&gt;
+
+            &lt;aside class=&quot;boczna&quot;&gt;
+                &lt;section class=&quot;box&quot;&gt;
+                    &lt;h2&gt;Najczęściej czytane&lt;/h2&gt;
+                    &lt;ol class=&quot;popularne&quot;&gt;
+&lt;?php
+// skrypt 3 - najczęściej czytane
+$zapytanie = &quot;SELECT tytul FROM artykuly ORDER BY wyswietlenia DESC LIMIT 5;&quot;;
+$wynik = mysqli_query($polaczenie, $zapytanie);
+$numer = 1;
+while ($wiersz = mysqli_fetch_row($wynik)) {
+    if ($numer &lt;= 3) {
+        echo &quot;&lt;li&gt;&lt;span class='nr top'&gt;$numer&lt;/span&gt;&lt;a href='#'&gt;$wiersz[0]&lt;/a&gt;&lt;/li&gt;&quot;;
+    } else {
+        echo &quot;&lt;li&gt;&lt;span class='nr'&gt;$numer&lt;/span&gt;&lt;a href='#'&gt;$wiersz[0]&lt;/a&gt;&lt;/li&gt;&quot;;
+    }
+    $numer++;
+}
+?&gt;
+                    &lt;/ol&gt;
+                &lt;/section&gt;
+
+                &lt;section class=&quot;box&quot;&gt;
+                    &lt;h2&gt;Pogoda&lt;/h2&gt;
+                    &lt;div class=&quot;pogoda&quot;&gt;
+                        &lt;span class=&quot;temp&quot;&gt;4°C&lt;/span&gt;
+                        &lt;div&gt;
+                            &lt;strong&gt;Białystok&lt;/strong&gt;
+                            &lt;p&gt;Pochmurno, wiatr 12 km/h&lt;/p&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/section&gt;
+
+                &lt;section class=&quot;box&quot;&gt;
+                    &lt;h2&gt;Newsletter&lt;/h2&gt;
+                    &lt;form action=&quot;#&quot;&gt;
+                        &lt;label for=&quot;email&quot;&gt;Codzienne podsumowanie na e-mail&lt;/label&gt;
+                        &lt;input type=&quot;email&quot; id=&quot;email&quot; placeholder=&quot;Twój adres e-mail&quot;&gt;
+                        &lt;button type=&quot;button&quot; onclick=&quot;zapiszNewsletter()&quot;&gt;Zapisz się&lt;/button&gt;
+                    &lt;/form&gt;
+                    &lt;p id=&quot;komunikat&quot;&gt;&lt;/p&gt;
+                &lt;/section&gt;
+            &lt;/aside&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;footer class=&quot;stopka&quot;&gt;
+        &lt;div class=&quot;stopka-kolumny&quot;&gt;
+            &lt;div&gt;
+                &lt;h4&gt;Serwisy&lt;/h4&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Wiadomości&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Sport&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Biznes&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;h4&gt;Redakcja&lt;/h4&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;O nas&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Zespół&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Kontakt&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;h4&gt;Reklama&lt;/h4&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Oferta&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Cennik&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Media kit&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;h4&gt;Pomoc&lt;/h4&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Regulamin&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Prywatność&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Ustawienia cookies&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;p class=&quot;prawa&quot;&gt;Stronę wykonał: 00&lt;/p&gt;
+    &lt;/footer&gt;
+    &lt;script src=&quot;skrypt.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?php
+mysqli_close($polaczenie);
+?&gt;
+</pre><h4>styl.css</h4><pre>* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #F4F4F4;
+    color: #1A1A1A;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.45;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+/* górny pasek */
+.gorny-pasek {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 4%;
+    background: #E9E9E9;
+    color: #555;
+    font-size: 0.8rem;
+}
+
+.gorny-prawa {
+    display: flex;
+    gap: 18px;
+}
+
+.gorny-prawa a:hover {
+    color: #0B5FD8;
+    text-decoration: underline;
+}
+
+/* nagłówek z menu (przyklejony) */
+.glowa {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 0 4%;
+    background: #0A2540;
+    color: #FFF;
+}
+
+.logo {
+    padding: 12px 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+}
+
+.logo span {
+    color: #FF4D5E;
+}
+
+.glowne {
+    overflow-x: auto;
+}
+
+.glowne ul {
+    display: flex;
+}
+
+.glowne a {
+    display: block;
+    padding: 18px 12px;
+    font-size: 0.92rem;
+    white-space: nowrap;
+}
+
+.glowne a:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* pasek „pilne” */
+.pilne {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 4%;
+    background: #FFF;
+    border-bottom: 1px solid #DDD;
+    font-size: 0.95rem;
+}
+
+.pilne strong {
+    padding: 3px 10px;
+    background: #D7263D;
+    color: #FFF;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.pilne a:hover {
+    text-decoration: underline;
+}
+
+/* kontener strony */
+.strona {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 4% 40px;
+}
+
+/* sekcja główna: duży artykuł + dwa małe */
+.hero {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+    height: 460px;
+}
+
+.hero article {
+    position: relative;
+    overflow: hidden;
+    border-radius: 6px;
+    color: #FFF;
+}
+
+.hero .glowny {
+    grid-row: 1 / 3;
+}
+
+.t1 { background: linear-gradient(135deg, #3A6073, #16222A); }
+.t2 { background: linear-gradient(135deg, #5B247A, #1BCEDF); }
+.t3 { background: linear-gradient(135deg, #134E5E, #71B280); }
+
+.podpis {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 40px 20px 18px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+}
+
+.etykieta {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 2px 8px;
+    background: #D7263D;
+    border-radius: 2px;
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.hero h2 {
+    font-size: 1.2rem;
+    line-height: 1.25;
+}
+
+.hero .glowny h2 {
+    font-size: 2rem;
+}
+
+.hero a:hover h2 {
+    text-decoration: underline;
+}
+
+.meta {
+    margin-top: 6px;
+    color: #AAA;
+    font-size: 0.8rem;
+}
+
+/* dwie kolumny treści */
+.tresc {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 24px;
+    align-items: start;
+}
+
+.naglowek-sekcji {
+    margin: 28px 0 14px;
+    padding-left: 10px;
+    border-left: 5px solid #D7263D;
+    font-size: 1.3rem;
+}
+
+.najnowsze li {
+    display: flex;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid #DDD;
+}
+
+.najnowsze time {
+    min-width: 48px;
+    color: #D7263D;
+    font-weight: bold;
+}
+
+.najnowsze a:hover {
+    color: #0B5FD8;
+}
+
+/* karty artykułów */
+.karty {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.karta {
+    overflow: hidden;
+    background: #FFF;
+    border-radius: 6px;
+    transition: box-shadow 0.2s;
+}
+
+.karta:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.obraz {
+    aspect-ratio: 16 / 9;
+}
+
+.o1 { background: linear-gradient(135deg, #614385, #516395); }
+.o2 { background: linear-gradient(135deg, #2193B0, #6DD5ED); }
+.o3 { background: linear-gradient(135deg, #EE9CA7, #FFDDE1); }
+
+.karta .tekst {
+    padding: 12px;
+}
+
+.kat {
+    color: #D7263D;
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.karta h3 {
+    margin: 4px 0 6px;
+    font-size: 1rem;
+    line-height: 1.3;
+}
+
+.karta h3 a:hover {
+    color: #0B5FD8;
+}
+
+.karta p {
+    color: #555;
+    font-size: 0.88rem;
+}
+
+.karta .meta {
+    color: #888;
+    font-size: 0.78rem;
+}
+
+/* kolumna boczna */
+.box {
+    margin-bottom: 16px;
+    padding: 16px;
+    background: #FFF;
+    border-radius: 6px;
+}
+
+.box h2 {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.popularne li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #EEE;
+    font-size: 0.92rem;
+}
+
+.popularne a:hover {
+    color: #0B5FD8;
+}
+
+.nr {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    background: #0A2540;
+    color: #FFF;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.nr.top {
+    background: #D7263D;
+}
+
+.pogoda {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.temp {
+    font-size: 2.4rem;
+    font-weight: bold;
+}
+
+.pogoda p {
+    color: #666;
+    font-size: 0.88rem;
+}
+
+.box form label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 0.88rem;
+}
+
+.box form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+}
+
+.box form button {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    background: #0A2540;
+    color: #FFF;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.box form button:hover {
+    background: #0B5FD8;
+}
+
+#komunikat {
+    margin-top: 8px;
+    font-size: 0.85rem;
+}
+
+.sukces {
+    color: #2E8B57;
+}
+
+.blad {
+    color: #D7263D;
+    font-weight: bold;
+}
+
+/* stopka */
+.stopka {
+    padding: 32px 4%;
+    background: #0A2540;
+    color: #B8C4D6;
+}
+
+.stopka-kolumny {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.stopka h4 {
+    margin-bottom: 8px;
+    color: #FFF;
+}
+
+.stopka li {
+    margin: 4px 0;
+    font-size: 0.9rem;
+}
+
+.stopka a:hover {
+    color: #FFF;
+    text-decoration: underline;
+}
+
+.prawa {
+    margin-top: 24px;
+    font-size: 0.82rem;
+    text-align: center;
+}
+
+/* mniejsze ekrany */
+@media (max-width: 900px) {
+    .hero {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        height: auto;
+    }
+
+    .hero article {
+        min-height: 200px;
+    }
+
+    .hero .glowny {
+        grid-row: auto;
+        min-height: 320px;
+    }
+
+    .hero .glowny h2 {
+        font-size: 1.5rem;
+    }
+
+    .tresc {
+        grid-template-columns: 1fr;
+    }
+
+    .stopka-kolumny {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .pogoda-mala {
+        display: none;
+    }
+
+    .pilne {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .karty {
+        grid-template-columns: 1fr;
+    }
+
+    .glowa {
+        gap: 12px;
+    }
+}
+</pre><h4>skrypt.js</h4><pre>// skrypt 4 - zapis do newslettera
+function zapiszNewsletter() {
+    let adres = document.getElementById('email').value;
+    let komunikat = document.getElementById('komunikat');
+    if (adres.includes('@')) {
+        komunikat.innerHTML = 'Dziękujemy! Podsumowanie wyślemy na adres ' + adres;
+        komunikat.className = 'sukces';
+    } else {
+        komunikat.innerHTML = 'Podaj poprawny adres e-mail';
+        komunikat.className = 'blad';
+    }
+}
+</pre>
+</section>
+
+</body>
+</html>

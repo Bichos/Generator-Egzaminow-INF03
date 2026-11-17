@@ -1,0 +1,10 @@
+-- Zapytanie 1
+SELECT DATE_FORMAT(opublikowano, '%H:%i') AS godzina, tytul FROM artykuly ORDER BY opublikowano DESC LIMIT 6;
+-- Zapytanie 2
+SELECT tytul, zajawka, DATE_FORMAT(opublikowano, '%d.%m.%Y %H:%i') AS data FROM artykuly JOIN kategorie ON artykuly.kategorie_id = kategorie.id WHERE kategorie.nazwa = 'Biznes' ORDER BY opublikowano DESC LIMIT 3;
+-- Zapytanie 3
+SELECT tytul FROM artykuly ORDER BY wyswietlenia DESC LIMIT 5;
+-- Zapytanie 4
+SELECT kategorie.nazwa, COUNT(artykuly.id) AS liczba FROM kategorie JOIN artykuly ON artykuly.kategorie_id = kategorie.id GROUP BY kategorie.nazwa;
+-- Zapytanie 5
+UPDATE artykuly SET wyswietlenia = wyswietlenia + 1 WHERE id = 3;

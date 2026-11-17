@@ -220,7 +220,7 @@ const sheet = `${titlePage(KOD, 'Bazarek – sklep internetowy z telefonami')}
 // Na ilustracji 2 kursor stoi na trzeciej karcie (efekt :hover), na ilustracji 4 widać początek strony.
 const sheetHtml = sheetDocument(`${KOD} – Bazarek – arkusz ćwiczeniowy`, sheet, `
 figure.preview.mobile .frame-wrap { height: 1000px !important; overflow: hidden; }
-`).replace('</script>', `
+`, `
 document.querySelectorAll('figure.preview:not(.mobile) iframe.site').forEach(function (f) {
   f.addEventListener('load', function () {
     try {
@@ -230,7 +230,7 @@ document.querySelectorAll('figure.preview:not(.mobile) iframe.site').forEach(fun
     } catch (e) {}
   });
 });
-</script>`);
+`);
 P.write('arkusz.html', sheetHtml);
 
 // ---------- klucz ----------
